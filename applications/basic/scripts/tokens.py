@@ -1,7 +1,7 @@
 # *******************************************************************************************
 # *******************************************************************************************
 #
-#		Name : 		rawtokens.py
+#		Name : 		tokens.py
 #		Purpose :	Raw token collections
 #		Date :		25th May 2023
 #		Author : 	Paul Robson (paul@robsons.org.uk)
@@ -37,7 +37,7 @@ class RawTokenClass(object):
 	def getUnaryOperators(self):
 		return """
 			[[STRING]] [[DECIMAL]]
-			$ 		(		RAND(	RND(	HEX$(	DEC(	FRAC(	INT(	TIME	EVENT(	INKEY$
+			$ 		(		RAND(	RND(	HEX$(	DEC(	FRAC(	INT(	TIME	EVENT(	INKEY$(
 			ASC(	CHR$(	SQR( 	LEN(  	ABS(  	SGN( 	VAL( 	STR$( 	MID$(	LEFT$( 	RIGHT$(
 			"""
 
@@ -90,7 +90,7 @@ class RawTokenClass(object):
 		return s
 
 	def find(self,k):
-		return self.tokens[k] if k in self.tokens else None 
+		return self.tokens[k]["tokenid"] if k in self.tokens else None 
 
 	def getToken(self,id):
 		return self.idToTokens[id] if id in self.idToTokens else None
