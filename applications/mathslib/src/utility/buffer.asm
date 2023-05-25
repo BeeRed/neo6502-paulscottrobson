@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		ramdata.inc
-;		Purpose:	Common setup program
+;		Name:		buffer.asm
+;		Purpose:	Buffer for String I/O
 ;		Created:	25th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -10,65 +10,75 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-ZeroPageBase = $08 							; zero page usage
-StorageBase = $200 							; ROM usage
+		.section code
 
 ; ************************************************************************************************
 ;
-;									Zero Page usage
+;								Reset / Empty the buffer
 ;
 ; ************************************************************************************************
 
-		* = ZeroPageBase
-rTemp0: 									; temporary register for OS, zero page
-		.fill 	2
-iTemp0:										; temporary register for maths library, zero page.
-		.fill 	2
-
-IFR0:	 									; work registers
-		.fill 	4
-IFR1:	
-		.fill 	4
-IFR2:	
-		.fill 	4
-IFRTemp:
-		.fill 	4
-
-		.dsection zeropage
+IFloatBufferReset:
+		stz 	IFBufferCount
+		stz 	IFBuffer
+		rts
 
 ; ************************************************************************************************
 ;
-;									Non Zero Page usage
+;								Get buffer address to YX length A
 ;
 ; ************************************************************************************************
 
-		* = StorageBase
-OSXPos:	 									; cursor position
+IFloatGetBufferAddress:
+		ldy 	#(IFBuffer >> 8)
+		ldx 	#(IFBuffer & $FF)
+		lda 	IFBufferCount
+		rts
+
+; ************************************************************************************************
+;
+;								Write character to buffer
+;
+; ************************************************************************************************
+
+IFloatBufferWrite:
+		phx
+		ldx 	IFBufferCount
+		sta 	IFBuffer,x
+		stz 	IFBuffer+1,x
+		inc 	IFBufferCount
+		plx
+		rts
+
+; ************************************************************************************************
+;
+;								Strip any trailing zeros
+;
+; ************************************************************************************************
+
+IFloatStripTrailingZeros:
+		ldx 	IFBufferCount
+		lda 	IFBuffer-1,x
+		cmp		#"0"
+		bne 	_IFSTExit
+		lda 	IFBuffer-2,x
+		cmp 	#"."
+		beq 	_IFSTExit
+		dec 	IFBufferCount
+		stz 	IFBuffer-1,x
+		bra 	IFloatStripTrailingZeros
+_IFSTExit:
+		rts		
+
+		.send code
+
+		.section storage
+IFBufferCount:
 		.fill 	1
-OSYPos:	
-		.fill 	1		
-OSXSize:									; screen size
-		.fill 	1
-OSYSize:
-		.fill 	1		
+IFBuffer:
+		.fill 	25						
+		.send 	storage
 
-
-OSKeyboardQueueMaxSize = 16					; keyboard queue max size.
-
-OSKeyStatus: 								; status bits for keys.
-		.fill 	32 
-OSKeyboardQueue:							; keyboard queue
-		.fill 	OSKeyboardQueueMaxSize		
-OSKeyboardQueueSize:						; entries in keyboard queue
-		.fill 	1		
-OSIsKeyUp: 									; $FF if $F0 received else $F0
-		.fill 	1
-OSIsKeyShift: 								; $80 if $E0 received else $00
-		.fill 	1			
-
-		.dsection storage
-
-		
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		ramdata.inc
-;		Purpose:	Common setup program
+;		Name:		copy.asm
+;		Purpose:	Copy to/from internal registers
 ;		Created:	25th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -10,65 +10,45 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-ZeroPageBase = $08 							; zero page usage
-StorageBase = $200 							; ROM usage
+		.section code
 
 ; ************************************************************************************************
 ;
-;									Zero Page usage
+;									Load R0 from register X
 ;
 ; ************************************************************************************************
 
-		* = ZeroPageBase
-rTemp0: 									; temporary register for OS, zero page
-		.fill 	2
-iTemp0:										; temporary register for maths library, zero page.
-		.fill 	2
-
-IFR0:	 									; work registers
-		.fill 	4
-IFR1:	
-		.fill 	4
-IFR2:	
-		.fill 	4
-IFRTemp:
-		.fill 	4
-
-		.dsection zeropage
+IFloatCopyFromRegister:
+		lda 	0,x
+		sta 	IFR0
+		lda 	1,x
+		sta 	IFR0+1
+		lda 	2,x
+		sta 	IFR0+2
+		lda 	3,x
+		sta 	IFR0+3
+		rts
 
 ; ************************************************************************************************
 ;
-;									Non Zero Page usage
+;									Save R0 to register X
 ;
 ; ************************************************************************************************
 
-		* = StorageBase
-OSXPos:	 									; cursor position
-		.fill 	1
-OSYPos:	
-		.fill 	1		
-OSXSize:									; screen size
-		.fill 	1
-OSYSize:
-		.fill 	1		
+IFloatCopyToRegister:
+		lda 	IFR0
+		sta 	0,x
+		lda 	IFR0+1
+		sta 	1,x
+		lda 	IFR0+2
+		sta 	2,x
+		lda 	IFR0+3
+		sta 	3,x
+		rts
+
+		.send 	code
 
 
-OSKeyboardQueueMaxSize = 16					; keyboard queue max size.
-
-OSKeyStatus: 								; status bits for keys.
-		.fill 	32 
-OSKeyboardQueue:							; keyboard queue
-		.fill 	OSKeyboardQueueMaxSize		
-OSKeyboardQueueSize:						; entries in keyboard queue
-		.fill 	1		
-OSIsKeyUp: 									; $FF if $F0 received else $F0
-		.fill 	1
-OSIsKeyShift: 								; $80 if $E0 received else $00
-		.fill 	1			
-
-		.dsection storage
-
-		
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

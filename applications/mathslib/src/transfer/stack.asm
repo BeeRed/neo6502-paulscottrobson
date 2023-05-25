@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		ramdata.inc
-;		Purpose:	Common setup program
+;		Name:		stack.asm
+;		Purpose:	Push/Pull register
 ;		Created:	25th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -10,65 +10,69 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-ZeroPageBase = $08 							; zero page usage
-StorageBase = $200 							; ROM usage
+		.section code
 
 ; ************************************************************************************************
 ;
-;									Zero Page usage
+;									Push R:X on the stack
 ;
 ; ************************************************************************************************
 
-		* = ZeroPageBase
-rTemp0: 									; temporary register for OS, zero page
-		.fill 	2
-iTemp0:										; temporary register for maths library, zero page.
-		.fill 	2
-
-IFR0:	 									; work registers
-		.fill 	4
-IFR1:	
-		.fill 	4
-IFR2:	
-		.fill 	4
-IFRTemp:
-		.fill 	4
-
-		.dsection zeropage
+IFloatPushRx:
+		phy
+		ldy 	IFStackIndex
+		lda 	IM0,x
+		sta 	IFStack,y
+		lda 	IM1,x
+		sta 	IFStack+1,y
+		lda 	IM2,x
+		sta 	IFStack+2,y
+		lda 	IExp,x
+		sta 	IFStack+3,y
+		iny
+		iny
+		iny
+		iny
+		sty 	IFStackIndex
+		ply
+		rts
 
 ; ************************************************************************************************
 ;
-;									Non Zero Page usage
+;									Pull R:X off the stack
 ;
 ; ************************************************************************************************
 
-		* = StorageBase
-OSXPos:	 									; cursor position
+IFloatPullRx:
+		phy
+		ldy 	IFStackIndex
+		dey
+		dey
+		dey
+		dey
+
+		lda 	IFStack,y
+		sta 	IM0,x
+		lda 	IFStack+1,y
+		sta 	IM1,x
+		lda 	IFStack+2,y
+		sta 	IM2,x
+		lda 	IFStack+3,y
+		sta 	IExp,x
+
+		sty 	IFStackIndex
+		ply
+		rts
+
+		.send 	code
+
+		.section storage
+IFStackIndex:
 		.fill 	1
-OSYPos:	
-		.fill 	1		
-OSXSize:									; screen size
-		.fill 	1
-OSYSize:
-		.fill 	1		
+IFStack:
+		.fill 	16*4
+		.send storage
 
-
-OSKeyboardQueueMaxSize = 16					; keyboard queue max size.
-
-OSKeyStatus: 								; status bits for keys.
-		.fill 	32 
-OSKeyboardQueue:							; keyboard queue
-		.fill 	OSKeyboardQueueMaxSize		
-OSKeyboardQueueSize:						; entries in keyboard queue
-		.fill 	1		
-OSIsKeyUp: 									; $FF if $F0 received else $F0
-		.fill 	1
-OSIsKeyShift: 								; $80 if $E0 received else $00
-		.fill 	1			
-
-		.dsection storage
-
-		
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

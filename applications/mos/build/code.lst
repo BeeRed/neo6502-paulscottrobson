@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Thu May 25 16:29:07 2023
+; Thu May 25 16:48:44 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -14,6 +14,16 @@
 =$200					StorageBase = $200 							; ROM usage
 .0008					rTemp0:
 >0008							.fill 	2
+.000a					iTemp0:
+>000a							.fill 	2
+.000c					IFR0:
+>000c							.fill 	4
+.0010					IFR1:
+>0010							.fill 	4
+.0014					IFR2:
+>0014							.fill 	4
+.0018					IFRTemp:
+>0018							.fill 	4
 .0200					OSXPos:
 >0200							.fill 	1
 .0201					OSYPos:
