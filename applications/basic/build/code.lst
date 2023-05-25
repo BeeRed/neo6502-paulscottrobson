@@ -1,0 +1,263 @@
+
+; 64tass Turbo Assembler Macro V1.58.2974? listing file
+; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/basic.bin basic.asm
+; Thu May 25 22:16:06 2023
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: basic.asm
+
+
+;******  Processing file: ramdata.inc
+
+=$08					ZeroPageBase = $08 							; zero page usage
+=$200					StorageBase = $200 							; ROM usage
+.0008					rTemp0:
+>0008							.fill 	2
+.000a					iTemp0:
+>000a							.fill 	2
+.000c					IFR0:
+>000c							.fill 	4
+.0010					IFR1:
+>0010							.fill 	4
+.0014					IFR2:
+>0014							.fill 	4
+.0018					IFRTemp:
+>0018							.fill 	4
+.0200					OSXPos:
+>0200							.fill 	1
+.0201					OSYPos:
+>0201							.fill 	1
+.0202					OSXSize:
+>0202							.fill 	1
+.0203					OSYSize:
+>0203							.fill 	1
+=16					OSKeyboardQueueMaxSize = 16					; keyboard queue max size.
+.0204					OSKeyStatus:
+>0204							.fill 	32
+.0224					OSKeyboardQueue:
+>0224							.fill 	OSKeyboardQueueMaxSize
+.0234					OSKeyboardQueueSize:
+>0234							.fill 	1
+.0235					OSIsKeyUp:
+>0235							.fill 	1
+.0236					OSIsKeyShift:
+>0236							.fill 	1
+
+;******  Return to file: basic.asm
+
+.1000					boot:
+>1000	db						.byte 	$DB
+.1001	80 fd		bra $1000			bra 	boot
+
+;******  Processing file: include.files
+
+
+;******  Processing file: src/errors/generated/errors.inc
+
+
+;******  Return to file: include.files
+
+
+;******  Processing file: src/generated/token_const.inc
+
+=$80					PR_STRUCTURE_FIRST = $80
+=$80					PR_REPEAT = $80
+=$81					PR_UNTIL = $81
+=$82					PR_WHILE = $82
+=$83					PR_WEND = $83
+=$84					PR_IF = $84
+=$85					PR_ENDIF = $85
+=$86					PR_DO = $86
+=$87					PR_LOOP = $87
+=$89					PR_PROC = $89
+=$8a					PR_ENDPROC = $8a
+=$8b					PR_FOR = $8b
+=$8c					PR_NEXT = $8c
+=$8c					PR_STRUCTURE_LAST = $8c
+=$8d					PR_STANDARD_FIRST = $8d
+=$8d					PR_LSQLSQENDRSQRSQ = $8d
+=$8e					PR_LSQLSQSHIFTRSQRSQ = $8e
+=$8f					PR_ELSE = $8f
+=$90					PR_THEN = $90
+=$91					PR_TO = $91
+=$92					PR_STEP = $92
+=$93					PR_LET = $93
+=$94					PR_PRINT = $94
+=$95					PR_INPUT = $95
+=$96					PR_CALL = $96
+=$97					PR_SYS = $97
+=$98					PR_REM = $98
+=$99					PR_EXIT = $99
+=$9a					PR_COMMA = $9a
+=$9b					PR_SEMICOLON = $9b
+=$9c					PR_COLON = $9c
+=$9d					PR_SQUOTE = $9d
+=$9e					PR_RPAREN = $9e
+=$9f					PR_DIM = $9f
+=$a0					PR_CLEAR = $a0
+=$a1					PR_NEW = $a1
+=$a2					PR_RUN = $a2
+=$a3					PR_STOP = $a3
+=$a4					PR_END = $a4
+=$a5					PR_ASSERT = $a5
+=$a6					PR_LIST = $a6
+=$a7					PR_SAVE = $a7
+=$a8					PR_LOAD = $a8
+=$a8					PR_STANDARD_LAST = $a8
+=$d7					PR_RIGHTDOLLARLPAREN = $d7
+=$d7					PR_UNARY_FIRST = $d7
+=$d8					PR_LEFTDOLLARLPAREN = $d8
+=$d9					PR_MIDDOLLARLPAREN = $d9
+=$da					PR_STRDOLLARLPAREN = $da
+=$db					PR_VALLPAREN = $db
+=$dc					PR_SGNLPAREN = $dc
+=$dd					PR_ABSLPAREN = $dd
+=$de					PR_LENLPAREN = $de
+=$df					PR_SQRLPAREN = $df
+=$e0					PR_CHRDOLLARLPAREN = $e0
+=$e1					PR_ASCLPAREN = $e1
+=$e2					PR_INKEYDOLLARLPAREN = $e2
+=$e3					PR_EVENTLPAREN = $e3
+=$e4					PR_TIME = $e4
+=$e5					PR_INTLPAREN = $e5
+=$e6					PR_FRACLPAREN = $e6
+=$e7					PR_DECLPAREN = $e7
+=$e8					PR_HEXDOLLARLPAREN = $e8
+=$e9					PR_RNDLPAREN = $e9
+=$ea					PR_RANDLPAREN = $ea
+=$eb					PR_LPAREN = $eb
+=$ec					PR_DOLLAR = $ec
+=$ed					PR_LSQLSQDECIMALRSQRSQ = $ed
+=$ee					PR_UNARY_LAST = $ee
+=$ee					PR_LSQLSQSTRINGRSQRSQ = $ee
+=$ef					PR_EQUAL = $ef
+=$ef					PR_BINARY_FIRST = $ef
+=$f0					PR_LESSGREATER = $f0
+=$f1					PR_LESSEQUAL = $f1
+=$f2					PR_LESS = $f2
+=$f3					PR_GREATEREQUAL = $f3
+=$f4					PR_GREATER = $f4
+=$f5					PR_XOR = $f5
+=$f6					PR_OR = $f6
+=$f7					PR_AND = $f7
+=$f8					PR_DIV = $f8
+=$f9					PR_MOD = $f9
+=$fa					PR_LESSLESS = $fa
+=$fb					PR_GREATERGREATER = $fb
+=$fc					PR_SLASH = $fc
+=$fd					PR_ASTERISK = $fd
+=$fe					PR_MINUS = $fe
+=$ff					PR_BINARY_LAST = $ff
+=$ff					PR_PLUS = $ff
+
+;******  Return to file: include.files
+
+
+;******  Processing file: src/errors/generated/errors.asm
+
+.1003					ErrorV_syntax:
+.1003	20 32 11	jsr $1132		jsr	ErrorHandler
+>1006	53 79 6e 74 61 78 20 45			.text	"Syntax Error",0
+>100e	72 72 6f 72 00
+.1013					ErrorV_range:
+.1013	20 32 11	jsr $1132		jsr	ErrorHandler
+>1016	4f 75 74 20 4f 66 20 52			.text	"Out Of Range",0
+>101e	61 6e 67 65 00
+.1023					ErrorV_value:
+.1023	20 32 11	jsr $1132		jsr	ErrorHandler
+>1026	42 61 64 20 56 61 6c 75			.text	"Bad Value",0
+>102e	65 00
+.1030					ErrorV_type:
+.1030	20 32 11	jsr $1132		jsr	ErrorHandler
+>1033	54 79 70 65 20 4d 69 73			.text	"Type Mismatch",0
+>103b	6d 61 74 63 68 00
+.1041					ErrorV_unimplemented:
+.1041	20 32 11	jsr $1132		jsr	ErrorHandler
+>1044	4e 6f 74 20 49 6d 70 6c			.text	"Not Implemented",0
+>104c	65 6d 65 6e 74 65 64 00
+.1054					ErrorV_assert:
+.1054	20 32 11	jsr $1132		jsr	ErrorHandler
+>1057	41 73 73 65 72 74 20 46			.text	"Assert Fail",0
+>105f	61 69 6c 00
+.1063					ErrorV_internal:
+.1063	20 32 11	jsr $1132		jsr	ErrorHandler
+>1066	49 6e 74 65 72 6e 61 6c			.text	"Internal Error",0
+>106e	20 45 72 72 6f 72 00
+.1075					ErrorV_divzero:
+.1075	20 32 11	jsr $1132		jsr	ErrorHandler
+>1078	44 69 76 69 64 65 20 42			.text	"Divide By Zero",0
+>1080	79 20 5a 65 72 6f 00
+.1087					ErrorV_structure:
+.1087	20 32 11	jsr $1132		jsr	ErrorHandler
+>108a	53 74 72 75 63 74 75 72			.text	"Structure Imbalance",0
+>1092	65 20 49 6d 62 61 6c 61 6e 63 65 00
+.109e					ErrorV_stop:
+.109e	20 32 11	jsr $1132		jsr	ErrorHandler
+>10a1	50 72 6f 67 72 61 6d 20			.text	"Program Stopped",0
+>10a9	53 74 6f 70 70 65 64 00
+.10b1					ErrorV_data:
+.10b1	20 32 11	jsr $1132		jsr	ErrorHandler
+>10b4	4f 75 74 20 4f 66 20 44			.text	"Out Of Data",0
+>10bc	61 74 61 00
+.10c0					ErrorV_redefine:
+.10c0	20 32 11	jsr $1132		jsr	ErrorHandler
+>10c3	41 72 72 61 79 20 52 65			.text	"Array Redefined",0
+>10cb	64 65 66 69 6e 65 64 00
+.10d3					ErrorV_index:
+.10d3	20 32 11	jsr $1132		jsr	ErrorHandler
+>10d6	42 61 64 20 41 72 72 61			.text	"Bad Array Index",0
+>10de	79 20 49 6e 64 65 78 00
+.10e6					ErrorV_memory:
+.10e6	20 32 11	jsr $1132		jsr	ErrorHandler
+>10e9	4f 75 74 20 4f 66 20 4d			.text	"Out Of Memory",0
+>10f1	65 6d 6f 72 79 00
+.10f7					ErrorV_uninitialised:
+.10f7	20 32 11	jsr $1132		jsr	ErrorHandler
+>10fa	56 61 72 69 61 62 6c 65			.text	"Variable Uninitialised",0
+>1102	20 55 6e 69 6e 69 74 69 61 6c 69 73 65 64 00
+
+;******  Return to file: include.files
+
+
+;******  Processing file: src/errors/syntax.asm
+
+.1111					ERRCheckLParen:
+.1111	b1 1c		lda ($1c),y			lda 	(codePtr),y
+.1113	c9 eb		cmp #$eb			cmp 	#PR_LPAREN
+.1115	d0 18		bne $112f			bne 	ERRSyntaxError
+.1117	c8		iny				iny
+.1118	60		rts				rts
+.1119					ERRCheckRParen:
+.1119	b1 1c		lda ($1c),y			lda 	(codePtr),y
+.111b	c9 9e		cmp #$9e			cmp 	#PR_RPAREN
+.111d	d0 10		bne $112f			bne 	ERRSyntaxError
+.111f	c8		iny				iny
+.1120	60		rts				rts
+.1121					ERRCheckComma:
+.1121	b1 1c		lda ($1c),y			lda 	(codePtr),y
+.1123	c9 9a		cmp #$9a			cmp 	#PR_COMMA
+.1125	d0 08		bne $112f			bne 	ERRSyntaxError
+.1127	c8		iny				iny
+.1128	60		rts				rts
+.1129					ERRCheckA:
+.1129	d1 1c		cmp ($1c),y			cmp 	(codePtr),y
+.112b	d0 02		bne $112f			bne 	ERRSyntaxError
+.112d	c8		iny				iny
+.112e	60		rts				rts
+.112f					ERRSyntaxError:
+.112f	4c 03 10	jmp $1003		jmp	ErrorV_syntax
+
+;******  Return to file: include.files
+
+
+;******  Return to file: basic.asm
+
+.1132					ErrorHandler:
+>1132	db						.byte 	$DB
+.1133	a9 ee		lda #$ee			lda 	#$EE
+.1135	4c 32 11	jmp $1132			jmp 	ErrorHandler
+.001c					codePtr:
+>001c							.fill 	2
+
+;******  End of listing

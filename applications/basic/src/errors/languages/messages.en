@@ -1,0 +1,26 @@
+# *******************************************************************************************
+# *******************************************************************************************
+#
+#		Name : 		messages.en
+#		Purpose :	Error/Message Generators (English)
+#		Date :		25th May 2023
+#		Author : 	Paul Robson (paul@robsons.org.uk)
+#
+# *******************************************************************************************
+# *******************************************************************************************
+
+	syntax 		  : syntax error
+	range 		  : out of range
+	value 		  : bad value
+	type 		  : type mismatch 
+	unimplemented : not implemented
+	assert 		  : assert fail
+	internal	  : internal error
+	divzero 	  : divide by zero
+	structure 	  : structure imbalance
+	stop 		  : program stopped
+	data		  : out of data
+	redefine 	  : array redefined
+	index 		  : bad array index
+	memory 		  : out of memory
+	uninitialised : variable uninitialised	

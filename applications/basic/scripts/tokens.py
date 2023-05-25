@@ -74,6 +74,7 @@ class RawTokenClass(object):
 				self.precedence[t[:-1]] = int(t[-1])
 				t = t[:-1]
 			self.tokens[t] = { "tokenid": self.highToken if topDown else self.lowToken }
+			self.constants[self.textProcess(t)] = self.tokens[t]["tokenid"]
 			if topDown:
 				self.highToken -= 1
 			else:
@@ -103,13 +104,23 @@ class RawTokenClass(object):
 		#k = k.replace("","").replace("","").replace("","").replace("","").replace("","")
 		return k		
 
+	def outputConstants(self,f):
+		h = open(f,"w")
+		k = [x for x in self.constants.keys()]
+		k.sort(key = lambda x:self.constants[x])
+		for t in k:
+			h.write("PR_{0} = ${1:02x}\n".format(t,self.constants[t]))	
+		h.close()
+
 if __name__ == '__main__':
 	rt = RawTokenClass()
-	k = [x for x in rt.idToTokens.keys()]
-	k.sort()
-	for i in k:
-		print(i,rt.idToTokens[i])
-	print(rt.structure)
-	print(rt.precedence)
-	print(rt.constants)
+	if False:
+		k = [x for x in rt.idToTokens.keys()]
+		k.sort()
+		for i in k:
+			print(i,rt.idToTokens[i])
+		print(rt.structure)
+		print(rt.precedence)
+		print(rt.constants)
 	
+	rt.outputConstants("src/generated/token_const.inc")

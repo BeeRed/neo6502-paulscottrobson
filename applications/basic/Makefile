@@ -20,10 +20,15 @@ all: assemble
 assemble:
 	make -C scripts
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
+	$(PYTHON) scripts$(S)errors.py en
 	$(CCOPY) $(BINDIR)ramdata.inc .
+	$(CCOPY) $(BINDIR)osvectors.inc .
+	$(PYTHON) scripts$(S)tokens.py
+	$(PYTHON) $(SCRIPTDIR)makebuild.py >include.files
+	$(ASM) basic.asm -o build$(S)basic.bin
 
 run: emulator assemble
-	$(EMULATOR) build$(S)osrom.bin@f800
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000
 	
 emulator:
 	make -C $(ROOTDIR)emulator	
@@ -32,3 +37,7 @@ enctest:
 	make -C scripts
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(PYTHON) $(BINDIR)listpgm.zip build$(S)program.bin
+
+parts:
+	make -C ../mos
+	make -C ../mathslib

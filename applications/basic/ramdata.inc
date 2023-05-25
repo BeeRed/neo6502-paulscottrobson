@@ -68,6 +68,9 @@ OSIsKeyShift: 								; $80 if $E0 received else $00
 
 		.dsection storage
 
+debug 	.macro
+		.byte 	$DB
+		.endm
 		
 ; ************************************************************************************************
 ;
