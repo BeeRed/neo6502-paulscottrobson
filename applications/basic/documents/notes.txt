@@ -1,0 +1,34 @@
+Tokens
+======
+
+Constant 00-3F repeat-shifts
+
+Identifier markers [a-z0-9_.] (38 characters)
+		40-65
+
+Type markers (default # $ #( $() can be 7C-7F
+	
+Variables in chains/hashed identifier markers.
+
+	+00+01 	link to next
+	+02 	hash (of the 40-65 markers & 0x7F)
+	+03..6 	data (number or string address)	
+	+04..7 	names, bit 7 of last set high. 40-65 values.
+
+Tokens:
+	Basic set $80 up 80 End 81 Shift
+	....
+
+	Unary to $xx (grow down)
+		[DECIMAL] 	.<nnnnn> single byte prefixed
+		[STRING] 	"xxxxxx" single byte prefixed.
+		Plus the usual sorts of things.
+
+	Binary to $FF 	+ - * / div mod and or xor >= < <= > <> = >> <<
+
+
+Term returns a reference to a number or a string (CS)
+			   constants (CC)
+
+Bit 7 = 0 : Number 1 : String			   	
+
