@@ -16,7 +16,7 @@ Variables in chains/hashed identifier markers.
 	+04..7 	names, bit 7 of last set high. 40-65 values.
 
 Tokens:
-	Basic set $80 up 80 End 81 Shift
+	Basic set $80 structures first.
 	....
 
 	Unary to $xx (grow down)
