@@ -1,0 +1,16 @@
+iFloat24 format
+===============
+
++0 		Mantissa 0 	00-FF
++1 		Mantissa 1 	00-FF
++2 		Mantissa 2  00-7F
+
++3 		Unused 		Bit 7
+		Sign 		Bit  6
+		Exponent	Bits 0..5
+
+if exponent == int, then integer. Integer range is +/- 7FFFFF = +/- 8,388,607
+
+float max = 7FFFFF * 2 ^ 31 = 	1.8 x 10^16
+	  min = 1 * 2^-16 = 		2.3 x 10^-10
+	  
