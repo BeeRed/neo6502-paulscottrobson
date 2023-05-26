@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		string.asm
-;		Purpose:	Unary string 'function' (e.g. [[EXPRING]])
-;		Created:	21st May 2023
+;		Name:		len.asm
+;		Purpose:	String length
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -12,40 +12,26 @@
 
 ; ************************************************************************************************
 ;
-;							Inline immutable string
+;									String length
 ;
 ; ************************************************************************************************
 
 		.section code	
 
-EXPUnaryInlineString: ;; [[[STRING]]]
-		lda 	(codePtr),y 				; string length
-		cmp 	#EXPMaxStringSize
-		bcs 	_EXPUISRange 				; too long
-
-		jsr 	EXPResetBuffer 				; reset the buffer
-		iny 								; consume length
-		tax 								; count zero, length to X
-		beq 	_EXPUIDone
-_EXPUICopy:
-		lda 	(codePtr),y
-		iny		
-		jsr 	EXPRAppendBuffer	
-		dex
-		bne 	_EXPUICopy
-_EXPUIDone:
-		jsr 	EXPSetupStringR0 			; set up the temporary string in R0		
+EXPUnaryLen: ;; [LEN(]
+		jsr 	EXPEvalString 					; string to R0, zTemp0		
+		jsr 	ERRCheckRParen 					; )
+		lda 	(zTemp0)
+		ldx 	#IFR0
+		jsr 	IFloatSetByte
 		rts
 
-_EXPUISRange:
-		.error_range
-
-
 		.send code
-		
 
+;: [len(string)]\
+; Returns the length of the string\
+; { print len("Hello") } prints 5
 
-				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

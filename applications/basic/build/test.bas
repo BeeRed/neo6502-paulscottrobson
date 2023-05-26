@@ -1,1 +1,1 @@
-print $7ffe
+print dec("7ffe")

@@ -129,8 +129,6 @@ class RawTokenClass(object):
 		for i in range(0x80,0x100):
 			t = self.idToTokens[i] if i in self.idToTokens else ""
 			x = handlers[t] if t in handlers else "NotImplemented"
-			if t == "ABS(":
-				print(x,i,t,handlers)
 			h.write("\t.word\t{0:24} ; ${1:02x} {2}\n".format(x,i,t))
 		h.close()
 

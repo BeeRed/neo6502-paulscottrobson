@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		asc.asm
-;		Purpose:	ASCII value of first character
-;		Created:	21st May 2023
+;		Name:		string.asm
+;		Purpose:	Unary string 'function' (e.g. [[EXPRING]])
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -12,34 +12,39 @@
 
 ; ************************************************************************************************
 ;
-;									String length
+;							Inline immutable string
 ;
 ; ************************************************************************************************
 
 		.section code	
 
-EXPUnaryAsc: ;; [ASC(]
-		jsr 	EXPEvalString 					; string to R0, zTemp0		
-		jsr 	ERRCheckRParen 					; )
-
-		phy 									; figure out length zero ?
-		ldy 	#1
-		lda 	(zTemp0)
-		ora 	(zTemp0),y
-		beq 	_EXAZero 						; if so return 0
-		iny 									; otherwise return offset 2
-		lda 	(zTemp0),y
-_EXAZero:		
-		ldx 	#IFR0
-		jsr 	IFloatSetByte
-		ply
+EXPUnaryInlineString: ;; [[[STRING]]]
+		clc 								; physical address -> IM0,1
+		tya
+		adc 	codePtr
+		sta 	IFR0+IM0
+		lda 	codePtr+1
+		adc 	#0
+		sta 	IFR0+IM1
+		stz 	IFR0+IM2 					; fill in rest
+		lda 	#$80
+		sta 	IFR0+IExp
+		;
+		tya	 								; skip over it.
+		sec
+		adc 	(codePtr),y
+		tay
+		;
 		rts
 
-		.send code
+_EXPUISRange:
+		.error_range
 
-;: [asc(string)]\
-; Returns the ASCII code of the first character of the string or zero if empty.\
-; { print asc("!") } prints 33
+
+		.send code
+		
+
+
 				
 ; ************************************************************************************************
 ;

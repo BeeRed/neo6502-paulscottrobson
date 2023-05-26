@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		len.asm
-;		Purpose:	String length
-;		Created:	21st May 2023
+;		Name:		asc.asm
+;		Purpose:	ASCII value of first character
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -12,33 +12,35 @@
 
 ; ************************************************************************************************
 ;
-;									String length
+;								ASCII code of first character
 ;
 ; ************************************************************************************************
 
 		.section code	
 
-EXPUnaryLen: ;; [LEN(]
+EXPUnaryAsc: ;; [ASC(]
 		jsr 	EXPEvalString 					; string to R0, zTemp0		
 		jsr 	ERRCheckRParen 					; )
 
-		phy 									; copy two length bytes.
-		ldy 	#1
-		lda 	(zTemp0)
-		sta 	IFR0+IM0
+		lda 	(zTemp0) 						; length 0 ?
+		beq 	_EXAZero 						; if so return 0
+
+		phy 									; otherwise get first character
+		ldy 	#1 
 		lda 	(zTemp0),y
-		sta 	IFR0+IM1
-		stz 	IFR0+IM2
-		stz 	IFR0+IExp
 		ply
+
+_EXAZero:		
+		ldx 	#IFR0
+		jsr 	IFloatSetByte
 		rts
 
 		.send code
 
-;: [len(string)]\
-; Returns the length of the string\
-; { print len("Hello") } prints 5
-
+;: [asc(string)]\
+; Returns the ASCII code of the first character of the string or zero if empty.\
+; { print asc("!") } prints 33
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates
