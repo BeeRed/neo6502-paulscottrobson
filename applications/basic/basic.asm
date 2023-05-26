@@ -26,6 +26,9 @@
 
 boot:	
 		jsr 	IFInitialise
+		jsr 	StringSystemInitialise 		
+		stz 	stringInitialised
+
 		;
 		lda 	#$40
 		sta 	codePtr+1

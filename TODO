@@ -1,5 +1,8 @@
 TODO
-	String handler / term strings
 	Expression ***EXPEvalNumber/String fix***
 	Binary Operations.
-	
+	Dereferencing
+
+
+Fixes:
+	Memory checking on string allocate stuff.

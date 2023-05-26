@@ -92,13 +92,13 @@ VectorTable:
 	.word	NotImplemented           ; $d7 RIGHT$(
 	.word	NotImplemented           ; $d8 LEFT$(
 	.word	NotImplemented           ; $d9 MID$(
-	.word	NotImplemented           ; $da STR$(
+	.word	EXPUnaryStr              ; $da STR$(
 	.word	EXPUnaryVal              ; $db VAL(
 	.word	EXPUnarySgn              ; $dc SGN(
 	.word	EXPUnaryAbs              ; $dd ABS(
 	.word	EXPUnaryLen              ; $de LEN(
 	.word	EXPUnarySqr              ; $df SQR(
-	.word	NotImplemented           ; $e0 CHR$(
+	.word	EXPUnaryChr              ; $e0 CHR$(
 	.word	EXPUnaryAsc              ; $e1 ASC(
 	.word	NotImplemented           ; $e2 INKEY$(
 	.word	NotImplemented           ; $e3 EVENT(
@@ -106,7 +106,7 @@ VectorTable:
 	.word	EXPUnaryInt              ; $e5 INT(
 	.word	EXPUnaryFrac             ; $e6 FRAC(
 	.word	EXPUnaryDec              ; $e7 DEC(
-	.word	NotImplemented           ; $e8 HEX$(
+	.word	EXPUnaryHex              ; $e8 HEX$(
 	.word	EXPUnaryRnd              ; $e9 RND(
 	.word	ExpUnaryRand             ; $ea RAND(
 	.word	EXPUnaryParenthesis      ; $eb (

@@ -46,3 +46,6 @@ error_memory .macro
 error_uninitialised .macro
 	jmp	ErrorV_uninitialised
 	.endm
+error_string .macro
+	jmp	ErrorV_string
+	.endm

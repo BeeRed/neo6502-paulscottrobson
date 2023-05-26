@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		chr.asm
-;		Purpose:	Convert integer to string
-;		Created:	21st May 2023
+;		Name:		strhex.asm
+;		Purpose:	Convert number to string
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -12,28 +12,58 @@
 
 ; ************************************************************************************************
 ;
-;										Byte to String
+;										number to string
 ;
 ; ************************************************************************************************
 
 		.section code	
 
-EXPUnaryChr: ;; [CHR$]
-		jsr 	ERRCheckLParen 					; (
-		jsr 	EXPEvalInteger8 				; expr
-		pha 									; push on stack
+EXPUnaryHex: ;; [hex$(]
+		jsr 	EXPEvalInteger 					; expr
 		jsr 	ERRCheckRParen 					; )
-		jsr 	EXPResetBuffer 					; reset buffer and write that byte.
-		pla
-		jsr 	EXPRAppendBuffer
-		jsr 	EXPSetupStringR0 				; and return it.
+		phy
+		lda 	#16 				
+		jsr 	IFloatIntegerToStringR0
+		bra 	EUSMain
+
+;: [hex$(n)]\
+; Converts the integer to a hexadecimal string equivalent\
+; { print hex$(154) } prints 9A
+
+EXPUnaryStr: ;; [str$(]
+		jsr 	EXPEvalNumber 					; expr
+		jsr 	ERRCheckRParen 					; )
+		phy
+		jsr 	IFloatFloatToStringR0 			; convert to string
+EUSMain:		
+		bcs 	_EUSError
+
+		stx 	zTemp0 							; save string address
+		sty 	zTemp0+1
+		pha 									; save count
+
+		lda 	#32 							; allocate space for result.
+		jsr 	StringTempAllocate
+
+		plx 									; count in X
+		ldy 	#0
+_EUSCopy:
+		lda 	(zTemp0),y
+		iny
+		jsr 	StringTempWrite
+		dex
+		bne	 	_EUSCopy		
+		ply
 		rts
+
+_EUSError:
+		.error_range
 
 		.send code
 
-;: [chr$(n)]\
-; Returns a one character string containing the character whose ASCII code is n\
-; { print chr$(42) } prints *
+;: [str$(n)]\
+; Converts the number to a string equivalent\
+; { print str$(154.9) } prints 154.9
 				
 ; ************************************************************************************************
 ;

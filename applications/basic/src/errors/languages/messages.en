@@ -24,3 +24,4 @@
 	index 		  : bad array index
 	memory 		  : out of memory
 	uninitialised : variable uninitialised	
+	string 		  : bad string length

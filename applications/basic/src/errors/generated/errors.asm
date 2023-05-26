@@ -47,4 +47,7 @@ ErrorV_memory:
 ErrorV_uninitialised:
 	jsr	ErrorHandler
 	.text	"Variable Uninitialised",0
+ErrorV_string:
+	jsr	ErrorHandler
+	.text	"Bad String Length",0
 	.send code
