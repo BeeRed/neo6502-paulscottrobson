@@ -1,14 +1,12 @@
 TODO
 	
 	Binary Operations.
-		String comparisons
-		String testing
 		String concatenation
 
 		
-		Dereferencing of variables (no)
 
 
 Fixes:
+	Dereferencing of variables (no)
 	Memory checking on string allocate stuff.
 	Input code.

@@ -124,12 +124,7 @@ _EXCBCExit:
 		rts
 		
 _EXCBCString:
-		.error_unimplemented
 		phy
-		ldy 	#1 							; check strings < 256 , don't do long compares.
-		lda 	(IFR0),y
-		ora 	(IFR1),y
-		bne 	_EXCBCRange
 		;
 		lda 	(IFR0) 						; length of smaller of the two in X.
 		cmp 	(IFR1)
@@ -138,7 +133,7 @@ _EXCBCString:
 _EXCBCSmaller:
 		tax
 		beq 	_EXCBCMatches 				; if zero common length matches
-		
+		ldy 	#0 							; match the strings.		
 _EXCBCCheckSmallerMatches:
 		iny 								; compare directly as far as common length
 		sec

@@ -61,3 +61,8 @@ test3: assemble
 	$(PYTHON) tests$(S)testbrackets.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
+
+test4: assemble
+	$(PYTHON) tests$(S)teststring.py >build$(S)test.bas
+	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
