@@ -19,11 +19,16 @@
 ; ************************************************************************************************
 
 StringSystemInitialise:
-		lda 	#$BF
+		lda 	PGMEndMemoryHigh 			; last byte of memory
+		dec 	a
 		sta 	stringMemory+1
+		sta 	zTemp0+1
 		lda 	#$FF
 		sta 	stringMemory
-		stz 	$BFFF 						; put a zero at the end, so know end of string memory.
+		sta 	zTemp0
+
+		lda 	#0 							; put a zero at the end, so know end of string memory.
+		sta 	(zTemp0)
 		rts
 
 ; ************************************************************************************************

@@ -1,85 +1,73 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		exprutils.asm
-;		Purpose:	Evaluate expression helpers.
+;		Name:		setup.asm
+;		Purpose:	Set up Program space
 ;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
-
-		.section code	
-
-; ************************************************************************************************
-;
-;								Evaluate a numeric expression
-;
-; ************************************************************************************************
-
-EXPEvalNumber:
-		jsr 	EXPEvaluateExpression
-		bit 	IFR0+IExp
-		bmi 	EVUType
-		rts
-
-EVUType:
-		.error_type
+		
+		.section code
 
 ; ************************************************************************************************
 ;
-;								Evaluate an integer (various)
+;						Set the base/top address for the program space
+;								   Base:(XX00) Limit:(UU00)
 ;
 ; ************************************************************************************************
 
-EXPEvalInteger:
-		jsr 	EXPEvalNumber 				; get number, coeerce to integer.
-		jsr 	IFloatIntegerR0
-		rts
-
-EXPEvalInteger16:
-		jsr 	EXPEvalInteger
-		lda 	IFR0+IM2
-		bne 	EVURange
-		ldx 	IFR0+IM1
-		lda 	IFR0+IM0
-		rts
-
-EXPEvalInteger8:
-		jsr 	EXPEvalInteger
-		lda 	IFR0+IM2
-		ora 	IFR0+IM1
-		bne 	EVURange
-		lda 	IFR0+IM0
+PGMSetBaseAddress:
+		stx 	PGMBaseHigh
+		sty 	PGMEndMemoryHigh
 		rts
 
 ; ************************************************************************************************
 ;
-;								Evaluate a string expression
-;				(on exit XA & zTemp0 points to a 2 byte headered size prefixed string)
+;									Create a new program
 ;
 ; ************************************************************************************************
 
-EXPEvaluateExpression:
-		jsr 	EXPTermValueR0
+PGMNewProgram:
+		stz 	zTemp0						; copy base address to zTemp0
+		lda 	PGMBaseHigh
+		sta 	zTemp0+1
+		lda 	#0 							; overwrite the offset
+		sta 	(zTemp0)
 		rts
 
-EXPEvalString:
-		jsr 	EXPEvaluateExpression
-		bit 	IFR0+IExp
-		bpl 	EVUType
-		ldx 	IFR0+IM1
-		stx 	zTemp0+1
-		lda 	IFR0+IM0
+; ************************************************************************************************
+;
+;							Last byte of program (the 0 offset) => zTemp0
+;
+; ************************************************************************************************		
+
+PGMEndProgram:
+		stz 	zTemp0 						; copy base address to zTemp0
+		lda 	PGMBaseHigh
+		sta 	zTemp0+1
+_PGMEPLoop:
+		lda 	(zTemp0)
+		beq 	_PGMEPExit
+		clc
+		adc 	zTemp0
 		sta 	zTemp0
-		rts
-
-EVURange:
-		.error_range
+		bcc 	_PGMEPLoop
+		inc 	zTemp0+1
+		bra 	_PGMEPLoop
+_PGMEPExit:
+		rts		
 
 		.send code
-				
+		
+		.section storage
+PGMBaseHigh:								; high byte program base address.
+		.fill 	1
+PGMEndMemoryHigh:							; high byte of first memory location after program/variable/stack space.
+		.fill 	1
+		.send storage
 
 ; ************************************************************************************************
 ;

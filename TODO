@@ -6,3 +6,4 @@ TODO
 
 Fixes:
 	Memory checking on string allocate stuff.
+	Input code.

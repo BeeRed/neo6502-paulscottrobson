@@ -1,48 +1,31 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		stop.asm
+;		Purpose:	Stop program
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;										STOP Command
 ;
 ; ************************************************************************************************
 
 		.section code
 
-boot:	
-		ldx 	#$40
-		ldy 	#$C0
-		jsr 	PGMSetBaseAddress
-		jsr 	IFInitialise
-		jmp 	Command_RUN
-
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-NotImplemented:
-		lda 	#$FF
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
+Command_STOP:	;; [stop]
+		.error_stop
+		
 		.send code
-
-
+		
+;:[stop]
+; Stop the current program running and display an error message.
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

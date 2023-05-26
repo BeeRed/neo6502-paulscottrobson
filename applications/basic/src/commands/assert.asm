@@ -1,47 +1,38 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		assert.asm
+;		Purpose:	Asserts an expression
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;										ASSERT Command
 ;
 ; ************************************************************************************************
 
 		.section code
 
-boot:	
-		ldx 	#$40
-		ldy 	#$C0
-		jsr 	PGMSetBaseAddress
-		jsr 	IFInitialise
-		jmp 	Command_RUN
-
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-NotImplemented:
-		lda 	#$FF
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
+Command_ASSERT:	;; [assert]
+		jsr 	EXPEvalNumber
+		ldx 	#IFR0
+		jsr 	IFloatCheckZero
+		beq 	_CAFail
+		rts
+_CAFail:		
+		.error_assert
+		
 		.send code
 
+;:[ASSERT(expr)]\
+; Assert asserts a contract and is useful for parameter validation and testing. It evaluates the
+; provided expression, and providing it is non zero. If it is zero, an error occurs.\
+; An example use might be assert {name$<>""} to check that a name has been provided to a routine.
 
 ; ************************************************************************************************
 ;

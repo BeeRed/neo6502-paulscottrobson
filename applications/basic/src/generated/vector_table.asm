@@ -15,31 +15,31 @@ VectorTable:
 	.word	NotImplemented           ; $8a ENDPROC
 	.word	NotImplemented           ; $8b FOR
 	.word	NotImplemented           ; $8c NEXT
-	.word	NotImplemented           ; $8d [[END]]
-	.word	NotImplemented           ; $8e [[SHIFT]]
+	.word	RUNEndOfLine             ; $8d [[END]]
+	.word	Command_Shift_Handler    ; $8e [[SHIFT]]
 	.word	NotImplemented           ; $8f ELSE
-	.word	NotImplemented           ; $90 THEN
-	.word	NotImplemented           ; $91 TO
-	.word	NotImplemented           ; $92 STEP
+	.word	NoExec01                 ; $90 THEN
+	.word	NoExec02                 ; $91 TO
+	.word	NoExec03                 ; $92 STEP
 	.word	NotImplemented           ; $93 LET
-	.word	NotImplemented           ; $94 PRINT
+	.word	Command_Print            ; $94 PRINT
 	.word	NotImplemented           ; $95 INPUT
 	.word	NotImplemented           ; $96 CALL
 	.word	NotImplemented           ; $97 SYS
-	.word	NotImplemented           ; $98 REM
+	.word	Command_REM              ; $98 REM
 	.word	NotImplemented           ; $99 EXIT
-	.word	NotImplemented           ; $9a ,
-	.word	NotImplemented           ; $9b ;
-	.word	NotImplemented           ; $9c :
-	.word	NotImplemented           ; $9d '
-	.word	NotImplemented           ; $9e )
+	.word	NoExec04                 ; $9a ,
+	.word	NoExec05                 ; $9b ;
+	.word	NoExec06                 ; $9c :
+	.word	Command_REM2             ; $9d '
+	.word	NoExec07                 ; $9e )
 	.word	NotImplemented           ; $9f DIM
-	.word	NotImplemented           ; $a0 CLEAR
-	.word	NotImplemented           ; $a1 NEW
-	.word	NotImplemented           ; $a2 RUN
-	.word	NotImplemented           ; $a3 STOP
-	.word	NotImplemented           ; $a4 END
-	.word	NotImplemented           ; $a5 ASSERT
+	.word	Command_CLEAR            ; $a0 CLEAR
+	.word	Command_NEW              ; $a1 NEW
+	.word	Command_RUN              ; $a2 RUN
+	.word	Command_STOP             ; $a3 STOP
+	.word	Command_END              ; $a4 END
+	.word	Command_ASSERT           ; $a5 ASSERT
 	.word	NotImplemented           ; $a6 LIST
 	.word	NotImplemented           ; $a7 SAVE
 	.word	NotImplemented           ; $a8 LOAD
