@@ -19,6 +19,8 @@
 ; ************************************************************************************************
 
 EXPBinAdd:	;; [+]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jmp 	IFloatAdd
 
@@ -27,6 +29,8 @@ EXPBinAdd:	;; [+]
 ; { print 3+4 } will display 7
 
 EXPBinSub:	;; [-]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jmp 	IFloatSubtract
 
@@ -35,6 +39,8 @@ EXPBinSub:	;; [-]
 ; { print 3-4 } will display -1
 
 EXPBinMul:	;; [*]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jmp 	IFloatMultiply
 
@@ -43,6 +49,8 @@ EXPBinMul:	;; [*]
 ; { print 3*4 } will display 12
 
 EXPBinFDiv:	;; [/]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jsr 	IFloatDivideFloat
 		bcs 	EXPDZero
@@ -54,6 +62,8 @@ EXPBinFDiv:	;; [/]
 ; { print 11 / 4 } will display 2.75
 
 EXPBinIDiv:	;; [div]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jsr 	IFloatDivideFloat
 		bcs 	EXPDZero
@@ -68,6 +78,8 @@ EXPDZero:
 		.error_divzero
 
 EXPBinIMod: ;; [mod]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		phy
 		jsr 	IFPreProcessBitwise 		; set up everything.
@@ -75,8 +87,11 @@ EXPBinIMod: ;; [mod]
 		jsr 	IFloatModulusInteger
 		ply
 		rts
+
 EXPDRange:
 		.error_range
+EXPTypeError:
+		.error_type
 
 ;: [mod]\
 ; Binary operator, returns the remainder of the integer division 
@@ -87,6 +102,8 @@ EXPDRange:
 ; Bitwise and of two numbers, which must be integers.
 
 EXPBinAnd: ;; [and]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jsr 	IFloatBitwiseAnd
 		bcs 	EXPDRange
@@ -96,6 +113,8 @@ EXPBinAnd: ;; [and]
 ; Bitwise or of two numbers, which must be integers.
 
 EXPBinOr: ;; [or]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jsr 	IFloatBitwiseOr
 		bcs 	EXPDRange
@@ -105,10 +124,13 @@ EXPBinOr: ;; [or]
 ; Bitwise xor of two numbers, which must be integers.
 
 EXPBinXor: ;; [xor]
+		bit 	IFR0+IExp
+		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jsr 	IFloatBitwiseXor
 		bcs 	EXPDRange
 		rts
+
 
 		.send code
 				

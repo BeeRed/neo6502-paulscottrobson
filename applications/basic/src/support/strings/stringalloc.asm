@@ -99,15 +99,15 @@ _STALength:
 ; ************************************************************************************************
 
 StringTempWrite:
+		phy
 		pha
-		sta 	(zsTemp) 					; write byte
-		inc 	zsTemp 						; bump pointer
-		bne 	_STWNoCarry
-		inc 	zsTemp+1
-_STWNoCarry:		
-		lda 	#0 							; make ASCIIZ
+		lda 	(zsTemp)
+		inc 	a
 		sta 	(zsTemp)
+		tay
 		pla
+		sta 	(zsTemp),y
+		ply
 		rts
 
 		.send 	code

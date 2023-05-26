@@ -1,7 +1,11 @@
 TODO
-	Expression ***EXPEvalNumber/String fix***
+	
 	Binary Operations.
-	Dereferencing
+		Number comparison
+		Shift
+		String comparisons
+		String concatenation
+		Dereferencing
 
 
 Fixes:

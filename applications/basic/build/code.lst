@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/basic.bin basic.asm
-; Fri May 26 16:02:44 2023
+; Fri May 26 16:19:26 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -61,8 +61,8 @@
 .1000					boot:
 .1000	a2 40		ldx #$40			ldx 	#$40
 .1002	a0 c0		ldy #$c0			ldy 	#$C0
-.1004	20 ac 16	jsr $16ac			jsr 	PGMSetBaseAddress
-.1007	20 d6 16	jsr $16d6			jsr 	IFInitialise
+.1004	20 d1 16	jsr $16d1			jsr 	PGMSetBaseAddress
+.1007	20 fb 16	jsr $16fb			jsr 	IFInitialise
 .100a	4c 9d 10	jmp $109d			jmp 	Command_RUN
 
 ;******  Processing file: include.files
@@ -182,9 +182,9 @@
 ;******  Processing file: src/commands/assert.asm
 
 .100d					Command_ASSERT:
-.100d	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber
+.100d	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber
 .1010	a2 0c		ldx #$0c			ldx 	#IFR0
-.1012	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero
+.1012	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero
 .1015	f0 01		beq $1018			beq 	_CAFail
 .1017	60		rts				rts
 .1018					_CAFail:
@@ -196,7 +196,7 @@
 ;******  Processing file: src/commands/clear.asm
 
 .101b					Command_CLEAR:
-.101b	20 40 16	jsr $1640			jsr 	StringSystemInitialise
+.101b	20 67 16	jsr $1667			jsr 	StringSystemInitialise
 .101e	60		rts				rts
 
 ;******  Return to file: include.files
@@ -236,7 +236,7 @@
 .1036	c9 9a		cmp #$9a			cmp 	#PR_COMMA 					; comma
 .1038	f0 26		beq $1060			beq 	_CPTab
 .103a	88		dey				dey 								; undo the get.
-.103b	20 7a 12	jsr $127a			jsr 	EXPEvaluateExpression 		; evaluate expression.
+.103b	20 a1 12	jsr $12a1			jsr 	EXPEvaluateExpression 		; evaluate expression.
 .103e	24 0f		bit $0f				bit 	IFR0+IExp 					; is it a number ?
 .1040	10 14		bpl $1056			bpl 	_CPNumber
 .1042	5a		phy				phy
@@ -255,7 +255,7 @@
 .1054	80 cc		bra $1022			bra 	Command_IP_Main 			; loop round clearing carry so NL if end
 .1056					_CPNumber:
 .1056	5a		phy				phy
-.1057	20 e8 1a	jsr $1ae8			jsr 	IFloatFloatToStringR0 		; convert to string at YX length A
+.1057	20 0d 1b	jsr $1b0d			jsr 	IFloatFloatToStringR0 		; convert to string at YX length A
 .105a	20 71 10	jsr $1071			jsr 	CPPrintAYX 					; print AYX
 .105d	7a		ply				ply
 .105e	80 c2		bra $1022			bra 	Command_IP_Main				; loop round clearing carry so NL if end
@@ -295,7 +295,7 @@
 ;******  Processing file: src/commands/new.asm
 
 .1087					Command_NEW:
-.1087	20 b3 16	jsr $16b3			jsr 	PGMNewProgram
+.1087	20 d8 16	jsr $16d8			jsr 	PGMNewProgram
 .108a	20 1b 10	jsr $101b			jsr 	Command_CLEAR
 .108d	4c e4 10	jmp $10e4			jmp 	Command_END
 
@@ -358,7 +358,7 @@
 .10d3	20 d8 10	jsr $10d8			jsr 	_RUNDispatchMain			; call the main dispatcher
 .10d6	80 e5		bra $10bd			bra 	RUNNewCommand
 .10d8					_RUNDispatchMain:
-.10d8	7c 40 15	jmp ($1540,x)			jmp 	(VectorTable,x)
+.10d8	7c 67 15	jmp ($1567,x)			jmp 	(VectorTable,x)
 .10db					_RUNSyntax:
 .10db	4c ea 10	jmp $10ea		jmp	ErrorV_syntax
 .10de					_RUNNotToken:
@@ -382,67 +382,67 @@
 ;******  Processing file: src/errors/generated/errors.asm
 
 .10ea					ErrorV_syntax:
-.10ea	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.10ea	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >10ed	53 79 6e 74 61 78 20 45			.text	"Syntax Error",0
 >10f5	72 72 6f 72 00
 .10fa					ErrorV_range:
-.10fa	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.10fa	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >10fd	4f 75 74 20 4f 66 20 52			.text	"Out Of Range",0
 >1105	61 6e 67 65 00
 .110a					ErrorV_value:
-.110a	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.110a	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >110d	42 61 64 20 56 61 6c 75			.text	"Bad Value",0
 >1115	65 00
 .1117					ErrorV_type:
-.1117	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.1117	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >111a	54 79 70 65 20 4d 69 73			.text	"Type Mismatch",0
 >1122	6d 61 74 63 68 00
 .1128					ErrorV_unimplemented:
-.1128	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.1128	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >112b	4e 6f 74 20 49 6d 70 6c			.text	"Not Implemented",0
 >1133	65 6d 65 6e 74 65 64 00
 .113b					ErrorV_assert:
-.113b	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.113b	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >113e	41 73 73 65 72 74 20 46			.text	"Assert Fail",0
 >1146	61 69 6c 00
 .114a					ErrorV_internal:
-.114a	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.114a	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >114d	49 6e 74 65 72 6e 61 6c			.text	"Internal Error",0
 >1155	20 45 72 72 6f 72 00
 .115c					ErrorV_divzero:
-.115c	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.115c	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >115f	44 69 76 69 64 65 20 42			.text	"Divide By Zero",0
 >1167	79 20 5a 65 72 6f 00
 .116e					ErrorV_structure:
-.116e	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.116e	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >1171	53 74 72 75 63 74 75 72			.text	"Structure Imbalance",0
 >1179	65 20 49 6d 62 61 6c 61 6e 63 65 00
 .1185					ErrorV_stop:
-.1185	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.1185	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >1188	50 72 6f 67 72 61 6d 20			.text	"Program Stopped",0
 >1190	53 74 6f 70 70 65 64 00
 .1198					ErrorV_data:
-.1198	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.1198	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >119b	4f 75 74 20 4f 66 20 44			.text	"Out Of Data",0
 >11a3	61 74 61 00
 .11a7					ErrorV_redefine:
-.11a7	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.11a7	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >11aa	41 72 72 61 79 20 52 65			.text	"Array Redefined",0
 >11b2	64 65 66 69 6e 65 64 00
 .11ba					ErrorV_index:
-.11ba	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.11ba	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >11bd	42 61 64 20 41 72 72 61			.text	"Bad Array Index",0
 >11c5	79 20 49 6e 64 65 78 00
 .11cd					ErrorV_memory:
-.11cd	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.11cd	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >11d0	4f 75 74 20 4f 66 20 4d			.text	"Out Of Memory",0
 >11d8	65 6d 6f 72 79 00
 .11de					ErrorV_uninitialised:
-.11de	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.11de	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >11e1	56 61 72 69 61 62 6c 65			.text	"Variable Uninitialised",0
 >11e9	20 55 6e 69 6e 69 74 69 61 6c 69 73 65 64 00
 .11f8					ErrorV_string:
-.11f8	20 cd 1d	jsr $1dcd		jsr	ErrorHandler
+.11f8	20 f2 1d	jsr $1df2		jsr	ErrorHandler
 >11fb	42 61 64 20 53 74 72 69			.text	"Bad String Length",0
 >1203	6e 67 20 4c 65 6e 67 74 68 00
 
@@ -483,456 +483,476 @@
 ;******  Processing file: src/expression/binary/basic.asm
 
 .122e					EXPBinAdd:
-.122e	a2 10		ldx #$10			ldx 	#IFR1
-.1230	4c e1 16	jmp $16e1			jmp 	IFloatAdd
-.1233					EXPBinSub:
-.1233	a2 10		ldx #$10			ldx 	#IFR1
-.1235	4c da 16	jmp $16da			jmp 	IFloatSubtract
-.1238					EXPBinMul:
-.1238	a2 10		ldx #$10			ldx 	#IFR1
-.123a	4c 8b 17	jmp $178b			jmp 	IFloatMultiply
-.123d					EXPBinFDiv:
-.123d	a2 10		ldx #$10			ldx 	#IFR1
-.123f	20 0e 1a	jsr $1a0e			jsr 	IFloatDivideFloat
-.1242	b0 0b		bcs $124f			bcs 	EXPDZero
-.1244	60		rts				rts
-.1245					EXPBinIDiv:
-.1245	a2 10		ldx #$10			ldx 	#IFR1
-.1247	20 0e 1a	jsr $1a0e			jsr 	IFloatDivideFloat
-.124a	b0 03		bcs $124f			bcs 	EXPDZero
-.124c	4c eb 19	jmp $19eb			jmp 	IFloatIntegerR0
-.124f					EXPDZero:
-.124f	4c 5c 11	jmp $115c		jmp	ErrorV_divzero
-.1252					EXPBinIMod:
-.1252	a2 10		ldx #$10			ldx 	#IFR1
-.1254	5a		phy				phy
-.1255	20 23 19	jsr $1923			jsr 	IFPreProcessBitwise 		; set up everything.
-.1258	d0 05		bne $125f			bne 	EXPDRange
-.125a	20 5c 18	jsr $185c			jsr 	IFloatModulusInteger
-.125d	7a		ply				ply
-.125e	60		rts				rts
-.125f					EXPDRange:
-.125f	4c fa 10	jmp $10fa		jmp	ErrorV_range
-.1262					EXPBinAnd:
-.1262	a2 10		ldx #$10			ldx 	#IFR1
-.1264	20 de 18	jsr $18de			jsr 	IFloatBitwiseAnd
-.1267	b0 f6		bcs $125f			bcs 	EXPDRange
-.1269	60		rts				rts
-.126a					EXPBinOr:
+.122e	24 0f		bit $0f				bit 	IFR0+IExp
+.1230	30 48		bmi $127a			bmi 	EXPTypeError
+.1232	a2 10		ldx #$10			ldx 	#IFR1
+.1234	4c 06 17	jmp $1706			jmp 	IFloatAdd
+.1237					EXPBinSub:
+.1237	24 0f		bit $0f				bit 	IFR0+IExp
+.1239	30 3f		bmi $127a			bmi 	EXPTypeError
+.123b	a2 10		ldx #$10			ldx 	#IFR1
+.123d	4c ff 16	jmp $16ff			jmp 	IFloatSubtract
+.1240					EXPBinMul:
+.1240	24 0f		bit $0f				bit 	IFR0+IExp
+.1242	30 36		bmi $127a			bmi 	EXPTypeError
+.1244	a2 10		ldx #$10			ldx 	#IFR1
+.1246	4c b0 17	jmp $17b0			jmp 	IFloatMultiply
+.1249					EXPBinFDiv:
+.1249	24 0f		bit $0f				bit 	IFR0+IExp
+.124b	30 2d		bmi $127a			bmi 	EXPTypeError
+.124d	a2 10		ldx #$10			ldx 	#IFR1
+.124f	20 33 1a	jsr $1a33			jsr 	IFloatDivideFloat
+.1252	b0 0f		bcs $1263			bcs 	EXPDZero
+.1254	60		rts				rts
+.1255					EXPBinIDiv:
+.1255	24 0f		bit $0f				bit 	IFR0+IExp
+.1257	30 21		bmi $127a			bmi 	EXPTypeError
+.1259	a2 10		ldx #$10			ldx 	#IFR1
+.125b	20 33 1a	jsr $1a33			jsr 	IFloatDivideFloat
+.125e	b0 03		bcs $1263			bcs 	EXPDZero
+.1260	4c 10 1a	jmp $1a10			jmp 	IFloatIntegerR0
+.1263					EXPDZero:
+.1263	4c 5c 11	jmp $115c		jmp	ErrorV_divzero
+.1266					EXPBinIMod:
+.1266	24 0f		bit $0f				bit 	IFR0+IExp
+.1268	30 10		bmi $127a			bmi 	EXPTypeError
 .126a	a2 10		ldx #$10			ldx 	#IFR1
-.126c	20 f5 18	jsr $18f5			jsr 	IFloatBitwiseOr
-.126f	b0 ee		bcs $125f			bcs 	EXPDRange
-.1271	60		rts				rts
-.1272					EXPBinXor:
-.1272	a2 10		ldx #$10			ldx 	#IFR1
-.1274	20 0c 19	jsr $190c			jsr 	IFloatBitwiseXor
-.1277	b0 e6		bcs $125f			bcs 	EXPDRange
-.1279	60		rts				rts
+.126c	5a		phy				phy
+.126d	20 48 19	jsr $1948			jsr 	IFPreProcessBitwise 		; set up everything.
+.1270	d0 05		bne $1277			bne 	EXPDRange
+.1272	20 81 18	jsr $1881			jsr 	IFloatModulusInteger
+.1275	7a		ply				ply
+.1276	60		rts				rts
+.1277					EXPDRange:
+.1277	4c fa 10	jmp $10fa		jmp	ErrorV_range
+.127a					EXPTypeError:
+.127a	4c 17 11	jmp $1117		jmp	ErrorV_type
+.127d					EXPBinAnd:
+.127d	24 0f		bit $0f				bit 	IFR0+IExp
+.127f	30 f9		bmi $127a			bmi 	EXPTypeError
+.1281	a2 10		ldx #$10			ldx 	#IFR1
+.1283	20 03 19	jsr $1903			jsr 	IFloatBitwiseAnd
+.1286	b0 ef		bcs $1277			bcs 	EXPDRange
+.1288	60		rts				rts
+.1289					EXPBinOr:
+.1289	24 0f		bit $0f				bit 	IFR0+IExp
+.128b	30 ed		bmi $127a			bmi 	EXPTypeError
+.128d	a2 10		ldx #$10			ldx 	#IFR1
+.128f	20 1a 19	jsr $191a			jsr 	IFloatBitwiseOr
+.1292	b0 e3		bcs $1277			bcs 	EXPDRange
+.1294	60		rts				rts
+.1295					EXPBinXor:
+.1295	24 0f		bit $0f				bit 	IFR0+IExp
+.1297	30 e1		bmi $127a			bmi 	EXPTypeError
+.1299	a2 10		ldx #$10			ldx 	#IFR1
+.129b	20 31 19	jsr $1931			jsr 	IFloatBitwiseXor
+.129e	b0 d7		bcs $1277			bcs 	EXPDRange
+.12a0	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/expression.asm
 
-.127a					EXPEvaluateExpression:
-.127a	a9 00		lda #$00			lda 	#0 							; current precedence
-.127c					EXPEvaluateExpressionPrecedenceA:
-.127c	48		pha				pha
-.127d	20 f7 12	jsr $12f7			jsr 	EXPTermValueR0				; do first term.
-.1280					_EELoop:
-.1280	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; what follows needs to be a binary operator
-.1282	c9 ef		cmp #$ef			cmp 	#PR_BINARY_FIRST 			; binary tokens are the last ones up to $FF
-.1284	90 31		bcc $12b7			bcc 	_EEExit
-.1286	aa		tax				tax 								; access the precedence of the operator.
-.1287	68		pla				pla 								; restore precedence.if >= operator precedence then exit
-.1288	dd 40 14	cmp $1440,x			cmp 	BinaryPrecedence-PR_BINARY_FIRST,x
-.128b	b0 2b		bcs $12b8			bcs 	_EEExit2
-.128d	48		pha				pha 								; save current precedence.
-.128e	da		phx				phx 								; save operator
-.128f	c8		iny				iny 								; consume operator
-.1290	da		phx				phx
-.1291	a2 0c		ldx #$0c			ldx 	#IFR0 						; push R0 on the stack
-.1293	20 3a 1c	jsr $1c3a			jsr 	IFloatPushRx
-.1296	fa		plx				plx
-.1297	bd 40 14	lda $1440,x			lda 	BinaryPrecedence-PR_BINARY_FIRST,x
-.129a	20 7c 12	jsr $127c			jsr 	EXPEvaluateExpressionPrecedenceA
-.129d	a2 10		ldx #$10			ldx 	#IFR1 						; pop LHS to R1.
-.129f	20 5b 1c	jsr $1c5b			jsr 	IFloatPullRx
-.12a2	fa		plx				plx 								; operator
-.12a3	a5 0f		lda $0f				lda 	IFR0+IExp 					; if check types match.
-.12a5	45 13		eor $13				eor 	IFR1+IExp
-.12a7	30 08		bmi $12b1			bmi 	_EEType
-.12a9					_EETypeOkay:
-.12a9	8a		txa				txa
-.12aa	0a		asl a				asl 	a 							; double -> X
-.12ab	aa		tax				tax
-.12ac	20 b4 12	jsr $12b4			jsr 	_EECallBinary 				; call the operator R0 := R1 <op> R0
-.12af	80 cf		bra $1280			bra 	_EELoop
-.12b1					_EEType:
-.12b1	4c 17 11	jmp $1117		jmp	ErrorV_type
-.12b4					_EECallBinary:
-.12b4	7c 40 15	jmp ($1540,x)			jmp 	(VectorTable,x)
-.12b7					_EEExit:
-.12b7	68		pla				pla 								; throw precedence
-.12b8					_EEExit2:
-.12b8	18		clc				clc
-.12b9	60		rts				rts
+.12a1					EXPEvaluateExpression:
+.12a1	a9 00		lda #$00			lda 	#0 							; current precedence
+.12a3					EXPEvaluateExpressionPrecedenceA:
+.12a3	48		pha				pha
+.12a4	20 1e 13	jsr $131e			jsr 	EXPTermValueR0				; do first term.
+.12a7					_EELoop:
+.12a7	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; what follows needs to be a binary operator
+.12a9	c9 ef		cmp #$ef			cmp 	#PR_BINARY_FIRST 			; binary tokens are the last ones up to $FF
+.12ab	90 31		bcc $12de			bcc 	_EEExit
+.12ad	aa		tax				tax 								; access the precedence of the operator.
+.12ae	68		pla				pla 								; restore precedence.if >= operator precedence then exit
+.12af	dd 67 14	cmp $1467,x			cmp 	BinaryPrecedence-PR_BINARY_FIRST,x
+.12b2	b0 2b		bcs $12df			bcs 	_EEExit2
+.12b4	48		pha				pha 								; save current precedence.
+.12b5	da		phx				phx 								; save operator
+.12b6	c8		iny				iny 								; consume operator
+.12b7	da		phx				phx
+.12b8	a2 0c		ldx #$0c			ldx 	#IFR0 						; push R0 on the stack
+.12ba	20 5f 1c	jsr $1c5f			jsr 	IFloatPushRx
+.12bd	fa		plx				plx
+.12be	bd 67 14	lda $1467,x			lda 	BinaryPrecedence-PR_BINARY_FIRST,x
+.12c1	20 a3 12	jsr $12a3			jsr 	EXPEvaluateExpressionPrecedenceA
+.12c4	a2 10		ldx #$10			ldx 	#IFR1 						; pop LHS to R1.
+.12c6	20 80 1c	jsr $1c80			jsr 	IFloatPullRx
+.12c9	fa		plx				plx 								; operator
+.12ca	a5 0f		lda $0f				lda 	IFR0+IExp 					; if check types match.
+.12cc	45 13		eor $13				eor 	IFR1+IExp
+.12ce	30 08		bmi $12d8			bmi 	_EEType
+.12d0					_EETypeOkay:
+.12d0	8a		txa				txa
+.12d1	0a		asl a				asl 	a 							; double -> X
+.12d2	aa		tax				tax
+.12d3	20 db 12	jsr $12db			jsr 	_EECallBinary 				; call the operator R0 := R1 <op> R0
+.12d6	80 cf		bra $12a7			bra 	_EELoop
+.12d8					_EEType:
+.12d8	4c 17 11	jmp $1117		jmp	ErrorV_type
+.12db					_EECallBinary:
+.12db	7c 67 15	jmp ($1567,x)			jmp 	(VectorTable,x)
+.12de					_EEExit:
+.12de	68		pla				pla 								; throw precedence
+.12df					_EEExit2:
+.12df	18		clc				clc
+.12e0	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/exprutils.asm
 
-.12ba					EXPEvalNumber:
-.12ba	20 7a 12	jsr $127a			jsr 	EXPEvaluateExpression
-.12bd	24 0f		bit $0f				bit 	IFR0+IExp
-.12bf	30 01		bmi $12c2			bmi 	EVUType
-.12c1	60		rts				rts
-.12c2					EVUType:
-.12c2	4c 17 11	jmp $1117		jmp	ErrorV_type
-.12c5					EXPEvalInteger:
-.12c5	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 				; get number, coeerce to integer.
-.12c8	20 eb 19	jsr $19eb			jsr 	IFloatIntegerR0
-.12cb	60		rts				rts
-.12cc					EXPEvalInteger16:
-.12cc	20 c5 12	jsr $12c5			jsr 	EXPEvalInteger
-.12cf	a5 0e		lda $0e				lda 	IFR0+IM2
-.12d1	d0 21		bne $12f4			bne 	EVURange
-.12d3	a6 0d		ldx $0d				ldx 	IFR0+IM1
-.12d5	a5 0c		lda $0c				lda 	IFR0+IM0
-.12d7	60		rts				rts
-.12d8					EXPEvalInteger8:
-.12d8	20 c5 12	jsr $12c5			jsr 	EXPEvalInteger
-.12db	a5 0e		lda $0e				lda 	IFR0+IM2
-.12dd	05 0d		ora $0d				ora 	IFR0+IM1
-.12df	d0 13		bne $12f4			bne 	EVURange
-.12e1	a5 0c		lda $0c				lda 	IFR0+IM0
-.12e3	60		rts				rts
-.12e4					EXPEvalString:
-.12e4	20 7a 12	jsr $127a			jsr 	EXPEvaluateExpression
-.12e7	24 0f		bit $0f				bit 	IFR0+IExp
-.12e9	10 d7		bpl $12c2			bpl 	EVUType
-.12eb	a6 0d		ldx $0d				ldx 	IFR0+IM1
-.12ed	86 1f		stx $1f				stx 	zTemp0+1
-.12ef	a5 0c		lda $0c				lda 	IFR0+IM0
-.12f1	85 1e		sta $1e				sta 	zTemp0
-.12f3	60		rts				rts
-.12f4					EVURange:
-.12f4	4c fa 10	jmp $10fa		jmp	ErrorV_range
+.12e1					EXPEvalNumber:
+.12e1	20 a1 12	jsr $12a1			jsr 	EXPEvaluateExpression
+.12e4	24 0f		bit $0f				bit 	IFR0+IExp
+.12e6	30 01		bmi $12e9			bmi 	EVUType
+.12e8	60		rts				rts
+.12e9					EVUType:
+.12e9	4c 17 11	jmp $1117		jmp	ErrorV_type
+.12ec					EXPEvalInteger:
+.12ec	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 				; get number, coeerce to integer.
+.12ef	20 10 1a	jsr $1a10			jsr 	IFloatIntegerR0
+.12f2	60		rts				rts
+.12f3					EXPEvalInteger16:
+.12f3	20 ec 12	jsr $12ec			jsr 	EXPEvalInteger
+.12f6	a5 0e		lda $0e				lda 	IFR0+IM2
+.12f8	d0 21		bne $131b			bne 	EVURange
+.12fa	a6 0d		ldx $0d				ldx 	IFR0+IM1
+.12fc	a5 0c		lda $0c				lda 	IFR0+IM0
+.12fe	60		rts				rts
+.12ff					EXPEvalInteger8:
+.12ff	20 ec 12	jsr $12ec			jsr 	EXPEvalInteger
+.1302	a5 0e		lda $0e				lda 	IFR0+IM2
+.1304	05 0d		ora $0d				ora 	IFR0+IM1
+.1306	d0 13		bne $131b			bne 	EVURange
+.1308	a5 0c		lda $0c				lda 	IFR0+IM0
+.130a	60		rts				rts
+.130b					EXPEvalString:
+.130b	20 a1 12	jsr $12a1			jsr 	EXPEvaluateExpression
+.130e	24 0f		bit $0f				bit 	IFR0+IExp
+.1310	10 d7		bpl $12e9			bpl 	EVUType
+.1312	a6 0d		ldx $0d				ldx 	IFR0+IM1
+.1314	86 1f		stx $1f				stx 	zTemp0+1
+.1316	a5 0c		lda $0c				lda 	IFR0+IM0
+.1318	85 1e		sta $1e				sta 	zTemp0
+.131a	60		rts				rts
+.131b					EVURange:
+.131b	4c fa 10	jmp $10fa		jmp	ErrorV_range
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/term.asm
 
-.12f7					EXPTermValueR0:
-.12f7	20 00 13	jsr $1300			jsr 	EXPTermR0
-.12fa	90 03		bcc $12ff			bcc 	_ETVNotReference
-.12fc	4c 28 11	jmp $1128		jmp	ErrorV_unimplemented
-.12ff					_ETVNotReference:
-.12ff	60		rts				rts
-.1300					EXPTermR0:
-.1300	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; get next token/element
-.1302	30 3f		bmi $1343			bmi 	_ETMIsUnaryOrMinus 			; if it's a token, it's a unary function, maybe -
-.1304	c8		iny				iny 								; consume element
-.1305	c9 40		cmp #$40			cmp 	#$40 						; 40-7F are identifiers.
-.1307	b0 37		bcs $1340			bcs 	_ETMIdentifier
-.1309	85 0c		sta $0c				sta 	IFR0+IM0 					; initial value in IM0
-.130b	64 0f		stz $0f				stz 	IFR0+IExp
-.130d	64 0d		stz $0d				stz 	IFR0+IM1
-.130f	64 0e		stz $0e				stz 	IFR0+IM2
-.1311					_ETMConstant:
-.1311	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; what follows.
-.1313	c9 40		cmp #$40			cmp 	#$40 						; continuing constant
-.1315	b0 24		bcs $133b			bcs 	_ETMCExit 					; no.
-.1317	a6 0e		ldx $0e				ldx 	IFR0+IM2 					; x 256 into A:M2 M1 M0
-.1319	a5 0d		lda $0d				lda 	IFR0+IM1
-.131b	85 0e		sta $0e				sta 	IFR0+IM2
-.131d	a5 0c		lda $0c				lda 	IFR0+IM0
-.131f	85 0d		sta $0d				sta 	IFR0+IM1
-.1321	64 0c		stz $0c				stz 	IFR0+IM0
-.1323	8a		txa				txa
-.1324	4a		lsr a				lsr 	a 							; shift right twice, e.g. whole thing is x 64
-.1325	66 0e		ror $0e				ror 	IFR0+IM2
-.1327	66 0d		ror $0d				ror 	IFR0+IM1
-.1329	66 0c		ror $0c				ror 	IFR0+IM0
-.132b	4a		lsr a				lsr 	a
-.132c	66 0e		ror $0e				ror 	IFR0+IM2
-.132e	66 0d		ror $0d				ror 	IFR0+IM1
-.1330	66 0c		ror $0c				ror 	IFR0+IM0
-.1332	a5 0c		lda $0c				lda 	IFR0+IM0 					; LSB in.
-.1334	11 1c		ora ($1c),y			ora 	(codePtr),y
-.1336	85 0c		sta $0c				sta 	IFR0+IM0
-.1338	c8		iny				iny 								; consume, loop back
-.1339	80 d6		bra $1311			bra 	_ETMConstant
-.133b					_ETMCExit:
-.133b	20 67 13	jsr $1367			jsr 	EXPCheckDecimalFollows 		; check for decimals.
-.133e	18		clc				clc 								; return value
-.133f	60		rts				rts
-.1340					_ETMIdentifier:
-.1340	4c 28 11	jmp $1128		jmp	ErrorV_unimplemented
-.1343					_ETMIsUnaryOrMinus:
-.1343	c8		iny				iny 								; consume element
-.1344	c9 fe		cmp #$fe			cmp 	#PR_MINUS 					; handle - seperately as it has two roles.
-.1346	d0 0a		bne $1352			bne 	_ETMCheckUnary
-.1348	20 f7 12	jsr $12f7			jsr 	EXPTermValueR0 				; get a term to negate
-.134b	a2 0c		ldx #$0c			ldx 	#IFR0 						; and negate it
-.134d	20 f6 1c	jsr $1cf6			jsr 	IFloatNegate
-.1350	18		clc				clc
-.1351	60		rts				rts
-.1352					_ETMCheckUnary:
-.1352	c9 d7		cmp #$d7			cmp 	#PR_UNARY_FIRST 			; check unary function.
-.1354	90 0e		bcc $1364			bcc 	_ETMUnarySyntax
-.1356	c9 ef		cmp #$ef			cmp 	#PR_UNARY_LAST+1
-.1358	b0 0a		bcs $1364			bcs 	_ETMUnarySyntax
-.135a	0a		asl a				asl 	a
-.135b	aa		tax				tax
-.135c	20 61 13	jsr $1361			jsr 	_ETMCallUnaryFunction
-.135f	18		clc				clc
-.1360	60		rts				rts
-.1361					_ETMCallUnaryFunction:
-.1361	7c 40 15	jmp ($1540,x)			jmp 	(VectorTable,x)
-.1364					_ETMUnarySyntax:
-.1364	4c ea 10	jmp $10ea		jmp	ErrorV_syntax
-.1367					EXPCheckDecimalFollows:
-.1367	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; check for decimal
-.1369	c9 ed		cmp #$ed			cmp 	#PR_LSQLSQDECIMALRSQRSQ
-.136b	d0 19		bne $1386			bne 	_ETMCDExit
-.136d	c8		iny				iny 								; consume token.
-.136e	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; get count
-.1370	5a		phy				phy									; save current position
-.1371	48		pha				pha 								; save count of chars.
-.1372	38		sec				sec 								; address into YX : y + codePtr+1
-.1373	98		tya				tya
-.1374	65 1c		adc $1c				adc 	codePtr
-.1376	aa		tax				tax
-.1377	a5 1d		lda $1d				lda 	codePtr+1
-.1379	69 00		adc #$00			adc 	#0
-.137b	a8		tay				tay
-.137c	68		pla				pla 								; get count.
-.137d	20 8f 1b	jsr $1b8f			jsr 	IFloatAddDecimalToR0 		; add the decimal to R0
-.1380	7a		ply				ply 								; go to next token.
-.1381	98		tya				tya
-.1382	38		sec				sec
-.1383	71 1c		adc ($1c),y			adc 	(codePtr),y
-.1385	a8		tay				tay
-.1386					_ETMCDExit:
-.1386	60		rts				rts
+.131e					EXPTermValueR0:
+.131e	20 27 13	jsr $1327			jsr 	EXPTermR0
+.1321	90 03		bcc $1326			bcc 	_ETVNotReference
+.1323	4c 28 11	jmp $1128		jmp	ErrorV_unimplemented
+.1326					_ETVNotReference:
+.1326	60		rts				rts
+.1327					EXPTermR0:
+.1327	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; get next token/element
+.1329	30 3f		bmi $136a			bmi 	_ETMIsUnaryOrMinus 			; if it's a token, it's a unary function, maybe -
+.132b	c8		iny				iny 								; consume element
+.132c	c9 40		cmp #$40			cmp 	#$40 						; 40-7F are identifiers.
+.132e	b0 37		bcs $1367			bcs 	_ETMIdentifier
+.1330	85 0c		sta $0c				sta 	IFR0+IM0 					; initial value in IM0
+.1332	64 0f		stz $0f				stz 	IFR0+IExp
+.1334	64 0d		stz $0d				stz 	IFR0+IM1
+.1336	64 0e		stz $0e				stz 	IFR0+IM2
+.1338					_ETMConstant:
+.1338	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; what follows.
+.133a	c9 40		cmp #$40			cmp 	#$40 						; continuing constant
+.133c	b0 24		bcs $1362			bcs 	_ETMCExit 					; no.
+.133e	a6 0e		ldx $0e				ldx 	IFR0+IM2 					; x 256 into A:M2 M1 M0
+.1340	a5 0d		lda $0d				lda 	IFR0+IM1
+.1342	85 0e		sta $0e				sta 	IFR0+IM2
+.1344	a5 0c		lda $0c				lda 	IFR0+IM0
+.1346	85 0d		sta $0d				sta 	IFR0+IM1
+.1348	64 0c		stz $0c				stz 	IFR0+IM0
+.134a	8a		txa				txa
+.134b	4a		lsr a				lsr 	a 							; shift right twice, e.g. whole thing is x 64
+.134c	66 0e		ror $0e				ror 	IFR0+IM2
+.134e	66 0d		ror $0d				ror 	IFR0+IM1
+.1350	66 0c		ror $0c				ror 	IFR0+IM0
+.1352	4a		lsr a				lsr 	a
+.1353	66 0e		ror $0e				ror 	IFR0+IM2
+.1355	66 0d		ror $0d				ror 	IFR0+IM1
+.1357	66 0c		ror $0c				ror 	IFR0+IM0
+.1359	a5 0c		lda $0c				lda 	IFR0+IM0 					; LSB in.
+.135b	11 1c		ora ($1c),y			ora 	(codePtr),y
+.135d	85 0c		sta $0c				sta 	IFR0+IM0
+.135f	c8		iny				iny 								; consume, loop back
+.1360	80 d6		bra $1338			bra 	_ETMConstant
+.1362					_ETMCExit:
+.1362	20 8e 13	jsr $138e			jsr 	EXPCheckDecimalFollows 		; check for decimals.
+.1365	18		clc				clc 								; return value
+.1366	60		rts				rts
+.1367					_ETMIdentifier:
+.1367	4c 28 11	jmp $1128		jmp	ErrorV_unimplemented
+.136a					_ETMIsUnaryOrMinus:
+.136a	c8		iny				iny 								; consume element
+.136b	c9 fe		cmp #$fe			cmp 	#PR_MINUS 					; handle - seperately as it has two roles.
+.136d	d0 0a		bne $1379			bne 	_ETMCheckUnary
+.136f	20 1e 13	jsr $131e			jsr 	EXPTermValueR0 				; get a term to negate
+.1372	a2 0c		ldx #$0c			ldx 	#IFR0 						; and negate it
+.1374	20 1b 1d	jsr $1d1b			jsr 	IFloatNegate
+.1377	18		clc				clc
+.1378	60		rts				rts
+.1379					_ETMCheckUnary:
+.1379	c9 d7		cmp #$d7			cmp 	#PR_UNARY_FIRST 			; check unary function.
+.137b	90 0e		bcc $138b			bcc 	_ETMUnarySyntax
+.137d	c9 ef		cmp #$ef			cmp 	#PR_UNARY_LAST+1
+.137f	b0 0a		bcs $138b			bcs 	_ETMUnarySyntax
+.1381	0a		asl a				asl 	a
+.1382	aa		tax				tax
+.1383	20 88 13	jsr $1388			jsr 	_ETMCallUnaryFunction
+.1386	18		clc				clc
+.1387	60		rts				rts
+.1388					_ETMCallUnaryFunction:
+.1388	7c 67 15	jmp ($1567,x)			jmp 	(VectorTable,x)
+.138b					_ETMUnarySyntax:
+.138b	4c ea 10	jmp $10ea		jmp	ErrorV_syntax
+.138e					EXPCheckDecimalFollows:
+.138e	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; check for decimal
+.1390	c9 ed		cmp #$ed			cmp 	#PR_LSQLSQDECIMALRSQRSQ
+.1392	d0 19		bne $13ad			bne 	_ETMCDExit
+.1394	c8		iny				iny 								; consume token.
+.1395	b1 1c		lda ($1c),y			lda 	(codePtr),y 				; get count
+.1397	5a		phy				phy									; save current position
+.1398	48		pha				pha 								; save count of chars.
+.1399	38		sec				sec 								; address into YX : y + codePtr+1
+.139a	98		tya				tya
+.139b	65 1c		adc $1c				adc 	codePtr
+.139d	aa		tax				tax
+.139e	a5 1d		lda $1d				lda 	codePtr+1
+.13a0	69 00		adc #$00			adc 	#0
+.13a2	a8		tay				tay
+.13a3	68		pla				pla 								; get count.
+.13a4	20 b4 1b	jsr $1bb4			jsr 	IFloatAddDecimalToR0 		; add the decimal to R0
+.13a7	7a		ply				ply 								; go to next token.
+.13a8	98		tya				tya
+.13a9	38		sec				sec
+.13aa	71 1c		adc ($1c),y			adc 	(codePtr),y
+.13ac	a8		tay				tay
+.13ad					_ETMCDExit:
+.13ad	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/abs.asm
 
-.1387					EXPUnaryAbs:
-.1387	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 					; number to R0
-.138a	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.138d	20 2f 19	jsr $192f			jsr 	IFloatAbsoluteR0
-.1390	60		rts				rts
+.13ae					EXPUnaryAbs:
+.13ae	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 					; number to R0
+.13b1	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.13b4	20 54 19	jsr $1954			jsr 	IFloatAbsoluteR0
+.13b7	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/asc.asm
 
-.1391					EXPUnaryAsc:
-.1391	20 e4 12	jsr $12e4			jsr 	EXPEvalString 					; string to R0, zTemp0
-.1394	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.1397	b2 1e		lda ($1e)			lda 	(zTemp0) 						; length 0 ?
-.1399	f0 06		beq $13a1			beq 	_EXAZero 						; if so return 0
-.139b	5a		phy				phy 									; otherwise get first character
-.139c	a0 01		ldy #$01			ldy 	#1
-.139e	b1 1e		lda ($1e),y			lda 	(zTemp0),y
-.13a0	7a		ply				ply
-.13a1					_EXAZero:
-.13a1	a2 0c		ldx #$0c			ldx 	#IFR0
-.13a3	20 ed 1c	jsr $1ced			jsr 	IFloatSetByte
-.13a6	60		rts				rts
+.13b8					EXPUnaryAsc:
+.13b8	20 0b 13	jsr $130b			jsr 	EXPEvalString 					; string to R0, zTemp0
+.13bb	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.13be	b2 1e		lda ($1e)			lda 	(zTemp0) 						; length 0 ?
+.13c0	f0 06		beq $13c8			beq 	_EXAZero 						; if so return 0
+.13c2	5a		phy				phy 									; otherwise get first character
+.13c3	a0 01		ldy #$01			ldy 	#1
+.13c5	b1 1e		lda ($1e),y			lda 	(zTemp0),y
+.13c7	7a		ply				ply
+.13c8					_EXAZero:
+.13c8	a2 0c		ldx #$0c			ldx 	#IFR0
+.13ca	20 12 1d	jsr $1d12			jsr 	IFloatSetByte
+.13cd	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/chr.asm
 
-.13a7					EXPUnaryChr:
-.13a7	20 d8 12	jsr $12d8			jsr 	EXPEvalInteger8 				; expr
-.13aa	48		pha				pha 									; push on stack
-.13ab	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.13ae	a9 01		lda #$01			lda 	#1 								; alloc temp mem for result
-.13b0	20 68 16	jsr $1668			jsr 	StringTempAllocate
-.13b3	68		pla				pla
-.13b4	20 9d 16	jsr $169d			jsr 	StringTempWrite
-.13b7	60		rts				rts
+.13ce					EXPUnaryChr:
+.13ce	20 ff 12	jsr $12ff			jsr 	EXPEvalInteger8 				; expr
+.13d1	48		pha				pha 									; push on stack
+.13d2	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.13d5	a9 01		lda #$01			lda 	#1 								; alloc temp mem for result
+.13d7	20 8f 16	jsr $168f			jsr 	StringTempAllocate
+.13da	68		pla				pla
+.13db	20 c4 16	jsr $16c4			jsr 	StringTempWrite
+.13de	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/dec.asm
 
-.13b8					EXPUnaryDec:
-.13b8	20 e4 12	jsr $12e4			jsr 	EXPEvalString 					; string to R0, zTemp0
-.13bb	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.13be	5a		phy				phy
-.13bf	a2 0c		ldx #$0c			ldx 	#IFR0 							; zero the result
-.13c1	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.13c4	b2 1e		lda ($1e)			lda 	(zTemp0)						; read the length to X
-.13c6	f0 3b		beq $1403			beq 	_EUDError 						; empty string
-.13c8	aa		tax				tax
-.13c9	a0 01		ldy #$01			ldy 	#1 								; start at offset 1
-.13cb					_EUDLoop:
-.13cb	b1 1e		lda ($1e),y			lda 	(zTemp0),y 						; get next
-.13cd	c9 61		cmp #$61			cmp 	#"a" 							; l/c -> u/c
-.13cf	90 02		bcc $13d3			bcc 	_EUDNoCase
-.13d1	e9 20		sbc #$20			sbc 	#$20
-.13d3					_EUDNoCase:
-.13d3	c9 30		cmp #$30			cmp 	#'0' 							; check 0..9
-.13d5	90 2c		bcc $1403			bcc 	_EUDError
-.13d7	c9 3a		cmp #$3a			cmp 	#'9'+1
-.13d9	90 0a		bcc $13e5			bcc 	_EUDOkay
-.13db	c9 41		cmp #$41			cmp 	#'A'							; check A-F
-.13dd	90 24		bcc $1403			bcc 	_EUDError
-.13df	c9 47		cmp #$47			cmp 	#'F'+1
-.13e1	b0 20		bcs $1403			bcs 	_EUDError
-.13e3	e9 06		sbc #$06			sbc 	#6 								; hex adjust
-.13e5					_EUDOkay:
-.13e5	29 0f		and #$0f			and 	#15 							; make constant
-.13e7	da		phx				phx
-.13e8	48		pha				pha
-.13e9	a2 0c		ldx #$0c			ldx 	#IFR0 							; multiply R0 x 16
-.13eb	20 12 1d	jsr $1d12			jsr 	IFloatShiftLeft
-.13ee	20 12 1d	jsr $1d12			jsr 	IFloatShiftLeft
-.13f1	20 12 1d	jsr $1d12			jsr 	IFloatShiftLeft
-.13f4	20 12 1d	jsr $1d12			jsr 	IFloatShiftLeft
-.13f7	68		pla				pla 									; pop constant and OR in
-.13f8	fa		plx				plx
-.13f9	05 0c		ora $0c				ora 	IFR0+IM0
-.13fb	85 0c		sta $0c				sta 	IFR0+IM0
-.13fd	c8		iny				iny 									; next
-.13fe	ca		dex				dex
-.13ff	d0 ca		bne $13cb			bne 	_EUDLoop
-.1401	7a		ply				ply
-.1402	60		rts				rts
-.1403					_EUDError:
-.1403	4c 0a 11	jmp $110a		jmp	ErrorV_value
+.13df					EXPUnaryDec:
+.13df	20 0b 13	jsr $130b			jsr 	EXPEvalString 					; string to R0, zTemp0
+.13e2	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.13e5	5a		phy				phy
+.13e6	a2 0c		ldx #$0c			ldx 	#IFR0 							; zero the result
+.13e8	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.13eb	b2 1e		lda ($1e)			lda 	(zTemp0)						; read the length to X
+.13ed	f0 3b		beq $142a			beq 	_EUDError 						; empty string
+.13ef	aa		tax				tax
+.13f0	a0 01		ldy #$01			ldy 	#1 								; start at offset 1
+.13f2					_EUDLoop:
+.13f2	b1 1e		lda ($1e),y			lda 	(zTemp0),y 						; get next
+.13f4	c9 61		cmp #$61			cmp 	#"a" 							; l/c -> u/c
+.13f6	90 02		bcc $13fa			bcc 	_EUDNoCase
+.13f8	e9 20		sbc #$20			sbc 	#$20
+.13fa					_EUDNoCase:
+.13fa	c9 30		cmp #$30			cmp 	#'0' 							; check 0..9
+.13fc	90 2c		bcc $142a			bcc 	_EUDError
+.13fe	c9 3a		cmp #$3a			cmp 	#'9'+1
+.1400	90 0a		bcc $140c			bcc 	_EUDOkay
+.1402	c9 41		cmp #$41			cmp 	#'A'							; check A-F
+.1404	90 24		bcc $142a			bcc 	_EUDError
+.1406	c9 47		cmp #$47			cmp 	#'F'+1
+.1408	b0 20		bcs $142a			bcs 	_EUDError
+.140a	e9 06		sbc #$06			sbc 	#6 								; hex adjust
+.140c					_EUDOkay:
+.140c	29 0f		and #$0f			and 	#15 							; make constant
+.140e	da		phx				phx
+.140f	48		pha				pha
+.1410	a2 0c		ldx #$0c			ldx 	#IFR0 							; multiply R0 x 16
+.1412	20 37 1d	jsr $1d37			jsr 	IFloatShiftLeft
+.1415	20 37 1d	jsr $1d37			jsr 	IFloatShiftLeft
+.1418	20 37 1d	jsr $1d37			jsr 	IFloatShiftLeft
+.141b	20 37 1d	jsr $1d37			jsr 	IFloatShiftLeft
+.141e	68		pla				pla 									; pop constant and OR in
+.141f	fa		plx				plx
+.1420	05 0c		ora $0c				ora 	IFR0+IM0
+.1422	85 0c		sta $0c				sta 	IFR0+IM0
+.1424	c8		iny				iny 									; next
+.1425	ca		dex				dex
+.1426	d0 ca		bne $13f2			bne 	_EUDLoop
+.1428	7a		ply				ply
+.1429	60		rts				rts
+.142a					_EUDError:
+.142a	4c 0a 11	jmp $110a		jmp	ErrorV_value
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/decimal.asm
 
-.1406					EXPUnaryInlineDec:
-.1406	4c ea 10	jmp $10ea		jmp	ErrorV_syntax
+.142d					EXPUnaryInlineDec:
+.142d	4c ea 10	jmp $10ea		jmp	ErrorV_syntax
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/dollar.asm
 
-.1409					EXPUnaryNull:
-.1409	20 f7 12	jsr $12f7			jsr 	EXPTermValueR0
-.140c	60		rts				rts
+.1430					EXPUnaryNull:
+.1430	20 1e 13	jsr $131e			jsr 	EXPTermValueR0
+.1433	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/fractional.asm
 
-.140d					EXPUnaryFrac:
-.140d	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 					; number to R0
-.1410	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.1413	20 95 19	jsr $1995			jsr 	IFloatFractionalR0
-.1416	60		rts				rts
+.1434					EXPUnaryFrac:
+.1434	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 					; number to R0
+.1437	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.143a	20 ba 19	jsr $19ba			jsr 	IFloatFractionalR0
+.143d	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/intfn.asm
 
-.1417					EXPUnaryInt:
-.1417	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 					; number to R0
-.141a	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.141d	20 eb 19	jsr $19eb			jsr 	IFloatIntegerR0
-.1420	60		rts				rts
+.143e					EXPUnaryInt:
+.143e	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 					; number to R0
+.1441	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.1444	20 10 1a	jsr $1a10			jsr 	IFloatIntegerR0
+.1447	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/len.asm
 
-.1421					EXPUnaryLen:
-.1421	20 e4 12	jsr $12e4			jsr 	EXPEvalString 					; string to R0, zTemp0
-.1424	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.1427	b2 1e		lda ($1e)			lda 	(zTemp0)
-.1429	a2 0c		ldx #$0c			ldx 	#IFR0
-.142b	20 ed 1c	jsr $1ced			jsr 	IFloatSetByte
-.142e	60		rts				rts
+.1448					EXPUnaryLen:
+.1448	20 0b 13	jsr $130b			jsr 	EXPEvalString 					; string to R0, zTemp0
+.144b	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.144e	b2 1e		lda ($1e)			lda 	(zTemp0)
+.1450	a2 0c		ldx #$0c			ldx 	#IFR0
+.1452	20 12 1d	jsr $1d12			jsr 	IFloatSetByte
+.1455	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/parenthesis.asm
 
-.142f					EXPUnaryParenthesis:
-.142f	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 					; number to R0
-.1432	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.1435	60		rts				rts
+.1456					EXPUnaryParenthesis:
+.1456	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 					; number to R0
+.1459	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.145c	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/random.asm
 
-.1436					EXPUnaryRnd:
-.1436	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 				; number to R0
-.1439	20 15 12	jsr $1215			jsr 	ERRCheckRParen 				; )
-.143c	a2 0c		ldx #$0c			ldx 	#IFR0
-.143e	20 55 14	jsr $1455			jsr 	EXPLoadInRandom
-.1441	a9 29		lda #$29			lda 	#64-23 						; hack the exponent to make it work.
-.1443	85 0f		sta $0f				sta 	IFR0+IExp
-.1445	60		rts				rts
-.1446					ExpUnaryRand:
-.1446	20 c5 12	jsr $12c5			jsr 	EXPEvalInteger 				; integer to R0
-.1449	20 15 12	jsr $1215			jsr 	ERRCheckRParen 				; )
-.144c	a2 10		ldx #$10			ldx 	#IFR1 						; random to R1
-.144e	20 55 14	jsr $1455			jsr 	EXPLoadInRandom
-.1451	20 5c 18	jsr $185c			jsr 	IFloatModulusInteger 		; calculate mod r1,r2
-.1454	60		rts				rts
-.1455					EXPLoadInRandom:
-.1455	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.1458	20 6a 14	jsr $146a			jsr 	EXPRandom32
-.145b	95 00		sta $00,x			sta 	IM0,x
-.145d	20 6a 14	jsr $146a			jsr 	EXPRandom32
-.1460	95 01		sta $01,x			sta 	IM1,x
-.1462	20 6a 14	jsr $146a			jsr 	EXPRandom32
-.1465	29 7f		and #$7f			and 	#$7F
-.1467	95 02		sta $02,x			sta 	IM2,x
-.1469	60		rts				rts
-.146a					EXPRandom32:
-.146a	5a		phy				phy
-.146b	a0 08		ldy #$08			ldy 	#8
-.146d	ad 37 02	lda $0237			lda 	EXPSeed+0
-.1470	0d 38 02	ora $0238			ora 	EXPSeed+1
-.1473	0d 39 02	ora $0239			ora 	EXPSeed+2
-.1476	0d 3a 02	ora $023a			ora 	EXPSeed+3
-.1479	d0 08		bne $1483			bne 	_EXPRNoReset
-.147b	ee 37 02	inc $0237			inc 	EXPSeed+0
-.147e	a0 10		ldy #$10			ldy 	#16
-.1480	8c 3a 02	sty $023a			sty 	EXPSeed+3
-.1483					_EXPRNoReset:
-.1483	ad 37 02	lda $0237			lda 	EXPSeed+0
-.1486					_EXPRLoop:
-.1486	0a		asl a				asl		a
-.1487	2e 38 02	rol $0238			rol 	EXPSeed+1
-.148a	2e 39 02	rol $0239			rol 	EXPSeed+2
-.148d	2e 3a 02	rol $023a			rol 	EXPSeed+3
-.1490	90 02		bcc $1494			bcc 	_EXPRNoEOR
-.1492	49 c5		eor #$c5			eor 	#$C5
-.1494					_EXPRNoEOR:
-.1494	88		dey				dey
-.1495	d0 ef		bne $1486			bne 	_EXPRLoop
-.1497	8d 37 02	sta $0237			sta 	EXPSeed+0
-.149a	7a		ply				ply
-.149b	60		rts				rts
+.145d					EXPUnaryRnd:
+.145d	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 				; number to R0
+.1460	20 15 12	jsr $1215			jsr 	ERRCheckRParen 				; )
+.1463	a2 0c		ldx #$0c			ldx 	#IFR0
+.1465	20 7c 14	jsr $147c			jsr 	EXPLoadInRandom
+.1468	a9 29		lda #$29			lda 	#64-23 						; hack the exponent to make it work.
+.146a	85 0f		sta $0f				sta 	IFR0+IExp
+.146c	60		rts				rts
+.146d					ExpUnaryRand:
+.146d	20 ec 12	jsr $12ec			jsr 	EXPEvalInteger 				; integer to R0
+.1470	20 15 12	jsr $1215			jsr 	ERRCheckRParen 				; )
+.1473	a2 10		ldx #$10			ldx 	#IFR1 						; random to R1
+.1475	20 7c 14	jsr $147c			jsr 	EXPLoadInRandom
+.1478	20 81 18	jsr $1881			jsr 	IFloatModulusInteger 		; calculate mod r1,r2
+.147b	60		rts				rts
+.147c					EXPLoadInRandom:
+.147c	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.147f	20 91 14	jsr $1491			jsr 	EXPRandom32
+.1482	95 00		sta $00,x			sta 	IM0,x
+.1484	20 91 14	jsr $1491			jsr 	EXPRandom32
+.1487	95 01		sta $01,x			sta 	IM1,x
+.1489	20 91 14	jsr $1491			jsr 	EXPRandom32
+.148c	29 7f		and #$7f			and 	#$7F
+.148e	95 02		sta $02,x			sta 	IM2,x
+.1490	60		rts				rts
+.1491					EXPRandom32:
+.1491	5a		phy				phy
+.1492	a0 08		ldy #$08			ldy 	#8
+.1494	ad 37 02	lda $0237			lda 	EXPSeed+0
+.1497	0d 38 02	ora $0238			ora 	EXPSeed+1
+.149a	0d 39 02	ora $0239			ora 	EXPSeed+2
+.149d	0d 3a 02	ora $023a			ora 	EXPSeed+3
+.14a0	d0 08		bne $14aa			bne 	_EXPRNoReset
+.14a2	ee 37 02	inc $0237			inc 	EXPSeed+0
+.14a5	a0 10		ldy #$10			ldy 	#16
+.14a7	8c 3a 02	sty $023a			sty 	EXPSeed+3
+.14aa					_EXPRNoReset:
+.14aa	ad 37 02	lda $0237			lda 	EXPSeed+0
+.14ad					_EXPRLoop:
+.14ad	0a		asl a				asl		a
+.14ae	2e 38 02	rol $0238			rol 	EXPSeed+1
+.14b1	2e 39 02	rol $0239			rol 	EXPSeed+2
+.14b4	2e 3a 02	rol $023a			rol 	EXPSeed+3
+.14b7	90 02		bcc $14bb			bcc 	_EXPRNoEOR
+.14b9	49 c5		eor #$c5			eor 	#$C5
+.14bb					_EXPRNoEOR:
+.14bb	88		dey				dey
+.14bc	d0 ef		bne $14ad			bne 	_EXPRLoop
+.14be	8d 37 02	sta $0237			sta 	EXPSeed+0
+.14c1	7a		ply				ply
+.14c2	60		rts				rts
 .0237					EXPSeed:
 >0237							.fill 	4
 
@@ -941,339 +961,339 @@
 
 ;******  Processing file: src/expression/term/unary/sgn.asm
 
-.149c					EXPUnarySgn:
-.149c	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 					; number to R0
-.149f	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.14a2	a2 10		ldx #$10			ldx 	#IFR1 							; copy to R1
-.14a4	20 8d 1c	jsr $1c8d			jsr 	IFloatCopyToRegister
-.14a7	a2 0c		ldx #$0c			ldx 	#IFR0 							; R0 = 0
-.14a9	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.14ac	a2 10		ldx #$10			ldx 	#IFR1
-.14ae	20 b9 19	jsr $19b9			jsr 	IFloatCompare 					; compare R1 vs 0.
-.14b1	60		rts				rts
+.14c3					EXPUnarySgn:
+.14c3	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 					; number to R0
+.14c6	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.14c9	a2 10		ldx #$10			ldx 	#IFR1 							; copy to R1
+.14cb	20 b2 1c	jsr $1cb2			jsr 	IFloatCopyToRegister
+.14ce	a2 0c		ldx #$0c			ldx 	#IFR0 							; R0 = 0
+.14d0	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.14d3	a2 10		ldx #$10			ldx 	#IFR1
+.14d5	20 de 19	jsr $19de			jsr 	IFloatCompare 					; compare R1 vs 0.
+.14d8	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/sqr.asm
 
-.14b2					EXPUnarySqr:
-.14b2	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 					; number to R0
-.14b5	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.14b8	20 37 19	jsr $1937			jsr 	IFloatSquareRootR0 				; square root.
-.14bb	b0 01		bcs $14be			bcs 	_EUSValue
-.14bd	60		rts				rts
-.14be					_EUSValue:
-.14be	4c fa 10	jmp $10fa		jmp	ErrorV_range
+.14d9					EXPUnarySqr:
+.14d9	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 					; number to R0
+.14dc	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.14df	20 5c 19	jsr $195c			jsr 	IFloatSquareRootR0 				; square root.
+.14e2	b0 01		bcs $14e5			bcs 	_EUSValue
+.14e4	60		rts				rts
+.14e5					_EUSValue:
+.14e5	4c fa 10	jmp $10fa		jmp	ErrorV_range
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/strhex.asm
 
-.14c1					EXPUnaryHex:
-.14c1	20 c5 12	jsr $12c5			jsr 	EXPEvalInteger 					; expr
-.14c4	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.14c7	5a		phy				phy
-.14c8	a9 10		lda #$10			lda 	#16
-.14ca	20 8c 1a	jsr $1a8c			jsr 	IFloatIntegerToStringR0
-.14cd	80 0a		bra $14d9			bra 	EUSMain
-.14cf					EXPUnaryStr:
-.14cf	20 ba 12	jsr $12ba			jsr 	EXPEvalNumber 					; expr
-.14d2	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.14d5	5a		phy				phy
-.14d6	20 e8 1a	jsr $1ae8			jsr 	IFloatFloatToStringR0 			; convert to string
-.14d9					EUSMain:
-.14d9	b0 18		bcs $14f3			bcs 	_EUSError
-.14db	86 1e		stx $1e				stx 	zTemp0 							; save string address
-.14dd	84 1f		sty $1f				sty 	zTemp0+1
-.14df	48		pha				pha 									; save count
-.14e0	a9 20		lda #$20			lda 	#32 							; allocate space for result.
-.14e2	20 68 16	jsr $1668			jsr 	StringTempAllocate
-.14e5	fa		plx				plx 									; count in X
-.14e6	a0 00		ldy #$00			ldy 	#0
-.14e8					_EUSCopy:
-.14e8	b1 1e		lda ($1e),y			lda 	(zTemp0),y
-.14ea	c8		iny				iny
-.14eb	20 9d 16	jsr $169d			jsr 	StringTempWrite
-.14ee	ca		dex				dex
-.14ef	d0 f7		bne $14e8			bne	 	_EUSCopy
-.14f1	7a		ply				ply
-.14f2	60		rts				rts
-.14f3					_EUSError:
-.14f3	4c fa 10	jmp $10fa		jmp	ErrorV_range
+.14e8					EXPUnaryHex:
+.14e8	20 ec 12	jsr $12ec			jsr 	EXPEvalInteger 					; expr
+.14eb	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.14ee	5a		phy				phy
+.14ef	a9 10		lda #$10			lda 	#16
+.14f1	20 b1 1a	jsr $1ab1			jsr 	IFloatIntegerToStringR0
+.14f4	80 0a		bra $1500			bra 	EUSMain
+.14f6					EXPUnaryStr:
+.14f6	20 e1 12	jsr $12e1			jsr 	EXPEvalNumber 					; expr
+.14f9	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.14fc	5a		phy				phy
+.14fd	20 0d 1b	jsr $1b0d			jsr 	IFloatFloatToStringR0 			; convert to string
+.1500					EUSMain:
+.1500	b0 18		bcs $151a			bcs 	_EUSError
+.1502	86 1e		stx $1e				stx 	zTemp0 							; save string address
+.1504	84 1f		sty $1f				sty 	zTemp0+1
+.1506	48		pha				pha 									; save count
+.1507	a9 20		lda #$20			lda 	#32 							; allocate space for result.
+.1509	20 8f 16	jsr $168f			jsr 	StringTempAllocate
+.150c	fa		plx				plx 									; count in X
+.150d	a0 00		ldy #$00			ldy 	#0
+.150f					_EUSCopy:
+.150f	b1 1e		lda ($1e),y			lda 	(zTemp0),y
+.1511	c8		iny				iny
+.1512	20 c4 16	jsr $16c4			jsr 	StringTempWrite
+.1515	ca		dex				dex
+.1516	d0 f7		bne $150f			bne	 	_EUSCopy
+.1518	7a		ply				ply
+.1519	60		rts				rts
+.151a					_EUSError:
+.151a	4c fa 10	jmp $10fa		jmp	ErrorV_range
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/string.asm
 
-.14f6					EXPUnaryInlineString:
-.14f6	18		clc				clc 								; physical address -> IM0,1
-.14f7	98		tya				tya
-.14f8	65 1c		adc $1c				adc 	codePtr
-.14fa	85 0c		sta $0c				sta 	IFR0+IM0
-.14fc	a5 1d		lda $1d				lda 	codePtr+1
-.14fe	69 00		adc #$00			adc 	#0
-.1500	85 0d		sta $0d				sta 	IFR0+IM1
-.1502	64 0e		stz $0e				stz 	IFR0+IM2 					; fill in rest
-.1504	a9 80		lda #$80			lda 	#$80
-.1506	85 0f		sta $0f				sta 	IFR0+IExp
-.1508	98		tya				tya	 								; skip over it.
-.1509	38		sec				sec
-.150a	71 1c		adc ($1c),y			adc 	(codePtr),y
-.150c	a8		tay				tay
-.150d	60		rts				rts
-.150e					_EXPUISRange:
-.150e	4c fa 10	jmp $10fa		jmp	ErrorV_range
+.151d					EXPUnaryInlineString:
+.151d	18		clc				clc 								; physical address -> IM0,1
+.151e	98		tya				tya
+.151f	65 1c		adc $1c				adc 	codePtr
+.1521	85 0c		sta $0c				sta 	IFR0+IM0
+.1523	a5 1d		lda $1d				lda 	codePtr+1
+.1525	69 00		adc #$00			adc 	#0
+.1527	85 0d		sta $0d				sta 	IFR0+IM1
+.1529	64 0e		stz $0e				stz 	IFR0+IM2 					; fill in rest
+.152b	a9 80		lda #$80			lda 	#$80
+.152d	85 0f		sta $0f				sta 	IFR0+IExp
+.152f	98		tya				tya	 								; skip over it.
+.1530	38		sec				sec
+.1531	71 1c		adc ($1c),y			adc 	(codePtr),y
+.1533	a8		tay				tay
+.1534	60		rts				rts
+.1535					_EXPUISRange:
+.1535	4c fa 10	jmp $10fa		jmp	ErrorV_range
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/expression/term/unary/val.asm
 
-.1511					EXPUnaryVal:
-.1511	20 e4 12	jsr $12e4			jsr 	EXPEvalString 					; string to R0, zTemp0
-.1514	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
-.1517	5a		phy				phy
-.1518	18		clc				clc
-.1519	a5 1e		lda $1e				lda		zTemp0 							; point XY to the text
-.151b	69 01		adc #$01			adc 	#1
-.151d	aa		tax				tax
-.151e	a5 1f		lda $1f				lda 	zTemp0+1
-.1520	69 00		adc #$00			adc 	#0
-.1522	a8		tay				tay
-.1523	b2 1e		lda ($1e)			lda 	(zTemp0) 						; get length.
-.1525	20 4f 1b	jsr $1b4f			jsr 	IFloatStringToFloatR0 			; do conversion
-.1528	b0 02		bcs $152c			bcs 	_EUVError
-.152a	7a		ply				ply
-.152b	60		rts				rts
-.152c					_EUVError:
-.152c	4c 0a 11	jmp $110a		jmp	ErrorV_value
+.1538					EXPUnaryVal:
+.1538	20 0b 13	jsr $130b			jsr 	EXPEvalString 					; string to R0, zTemp0
+.153b	20 15 12	jsr $1215			jsr 	ERRCheckRParen 					; )
+.153e	5a		phy				phy
+.153f	18		clc				clc
+.1540	a5 1e		lda $1e				lda		zTemp0 							; point XY to the text
+.1542	69 01		adc #$01			adc 	#1
+.1544	aa		tax				tax
+.1545	a5 1f		lda $1f				lda 	zTemp0+1
+.1547	69 00		adc #$00			adc 	#0
+.1549	a8		tay				tay
+.154a	b2 1e		lda ($1e)			lda 	(zTemp0) 						; get length.
+.154c	20 74 1b	jsr $1b74			jsr 	IFloatStringToFloatR0 			; do conversion
+.154f	b0 02		bcs $1553			bcs 	_EUVError
+.1551	7a		ply				ply
+.1552	60		rts				rts
+.1553					_EUVError:
+.1553	4c 0a 11	jmp $110a		jmp	ErrorV_value
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/generated/precedence_table.asm
 
-.152f					BinaryPrecedence:
->152f	02					.byte	 2	; $ef =
->1530	02					.byte	 2	; $f0 <>
->1531	02					.byte	 2	; $f1 <=
->1532	02					.byte	 2	; $f2 <
->1533	02					.byte	 2	; $f3 >=
->1534	02					.byte	 2	; $f4 >
->1535	01					.byte	 1	; $f5 XOR
->1536	01					.byte	 1	; $f6 OR
->1537	01					.byte	 1	; $f7 AND
->1538	04					.byte	 4	; $f8 DIV
->1539	04					.byte	 4	; $f9 MOD
->153a	04					.byte	 4	; $fa <<
->153b	04					.byte	 4	; $fb >>
->153c	04					.byte	 4	; $fc /
->153d	04					.byte	 4	; $fd *
->153e	03					.byte	 3	; $fe -
->153f	03					.byte	 3	; $ff +
+.1556					BinaryPrecedence:
+>1556	02					.byte	 2	; $ef =
+>1557	02					.byte	 2	; $f0 <>
+>1558	02					.byte	 2	; $f1 <=
+>1559	02					.byte	 2	; $f2 <
+>155a	02					.byte	 2	; $f3 >=
+>155b	02					.byte	 2	; $f4 >
+>155c	01					.byte	 1	; $f5 XOR
+>155d	01					.byte	 1	; $f6 OR
+>155e	01					.byte	 1	; $f7 AND
+>155f	04					.byte	 4	; $f8 DIV
+>1560	04					.byte	 4	; $f9 MOD
+>1561	04					.byte	 4	; $fa <<
+>1562	04					.byte	 4	; $fb >>
+>1563	04					.byte	 4	; $fc /
+>1564	04					.byte	 4	; $fd *
+>1565	03					.byte	 3	; $fe -
+>1566	03					.byte	 3	; $ff +
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/generated/vector_table.asm
 
-.1540					VectorTable:
->1540	c9 1d					.word	NotImplemented           ; $80 REPEAT
->1542	c9 1d					.word	NotImplemented           ; $81 UNTIL
->1544	c9 1d					.word	NotImplemented           ; $82 WHILE
->1546	c9 1d					.word	NotImplemented           ; $83 WEND
->1548	c9 1d					.word	NotImplemented           ; $84 IF
->154a	c9 1d					.word	NotImplemented           ; $85 ENDIF
->154c	c9 1d					.word	NotImplemented           ; $86 DO
->154e	c9 1d					.word	NotImplemented           ; $87 LOOP
->1550	c9 1d					.word	NotImplemented           ; $88
->1552	c9 1d					.word	NotImplemented           ; $89 PROC
->1554	c9 1d					.word	NotImplemented           ; $8a ENDPROC
->1556	c9 1d					.word	NotImplemented           ; $8b FOR
->1558	c9 1d					.word	NotImplemented           ; $8c NEXT
->155a	a9 10					.word	RUNEndOfLine             ; $8d [[END]]
->155c	e1 10					.word	Command_Shift_Handler    ; $8e [[SHIFT]]
->155e	c9 1d					.word	NotImplemented           ; $8f ELSE
->1560	1f 10					.word	NoExec01                 ; $90 THEN
->1562	1f 10					.word	NoExec02                 ; $91 TO
->1564	1f 10					.word	NoExec03                 ; $92 STEP
->1566	c9 1d					.word	NotImplemented           ; $93 LET
->1568	22 10					.word	Command_Print            ; $94 PRINT
->156a	c9 1d					.word	NotImplemented           ; $95 INPUT
->156c	c9 1d					.word	NotImplemented           ; $96 CALL
->156e	c9 1d					.word	NotImplemented           ; $97 SYS
->1570	90 10					.word	Command_REM              ; $98 REM
->1572	c9 1d					.word	NotImplemented           ; $99 EXIT
->1574	1f 10					.word	NoExec04                 ; $9a ,
->1576	1f 10					.word	NoExec05                 ; $9b ;
->1578	1f 10					.word	NoExec06                 ; $9c :
->157a	90 10					.word	Command_REM2             ; $9d '
->157c	1f 10					.word	NoExec07                 ; $9e )
->157e	c9 1d					.word	NotImplemented           ; $9f DIM
->1580	1b 10					.word	Command_CLEAR            ; $a0 CLEAR
->1582	87 10					.word	Command_NEW              ; $a1 NEW
->1584	9d 10					.word	Command_RUN              ; $a2 RUN
->1586	e7 10					.word	Command_STOP             ; $a3 STOP
->1588	e4 10					.word	Command_END              ; $a4 END
->158a	0d 10					.word	Command_ASSERT           ; $a5 ASSERT
->158c	c9 1d					.word	NotImplemented           ; $a6 LIST
->158e	c9 1d					.word	NotImplemented           ; $a7 SAVE
->1590	c9 1d					.word	NotImplemented           ; $a8 LOAD
->1592	c9 1d					.word	NotImplemented           ; $a9
->1594	c9 1d					.word	NotImplemented           ; $aa
->1596	c9 1d					.word	NotImplemented           ; $ab
->1598	c9 1d					.word	NotImplemented           ; $ac
->159a	c9 1d					.word	NotImplemented           ; $ad
->159c	c9 1d					.word	NotImplemented           ; $ae
->159e	c9 1d					.word	NotImplemented           ; $af
->15a0	c9 1d					.word	NotImplemented           ; $b0
->15a2	c9 1d					.word	NotImplemented           ; $b1
->15a4	c9 1d					.word	NotImplemented           ; $b2
->15a6	c9 1d					.word	NotImplemented           ; $b3
->15a8	c9 1d					.word	NotImplemented           ; $b4
->15aa	c9 1d					.word	NotImplemented           ; $b5
->15ac	c9 1d					.word	NotImplemented           ; $b6
->15ae	c9 1d					.word	NotImplemented           ; $b7
->15b0	c9 1d					.word	NotImplemented           ; $b8
->15b2	c9 1d					.word	NotImplemented           ; $b9
->15b4	c9 1d					.word	NotImplemented           ; $ba
->15b6	c9 1d					.word	NotImplemented           ; $bb
->15b8	c9 1d					.word	NotImplemented           ; $bc
->15ba	c9 1d					.word	NotImplemented           ; $bd
->15bc	c9 1d					.word	NotImplemented           ; $be
->15be	c9 1d					.word	NotImplemented           ; $bf
->15c0	c9 1d					.word	NotImplemented           ; $c0
->15c2	c9 1d					.word	NotImplemented           ; $c1
->15c4	c9 1d					.word	NotImplemented           ; $c2
->15c6	c9 1d					.word	NotImplemented           ; $c3
->15c8	c9 1d					.word	NotImplemented           ; $c4
->15ca	c9 1d					.word	NotImplemented           ; $c5
->15cc	c9 1d					.word	NotImplemented           ; $c6
->15ce	c9 1d					.word	NotImplemented           ; $c7
->15d0	c9 1d					.word	NotImplemented           ; $c8
->15d2	c9 1d					.word	NotImplemented           ; $c9
->15d4	c9 1d					.word	NotImplemented           ; $ca
->15d6	c9 1d					.word	NotImplemented           ; $cb
->15d8	c9 1d					.word	NotImplemented           ; $cc
->15da	c9 1d					.word	NotImplemented           ; $cd
->15dc	c9 1d					.word	NotImplemented           ; $ce
->15de	c9 1d					.word	NotImplemented           ; $cf
->15e0	c9 1d					.word	NotImplemented           ; $d0
->15e2	c9 1d					.word	NotImplemented           ; $d1
->15e4	c9 1d					.word	NotImplemented           ; $d2
->15e6	c9 1d					.word	NotImplemented           ; $d3
->15e8	c9 1d					.word	NotImplemented           ; $d4
->15ea	c9 1d					.word	NotImplemented           ; $d5
->15ec	c9 1d					.word	NotImplemented           ; $d6
->15ee	c9 1d					.word	NotImplemented           ; $d7 RIGHT$(
->15f0	c9 1d					.word	NotImplemented           ; $d8 LEFT$(
->15f2	c9 1d					.word	NotImplemented           ; $d9 MID$(
->15f4	cf 14					.word	EXPUnaryStr              ; $da STR$(
->15f6	11 15					.word	EXPUnaryVal              ; $db VAL(
->15f8	9c 14					.word	EXPUnarySgn              ; $dc SGN(
->15fa	87 13					.word	EXPUnaryAbs              ; $dd ABS(
->15fc	21 14					.word	EXPUnaryLen              ; $de LEN(
->15fe	b2 14					.word	EXPUnarySqr              ; $df SQR(
->1600	a7 13					.word	EXPUnaryChr              ; $e0 CHR$(
->1602	91 13					.word	EXPUnaryAsc              ; $e1 ASC(
->1604	c9 1d					.word	NotImplemented           ; $e2 INKEY$(
->1606	c9 1d					.word	NotImplemented           ; $e3 EVENT(
->1608	c9 1d					.word	NotImplemented           ; $e4 TIME
->160a	17 14					.word	EXPUnaryInt              ; $e5 INT(
->160c	0d 14					.word	EXPUnaryFrac             ; $e6 FRAC(
->160e	b8 13					.word	EXPUnaryDec              ; $e7 DEC(
->1610	c1 14					.word	EXPUnaryHex              ; $e8 HEX$(
->1612	36 14					.word	EXPUnaryRnd              ; $e9 RND(
->1614	46 14					.word	ExpUnaryRand             ; $ea RAND(
->1616	2f 14					.word	EXPUnaryParenthesis      ; $eb (
->1618	09 14					.word	EXPUnaryNull             ; $ec $
->161a	06 14					.word	EXPUnaryInlineDec        ; $ed [[DECIMAL]]
->161c	f6 14					.word	EXPUnaryInlineString     ; $ee [[STRING]]
->161e	c9 1d					.word	NotImplemented           ; $ef =
->1620	c9 1d					.word	NotImplemented           ; $f0 <>
->1622	c9 1d					.word	NotImplemented           ; $f1 <=
->1624	c9 1d					.word	NotImplemented           ; $f2 <
->1626	c9 1d					.word	NotImplemented           ; $f3 >=
->1628	c9 1d					.word	NotImplemented           ; $f4 >
->162a	72 12					.word	EXPBinXor                ; $f5 XOR
->162c	6a 12					.word	EXPBinOr                 ; $f6 OR
->162e	62 12					.word	EXPBinAnd                ; $f7 AND
->1630	45 12					.word	EXPBinIDiv               ; $f8 DIV
->1632	52 12					.word	EXPBinIMod               ; $f9 MOD
->1634	c9 1d					.word	NotImplemented           ; $fa <<
->1636	c9 1d					.word	NotImplemented           ; $fb >>
->1638	3d 12					.word	EXPBinFDiv               ; $fc /
->163a	38 12					.word	EXPBinMul                ; $fd *
->163c	33 12					.word	EXPBinSub                ; $fe -
->163e	2e 12					.word	EXPBinAdd                ; $ff +
+.1567					VectorTable:
+>1567	ee 1d					.word	NotImplemented           ; $80 REPEAT
+>1569	ee 1d					.word	NotImplemented           ; $81 UNTIL
+>156b	ee 1d					.word	NotImplemented           ; $82 WHILE
+>156d	ee 1d					.word	NotImplemented           ; $83 WEND
+>156f	ee 1d					.word	NotImplemented           ; $84 IF
+>1571	ee 1d					.word	NotImplemented           ; $85 ENDIF
+>1573	ee 1d					.word	NotImplemented           ; $86 DO
+>1575	ee 1d					.word	NotImplemented           ; $87 LOOP
+>1577	ee 1d					.word	NotImplemented           ; $88
+>1579	ee 1d					.word	NotImplemented           ; $89 PROC
+>157b	ee 1d					.word	NotImplemented           ; $8a ENDPROC
+>157d	ee 1d					.word	NotImplemented           ; $8b FOR
+>157f	ee 1d					.word	NotImplemented           ; $8c NEXT
+>1581	a9 10					.word	RUNEndOfLine             ; $8d [[END]]
+>1583	e1 10					.word	Command_Shift_Handler    ; $8e [[SHIFT]]
+>1585	ee 1d					.word	NotImplemented           ; $8f ELSE
+>1587	1f 10					.word	NoExec01                 ; $90 THEN
+>1589	1f 10					.word	NoExec02                 ; $91 TO
+>158b	1f 10					.word	NoExec03                 ; $92 STEP
+>158d	ee 1d					.word	NotImplemented           ; $93 LET
+>158f	22 10					.word	Command_Print            ; $94 PRINT
+>1591	ee 1d					.word	NotImplemented           ; $95 INPUT
+>1593	ee 1d					.word	NotImplemented           ; $96 CALL
+>1595	ee 1d					.word	NotImplemented           ; $97 SYS
+>1597	90 10					.word	Command_REM              ; $98 REM
+>1599	ee 1d					.word	NotImplemented           ; $99 EXIT
+>159b	1f 10					.word	NoExec04                 ; $9a ,
+>159d	1f 10					.word	NoExec05                 ; $9b ;
+>159f	1f 10					.word	NoExec06                 ; $9c :
+>15a1	90 10					.word	Command_REM2             ; $9d '
+>15a3	1f 10					.word	NoExec07                 ; $9e )
+>15a5	ee 1d					.word	NotImplemented           ; $9f DIM
+>15a7	1b 10					.word	Command_CLEAR            ; $a0 CLEAR
+>15a9	87 10					.word	Command_NEW              ; $a1 NEW
+>15ab	9d 10					.word	Command_RUN              ; $a2 RUN
+>15ad	e7 10					.word	Command_STOP             ; $a3 STOP
+>15af	e4 10					.word	Command_END              ; $a4 END
+>15b1	0d 10					.word	Command_ASSERT           ; $a5 ASSERT
+>15b3	ee 1d					.word	NotImplemented           ; $a6 LIST
+>15b5	ee 1d					.word	NotImplemented           ; $a7 SAVE
+>15b7	ee 1d					.word	NotImplemented           ; $a8 LOAD
+>15b9	ee 1d					.word	NotImplemented           ; $a9
+>15bb	ee 1d					.word	NotImplemented           ; $aa
+>15bd	ee 1d					.word	NotImplemented           ; $ab
+>15bf	ee 1d					.word	NotImplemented           ; $ac
+>15c1	ee 1d					.word	NotImplemented           ; $ad
+>15c3	ee 1d					.word	NotImplemented           ; $ae
+>15c5	ee 1d					.word	NotImplemented           ; $af
+>15c7	ee 1d					.word	NotImplemented           ; $b0
+>15c9	ee 1d					.word	NotImplemented           ; $b1
+>15cb	ee 1d					.word	NotImplemented           ; $b2
+>15cd	ee 1d					.word	NotImplemented           ; $b3
+>15cf	ee 1d					.word	NotImplemented           ; $b4
+>15d1	ee 1d					.word	NotImplemented           ; $b5
+>15d3	ee 1d					.word	NotImplemented           ; $b6
+>15d5	ee 1d					.word	NotImplemented           ; $b7
+>15d7	ee 1d					.word	NotImplemented           ; $b8
+>15d9	ee 1d					.word	NotImplemented           ; $b9
+>15db	ee 1d					.word	NotImplemented           ; $ba
+>15dd	ee 1d					.word	NotImplemented           ; $bb
+>15df	ee 1d					.word	NotImplemented           ; $bc
+>15e1	ee 1d					.word	NotImplemented           ; $bd
+>15e3	ee 1d					.word	NotImplemented           ; $be
+>15e5	ee 1d					.word	NotImplemented           ; $bf
+>15e7	ee 1d					.word	NotImplemented           ; $c0
+>15e9	ee 1d					.word	NotImplemented           ; $c1
+>15eb	ee 1d					.word	NotImplemented           ; $c2
+>15ed	ee 1d					.word	NotImplemented           ; $c3
+>15ef	ee 1d					.word	NotImplemented           ; $c4
+>15f1	ee 1d					.word	NotImplemented           ; $c5
+>15f3	ee 1d					.word	NotImplemented           ; $c6
+>15f5	ee 1d					.word	NotImplemented           ; $c7
+>15f7	ee 1d					.word	NotImplemented           ; $c8
+>15f9	ee 1d					.word	NotImplemented           ; $c9
+>15fb	ee 1d					.word	NotImplemented           ; $ca
+>15fd	ee 1d					.word	NotImplemented           ; $cb
+>15ff	ee 1d					.word	NotImplemented           ; $cc
+>1601	ee 1d					.word	NotImplemented           ; $cd
+>1603	ee 1d					.word	NotImplemented           ; $ce
+>1605	ee 1d					.word	NotImplemented           ; $cf
+>1607	ee 1d					.word	NotImplemented           ; $d0
+>1609	ee 1d					.word	NotImplemented           ; $d1
+>160b	ee 1d					.word	NotImplemented           ; $d2
+>160d	ee 1d					.word	NotImplemented           ; $d3
+>160f	ee 1d					.word	NotImplemented           ; $d4
+>1611	ee 1d					.word	NotImplemented           ; $d5
+>1613	ee 1d					.word	NotImplemented           ; $d6
+>1615	ee 1d					.word	NotImplemented           ; $d7 RIGHT$(
+>1617	ee 1d					.word	NotImplemented           ; $d8 LEFT$(
+>1619	ee 1d					.word	NotImplemented           ; $d9 MID$(
+>161b	f6 14					.word	EXPUnaryStr              ; $da STR$(
+>161d	38 15					.word	EXPUnaryVal              ; $db VAL(
+>161f	c3 14					.word	EXPUnarySgn              ; $dc SGN(
+>1621	ae 13					.word	EXPUnaryAbs              ; $dd ABS(
+>1623	48 14					.word	EXPUnaryLen              ; $de LEN(
+>1625	d9 14					.word	EXPUnarySqr              ; $df SQR(
+>1627	ce 13					.word	EXPUnaryChr              ; $e0 CHR$(
+>1629	b8 13					.word	EXPUnaryAsc              ; $e1 ASC(
+>162b	ee 1d					.word	NotImplemented           ; $e2 INKEY$(
+>162d	ee 1d					.word	NotImplemented           ; $e3 EVENT(
+>162f	ee 1d					.word	NotImplemented           ; $e4 TIME
+>1631	3e 14					.word	EXPUnaryInt              ; $e5 INT(
+>1633	34 14					.word	EXPUnaryFrac             ; $e6 FRAC(
+>1635	df 13					.word	EXPUnaryDec              ; $e7 DEC(
+>1637	e8 14					.word	EXPUnaryHex              ; $e8 HEX$(
+>1639	5d 14					.word	EXPUnaryRnd              ; $e9 RND(
+>163b	6d 14					.word	ExpUnaryRand             ; $ea RAND(
+>163d	56 14					.word	EXPUnaryParenthesis      ; $eb (
+>163f	30 14					.word	EXPUnaryNull             ; $ec $
+>1641	2d 14					.word	EXPUnaryInlineDec        ; $ed [[DECIMAL]]
+>1643	1d 15					.word	EXPUnaryInlineString     ; $ee [[STRING]]
+>1645	ee 1d					.word	NotImplemented           ; $ef =
+>1647	ee 1d					.word	NotImplemented           ; $f0 <>
+>1649	ee 1d					.word	NotImplemented           ; $f1 <=
+>164b	ee 1d					.word	NotImplemented           ; $f2 <
+>164d	ee 1d					.word	NotImplemented           ; $f3 >=
+>164f	ee 1d					.word	NotImplemented           ; $f4 >
+>1651	95 12					.word	EXPBinXor                ; $f5 XOR
+>1653	89 12					.word	EXPBinOr                 ; $f6 OR
+>1655	7d 12					.word	EXPBinAnd                ; $f7 AND
+>1657	55 12					.word	EXPBinIDiv               ; $f8 DIV
+>1659	66 12					.word	EXPBinIMod               ; $f9 MOD
+>165b	ee 1d					.word	NotImplemented           ; $fa <<
+>165d	ee 1d					.word	NotImplemented           ; $fb >>
+>165f	49 12					.word	EXPBinFDiv               ; $fc /
+>1661	40 12					.word	EXPBinMul                ; $fd *
+>1663	37 12					.word	EXPBinSub                ; $fe -
+>1665	2e 12					.word	EXPBinAdd                ; $ff +
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/support/strings/stringalloc.asm
 
-.1640					StringSystemInitialise:
-.1640	ad 41 02	lda $0241			lda 	PGMEndMemoryHigh 			; last byte of memory
-.1643	3a		dec a				dec 	a
-.1644	8d 3d 02	sta $023d			sta 	stringMemory+1
-.1647	85 1f		sta $1f				sta 	zTemp0+1
-.1649	a9 ff		lda #$ff			lda 	#$FF
-.164b	8d 3c 02	sta $023c			sta 	stringMemory
-.164e	85 1e		sta $1e				sta 	zTemp0
-.1650	a9 00		lda #$00			lda 	#0 							; put a zero at the end, so know end of string memory.
-.1652	92 1e		sta ($1e)			sta 	(zTemp0)
-.1654	60		rts				rts
-.1655					StringSpaceInitialise:
-.1655	a9 ff		lda #$ff			lda 	#$FF 						; only initialise once (set to $FF, bit used to test it)
-.1657	8d 3b 02	sta $023b			sta 	stringInitialised
-.165a	ad 3c 02	lda $023c			lda 	stringMemory 				; allocate 256 bytes for one concreted string
-.165d	8d 3e 02	sta $023e			sta 	stringTempPointer 			; so temporary string space is allocated below that.
-.1660	ad 3d 02	lda $023d			lda 	stringMemory+1
-.1663	3a		dec a				dec 	a
-.1664	8d 3f 02	sta $023f			sta 	stringTempPointer+1
-.1667	60		rts				rts
-.1668					StringTempAllocate:
-.1668	c9 fd		cmp #$fd			cmp 	#252+1 						; max length of strings
-.166a	b0 2e		bcs $169a			bcs 	_STALength
-.166c	2c 3b 02	bit $023b			bit 	stringInitialised 			; already initialised
-.166f	30 05		bmi $1676			bmi 	_STAAllocate
-.1671	48		pha				pha 								; save value to subtract.
-.1672	20 55 16	jsr $1655			jsr 	StringSpaceInitialise 		; initialise string memory allocation
-.1675	68		pla				pla 								; restore it
-.1676					_STAAllocate:
-.1676	49 ff		eor #$ff			eor 	#$FF 						; 2's complement add to StringTempPointer
-.1678	18		clc				clc  								; deliberate allows one more
-.1679	6d 3e 02	adc $023e			adc 	stringTempPointer 			; subtract from temp pointer
-.167c	8d 3e 02	sta $023e			sta 	stringTempPointer
-.167f	85 0c		sta $0c				sta 	IFR0+IM0 					; address in mantissa too
-.1681	85 20		sta $20				sta 	zsTemp 						; and zsTemp
-.1683	ad 3f 02	lda $023f			lda 	stringTempPointer+1
-.1686	69 ff		adc #$ff			adc 	#$FF
-.1688	8d 3f 02	sta $023f			sta 	stringTempPointer+1
-.168b	85 21		sta $21				sta 	zsTemp+1
-.168d	85 0d		sta $0d				sta 	IFR0+IM1
-.168f	64 0e		stz $0e				stz 	IFR0+IM2 					; set the typing data and the upper address bytes.
-.1691	a9 80		lda #$80			lda 	#$80
-.1693	85 0f		sta $0f				sta 	IFR0+IExp
-.1695	a9 00		lda #$00			lda 	#0 							; clear the target string
-.1697	92 20		sta ($20)			sta 	(zsTemp)
-.1699	60		rts				rts
-.169a					_STALength:
-.169a	4c f8 11	jmp $11f8		jmp	ErrorV_string
-.169d					StringTempWrite:
-.169d	48		pha				pha
-.169e	92 20		sta ($20)			sta 	(zsTemp) 					; write byte
-.16a0	e6 20		inc $20				inc 	zsTemp 						; bump pointer
-.16a2	d0 02		bne $16a6			bne 	_STWNoCarry
-.16a4	e6 21		inc $21				inc 	zsTemp+1
-.16a6					_STWNoCarry:
-.16a6	a9 00		lda #$00			lda 	#0 							; make ASCIIZ
-.16a8	92 20		sta ($20)			sta 	(zsTemp)
-.16aa	68		pla				pla
-.16ab	60		rts				rts
+.1667					StringSystemInitialise:
+.1667	ad 41 02	lda $0241			lda 	PGMEndMemoryHigh 			; last byte of memory
+.166a	3a		dec a				dec 	a
+.166b	8d 3d 02	sta $023d			sta 	stringMemory+1
+.166e	85 1f		sta $1f				sta 	zTemp0+1
+.1670	a9 ff		lda #$ff			lda 	#$FF
+.1672	8d 3c 02	sta $023c			sta 	stringMemory
+.1675	85 1e		sta $1e				sta 	zTemp0
+.1677	a9 00		lda #$00			lda 	#0 							; put a zero at the end, so know end of string memory.
+.1679	92 1e		sta ($1e)			sta 	(zTemp0)
+.167b	60		rts				rts
+.167c					StringSpaceInitialise:
+.167c	a9 ff		lda #$ff			lda 	#$FF 						; only initialise once (set to $FF, bit used to test it)
+.167e	8d 3b 02	sta $023b			sta 	stringInitialised
+.1681	ad 3c 02	lda $023c			lda 	stringMemory 				; allocate 256 bytes for one concreted string
+.1684	8d 3e 02	sta $023e			sta 	stringTempPointer 			; so temporary string space is allocated below that.
+.1687	ad 3d 02	lda $023d			lda 	stringMemory+1
+.168a	3a		dec a				dec 	a
+.168b	8d 3f 02	sta $023f			sta 	stringTempPointer+1
+.168e	60		rts				rts
+.168f					StringTempAllocate:
+.168f	c9 fd		cmp #$fd			cmp 	#252+1 						; max length of strings
+.1691	b0 2e		bcs $16c1			bcs 	_STALength
+.1693	2c 3b 02	bit $023b			bit 	stringInitialised 			; already initialised
+.1696	30 05		bmi $169d			bmi 	_STAAllocate
+.1698	48		pha				pha 								; save value to subtract.
+.1699	20 7c 16	jsr $167c			jsr 	StringSpaceInitialise 		; initialise string memory allocation
+.169c	68		pla				pla 								; restore it
+.169d					_STAAllocate:
+.169d	49 ff		eor #$ff			eor 	#$FF 						; 2's complement add to StringTempPointer
+.169f	18		clc				clc  								; deliberate allows one more
+.16a0	6d 3e 02	adc $023e			adc 	stringTempPointer 			; subtract from temp pointer
+.16a3	8d 3e 02	sta $023e			sta 	stringTempPointer
+.16a6	85 0c		sta $0c				sta 	IFR0+IM0 					; address in mantissa too
+.16a8	85 20		sta $20				sta 	zsTemp 						; and zsTemp
+.16aa	ad 3f 02	lda $023f			lda 	stringTempPointer+1
+.16ad	69 ff		adc #$ff			adc 	#$FF
+.16af	8d 3f 02	sta $023f			sta 	stringTempPointer+1
+.16b2	85 21		sta $21				sta 	zsTemp+1
+.16b4	85 0d		sta $0d				sta 	IFR0+IM1
+.16b6	64 0e		stz $0e				stz 	IFR0+IM2 					; set the typing data and the upper address bytes.
+.16b8	a9 80		lda #$80			lda 	#$80
+.16ba	85 0f		sta $0f				sta 	IFR0+IExp
+.16bc	a9 00		lda #$00			lda 	#0 							; clear the target string
+.16be	92 20		sta ($20)			sta 	(zsTemp)
+.16c0	60		rts				rts
+.16c1					_STALength:
+.16c1	4c f8 11	jmp $11f8		jmp	ErrorV_string
+.16c4					StringTempWrite:
+.16c4	5a		phy				phy
+.16c5	48		pha				pha
+.16c6	b2 20		lda ($20)			lda 	(zsTemp)
+.16c8	1a		inc a				inc 	a
+.16c9	92 20		sta ($20)			sta 	(zsTemp)
+.16cb	a8		tay				tay
+.16cc	68		pla				pla
+.16cd	91 20		sta ($20),y			sta 	(zsTemp),y
+.16cf	7a		ply				ply
+.16d0	60		rts				rts
 .0020					zsTemp:
 >0020							.fill 	2
 .023b					stringInitialised:
@@ -1288,32 +1308,32 @@
 
 ;******  Processing file: src/support/utilities/setup.asm
 
-.16ac					PGMSetBaseAddress:
-.16ac	8e 40 02	stx $0240			stx 	PGMBaseHigh
-.16af	8c 41 02	sty $0241			sty 	PGMEndMemoryHigh
-.16b2	60		rts				rts
-.16b3					PGMNewProgram:
-.16b3	64 1e		stz $1e				stz 	zTemp0						; copy base address to zTemp0
-.16b5	ad 40 02	lda $0240			lda 	PGMBaseHigh
-.16b8	85 1f		sta $1f				sta 	zTemp0+1
-.16ba	a9 00		lda #$00			lda 	#0 							; overwrite the offset
-.16bc	92 1e		sta ($1e)			sta 	(zTemp0)
-.16be	60		rts				rts
-.16bf					PGMEndProgram:
-.16bf	64 1e		stz $1e				stz 	zTemp0 						; copy base address to zTemp0
-.16c1	ad 40 02	lda $0240			lda 	PGMBaseHigh
-.16c4	85 1f		sta $1f				sta 	zTemp0+1
-.16c6					_PGMEPLoop:
-.16c6	b2 1e		lda ($1e)			lda 	(zTemp0)
-.16c8	f0 0b		beq $16d5			beq 	_PGMEPExit
-.16ca	18		clc				clc
-.16cb	65 1e		adc $1e				adc 	zTemp0
-.16cd	85 1e		sta $1e				sta 	zTemp0
-.16cf	90 f5		bcc $16c6			bcc 	_PGMEPLoop
-.16d1	e6 1f		inc $1f				inc 	zTemp0+1
-.16d3	80 f1		bra $16c6			bra 	_PGMEPLoop
-.16d5					_PGMEPExit:
-.16d5	60		rts				rts
+.16d1					PGMSetBaseAddress:
+.16d1	8e 40 02	stx $0240			stx 	PGMBaseHigh
+.16d4	8c 41 02	sty $0241			sty 	PGMEndMemoryHigh
+.16d7	60		rts				rts
+.16d8					PGMNewProgram:
+.16d8	64 1e		stz $1e				stz 	zTemp0						; copy base address to zTemp0
+.16da	ad 40 02	lda $0240			lda 	PGMBaseHigh
+.16dd	85 1f		sta $1f				sta 	zTemp0+1
+.16df	a9 00		lda #$00			lda 	#0 							; overwrite the offset
+.16e1	92 1e		sta ($1e)			sta 	(zTemp0)
+.16e3	60		rts				rts
+.16e4					PGMEndProgram:
+.16e4	64 1e		stz $1e				stz 	zTemp0 						; copy base address to zTemp0
+.16e6	ad 40 02	lda $0240			lda 	PGMBaseHigh
+.16e9	85 1f		sta $1f				sta 	zTemp0+1
+.16eb					_PGMEPLoop:
+.16eb	b2 1e		lda ($1e)			lda 	(zTemp0)
+.16ed	f0 0b		beq $16fa			beq 	_PGMEPExit
+.16ef	18		clc				clc
+.16f0	65 1e		adc $1e				adc 	zTemp0
+.16f2	85 1e		sta $1e				sta 	zTemp0
+.16f4	90 f5		bcc $16eb			bcc 	_PGMEPLoop
+.16f6	e6 1f		inc $1f				inc 	zTemp0+1
+.16f8	80 f1		bra $16eb			bra 	_PGMEPLoop
+.16fa					_PGMEPExit:
+.16fa	60		rts				rts
 .0240					PGMBaseHigh:
 >0240							.fill 	1
 .0241					PGMEndMemoryHigh:
@@ -1333,1048 +1353,1048 @@
 =3					IExp = 3
 =$3f					IFXMask = $3F
 =$40					IFSign = $40
-.16d6					IFInitialise:
-.16d6	9c 4a 02	stz $024a			stz 	IFStackIndex
-.16d9	60		rts				rts
-.16da					IFloatSubtract:
-.16da	da		phx				phx
-.16db	a2 0c		ldx #$0c			ldx 	#IFR0
-.16dd	20 f6 1c	jsr $1cf6			jsr 	IFloatNegate 				; negate R0 and fall through to add.
-.16e0	fa		plx				plx
-.16e1					IFloatAdd:
-.16e1	b5 03		lda $03,x			lda 	IExp,x 						; check if both exponents are zero.
-.16e3	05 0f		ora $0f				ora 	IFR0+IExp
-.16e5	29 3f		and #$3f			and 	#IFXMask 					; if not, then we have to do the
-.16e7	d0 4e		bne $1737			bne 	_IFloatAddDecimals 			; decimal version.
-.16e9					_IFAddSubMantissa:
-.16e9	b5 03		lda $03,x			lda 	IExp,x 						; are the signs different ?
-.16eb	45 0f		eor $0f				eor 	IFR0+IExp
-.16ed	29 40		and #$40			and 	#IFSign
-.16ef	d0 21		bne $1712			bne 	_IFloatSubMantissa
-.16f1	18		clc				clc 								; do the actual addition
-.16f2	a5 0c		lda $0c			lda 	IFR0+IM0
-.16f4	75 00		adc $00,x		adc 		IM0,x
-.16f6	85 0c		sta $0c			sta 	IFR0+IM0
-.16f8	a5 0d		lda $0d			lda 	IFR0+IM1
-.16fa	75 01		adc $01,x		adc 		IM1,x
-.16fc	85 0d		sta $0d			sta 	IFR0+IM1
-.16fe	a5 0e		lda $0e			lda 	IFR0+IM2
-.1700	75 02		adc $02,x		adc 		IM2,x
-.1702	85 0e		sta $0e			sta 	IFR0+IM2
-.1704	10 29		bpl $172f			bpl 	_IFloatAddExit 				; if no carry through to bit 23, then exit.
-.1706	a2 0c		ldx #$0c			ldx 	#IFR0						; shift R0 right, divide by 2
-.1708	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight
-.170b	20 44 1d	jsr $1d44			jsr 	IFloatIncExponent
-.170e	d0 1f		bne $172f			bne 	_IFloatAddExit
-.1710	38		sec				sec 								; overflowed numerically.
-.1711	60		rts				rts
-.1712					_IFloatSubMantissa:
-.1712	38		sec				sec 								; do the subtraction R0-Rx
-.1713	a5 0c		lda $0c			lda 	IFR0+IM0
-.1715	f5 00		sbc $00,x		sbc 		IM0,x
-.1717	85 0c		sta $0c			sta 	IFR0+IM0
-.1719	a5 0d		lda $0d			lda 	IFR0+IM1
-.171b	f5 01		sbc $01,x		sbc 		IM1,x
-.171d	85 0d		sta $0d			sta 	IFR0+IM1
-.171f	a5 0e		lda $0e			lda 	IFR0+IM2
-.1721	f5 02		sbc $02,x		sbc 		IM2,x
-.1723	85 0e		sta $0e			sta 	IFR0+IM2
-.1725	b0 08		bcs $172f			bcs 	_IFloatAddExit 				; no borrow so we are done.
-.1727	a2 0c		ldx #$0c			ldx 	#IFR0
-.1729	20 fe 1c	jsr $1cfe			jsr 	IFloatMantissaNegate 		; 2's complement negate the mantissa
-.172c	20 f6 1c	jsr $1cf6			jsr 	IFloatNegate 				; negate
-.172f					_IFloatAddExit:
-.172f	18		clc				clc
-.1730	60		rts				rts
-.1731					_IFloatZeroAdd:
-.1731	fa		plx				plx 								; return this value in R0
-.1732	20 7c 1c	jsr $1c7c			jsr 	IFloatCopyFromRegister
-.1735	18		clc				clc
+.16fb					IFInitialise:
+.16fb	9c 4a 02	stz $024a			stz 	IFStackIndex
+.16fe	60		rts				rts
+.16ff					IFloatSubtract:
+.16ff	da		phx				phx
+.1700	a2 0c		ldx #$0c			ldx 	#IFR0
+.1702	20 1b 1d	jsr $1d1b			jsr 	IFloatNegate 				; negate R0 and fall through to add.
+.1705	fa		plx				plx
+.1706					IFloatAdd:
+.1706	b5 03		lda $03,x			lda 	IExp,x 						; check if both exponents are zero.
+.1708	05 0f		ora $0f				ora 	IFR0+IExp
+.170a	29 3f		and #$3f			and 	#IFXMask 					; if not, then we have to do the
+.170c	d0 4e		bne $175c			bne 	_IFloatAddDecimals 			; decimal version.
+.170e					_IFAddSubMantissa:
+.170e	b5 03		lda $03,x			lda 	IExp,x 						; are the signs different ?
+.1710	45 0f		eor $0f				eor 	IFR0+IExp
+.1712	29 40		and #$40			and 	#IFSign
+.1714	d0 21		bne $1737			bne 	_IFloatSubMantissa
+.1716	18		clc				clc 								; do the actual addition
+.1717	a5 0c		lda $0c			lda 	IFR0+IM0
+.1719	75 00		adc $00,x		adc 		IM0,x
+.171b	85 0c		sta $0c			sta 	IFR0+IM0
+.171d	a5 0d		lda $0d			lda 	IFR0+IM1
+.171f	75 01		adc $01,x		adc 		IM1,x
+.1721	85 0d		sta $0d			sta 	IFR0+IM1
+.1723	a5 0e		lda $0e			lda 	IFR0+IM2
+.1725	75 02		adc $02,x		adc 		IM2,x
+.1727	85 0e		sta $0e			sta 	IFR0+IM2
+.1729	10 29		bpl $1754			bpl 	_IFloatAddExit 				; if no carry through to bit 23, then exit.
+.172b	a2 0c		ldx #$0c			ldx 	#IFR0						; shift R0 right, divide by 2
+.172d	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight
+.1730	20 69 1d	jsr $1d69			jsr 	IFloatIncExponent
+.1733	d0 1f		bne $1754			bne 	_IFloatAddExit
+.1735	38		sec				sec 								; overflowed numerically.
 .1736	60		rts				rts
-.1737					_IFloatAddDecimals:
-.1737	20 e4 1c	jsr $1ce4			jsr		IFloatCheckZero 			; if RX = 0 then exit with R0
-.173a	f0 f3		beq $172f			beq 	_IFloatAddExit
-.173c	20 22 1d	jsr $1d22			jsr 	IFloatNormalise 			; normalise RX
-.173f	da		phx				phx 								; normalise R0
-.1740	a2 0c		ldx #$0c			ldx 	#IFR0
-.1742	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero
-.1745	f0 ea		beq $1731			beq 	_IFloatZeroAdd
-.1747	20 22 1d	jsr $1d22			jsr 	IFloatNormalise
-.174a	fa		plx				plx
-.174b	a5 0f		lda $0f				lda 	IFR0+IExp 					; get the exponent of R0
-.174d	29 3f		and #$3f			and 	#IFXMask
-.174f	38		sec				sec
-.1750	e9 20		sbc #$20			sbc 	#$20 						; map 20..3F..00..1F to 00..0F..E0..FF e.g. scaled unsigned
-.1752	85 0a		sta $0a				sta 	iTemp0
-.1754	b5 03		lda $03,x			lda 	IExp,x 						; repeat for exponent of Rx
-.1756	29 3f		and #$3f			and 	#IFXMask
-.1758	38		sec				sec
-.1759	e9 20		sbc #$20			sbc 	#$20
-.175b	c5 0a		cmp $0a				cmp 	iTemp0 						; get the larger adjusted
-.175d	b0 02		bcs $1761			bcs 	_IFloatHaveLarger
-.175f	a5 0a		lda $0a				lda 	iTemp0
-.1761					_IFloatHaveLarger:
-.1761	18		clc				clc 								; get the actual one back.
-.1762	69 20		adc #$20			adc 	#$20 						; shift both to that.
-.1764	20 71 17	jsr $1771			jsr 	_IFShiftXToA
-.1767	da		phx				phx
-.1768	a2 0c		ldx #$0c			ldx 	#IFR0
-.176a	20 71 17	jsr $1771			jsr 	_IFShiftXToA
-.176d	fa		plx				plx
-.176e	4c e9 16	jmp $16e9			jmp 	_IFAddSubMantissa 			; do the adding bit.
-.1771					_IFShiftXToA:
-.1771	8d 42 02	sta $0242			sta 	IFTarget
-.1774	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero 			; check adding zero ?
-.1777	f0 11		beq $178a			beq 	_IFSXExit
-.1779					_IFSXLoop:
-.1779	b5 03		lda $03,x			lda 	IExp,x 	 					; shifted to the right level yet ?
+.1737					_IFloatSubMantissa:
+.1737	38		sec				sec 								; do the subtraction R0-Rx
+.1738	a5 0c		lda $0c			lda 	IFR0+IM0
+.173a	f5 00		sbc $00,x		sbc 		IM0,x
+.173c	85 0c		sta $0c			sta 	IFR0+IM0
+.173e	a5 0d		lda $0d			lda 	IFR0+IM1
+.1740	f5 01		sbc $01,x		sbc 		IM1,x
+.1742	85 0d		sta $0d			sta 	IFR0+IM1
+.1744	a5 0e		lda $0e			lda 	IFR0+IM2
+.1746	f5 02		sbc $02,x		sbc 		IM2,x
+.1748	85 0e		sta $0e			sta 	IFR0+IM2
+.174a	b0 08		bcs $1754			bcs 	_IFloatAddExit 				; no borrow so we are done.
+.174c	a2 0c		ldx #$0c			ldx 	#IFR0
+.174e	20 23 1d	jsr $1d23			jsr 	IFloatMantissaNegate 		; 2's complement negate the mantissa
+.1751	20 1b 1d	jsr $1d1b			jsr 	IFloatNegate 				; negate
+.1754					_IFloatAddExit:
+.1754	18		clc				clc
+.1755	60		rts				rts
+.1756					_IFloatZeroAdd:
+.1756	fa		plx				plx 								; return this value in R0
+.1757	20 a1 1c	jsr $1ca1			jsr 	IFloatCopyFromRegister
+.175a	18		clc				clc
+.175b	60		rts				rts
+.175c					_IFloatAddDecimals:
+.175c	20 09 1d	jsr $1d09			jsr		IFloatCheckZero 			; if RX = 0 then exit with R0
+.175f	f0 f3		beq $1754			beq 	_IFloatAddExit
+.1761	20 47 1d	jsr $1d47			jsr 	IFloatNormalise 			; normalise RX
+.1764	da		phx				phx 								; normalise R0
+.1765	a2 0c		ldx #$0c			ldx 	#IFR0
+.1767	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero
+.176a	f0 ea		beq $1756			beq 	_IFloatZeroAdd
+.176c	20 47 1d	jsr $1d47			jsr 	IFloatNormalise
+.176f	fa		plx				plx
+.1770	a5 0f		lda $0f				lda 	IFR0+IExp 					; get the exponent of R0
+.1772	29 3f		and #$3f			and 	#IFXMask
+.1774	38		sec				sec
+.1775	e9 20		sbc #$20			sbc 	#$20 						; map 20..3F..00..1F to 00..0F..E0..FF e.g. scaled unsigned
+.1777	85 0a		sta $0a				sta 	iTemp0
+.1779	b5 03		lda $03,x			lda 	IExp,x 						; repeat for exponent of Rx
 .177b	29 3f		and #$3f			and 	#IFXMask
-.177d	cd 42 02	cmp $0242			cmp 	IFTarget
-.1780	f0 08		beq $178a			beq 	_IFSXExit
-.1782	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight
-.1785	20 44 1d	jsr $1d44			jsr 	IFloatIncExponent
-.1788	80 ef		bra $1779			bra 	_IFSXLoop
-.178a					_IFSXExit:
-.178a	60		rts				rts
+.177d	38		sec				sec
+.177e	e9 20		sbc #$20			sbc 	#$20
+.1780	c5 0a		cmp $0a				cmp 	iTemp0 						; get the larger adjusted
+.1782	b0 02		bcs $1786			bcs 	_IFloatHaveLarger
+.1784	a5 0a		lda $0a				lda 	iTemp0
+.1786					_IFloatHaveLarger:
+.1786	18		clc				clc 								; get the actual one back.
+.1787	69 20		adc #$20			adc 	#$20 						; shift both to that.
+.1789	20 96 17	jsr $1796			jsr 	_IFShiftXToA
+.178c	da		phx				phx
+.178d	a2 0c		ldx #$0c			ldx 	#IFR0
+.178f	20 96 17	jsr $1796			jsr 	_IFShiftXToA
+.1792	fa		plx				plx
+.1793	4c 0e 17	jmp $170e			jmp 	_IFAddSubMantissa 			; do the adding bit.
+.1796					_IFShiftXToA:
+.1796	8d 42 02	sta $0242			sta 	IFTarget
+.1799	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero 			; check adding zero ?
+.179c	f0 11		beq $17af			beq 	_IFSXExit
+.179e					_IFSXLoop:
+.179e	b5 03		lda $03,x			lda 	IExp,x 	 					; shifted to the right level yet ?
+.17a0	29 3f		and #$3f			and 	#IFXMask
+.17a2	cd 42 02	cmp $0242			cmp 	IFTarget
+.17a5	f0 08		beq $17af			beq 	_IFSXExit
+.17a7	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight
+.17aa	20 69 1d	jsr $1d69			jsr 	IFloatIncExponent
+.17ad	80 ef		bra $179e			bra 	_IFSXLoop
+.17af					_IFSXExit:
+.17af	60		rts				rts
 .0242					IFTarget:
 >0242							.fill 	1
-.178b					IFloatMultiply:
-.178b	8e 42 02	stx $0242			stx 	IFTarget 					; save the multiplier (RX) which is "adder"
-.178e	20 46 18	jsr $1846			jsr 	IFCalculateNewSign
-.1791	b5 03		lda $03,x			lda 	IExp,x 						; check two positive 8 bit integers
-.1793	05 0f		ora $0f				ora 	IFR0+IExp
-.1795	29 3f		and #$3f			and 	#IFXMask
-.1797	15 01		ora $01,x			ora 	IM1,x
-.1799	05 0d		ora $0d				ora 	IFR0+IM1
-.179b	15 02		ora $02,x			ora 	IM2,x
-.179d	05 0e		ora $0e				ora 	IFR0+IM2
-.179f	d0 0a		bne $17ab			bne 	_IFMStandard
-.17a1	20 c7 1c	jsr $1cc7			jsr 	IFloatMultiply8BitRx
-.17a4	ad 44 02	lda $0244			lda 	IFNewSign
-.17a7	85 0f		sta $0f				sta 	IFR0+IExp
-.17a9	18		clc				clc
-.17aa	60		rts				rts
-.17ab					_IFMStandard:
-.17ab	b5 03		lda $03,x			lda 	IExp,x 						; add the two exponents sign extended
-.17ad	20 3d 18	jsr $183d			jsr 	IFMSignExtend
-.17b0	8d 43 02	sta $0243			sta 	IFNewExponent
-.17b3	a5 0f		lda $0f				lda 	IFR0+IExp
-.17b5	20 3d 18	jsr $183d			jsr 	IFMSignExtend
-.17b8	18		clc				clc
-.17b9	6d 43 02	adc $0243			adc 	IFNewExponent
-.17bc	8d 43 02	sta $0243			sta 	IFNewExponent
-.17bf	a2 18		ldx #$18			ldx 	#IFRTemp 					; copy R0 to RTemp which is "shifter"
-.17c1	20 8d 1c	jsr $1c8d			jsr 	IFloatCopyToRegister
-.17c4	a2 0c		ldx #$0c			ldx 	#IFR0 						; zero R0 (the result)
-.17c6	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.17c9					_IFMLoop:
-.17c9	a2 18		ldx #$18			ldx 	#IFRTemp
-.17cb	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero
-.17ce	f0 3a		beq $180a			beq 	_IFMExit
-.17d0	ae 42 02	ldx $0242			ldx 	IFTarget 					; look at adder MSB
-.17d3	b5 02		lda $02,x			lda 	IM2,x 						; if it is set we need to shift everything
-.17d5	10 03		bpl $17da			bpl	 	_IFMTargetOkay
-.17d7	20 2e 18	jsr $182e			jsr 	_IFMShiftAll
-.17da					_IFMTargetOkay:
-.17da	a5 18		lda $18				lda 	IFRTemp+0 					; is bit 0 of the shifter (RTemp) set
-.17dc	29 01		and #$01			and 	#1
-.17de	f0 16		beq $17f6			beq 	_IFMNoAdd
-.17e0	ae 42 02	ldx $0242			ldx 	IFTarget 					; add adder
-.17e3	18		clc				clc
-.17e4	a5 0c		lda $0c			lda 	IFR0+IM0
-.17e6	75 00		adc $00,x		adc 		IM0,x
-.17e8	85 0c		sta $0c			sta 	IFR0+IM0
-.17ea	a5 0d		lda $0d			lda 	IFR0+IM1
-.17ec	75 01		adc $01,x		adc 		IM1,x
-.17ee	85 0d		sta $0d			sta 	IFR0+IM1
-.17f0	a5 0e		lda $0e			lda 	IFR0+IM2
-.17f2	75 02		adc $02,x		adc 		IM2,x
-.17f4	85 0e		sta $0e			sta 	IFR0+IM2
-.17f6					_IFMNoAdd:
-.17f6	a5 0e		lda $0e				lda 	IFR0+IM2
-.17f8	10 03		bpl $17fd			bpl 	_IFMResultOkay
-.17fa	20 2e 18	jsr $182e			jsr 	_IFMShiftAll
-.17fd					_IFMResultOkay:
-.17fd	a2 18		ldx #$18			ldx 	#IFRTemp
-.17ff	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight
-.1802	ae 42 02	ldx $0242			ldx 	IFTarget
-.1805	20 12 1d	jsr $1d12			jsr 	IFloatShiftLeft
-.1808	80 bf		bra $17c9			bra 	_IFMLoop
-.180a					_IFMExit:
-.180a	ad 43 02	lda $0243			lda 	IFNewExponent 				; validate new exponent.
-.180d	c9 20		cmp #$20			cmp 	#$20 						; valid exponent 00-1F E0-FF
-.180f	90 0f		bcc $1820			bcc 	_IFMOkay
-.1811	c9 e0		cmp #$e0			cmp 	#$E0
-.1813	b0 0b		bcs $1820			bcs 	_IFMOkay
-.1815	29 80		and #$80			and 	#$80 						; if +ve exponent then error overflow.
-.1817	f0 13		beq $182c			beq 	_IFMError
-.1819	a2 0c		ldx #$0c			ldx 	#IFR0 						; return zero underflow
-.181b	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.181e	18		clc				clc
-.181f	60		rts				rts
-.1820					_IFMOkay:
-.1820	29 3f		and #$3f			and 	#IFXMask 					; work out exponent + sign and exit
-.1822	0d 44 02	ora $0244			ora 	IFNewSign
-.1825	85 0f		sta $0f				sta 	IFR0+IExp
-.1827	18		clc				clc
-.1828	60		rts				rts
-.1829	4c ff ff	jmp $ffff			jmp 	$FFFF
-.182c					_IFMError:
-.182c	38		sec				sec
-.182d	60		rts				rts
-.182e					_IFMShiftAll:
-.182e	a2 0c		ldx #$0c			ldx 	#IFR0
-.1830	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight
-.1833	ae 42 02	ldx $0242			ldx 	IFTarget
-.1836	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight
-.1839	ee 43 02	inc $0243			inc 	IFNewExponent
-.183c	60		rts				rts
-.183d					IFMSignExtend:
-.183d	29 3f		and #$3f			and 	#IFXMask
-.183f	c9 1f		cmp #$1f			cmp 	#(IFXMask >> 1)
-.1841	90 02		bcc $1845			bcc 	_IFMNoSXX
-.1843	09 c0		ora #$c0			ora 	#IFXMask ^ $FF
-.1845					_IFMNoSXX:
-.1845	60		rts				rts
-.1846					IFCalculateNewSign:
-.1846	b5 03		lda $03,x			lda 	IExp,x
-.1848	45 0f		eor $0f				eor 	IFR0+IExp
-.184a	29 40		and #$40			and 	#IFSign
-.184c	8d 44 02	sta $0244			sta 	IFNewSign
-.184f	60		rts				rts
+.17b0					IFloatMultiply:
+.17b0	8e 42 02	stx $0242			stx 	IFTarget 					; save the multiplier (RX) which is "adder"
+.17b3	20 6b 18	jsr $186b			jsr 	IFCalculateNewSign
+.17b6	b5 03		lda $03,x			lda 	IExp,x 						; check two positive 8 bit integers
+.17b8	05 0f		ora $0f				ora 	IFR0+IExp
+.17ba	29 3f		and #$3f			and 	#IFXMask
+.17bc	15 01		ora $01,x			ora 	IM1,x
+.17be	05 0d		ora $0d				ora 	IFR0+IM1
+.17c0	15 02		ora $02,x			ora 	IM2,x
+.17c2	05 0e		ora $0e				ora 	IFR0+IM2
+.17c4	d0 0a		bne $17d0			bne 	_IFMStandard
+.17c6	20 ec 1c	jsr $1cec			jsr 	IFloatMultiply8BitRx
+.17c9	ad 44 02	lda $0244			lda 	IFNewSign
+.17cc	85 0f		sta $0f				sta 	IFR0+IExp
+.17ce	18		clc				clc
+.17cf	60		rts				rts
+.17d0					_IFMStandard:
+.17d0	b5 03		lda $03,x			lda 	IExp,x 						; add the two exponents sign extended
+.17d2	20 62 18	jsr $1862			jsr 	IFMSignExtend
+.17d5	8d 43 02	sta $0243			sta 	IFNewExponent
+.17d8	a5 0f		lda $0f				lda 	IFR0+IExp
+.17da	20 62 18	jsr $1862			jsr 	IFMSignExtend
+.17dd	18		clc				clc
+.17de	6d 43 02	adc $0243			adc 	IFNewExponent
+.17e1	8d 43 02	sta $0243			sta 	IFNewExponent
+.17e4	a2 18		ldx #$18			ldx 	#IFRTemp 					; copy R0 to RTemp which is "shifter"
+.17e6	20 b2 1c	jsr $1cb2			jsr 	IFloatCopyToRegister
+.17e9	a2 0c		ldx #$0c			ldx 	#IFR0 						; zero R0 (the result)
+.17eb	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.17ee					_IFMLoop:
+.17ee	a2 18		ldx #$18			ldx 	#IFRTemp
+.17f0	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero
+.17f3	f0 3a		beq $182f			beq 	_IFMExit
+.17f5	ae 42 02	ldx $0242			ldx 	IFTarget 					; look at adder MSB
+.17f8	b5 02		lda $02,x			lda 	IM2,x 						; if it is set we need to shift everything
+.17fa	10 03		bpl $17ff			bpl	 	_IFMTargetOkay
+.17fc	20 53 18	jsr $1853			jsr 	_IFMShiftAll
+.17ff					_IFMTargetOkay:
+.17ff	a5 18		lda $18				lda 	IFRTemp+0 					; is bit 0 of the shifter (RTemp) set
+.1801	29 01		and #$01			and 	#1
+.1803	f0 16		beq $181b			beq 	_IFMNoAdd
+.1805	ae 42 02	ldx $0242			ldx 	IFTarget 					; add adder
+.1808	18		clc				clc
+.1809	a5 0c		lda $0c			lda 	IFR0+IM0
+.180b	75 00		adc $00,x		adc 		IM0,x
+.180d	85 0c		sta $0c			sta 	IFR0+IM0
+.180f	a5 0d		lda $0d			lda 	IFR0+IM1
+.1811	75 01		adc $01,x		adc 		IM1,x
+.1813	85 0d		sta $0d			sta 	IFR0+IM1
+.1815	a5 0e		lda $0e			lda 	IFR0+IM2
+.1817	75 02		adc $02,x		adc 		IM2,x
+.1819	85 0e		sta $0e			sta 	IFR0+IM2
+.181b					_IFMNoAdd:
+.181b	a5 0e		lda $0e				lda 	IFR0+IM2
+.181d	10 03		bpl $1822			bpl 	_IFMResultOkay
+.181f	20 53 18	jsr $1853			jsr 	_IFMShiftAll
+.1822					_IFMResultOkay:
+.1822	a2 18		ldx #$18			ldx 	#IFRTemp
+.1824	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight
+.1827	ae 42 02	ldx $0242			ldx 	IFTarget
+.182a	20 37 1d	jsr $1d37			jsr 	IFloatShiftLeft
+.182d	80 bf		bra $17ee			bra 	_IFMLoop
+.182f					_IFMExit:
+.182f	ad 43 02	lda $0243			lda 	IFNewExponent 				; validate new exponent.
+.1832	c9 20		cmp #$20			cmp 	#$20 						; valid exponent 00-1F E0-FF
+.1834	90 0f		bcc $1845			bcc 	_IFMOkay
+.1836	c9 e0		cmp #$e0			cmp 	#$E0
+.1838	b0 0b		bcs $1845			bcs 	_IFMOkay
+.183a	29 80		and #$80			and 	#$80 						; if +ve exponent then error overflow.
+.183c	f0 13		beq $1851			beq 	_IFMError
+.183e	a2 0c		ldx #$0c			ldx 	#IFR0 						; return zero underflow
+.1840	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.1843	18		clc				clc
+.1844	60		rts				rts
+.1845					_IFMOkay:
+.1845	29 3f		and #$3f			and 	#IFXMask 					; work out exponent + sign and exit
+.1847	0d 44 02	ora $0244			ora 	IFNewSign
+.184a	85 0f		sta $0f				sta 	IFR0+IExp
+.184c	18		clc				clc
+.184d	60		rts				rts
+.184e	4c ff ff	jmp $ffff			jmp 	$FFFF
+.1851					_IFMError:
+.1851	38		sec				sec
+.1852	60		rts				rts
+.1853					_IFMShiftAll:
+.1853	a2 0c		ldx #$0c			ldx 	#IFR0
+.1855	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight
+.1858	ae 42 02	ldx $0242			ldx 	IFTarget
+.185b	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight
+.185e	ee 43 02	inc $0243			inc 	IFNewExponent
+.1861	60		rts				rts
+.1862					IFMSignExtend:
+.1862	29 3f		and #$3f			and 	#IFXMask
+.1864	c9 1f		cmp #$1f			cmp 	#(IFXMask >> 1)
+.1866	90 02		bcc $186a			bcc 	_IFMNoSXX
+.1868	09 c0		ora #$c0			ora 	#IFXMask ^ $FF
+.186a					_IFMNoSXX:
+.186a	60		rts				rts
+.186b					IFCalculateNewSign:
+.186b	b5 03		lda $03,x			lda 	IExp,x
+.186d	45 0f		eor $0f				eor 	IFR0+IExp
+.186f	29 40		and #$40			and 	#IFSign
+.1871	8d 44 02	sta $0244			sta 	IFNewSign
+.1874	60		rts				rts
 .0243					IFNewExponent:
 >0243							.fill 	1
 .0244					IFNewSign:
 >0244							.fill 	1
-.1850					IFloatDivideInteger:
-.1850	20 69 18	jsr $1869			jsr 	IFloatDivideIntegerCommon 	; do the common code.
-.1853	b0 06		bcs $185b			bcs 	_IFDIExit
-.1855	a2 18		ldx #$18			ldx 	#IFRTemp 					; copy result from register.
-.1857	20 7c 1c	jsr $1c7c			jsr 	IFloatCopyFromRegister
-.185a	18		clc				clc
-.185b					_IFDIExit:
-.185b	60		rts				rts
-.185c					IFloatModulusInteger:
-.185c	20 69 18	jsr $1869			jsr 	IFloatDivideIntegerCommon
-.185f	b0 07		bcs $1868			bcs 	_IFMIExit
-.1861	ae 42 02	ldx $0242			ldx 	IFTarget
-.1864	20 7c 1c	jsr $1c7c			jsr 	IFloatCopyFromRegister
-.1867	18		clc				clc
-.1868					_IFMIExit:
-.1868	60		rts				rts
-.1869					IFloatDivideIntegerCommon:
-.1869	8e 42 02	stx $0242			stx 	IFTarget  					; this is s1, s0 = R0
-.186c	20 46 18	jsr $1846			jsr 	IFCalculateNewSign 			; calculate sign of result
-.186f	20 97 18	jsr $1897			jsr 	IFDCopyRXToRTemp 			; copy S1 to RTemp
-.1872	a2 0c		ldx #$0c			ldx 	#IFR0 						; check divide by zero
-.1874	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero
-.1877	f0 1c		beq $1895			beq 	_IFDIDivZero
-.1879	ae 42 02	ldx $0242			ldx 	IFTarget 					; zero Rx (S1)
-.187c	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.187f	5a		phy				phy
-.1880	a0 18		ldy #$18			ldy 	#24
-.1882					_IFDILoop:
-.1882	20 a8 18	jsr $18a8			jsr 	IFDShiftSTempS1Left 		; shift the 64 bit value sTemp,s1 left one bit.
-.1885	20 b4 18	jsr $18b4			jsr 	IFDTrySubtract 				; do if s0 >= sx subtract code.
-.1888	88		dey				dey
-.1889	d0 f7		bne $1882			bne 	_IFDILoop 					; do it 24 times
-.188b	7a		ply				ply
-.188c	ad 44 02	lda $0244			lda 	IFNewSign 					; set sign of result.
-.188f	29 40		and #$40			and 	#IFSign
-.1891	85 1b		sta $1b				sta 	IFRTemp+IExp
-.1893	18		clc				clc 								; is okay.
-.1894	60		rts				rts
-.1895					_IFDIDivZero:
-.1895	38		sec				sec
-.1896	60		rts				rts
-.1897					IFDCopyRXToRTemp:
-.1897	b5 00		lda $00,x			lda 	IM0,x
-.1899	85 18		sta $18				sta 	IFRTemp+IM0
-.189b	b5 01		lda $01,x			lda 	IM1,x
-.189d	85 19		sta $19				sta 	IFRTemp+IM1
-.189f	b5 02		lda $02,x			lda 	IM2,x
-.18a1	85 1a		sta $1a				sta 	IFRTemp+IM2
-.18a3	b5 03		lda $03,x			lda 	IExp,x
-.18a5	85 1b		sta $1b				sta 	IFRTemp+IExp
-.18a7	60		rts				rts
-.18a8					IFDShiftSTempS1Left:
-.18a8	a2 18		ldx #$18			ldx 	#IFRTemp
-.18aa	20 12 1d	jsr $1d12			jsr 	IFloatShiftLeft
-.18ad	ae 42 02	ldx $0242			ldx 	IFTarget
-.18b0	20 13 1d	jsr $1d13			jsr 	IFloatRotateLeft
-.18b3	60		rts				rts
-.18b4					IFDTrySubtract:
-.18b4	ae 42 02	ldx $0242			ldx 	IFTarget 					; s1 = Rx
-.18b7	38		sec				sec 								; subtract, saving the results on the stack.
-.18b8	b5 00		lda $00,x			lda 	IM0,x
-.18ba	e5 0c		sbc $0c				sbc 	IFR0+IM0
-.18bc	48		pha				pha
-.18bd	b5 01		lda $01,x			lda 	IM1,x
-.18bf	e5 0d		sbc $0d				sbc 	IFR0+IM1
-.18c1	48		pha				pha
-.18c2	b5 02		lda $02,x			lda 	IM2,x
-.18c4	e5 0e		sbc $0e				sbc 	IFR0+IM2
-.18c6	b0 03		bcs $18cb			bcs 	_IFDCanSubtract
-.18c8	68		pla				pla 								; cannot subtract, so pop intermediate and exit.
-.18c9	68		pla				pla
-.18ca	60		rts				rts
-.18cb					_IFDCanSubtract:
-.18cb	95 02		sta $02,x			sta 	IM2,x 						; write back to S1.Mantissa
-.18cd	68		pla				pla
-.18ce	95 01		sta $01,x			sta 	IM1,x
-.18d0	68		pla				pla
-.18d1	95 00		sta $00,x			sta 	IM0,x
-.18d3	e6 18		inc $18				inc 	IFRTemp+IM0 				; increment temp
-.18d5	d0 06		bne $18dd			bne 	_IFDCSExit
-.18d7	e6 19		inc $19				inc 	IFRTemp+IM1
-.18d9	d0 02		bne $18dd			bne 	_IFDCSExit
-.18db	e6 1a		inc $1a				inc 	IFRTemp+IM2
-.18dd					_IFDCSExit:
-.18dd	60		rts				rts
-.18de					IFloatBitwiseAnd:
-.18de	5a		phy				phy
-.18df	20 23 19	jsr $1923			jsr 	IFPreProcessBitwise 		; set up everything.
-.18e2	d0 0f		bne $18f3			bne 	_IFBAExit
-.18e4					_IFBALoop:
-.18e4	b9 0c 00	lda $000c,y			lda 	IFR0+IM0,y
-.18e7	35 00		and $00,x			and 	IM0,x
-.18e9	99 0c 00	sta $000c,y			sta 	IFR0+IM0,y
-.18ec	e8		inx				inx
-.18ed	c8		iny				iny
-.18ee	c0 03		cpy #$03			cpy 	#3
-.18f0	d0 f2		bne $18e4			bne 	_IFBALoop
-.18f2	18		clc				clc
-.18f3					_IFBAExit:
-.18f3	7a		ply				ply
-.18f4	60		rts				rts
-.18f5					IFloatBitwiseOr:
-.18f5	5a		phy				phy
-.18f6	20 23 19	jsr $1923			jsr 	IFPreProcessBitwise 		; set up everything.
-.18f9	d0 0f		bne $190a			bne 	_IFBAExit
-.18fb					_IFBALoop:
-.18fb	b9 0c 00	lda $000c,y			lda 	IFR0+IM0,y
-.18fe	15 00		ora $00,x			ora 	IM0,x
-.1900	99 0c 00	sta $000c,y			sta 	IFR0+IM0,y
-.1903	e8		inx				inx
-.1904	c8		iny				iny
-.1905	c0 03		cpy #$03			cpy 	#3
-.1907	d0 f2		bne $18fb			bne 	_IFBALoop
-.1909	18		clc				clc
-.190a					_IFBAExit:
-.190a	7a		ply				ply
-.190b	60		rts				rts
-.190c					IFloatBitwiseXor:
-.190c	5a		phy				phy
-.190d	20 23 19	jsr $1923			jsr 	IFPreProcessBitwise 		; set up everything.
-.1910	d0 0f		bne $1921			bne 	_IFBAExit
-.1912					_IFBALoop:
-.1912	b9 0c 00	lda $000c,y			lda 	IFR0+IM0,y
-.1915	55 00		eor $00,x			eor 	IM0,x
-.1917	99 0c 00	sta $000c,y			sta 	IFR0+IM0,y
-.191a	e8		inx				inx
-.191b	c8		iny				iny
-.191c	c0 03		cpy #$03			cpy 	#3
-.191e	d0 f2		bne $1912			bne 	_IFBALoop
-.1920	18		clc				clc
-.1921					_IFBAExit:
-.1921	7a		ply				ply
-.1922	60		rts				rts
-.1923					IFPreProcessBitwise:
-.1923	a0 00		ldy #$00			ldy 	#0 							; set index.
-.1925	a5 0f		lda $0f				lda 	IFR0+IExp 					; OR exponents
-.1927	15 03		ora $03,x			ora 	IExp,x
-.1929	74 03		stz $03,x			stz 	IExp,x 						; zero the result exponent anyway.
-.192b	29 3f		and #$3f			and 	#IFXMask 					; NZ if error e.g. not integer
-.192d	38		sec				sec 								; carry set just in cases.
-.192e	60		rts				rts
-.192f					IFloatAbsoluteR0:
-.192f	a5 0f		lda $0f				lda 	IFR0+IExp					; reset the sign bit.
-.1931	29 bf		and #$bf			and 	#IFSign ^ 255
-.1933	85 0f		sta $0f				sta 	IFR0+IExp
-.1935	18		clc				clc
-.1936	60		rts				rts
-.1937					IFloatSquareRootR0:
-.1937	a2 0c		ldx #$0c			ldx 	#IFR0 						; if zero, return zero.
-.1939	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero
-.193c	a5 0f		lda $0f				lda	 	IFR0+IExp 					; if negative fail.
-.193e	29 40		and #$40			and 	#IFSign
-.1940	d0 2f		bne $1971			bne 	_IFSRFail
-.1942	20 22 1d	jsr $1d22			jsr 	IFloatNormalise 			; it will work better !
-.1945	a2 10		ldx #$10			ldx 	#IFR1 						; R1 contains original throughout
-.1947	20 8d 1c	jsr $1c8d			jsr 	IFloatCopyToRegister
-.194a	a5 0f		lda $0f				lda 	IFR0+IExp 					; if exponent is $2A..$3F * 64 otherwise is / 64
-.194c	20 3d 18	jsr $183d			jsr 	IFMSignExtend 				; sign extended version of the exponent
-.194f	18		clc				clc
-.1950	69 17		adc #$17			adc 	#23 						; this makes it a 0.xxx mantissa
-.1952	85 0f		sta $0f				sta 	IFR0+IExp
-.1954	4a		lsr a				lsr 	a 							; which we can halve.
-.1955	38		sec				sec 								; convert back
-.1956	e9 17		sbc #$17			sbc 	#23
-.1958	29 3f		and #$3f			and 	#IFXMask 					; make appropriate
-.195a	85 0f		sta $0f				sta 	IFR0+IExp 					; to R0
-.195c	20 73 19	jsr $1973			jsr 	_IFSRNewton
-.195f	20 73 19	jsr $1973			jsr 	_IFSRNewton
-.1962	20 73 19	jsr $1973			jsr 	_IFSRNewton
-.1965	20 73 19	jsr $1973			jsr 	_IFSRNewton
-.1968	18		clc				clc
-.1969	60		rts				rts
-.196a					_IFSRZero:
-.196a	a2 0c		ldx #$0c			ldx 	#IFR0
-.196c	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.196f	18		clc				clc
-.1970	60		rts				rts
-.1971					_IFSRFail:
-.1971	38		sec				sec
-.1972	60		rts				rts
-.1973					_IFSRNewton:
-.1973	a2 10		ldx #$10			ldx 	#IFR1 						; push original value (R3) on the stack
-.1975	20 3a 1c	jsr $1c3a			jsr 	IFloatPushRx
-.1978	a2 0c		ldx #$0c			ldx 	#IFR0 						; push current guess (R0) on the stack.
-.197a	20 3a 1c	jsr $1c3a			jsr 	IFloatPushRx
-.197d	a2 10		ldx #$10			ldx 	#IFR1 						; guess = original / guess
-.197f	20 0e 1a	jsr $1a0e			jsr 	IFloatDivideFloat
-.1982	a2 10		ldx #$10			ldx 	#IFR1 						; restore current guess (was in R0) to R3
-.1984	20 5b 1c	jsr $1c5b			jsr 	IFloatPullRx
-.1987	20 e1 16	jsr $16e1			jsr 	IFloatAdd 					; now guess + original/guess
-.198a	a2 0c		ldx #$0c			ldx 	#IFR0 						; divide by 2
-.198c	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight
-.198f	a2 10		ldx #$10			ldx 	#IFR1
-.1991	20 5b 1c	jsr $1c5b			jsr 	IFloatPullRx 				; Finally pull the oeifinal
-.1994	60		rts				rts
-.1995					IFloatFractionalR0:
-.1995	a5 0f		lda $0f				lda 	IFR0+IExp					; is it integer already ?
-.1997	29 3f		and #$3f			and 	#IFXMask
-.1999	f0 17		beq $19b2			beq 	_FIPZero 					; if so, return with zero as no fractional part.
-.199b	20 2f 19	jsr $192f			jsr 	IFloatAbsoluteR0 			; absolute value R9
-.199e	a2 0c		ldx #$0c			ldx 	#IFR0
-.19a0	20 22 1d	jsr $1d22			jsr 	IFloatNormalise 			; normalise R0
-.19a3	a2 18		ldx #$18			ldx 	#IFRTemp 					; copy to RTemp
-.19a5	20 8d 1c	jsr $1c8d			jsr 	IFloatCopyToRegister
-.19a8	20 eb 19	jsr $19eb			jsr 	IFloatIntegerR0 			; take integer part of R0
-.19ab	a2 18		ldx #$18			ldx 	#IFRTemp 					; subtract
-.19ad	20 da 16	jsr $16da			jsr 	IFloatSubtract
-.19b0	80 05		bra $19b7			bra 	_FIPExit
-.19b2					_FIPZero:
-.19b2	a2 0c		ldx #$0c			ldx 	#IFR0
-.19b4	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.19b7					_FIPExit:
-.19b7	18		clc				clc
-.19b8	60		rts				rts
-.19b9					IFloatCompare:
-.19b9	20 da 16	jsr $16da			jsr 	IFloatSubtract 				; subtract R0 from RX.
-.19bc	b5 03		lda $03,x			lda 	IExp,x 						; check if integer comparison
-.19be	05 0f		ora $0f				ora 	IFR0+IExp
-.19c0	a2 0c		ldx #$0c			ldx 	#IFR0 						; only using R0 from now on.
-.19c2	29 3f		and #$3f			and 	#IFXMask
-.19c4	d0 19		bne $19df			bne 	_IFCNonInteger
-.19c6	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero 			; check if zero
-.19c9	f0 0f		beq $19da			beq 	_IFCZero
-.19cb					_IFCReturnSign:
-.19cb	a5 0f		lda $0f				lda 	IFR0+IExp 					; get the sign bit/unused -> stack.
-.19cd	29 c0		and #$c0			and 	#(IFXMask ^ $FF)
-.19cf	48		pha				pha
-.19d0	a9 01		lda #$01			lda 	#1
-.19d2	20 ed 1c	jsr $1ced			jsr 	IFloatSetByte 				; return to +1
-.19d5	68		pla				pla 								; sign bit back
-.19d6	85 0f		sta $0f				sta 	IFR0+IExp					; set that sign
-.19d8	18		clc				clc
-.19d9	60		rts				rts
-.19da					_IFCZero:
-.19da	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.19dd	18		clc				clc
-.19de	60		rts				rts
-.19df					_IFCNonInteger:
-.19df	a5 0c		lda $0c				lda 	IFR0+IM0
-.19e1	29 00		and #$00			and		#$00
-.19e3	05 0d		ora $0d				ora 	IFR0+IM1
-.19e5	05 0e		ora $0e				ora 	IFR0+IM2
-.19e7	f0 f1		beq $19da			beq 	_IFCZero 					; near enough !
-.19e9	80 e0		bra $19cb			bra 	_IFCReturnSign 				; return the sign of the difference.
-.19eb					IFloatIntegerR0:
-.19eb	a5 0f		lda $0f				lda 	IFR0+IExp					; is it integer already ?
-.19ed	29 3f		and #$3f			and 	#IFXMask
-.19ef	f0 1b		beq $1a0c			beq 	_FIPExit 					; if so do nothing
-.19f1	a2 0c		ldx #$0c			ldx 	#IFR0
-.19f3	20 22 1d	jsr $1d22			jsr 	IFloatNormalise 			; normalise
-.19f6	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero 			; is it zero ?
-.19f9	f0 0e		beq $1a09			beq 	_FIPZero 					; if so return zero.
-.19fb					_FIPShift:
-.19fb	a5 0f		lda $0f				lda 	IFR0+IExp 					; if Exponent >= 0 exit.
-.19fd	29 20		and #$20			and 	#$20 						; still -ve
-.19ff	f0 0b		beq $1a0c			beq 	_FIPExit
-.1a01	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight 			; shift mantissa right
-.1a04	20 44 1d	jsr $1d44			jsr 	IFloatIncExponent 			; bump exponent
-.1a07	80 f2		bra $19fb			bra 	_FIPShift
-.1a09					_FIPZero:
-.1a09	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.1a0c					_FIPExit:
-.1a0c	18		clc				clc
-.1a0d	60		rts				rts
-.1a0e					IFloatDivideFloat:
-.1a0e	8e 42 02	stx $0242			stx 	IFTarget  					; this is s1, s0 = R0
-.1a11	20 46 18	jsr $1846			jsr 	IFCalculateNewSign 			; calculate sign of result
-.1a14	20 22 1d	jsr $1d22			jsr 	IFloatNormalise 			; normalise RX
-.1a17	a2 0c		ldx #$0c			ldx 	#IFR0 						; normalise R0
-.1a19	20 22 1d	jsr $1d22			jsr 	IFloatNormalise
-.1a1c	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero
-.1a1f	f0 56		beq $1a77			beq 	_IFDFDivZero 				; exit if this normalised to zero.
-.1a21	a5 0f		lda $0f				lda 	IFR0+IExp 					; calculate s0.exponent
-.1a23	20 3d 18	jsr $183d			jsr 	IFMSignExtend
-.1a26	8d 43 02	sta $0243			sta 	IFNewExponent
-.1a29	ae 42 02	ldx $0242			ldx 	IFTarget 					; calculate s1.exponent
-.1a2c	b5 03		lda $03,x			lda 	IExp,x
-.1a2e	20 3d 18	jsr $183d			jsr 	IFMSignExtend
-.1a31	38		sec				sec
-.1a32	ed 43 02	sbc $0243			sbc 	IFNewExponent 				; s1.exponent - s0.exponent - 23
-.1a35	38		sec				sec
-.1a36	e9 17		sbc #$17			sbc 	#23
-.1a38	8d 43 02	sta $0243			sta 	IFNewExponent
-.1a3b	20 79 1a	jsr $1a79			jsr 	IFloatDivideSupport 		; call the support routine (see maths.py)
-.1a3e	a5 1a		lda $1a				lda 	IFRTemp+IM2 				; result has overflowed ?
-.1a40	10 08		bpl $1a4a			bpl 	_IFDFNoShiftResult
-.1a42	a2 18		ldx #$18			ldx 	#IFRTemp 					; if so, fix it up.
-.1a44	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight
-.1a47	ee 43 02	inc $0243			inc 	IFNewExponent
-.1a4a					_IFDFNoShiftResult:
-.1a4a	ad 43 02	lda $0243			lda 	IFNewExponent 				; underflow/overflow check.
-.1a4d	30 06		bmi $1a55			bmi 	_IFDFCheckUnderflow
-.1a4f	c9 20		cmp #$20			cmp 	#$20 						; overflow in division
-.1a51	b0 24		bcs $1a77			bcs 	_IFDFDivZero
-.1a53	80 11		bra $1a66			bra		_IFDFExit
-.1a55					_IFDFCheckUnderflow:
-.1a55	ad 43 02	lda $0243			lda 	IFNewExponent 				; shift into a legal exponent.
-.1a58	c9 e0		cmp #$e0			cmp 	#$E0 						; if exponent < -32.
-.1a5a	b0 0a		bcs $1a66			bcs 	_IFDFExit
-.1a5c	ee 43 02	inc $0243			inc 	IFNewExponent
-.1a5f	a2 18		ldx #$18			ldx 	#IFRTemp
-.1a61	20 1a 1d	jsr $1d1a			jsr 	IFloatShiftRight
-.1a64	80 ef		bra $1a55			bra 	_IFDFCheckUnderflow
-.1a66					_IFDFExit:
-.1a66	ad 43 02	lda $0243			lda 	IFNewExponent 				; combine exponent and sign.
-.1a69	29 3f		and #$3f			and 	#IFXMask
-.1a6b	0d 44 02	ora $0244			ora 	IFNewSign
-.1a6e	85 1b		sta $1b				sta 	IFRTemp+IExp
-.1a70	a2 18		ldx #$18			ldx 	#IFRTemp 					; copy RTemp to R0.
-.1a72	20 7c 1c	jsr $1c7c			jsr 	IFloatCopyFromRegister
-.1a75	18		clc				clc
-.1a76	60		rts				rts
-.1a77					_IFDFDivZero:
-.1a77	38		sec				sec
-.1a78	60		rts				rts
-.1a79					IFloatDivideSupport:
-.1a79	a2 18		ldx #$18			ldx 	#IFRTemp 					; zero RTemp
-.1a7b	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.1a7e	5a		phy				phy 								; main division loop x 23
-.1a7f	a0 17		ldy #$17			ldy 	#23
-.1a81					_IFDSLoop:
-.1a81	20 b4 18	jsr $18b4			jsr 	IFDTrySubtract 				; do if s0 >= sx subtract code.
-.1a84	20 a8 18	jsr $18a8			jsr 	IFDShiftSTempS1Left 		; shift the 64 bit value sTemp,s1 left one bit.
-.1a87	88		dey				dey
-.1a88	d0 f7		bne $1a81			bne 	_IFDSLoop 					; do it 24 times
-.1a8a	7a		ply				ply
-.1a8b	60		rts				rts
-.1a8c					IFloatIntegerToStringR0:
-.1a8c	8d 45 02	sta $0245			sta 	IFBase 						; save base to use.
-.1a8f	20 6c 1d	jsr $1d6c			jsr 	IFloatBufferReset			; empty buffer
-.1a92	a5 0f		lda $0f				lda 	IFR0+IExp					; check integer
-.1a94	29 3f		and #$3f			and 	#IFXMask
-.1a96	d0 1e		bne $1ab6			bne 	_IFIFail
-.1a98	a2 0c		ldx #$0c			ldx 	#IFR0 						; skip - check if zero.
-.1a9a	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero
-.1a9d	f0 0e		beq $1aad			beq 	_IFINotNegative
-.1a9f	a5 0f		lda $0f				lda 	IFR0+IExp 					; is signed ?
-.1aa1	29 40		and #$40			and 	#IFSign
-.1aa3	f0 08		beq $1aad			beq 	_IFINotNegative
-.1aa5	a9 2d		lda #$2d			lda 	#"-"						; output -
-.1aa7	20 7b 1d	jsr $1d7b			jsr 	IFloatBufferWrite
-.1aaa	20 f6 1c	jsr $1cf6			jsr 	IFloatNegate 				; tidy up !
-.1aad					_IFINotNegative:
-.1aad	20 b8 1a	jsr $1ab8			jsr 	_IFIRecursiveConvert 		; start converting
-.1ab0	20 73 1d	jsr $1d73			jsr 	IFloatGetBufferAddress
-.1ab3	18		clc				clc
-.1ab4	80 01		bra $1ab7			bra 	_IFIExit
-.1ab6					_IFIFail:
-.1ab6	38		sec				sec
-.1ab7					_IFIExit:
-.1ab7	60		rts				rts
-.1ab8					_IFIRecursiveConvert:
-.1ab8	a2 10		ldx #$10			ldx 	#IFR1
-.1aba	20 8d 1c	jsr $1c8d			jsr 	IFloatCopyToRegister 		; R0->R1
-.1abd	a2 0c		ldx #$0c			ldx 	#IFR0
-.1abf	ad 45 02	lda $0245			lda 	IFBase 						; Base -> R0
-.1ac2	20 ed 1c	jsr $1ced			jsr 	IFloatSetByte
-.1ac5	a2 10		ldx #$10			ldx 	#IFR1 						; R0 = R1 / R0
-.1ac7	20 50 18	jsr $1850			jsr 	IFloatDivideInteger
-.1aca	a2 0c		ldx #$0c			ldx 	#IFR0 						; if result <> 0
-.1acc	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero
-.1acf	f0 09		beq $1ada			beq 	_IFIOutDigit
-.1ad1	a5 10		lda $10				lda 	IFR1+IM0 					; save remainder
-.1ad3	48		pha				pha
-.1ad4	20 b8 1a	jsr $1ab8			jsr 	_IFIRecursiveConvert 		; convert the divider
-.1ad7	68		pla				pla
-.1ad8	85 10		sta $10				sta 	IFR1+IM0 					; restore remainder
-.1ada					_IFIOutDigit:
-.1ada	a5 10		lda $10				lda 	IFR1+IM0 					; get remainder.
-.1adc	c9 0a		cmp #$0a			cmp	 	#10
-.1ade	90 02		bcc $1ae2			bcc 	_IFINotHex
-.1ae0	69 06		adc #$06			adc 	#6
-.1ae2					_IFINotHex:
-.1ae2	69 30		adc #$30			adc 	#48
-.1ae4	20 7b 1d	jsr $1d7b			jsr 	IFloatBufferWrite
-.1ae7	60		rts				rts
+.1875					IFloatDivideInteger:
+.1875	20 8e 18	jsr $188e			jsr 	IFloatDivideIntegerCommon 	; do the common code.
+.1878	b0 06		bcs $1880			bcs 	_IFDIExit
+.187a	a2 18		ldx #$18			ldx 	#IFRTemp 					; copy result from register.
+.187c	20 a1 1c	jsr $1ca1			jsr 	IFloatCopyFromRegister
+.187f	18		clc				clc
+.1880					_IFDIExit:
+.1880	60		rts				rts
+.1881					IFloatModulusInteger:
+.1881	20 8e 18	jsr $188e			jsr 	IFloatDivideIntegerCommon
+.1884	b0 07		bcs $188d			bcs 	_IFMIExit
+.1886	ae 42 02	ldx $0242			ldx 	IFTarget
+.1889	20 a1 1c	jsr $1ca1			jsr 	IFloatCopyFromRegister
+.188c	18		clc				clc
+.188d					_IFMIExit:
+.188d	60		rts				rts
+.188e					IFloatDivideIntegerCommon:
+.188e	8e 42 02	stx $0242			stx 	IFTarget  					; this is s1, s0 = R0
+.1891	20 6b 18	jsr $186b			jsr 	IFCalculateNewSign 			; calculate sign of result
+.1894	20 bc 18	jsr $18bc			jsr 	IFDCopyRXToRTemp 			; copy S1 to RTemp
+.1897	a2 0c		ldx #$0c			ldx 	#IFR0 						; check divide by zero
+.1899	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero
+.189c	f0 1c		beq $18ba			beq 	_IFDIDivZero
+.189e	ae 42 02	ldx $0242			ldx 	IFTarget 					; zero Rx (S1)
+.18a1	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.18a4	5a		phy				phy
+.18a5	a0 18		ldy #$18			ldy 	#24
+.18a7					_IFDILoop:
+.18a7	20 cd 18	jsr $18cd			jsr 	IFDShiftSTempS1Left 		; shift the 64 bit value sTemp,s1 left one bit.
+.18aa	20 d9 18	jsr $18d9			jsr 	IFDTrySubtract 				; do if s0 >= sx subtract code.
+.18ad	88		dey				dey
+.18ae	d0 f7		bne $18a7			bne 	_IFDILoop 					; do it 24 times
+.18b0	7a		ply				ply
+.18b1	ad 44 02	lda $0244			lda 	IFNewSign 					; set sign of result.
+.18b4	29 40		and #$40			and 	#IFSign
+.18b6	85 1b		sta $1b				sta 	IFRTemp+IExp
+.18b8	18		clc				clc 								; is okay.
+.18b9	60		rts				rts
+.18ba					_IFDIDivZero:
+.18ba	38		sec				sec
+.18bb	60		rts				rts
+.18bc					IFDCopyRXToRTemp:
+.18bc	b5 00		lda $00,x			lda 	IM0,x
+.18be	85 18		sta $18				sta 	IFRTemp+IM0
+.18c0	b5 01		lda $01,x			lda 	IM1,x
+.18c2	85 19		sta $19				sta 	IFRTemp+IM1
+.18c4	b5 02		lda $02,x			lda 	IM2,x
+.18c6	85 1a		sta $1a				sta 	IFRTemp+IM2
+.18c8	b5 03		lda $03,x			lda 	IExp,x
+.18ca	85 1b		sta $1b				sta 	IFRTemp+IExp
+.18cc	60		rts				rts
+.18cd					IFDShiftSTempS1Left:
+.18cd	a2 18		ldx #$18			ldx 	#IFRTemp
+.18cf	20 37 1d	jsr $1d37			jsr 	IFloatShiftLeft
+.18d2	ae 42 02	ldx $0242			ldx 	IFTarget
+.18d5	20 38 1d	jsr $1d38			jsr 	IFloatRotateLeft
+.18d8	60		rts				rts
+.18d9					IFDTrySubtract:
+.18d9	ae 42 02	ldx $0242			ldx 	IFTarget 					; s1 = Rx
+.18dc	38		sec				sec 								; subtract, saving the results on the stack.
+.18dd	b5 00		lda $00,x			lda 	IM0,x
+.18df	e5 0c		sbc $0c				sbc 	IFR0+IM0
+.18e1	48		pha				pha
+.18e2	b5 01		lda $01,x			lda 	IM1,x
+.18e4	e5 0d		sbc $0d				sbc 	IFR0+IM1
+.18e6	48		pha				pha
+.18e7	b5 02		lda $02,x			lda 	IM2,x
+.18e9	e5 0e		sbc $0e				sbc 	IFR0+IM2
+.18eb	b0 03		bcs $18f0			bcs 	_IFDCanSubtract
+.18ed	68		pla				pla 								; cannot subtract, so pop intermediate and exit.
+.18ee	68		pla				pla
+.18ef	60		rts				rts
+.18f0					_IFDCanSubtract:
+.18f0	95 02		sta $02,x			sta 	IM2,x 						; write back to S1.Mantissa
+.18f2	68		pla				pla
+.18f3	95 01		sta $01,x			sta 	IM1,x
+.18f5	68		pla				pla
+.18f6	95 00		sta $00,x			sta 	IM0,x
+.18f8	e6 18		inc $18				inc 	IFRTemp+IM0 				; increment temp
+.18fa	d0 06		bne $1902			bne 	_IFDCSExit
+.18fc	e6 19		inc $19				inc 	IFRTemp+IM1
+.18fe	d0 02		bne $1902			bne 	_IFDCSExit
+.1900	e6 1a		inc $1a				inc 	IFRTemp+IM2
+.1902					_IFDCSExit:
+.1902	60		rts				rts
+.1903					IFloatBitwiseAnd:
+.1903	5a		phy				phy
+.1904	20 48 19	jsr $1948			jsr 	IFPreProcessBitwise 		; set up everything.
+.1907	d0 0f		bne $1918			bne 	_IFBAExit
+.1909					_IFBALoop:
+.1909	b9 0c 00	lda $000c,y			lda 	IFR0+IM0,y
+.190c	35 00		and $00,x			and 	IM0,x
+.190e	99 0c 00	sta $000c,y			sta 	IFR0+IM0,y
+.1911	e8		inx				inx
+.1912	c8		iny				iny
+.1913	c0 03		cpy #$03			cpy 	#3
+.1915	d0 f2		bne $1909			bne 	_IFBALoop
+.1917	18		clc				clc
+.1918					_IFBAExit:
+.1918	7a		ply				ply
+.1919	60		rts				rts
+.191a					IFloatBitwiseOr:
+.191a	5a		phy				phy
+.191b	20 48 19	jsr $1948			jsr 	IFPreProcessBitwise 		; set up everything.
+.191e	d0 0f		bne $192f			bne 	_IFBAExit
+.1920					_IFBALoop:
+.1920	b9 0c 00	lda $000c,y			lda 	IFR0+IM0,y
+.1923	15 00		ora $00,x			ora 	IM0,x
+.1925	99 0c 00	sta $000c,y			sta 	IFR0+IM0,y
+.1928	e8		inx				inx
+.1929	c8		iny				iny
+.192a	c0 03		cpy #$03			cpy 	#3
+.192c	d0 f2		bne $1920			bne 	_IFBALoop
+.192e	18		clc				clc
+.192f					_IFBAExit:
+.192f	7a		ply				ply
+.1930	60		rts				rts
+.1931					IFloatBitwiseXor:
+.1931	5a		phy				phy
+.1932	20 48 19	jsr $1948			jsr 	IFPreProcessBitwise 		; set up everything.
+.1935	d0 0f		bne $1946			bne 	_IFBAExit
+.1937					_IFBALoop:
+.1937	b9 0c 00	lda $000c,y			lda 	IFR0+IM0,y
+.193a	55 00		eor $00,x			eor 	IM0,x
+.193c	99 0c 00	sta $000c,y			sta 	IFR0+IM0,y
+.193f	e8		inx				inx
+.1940	c8		iny				iny
+.1941	c0 03		cpy #$03			cpy 	#3
+.1943	d0 f2		bne $1937			bne 	_IFBALoop
+.1945	18		clc				clc
+.1946					_IFBAExit:
+.1946	7a		ply				ply
+.1947	60		rts				rts
+.1948					IFPreProcessBitwise:
+.1948	a0 00		ldy #$00			ldy 	#0 							; set index.
+.194a	a5 0f		lda $0f				lda 	IFR0+IExp 					; OR exponents
+.194c	15 03		ora $03,x			ora 	IExp,x
+.194e	74 03		stz $03,x			stz 	IExp,x 						; zero the result exponent anyway.
+.1950	29 3f		and #$3f			and 	#IFXMask 					; NZ if error e.g. not integer
+.1952	38		sec				sec 								; carry set just in cases.
+.1953	60		rts				rts
+.1954					IFloatAbsoluteR0:
+.1954	a5 0f		lda $0f				lda 	IFR0+IExp					; reset the sign bit.
+.1956	29 bf		and #$bf			and 	#IFSign ^ 255
+.1958	85 0f		sta $0f				sta 	IFR0+IExp
+.195a	18		clc				clc
+.195b	60		rts				rts
+.195c					IFloatSquareRootR0:
+.195c	a2 0c		ldx #$0c			ldx 	#IFR0 						; if zero, return zero.
+.195e	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero
+.1961	a5 0f		lda $0f				lda	 	IFR0+IExp 					; if negative fail.
+.1963	29 40		and #$40			and 	#IFSign
+.1965	d0 2f		bne $1996			bne 	_IFSRFail
+.1967	20 47 1d	jsr $1d47			jsr 	IFloatNormalise 			; it will work better !
+.196a	a2 10		ldx #$10			ldx 	#IFR1 						; R1 contains original throughout
+.196c	20 b2 1c	jsr $1cb2			jsr 	IFloatCopyToRegister
+.196f	a5 0f		lda $0f				lda 	IFR0+IExp 					; if exponent is $2A..$3F * 64 otherwise is / 64
+.1971	20 62 18	jsr $1862			jsr 	IFMSignExtend 				; sign extended version of the exponent
+.1974	18		clc				clc
+.1975	69 17		adc #$17			adc 	#23 						; this makes it a 0.xxx mantissa
+.1977	85 0f		sta $0f				sta 	IFR0+IExp
+.1979	4a		lsr a				lsr 	a 							; which we can halve.
+.197a	38		sec				sec 								; convert back
+.197b	e9 17		sbc #$17			sbc 	#23
+.197d	29 3f		and #$3f			and 	#IFXMask 					; make appropriate
+.197f	85 0f		sta $0f				sta 	IFR0+IExp 					; to R0
+.1981	20 98 19	jsr $1998			jsr 	_IFSRNewton
+.1984	20 98 19	jsr $1998			jsr 	_IFSRNewton
+.1987	20 98 19	jsr $1998			jsr 	_IFSRNewton
+.198a	20 98 19	jsr $1998			jsr 	_IFSRNewton
+.198d	18		clc				clc
+.198e	60		rts				rts
+.198f					_IFSRZero:
+.198f	a2 0c		ldx #$0c			ldx 	#IFR0
+.1991	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.1994	18		clc				clc
+.1995	60		rts				rts
+.1996					_IFSRFail:
+.1996	38		sec				sec
+.1997	60		rts				rts
+.1998					_IFSRNewton:
+.1998	a2 10		ldx #$10			ldx 	#IFR1 						; push original value (R3) on the stack
+.199a	20 5f 1c	jsr $1c5f			jsr 	IFloatPushRx
+.199d	a2 0c		ldx #$0c			ldx 	#IFR0 						; push current guess (R0) on the stack.
+.199f	20 5f 1c	jsr $1c5f			jsr 	IFloatPushRx
+.19a2	a2 10		ldx #$10			ldx 	#IFR1 						; guess = original / guess
+.19a4	20 33 1a	jsr $1a33			jsr 	IFloatDivideFloat
+.19a7	a2 10		ldx #$10			ldx 	#IFR1 						; restore current guess (was in R0) to R3
+.19a9	20 80 1c	jsr $1c80			jsr 	IFloatPullRx
+.19ac	20 06 17	jsr $1706			jsr 	IFloatAdd 					; now guess + original/guess
+.19af	a2 0c		ldx #$0c			ldx 	#IFR0 						; divide by 2
+.19b1	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight
+.19b4	a2 10		ldx #$10			ldx 	#IFR1
+.19b6	20 80 1c	jsr $1c80			jsr 	IFloatPullRx 				; Finally pull the oeifinal
+.19b9	60		rts				rts
+.19ba					IFloatFractionalR0:
+.19ba	a5 0f		lda $0f				lda 	IFR0+IExp					; is it integer already ?
+.19bc	29 3f		and #$3f			and 	#IFXMask
+.19be	f0 17		beq $19d7			beq 	_FIPZero 					; if so, return with zero as no fractional part.
+.19c0	20 54 19	jsr $1954			jsr 	IFloatAbsoluteR0 			; absolute value R9
+.19c3	a2 0c		ldx #$0c			ldx 	#IFR0
+.19c5	20 47 1d	jsr $1d47			jsr 	IFloatNormalise 			; normalise R0
+.19c8	a2 18		ldx #$18			ldx 	#IFRTemp 					; copy to RTemp
+.19ca	20 b2 1c	jsr $1cb2			jsr 	IFloatCopyToRegister
+.19cd	20 10 1a	jsr $1a10			jsr 	IFloatIntegerR0 			; take integer part of R0
+.19d0	a2 18		ldx #$18			ldx 	#IFRTemp 					; subtract
+.19d2	20 ff 16	jsr $16ff			jsr 	IFloatSubtract
+.19d5	80 05		bra $19dc			bra 	_FIPExit
+.19d7					_FIPZero:
+.19d7	a2 0c		ldx #$0c			ldx 	#IFR0
+.19d9	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.19dc					_FIPExit:
+.19dc	18		clc				clc
+.19dd	60		rts				rts
+.19de					IFloatCompare:
+.19de	20 ff 16	jsr $16ff			jsr 	IFloatSubtract 				; subtract R0 from RX.
+.19e1	b5 03		lda $03,x			lda 	IExp,x 						; check if integer comparison
+.19e3	05 0f		ora $0f				ora 	IFR0+IExp
+.19e5	a2 0c		ldx #$0c			ldx 	#IFR0 						; only using R0 from now on.
+.19e7	29 3f		and #$3f			and 	#IFXMask
+.19e9	d0 19		bne $1a04			bne 	_IFCNonInteger
+.19eb	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero 			; check if zero
+.19ee	f0 0f		beq $19ff			beq 	_IFCZero
+.19f0					_IFCReturnSign:
+.19f0	a5 0f		lda $0f				lda 	IFR0+IExp 					; get the sign bit/unused -> stack.
+.19f2	29 c0		and #$c0			and 	#(IFXMask ^ $FF)
+.19f4	48		pha				pha
+.19f5	a9 01		lda #$01			lda 	#1
+.19f7	20 12 1d	jsr $1d12			jsr 	IFloatSetByte 				; return to +1
+.19fa	68		pla				pla 								; sign bit back
+.19fb	85 0f		sta $0f				sta 	IFR0+IExp					; set that sign
+.19fd	18		clc				clc
+.19fe	60		rts				rts
+.19ff					_IFCZero:
+.19ff	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.1a02	18		clc				clc
+.1a03	60		rts				rts
+.1a04					_IFCNonInteger:
+.1a04	a5 0c		lda $0c				lda 	IFR0+IM0
+.1a06	29 00		and #$00			and		#$00
+.1a08	05 0d		ora $0d				ora 	IFR0+IM1
+.1a0a	05 0e		ora $0e				ora 	IFR0+IM2
+.1a0c	f0 f1		beq $19ff			beq 	_IFCZero 					; near enough !
+.1a0e	80 e0		bra $19f0			bra 	_IFCReturnSign 				; return the sign of the difference.
+.1a10					IFloatIntegerR0:
+.1a10	a5 0f		lda $0f				lda 	IFR0+IExp					; is it integer already ?
+.1a12	29 3f		and #$3f			and 	#IFXMask
+.1a14	f0 1b		beq $1a31			beq 	_FIPExit 					; if so do nothing
+.1a16	a2 0c		ldx #$0c			ldx 	#IFR0
+.1a18	20 47 1d	jsr $1d47			jsr 	IFloatNormalise 			; normalise
+.1a1b	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero 			; is it zero ?
+.1a1e	f0 0e		beq $1a2e			beq 	_FIPZero 					; if so return zero.
+.1a20					_FIPShift:
+.1a20	a5 0f		lda $0f				lda 	IFR0+IExp 					; if Exponent >= 0 exit.
+.1a22	29 20		and #$20			and 	#$20 						; still -ve
+.1a24	f0 0b		beq $1a31			beq 	_FIPExit
+.1a26	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight 			; shift mantissa right
+.1a29	20 69 1d	jsr $1d69			jsr 	IFloatIncExponent 			; bump exponent
+.1a2c	80 f2		bra $1a20			bra 	_FIPShift
+.1a2e					_FIPZero:
+.1a2e	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.1a31					_FIPExit:
+.1a31	18		clc				clc
+.1a32	60		rts				rts
+.1a33					IFloatDivideFloat:
+.1a33	8e 42 02	stx $0242			stx 	IFTarget  					; this is s1, s0 = R0
+.1a36	20 6b 18	jsr $186b			jsr 	IFCalculateNewSign 			; calculate sign of result
+.1a39	20 47 1d	jsr $1d47			jsr 	IFloatNormalise 			; normalise RX
+.1a3c	a2 0c		ldx #$0c			ldx 	#IFR0 						; normalise R0
+.1a3e	20 47 1d	jsr $1d47			jsr 	IFloatNormalise
+.1a41	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero
+.1a44	f0 56		beq $1a9c			beq 	_IFDFDivZero 				; exit if this normalised to zero.
+.1a46	a5 0f		lda $0f				lda 	IFR0+IExp 					; calculate s0.exponent
+.1a48	20 62 18	jsr $1862			jsr 	IFMSignExtend
+.1a4b	8d 43 02	sta $0243			sta 	IFNewExponent
+.1a4e	ae 42 02	ldx $0242			ldx 	IFTarget 					; calculate s1.exponent
+.1a51	b5 03		lda $03,x			lda 	IExp,x
+.1a53	20 62 18	jsr $1862			jsr 	IFMSignExtend
+.1a56	38		sec				sec
+.1a57	ed 43 02	sbc $0243			sbc 	IFNewExponent 				; s1.exponent - s0.exponent - 23
+.1a5a	38		sec				sec
+.1a5b	e9 17		sbc #$17			sbc 	#23
+.1a5d	8d 43 02	sta $0243			sta 	IFNewExponent
+.1a60	20 9e 1a	jsr $1a9e			jsr 	IFloatDivideSupport 		; call the support routine (see maths.py)
+.1a63	a5 1a		lda $1a				lda 	IFRTemp+IM2 				; result has overflowed ?
+.1a65	10 08		bpl $1a6f			bpl 	_IFDFNoShiftResult
+.1a67	a2 18		ldx #$18			ldx 	#IFRTemp 					; if so, fix it up.
+.1a69	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight
+.1a6c	ee 43 02	inc $0243			inc 	IFNewExponent
+.1a6f					_IFDFNoShiftResult:
+.1a6f	ad 43 02	lda $0243			lda 	IFNewExponent 				; underflow/overflow check.
+.1a72	30 06		bmi $1a7a			bmi 	_IFDFCheckUnderflow
+.1a74	c9 20		cmp #$20			cmp 	#$20 						; overflow in division
+.1a76	b0 24		bcs $1a9c			bcs 	_IFDFDivZero
+.1a78	80 11		bra $1a8b			bra		_IFDFExit
+.1a7a					_IFDFCheckUnderflow:
+.1a7a	ad 43 02	lda $0243			lda 	IFNewExponent 				; shift into a legal exponent.
+.1a7d	c9 e0		cmp #$e0			cmp 	#$E0 						; if exponent < -32.
+.1a7f	b0 0a		bcs $1a8b			bcs 	_IFDFExit
+.1a81	ee 43 02	inc $0243			inc 	IFNewExponent
+.1a84	a2 18		ldx #$18			ldx 	#IFRTemp
+.1a86	20 3f 1d	jsr $1d3f			jsr 	IFloatShiftRight
+.1a89	80 ef		bra $1a7a			bra 	_IFDFCheckUnderflow
+.1a8b					_IFDFExit:
+.1a8b	ad 43 02	lda $0243			lda 	IFNewExponent 				; combine exponent and sign.
+.1a8e	29 3f		and #$3f			and 	#IFXMask
+.1a90	0d 44 02	ora $0244			ora 	IFNewSign
+.1a93	85 1b		sta $1b				sta 	IFRTemp+IExp
+.1a95	a2 18		ldx #$18			ldx 	#IFRTemp 					; copy RTemp to R0.
+.1a97	20 a1 1c	jsr $1ca1			jsr 	IFloatCopyFromRegister
+.1a9a	18		clc				clc
+.1a9b	60		rts				rts
+.1a9c					_IFDFDivZero:
+.1a9c	38		sec				sec
+.1a9d	60		rts				rts
+.1a9e					IFloatDivideSupport:
+.1a9e	a2 18		ldx #$18			ldx 	#IFRTemp 					; zero RTemp
+.1aa0	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.1aa3	5a		phy				phy 								; main division loop x 23
+.1aa4	a0 17		ldy #$17			ldy 	#23
+.1aa6					_IFDSLoop:
+.1aa6	20 d9 18	jsr $18d9			jsr 	IFDTrySubtract 				; do if s0 >= sx subtract code.
+.1aa9	20 cd 18	jsr $18cd			jsr 	IFDShiftSTempS1Left 		; shift the 64 bit value sTemp,s1 left one bit.
+.1aac	88		dey				dey
+.1aad	d0 f7		bne $1aa6			bne 	_IFDSLoop 					; do it 24 times
+.1aaf	7a		ply				ply
+.1ab0	60		rts				rts
+.1ab1					IFloatIntegerToStringR0:
+.1ab1	8d 45 02	sta $0245			sta 	IFBase 						; save base to use.
+.1ab4	20 91 1d	jsr $1d91			jsr 	IFloatBufferReset			; empty buffer
+.1ab7	a5 0f		lda $0f				lda 	IFR0+IExp					; check integer
+.1ab9	29 3f		and #$3f			and 	#IFXMask
+.1abb	d0 1e		bne $1adb			bne 	_IFIFail
+.1abd	a2 0c		ldx #$0c			ldx 	#IFR0 						; skip - check if zero.
+.1abf	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero
+.1ac2	f0 0e		beq $1ad2			beq 	_IFINotNegative
+.1ac4	a5 0f		lda $0f				lda 	IFR0+IExp 					; is signed ?
+.1ac6	29 40		and #$40			and 	#IFSign
+.1ac8	f0 08		beq $1ad2			beq 	_IFINotNegative
+.1aca	a9 2d		lda #$2d			lda 	#"-"						; output -
+.1acc	20 a0 1d	jsr $1da0			jsr 	IFloatBufferWrite
+.1acf	20 1b 1d	jsr $1d1b			jsr 	IFloatNegate 				; tidy up !
+.1ad2					_IFINotNegative:
+.1ad2	20 dd 1a	jsr $1add			jsr 	_IFIRecursiveConvert 		; start converting
+.1ad5	20 98 1d	jsr $1d98			jsr 	IFloatGetBufferAddress
+.1ad8	18		clc				clc
+.1ad9	80 01		bra $1adc			bra 	_IFIExit
+.1adb					_IFIFail:
+.1adb	38		sec				sec
+.1adc					_IFIExit:
+.1adc	60		rts				rts
+.1add					_IFIRecursiveConvert:
+.1add	a2 10		ldx #$10			ldx 	#IFR1
+.1adf	20 b2 1c	jsr $1cb2			jsr 	IFloatCopyToRegister 		; R0->R1
+.1ae2	a2 0c		ldx #$0c			ldx 	#IFR0
+.1ae4	ad 45 02	lda $0245			lda 	IFBase 						; Base -> R0
+.1ae7	20 12 1d	jsr $1d12			jsr 	IFloatSetByte
+.1aea	a2 10		ldx #$10			ldx 	#IFR1 						; R0 = R1 / R0
+.1aec	20 75 18	jsr $1875			jsr 	IFloatDivideInteger
+.1aef	a2 0c		ldx #$0c			ldx 	#IFR0 						; if result <> 0
+.1af1	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero
+.1af4	f0 09		beq $1aff			beq 	_IFIOutDigit
+.1af6	a5 10		lda $10				lda 	IFR1+IM0 					; save remainder
+.1af8	48		pha				pha
+.1af9	20 dd 1a	jsr $1add			jsr 	_IFIRecursiveConvert 		; convert the divider
+.1afc	68		pla				pla
+.1afd	85 10		sta $10				sta 	IFR1+IM0 					; restore remainder
+.1aff					_IFIOutDigit:
+.1aff	a5 10		lda $10				lda 	IFR1+IM0 					; get remainder.
+.1b01	c9 0a		cmp #$0a			cmp	 	#10
+.1b03	90 02		bcc $1b07			bcc 	_IFINotHex
+.1b05	69 06		adc #$06			adc 	#6
+.1b07					_IFINotHex:
+.1b07	69 30		adc #$30			adc 	#48
+.1b09	20 a0 1d	jsr $1da0			jsr 	IFloatBufferWrite
+.1b0c	60		rts				rts
 .0245					IFBase:
 >0245							.fill 	1
-.1ae8					IFloatFloatToStringR0:
-.1ae8	a2 14		ldx #$14			ldx 	#IFR2 						; copy R2 to stack,value to R2
-.1aea	20 3a 1c	jsr $1c3a			jsr 	IFloatPushRx
-.1aed	20 8d 1c	jsr $1c8d			jsr 	IFloatCopyToRegister
-.1af0	20 eb 19	jsr $19eb			jsr 	IFloatIntegerR0				; make R0 integer
-.1af3	a9 0a		lda #$0a			lda 	#10 						; base 10.
-.1af5	20 8c 1a	jsr $1a8c			jsr 	IFloatIntegerToStringR0 	; do the integer part.
-.1af8	9c 46 02	stz $0246			stz 	IFloatDecimalCount 			; zero the decimal count.
-.1afb	a5 17		lda $17				lda 	IFR2+IExp 					; is integer.
-.1afd	29 3f		and #$3f			and 	#IFXMask
-.1aff	f0 44		beq $1b45			beq 	_IFFSExit
-.1b01					_IFloatFracLoop:
-.1b01	a2 14		ldx #$14			ldx 	#IFR2 						; R0 = fractional part of R2
-.1b03	20 7c 1c	jsr $1c7c			jsr 	IFloatCopyFromRegister
-.1b06	20 95 19	jsr $1995			jsr 	IFloatFractionalR0
-.1b09	20 22 1d	jsr $1d22			jsr 	IFloatNormalise
-.1b0c	a2 14		ldx #$14			ldx 	#IFR2
-.1b0e	20 8d 1c	jsr $1c8d			jsr 	IFloatCopyToRegister 		; copy to R2
-.1b11	a2 14		ldx #$14			ldx 	#IFR2 						; set R2 to 10
-.1b13	a9 0a		lda #$0a			lda 	#10
-.1b15	20 ed 1c	jsr $1ced			jsr 	IFloatSetByte
-.1b18	a2 14		ldx #$14			ldx 	#IFR2						; R0,R2 = R2 * 10
-.1b1a	20 8b 17	jsr $178b			jsr 	IFloatMultiply
-.1b1d	a2 14		ldx #$14			ldx 	#IFR2
-.1b1f	20 8d 1c	jsr $1c8d			jsr 	IFloatCopyToRegister
-.1b22	20 eb 19	jsr $19eb			jsr 	IFloatIntegerR0 			; get integer part of R0
-.1b25	ad 46 02	lda $0246			lda 	IFloatDecimalCount 			; done 5 dp, no more
-.1b28	c9 03		cmp #$03			cmp 	#3
-.1b2a	f0 16		beq $1b42			beq 	_IFFSExitStripZero
-.1b2c	ad 46 02	lda $0246			lda 	IFloatDecimalCount 			; written the DP yet ?
-.1b2f	d0 05		bne $1b36			bne 	_IFloatNotFirst
-.1b31	a9 2e		lda #$2e			lda 	#"." 						; write decimal point
-.1b33	20 7b 1d	jsr $1d7b			jsr 	IFloatBufferWrite
-.1b36					_IFloatNotFirst:
-.1b36	ee 46 02	inc $0246			inc 	IFloatDecimalCount
-.1b39	a5 0c		lda $0c				lda 	IFR0+IM0 					; get digit
-.1b3b	09 30		ora #$30			ora 	#"0"						; ASCII
-.1b3d	20 7b 1d	jsr $1d7b			jsr 	IFloatBufferWrite 			; write to the buffer.
-.1b40	80 bf		bra $1b01			bra 	_IFloatFracLoop
-.1b42					_IFFSExitStripZero:
-.1b42	20 8a 1d	jsr $1d8a			jsr 	IFloatStripTrailingZeros
-.1b45					_IFFSExit:
-.1b45	a2 14		ldx #$14			ldx 	#IFR2 						; restore R2
-.1b47	20 5b 1c	jsr $1c5b			jsr 	IFloatPullRx
-.1b4a	20 73 1d	jsr $1d73			jsr 	IFloatGetBufferAddress
-.1b4d	18		clc				clc
-.1b4e	60		rts				rts
+.1b0d					IFloatFloatToStringR0:
+.1b0d	a2 14		ldx #$14			ldx 	#IFR2 						; copy R2 to stack,value to R2
+.1b0f	20 5f 1c	jsr $1c5f			jsr 	IFloatPushRx
+.1b12	20 b2 1c	jsr $1cb2			jsr 	IFloatCopyToRegister
+.1b15	20 10 1a	jsr $1a10			jsr 	IFloatIntegerR0				; make R0 integer
+.1b18	a9 0a		lda #$0a			lda 	#10 						; base 10.
+.1b1a	20 b1 1a	jsr $1ab1			jsr 	IFloatIntegerToStringR0 	; do the integer part.
+.1b1d	9c 46 02	stz $0246			stz 	IFloatDecimalCount 			; zero the decimal count.
+.1b20	a5 17		lda $17				lda 	IFR2+IExp 					; is integer.
+.1b22	29 3f		and #$3f			and 	#IFXMask
+.1b24	f0 44		beq $1b6a			beq 	_IFFSExit
+.1b26					_IFloatFracLoop:
+.1b26	a2 14		ldx #$14			ldx 	#IFR2 						; R0 = fractional part of R2
+.1b28	20 a1 1c	jsr $1ca1			jsr 	IFloatCopyFromRegister
+.1b2b	20 ba 19	jsr $19ba			jsr 	IFloatFractionalR0
+.1b2e	20 47 1d	jsr $1d47			jsr 	IFloatNormalise
+.1b31	a2 14		ldx #$14			ldx 	#IFR2
+.1b33	20 b2 1c	jsr $1cb2			jsr 	IFloatCopyToRegister 		; copy to R2
+.1b36	a2 14		ldx #$14			ldx 	#IFR2 						; set R2 to 10
+.1b38	a9 0a		lda #$0a			lda 	#10
+.1b3a	20 12 1d	jsr $1d12			jsr 	IFloatSetByte
+.1b3d	a2 14		ldx #$14			ldx 	#IFR2						; R0,R2 = R2 * 10
+.1b3f	20 b0 17	jsr $17b0			jsr 	IFloatMultiply
+.1b42	a2 14		ldx #$14			ldx 	#IFR2
+.1b44	20 b2 1c	jsr $1cb2			jsr 	IFloatCopyToRegister
+.1b47	20 10 1a	jsr $1a10			jsr 	IFloatIntegerR0 			; get integer part of R0
+.1b4a	ad 46 02	lda $0246			lda 	IFloatDecimalCount 			; done 5 dp, no more
+.1b4d	c9 03		cmp #$03			cmp 	#3
+.1b4f	f0 16		beq $1b67			beq 	_IFFSExitStripZero
+.1b51	ad 46 02	lda $0246			lda 	IFloatDecimalCount 			; written the DP yet ?
+.1b54	d0 05		bne $1b5b			bne 	_IFloatNotFirst
+.1b56	a9 2e		lda #$2e			lda 	#"." 						; write decimal point
+.1b58	20 a0 1d	jsr $1da0			jsr 	IFloatBufferWrite
+.1b5b					_IFloatNotFirst:
+.1b5b	ee 46 02	inc $0246			inc 	IFloatDecimalCount
+.1b5e	a5 0c		lda $0c				lda 	IFR0+IM0 					; get digit
+.1b60	09 30		ora #$30			ora 	#"0"						; ASCII
+.1b62	20 a0 1d	jsr $1da0			jsr 	IFloatBufferWrite 			; write to the buffer.
+.1b65	80 bf		bra $1b26			bra 	_IFloatFracLoop
+.1b67					_IFFSExitStripZero:
+.1b67	20 af 1d	jsr $1daf			jsr 	IFloatStripTrailingZeros
+.1b6a					_IFFSExit:
+.1b6a	a2 14		ldx #$14			ldx 	#IFR2 						; restore R2
+.1b6c	20 80 1c	jsr $1c80			jsr 	IFloatPullRx
+.1b6f	20 98 1d	jsr $1d98			jsr 	IFloatGetBufferAddress
+.1b72	18		clc				clc
+.1b73	60		rts				rts
 .0246					IFloatDecimalCount:
 >0246							.fill 	1
-.1b4f					IFloatStringToFloatR0:
-.1b4f	8d 47 02	sta $0247			sta 	IFCount 					; save it out.
-.1b52	86 0a		stx $0a				stx 	iTemp0
-.1b54	84 0b		sty $0b				sty 	iTemp0+1
-.1b56	a2 0c		ldx #$0c			ldx 	#IFR0 						; reset the current value.
-.1b58	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.1b5b	9c 48 02	stz $0248			stz 	IFSignFlag 					; clear the sign flag
-.1b5e	20 eb 1b	jsr $1beb			jsr 	IFSTFGetNext 				; get first
-.1b61	f0 1b		beq $1b7e			beq 	_IFSTFFail 					; no character
-.1b63	90 10		bcc $1b75			bcc 	_IFSTFHaveChar 				; legitimate character, go do it.
-.1b65	c9 2d		cmp #$2d			cmp 	#"-" 						; if not -, fail
-.1b67	d0 15		bne $1b7e			bne 	_IFSTFFail
-.1b69	a9 40		lda #$40			lda 	#IFSign 					; set sign flag
-.1b6b	8d 48 02	sta $0248			sta 	IFSignFlag
-.1b6e					_IFSTFLoop:
-.1b6e	20 eb 1b	jsr $1beb			jsr 	IFSTFGetNext 				; get next
-.1b71	b0 0b		bcs $1b7e			bcs 	_IFSTFFail 					; bad character.
-.1b73	f0 11		beq $1b86			beq 	_IFSTFExit 					; end of data
-.1b75					_IFSTFHaveChar:
-.1b75	c9 2e		cmp #$2e			cmp 	#"."						; decimal point ?
-.1b77	f0 08		beq $1b81			beq 	_IFSTFDecimal
-.1b79	20 0f 1c	jsr $1c0f			jsr 	IFSTFAddR0 					; add number in
-.1b7c	80 f0		bra $1b6e			bra 	_IFSTFLoop 					; keep going until . or end.
-.1b7e					_IFSTFFail:
-.1b7e	38		sec				sec
-.1b7f	80 0d		bra $1b8e			bra 	_IFSTFReturn
-.1b81					_IFSTFDecimal:
-.1b81	20 96 1b	jsr $1b96			jsr 	IFSTFDecimal 				; call the decimal places code.
-.1b84	b0 08		bcs $1b8e			bcs 	_IFSTFReturn 				; error
-.1b86					_IFSTFExit:
-.1b86	a5 0f		lda $0f				lda 	IFR0+IExp 					; copy sign flag in.
-.1b88	0d 48 02	ora $0248			ora 	IFSignFlag
-.1b8b	85 0f		sta $0f				sta 	IFR0+IExp
-.1b8d	18		clc				clc
-.1b8e					_IFSTFReturn:
-.1b8e	60		rts				rts
-.1b8f					IFloatAddDecimalToR0:
-.1b8f	8d 47 02	sta $0247			sta 	IFCount 					; save it out.
-.1b92	86 0a		stx $0a				stx 	iTemp0
-.1b94	84 0b		sty $0b				sty 	iTemp0+1
-.1b96					IFSTFDecimal:
-.1b96	a2 0c		ldx #$0c			ldx 	#IFR0 						; push integer part on stack
-.1b98	20 3a 1c	jsr $1c3a			jsr 	IFloatPushRx
-.1b9b	a2 0c		ldx #$0c			ldx 	#IFR0 						; R0 is the decimal digits so far.
-.1b9d	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero
-.1ba0	9c 49 02	stz $0249			stz 	IFDecimalPlaces
-.1ba3					_IFSTDLoop:
-.1ba3	20 eb 1b	jsr $1beb			jsr 	IFSTFGetNext 				; get next
-.1ba6	b0 41		bcs $1be9			bcs 	_IFSTFFail2 				; bad character.
-.1ba8	f0 11		beq $1bbb			beq 	_IFSTFComplete 				; end of data, work out the result.
-.1baa	c9 2e		cmp #$2e			cmp 	#"."						; only one decimal
-.1bac	f0 39		beq $1be7			beq 	_IFSTFExit2
-.1bae	20 0f 1c	jsr $1c0f			jsr 	IFSTFAddR0 					; add number in
-.1bb1	ee 49 02	inc $0249			inc 	IFDecimalPlaces 			; count decimals
-.1bb4	ad 49 02	lda $0249			lda 	IFDecimalPlaces 			; no more than 3 DP used.
-.1bb7	c9 03		cmp #$03			cmp 	#3
-.1bb9	90 e8		bcc $1ba3			bcc 	_IFSTDLoop
-.1bbb					_IFSTFComplete:
-.1bbb	ad 49 02	lda $0249			lda 	IFDecimalPlaces 			; decimals x 4 as accessing multiplier from a LUT.
-.1bbe	f0 27		beq $1be7			beq 	_IFSTFExit2					; if none, this is syntactically fine, just ignore
-.1bc0	3a		dec a				dec 	a 							; table indexed from 1.
-.1bc1	0a		asl a				asl 	a
-.1bc2	0a		asl a				asl 	a
-.1bc3	aa		tax				tax
-.1bc4	bd 26 1c	lda $1c26,x			lda 	TableTen,x 					; copy table entry into R0 - these are 0.1,0.01,0.001
-.1bc7	85 10		sta $10				sta  	IFR1+IM0 					; 0.0001 etc, up to 5 decimals.
-.1bc9	bd 27 1c	lda $1c27,x			lda 	TableTen+1,x
-.1bcc	85 11		sta $11				sta  	IFR1+IM1
-.1bce	bd 28 1c	lda $1c28,x			lda 	TableTen+2,x
-.1bd1	85 12		sta $12				sta  	IFR1+IM2
-.1bd3	bd 29 1c	lda $1c29,x			lda 	TableTen+3,x
-.1bd6	85 13		sta $13				sta  	IFR1+IExp
-.1bd8	a2 10		ldx #$10			ldx 	#IFR1 						; multiply into result
-.1bda	20 8b 17	jsr $178b			jsr 	IFloatMultiply
-.1bdd	a2 10		ldx #$10			ldx 	#IFR1  						; pop and add the decimal.
-.1bdf	20 5b 1c	jsr $1c5b			jsr 	IFloatPullRx
-.1be2	a2 10		ldx #$10			ldx 	#IFR1
-.1be4	20 e1 16	jsr $16e1			jsr 	IFloatAdd
-.1be7					_IFSTFExit2:
-.1be7	18		clc				clc
-.1be8	60		rts				rts
-.1be9					_IFSTFFail2:
-.1be9	38		sec				sec
-.1bea	60		rts				rts
-.1beb					IFSTFGetNext:
-.1beb	ad 47 02	lda $0247			lda 	IFCount  					; if count is zero, return with Z set.
-.1bee	f0 19		beq $1c09			beq 	_IFSTFReturnOk
-.1bf0	b2 0a		lda ($0a)			lda 	(iTemp0) 					; get next character
-.1bf2	e6 0a		inc $0a				inc 	iTemp0 						; point at next.
-.1bf4	d0 02		bne $1bf8			bne 	_IFSTFGNNoCarry
-.1bf6	e6 0b		inc $0b				inc 	iTemp0+1
-.1bf8					_IFSTFGNNoCarry:
-.1bf8	ce 47 02	dec $0247			dec 	IFCount 					; dec count.
-.1bfb	c9 2e		cmp #$2e			cmp 	#"."	 					; check, dp is allowed.
-.1bfd	f0 08		beq $1c07			beq 	_IFSTFGOkay
-.1bff	c9 30		cmp #$30			cmp 	#"0"						; < 0 fail.
-.1c01	90 08		bcc $1c0b			bcc 	_IFSTFGFail
-.1c03	c9 3a		cmp #$3a			cmp 	#"9"+1 						; > 9 fail.
-.1c05	b0 04		bcs $1c0b			bcs 	_IFSTFGFail
-.1c07					_IFSTFGOkay:
-.1c07	c9 00		cmp #$00			cmp 	#0 							; clears Z flag
-.1c09					_IFSTFReturnOk:
-.1c09	18		clc				clc
-.1c0a	60		rts				rts
-.1c0b					_IFSTFGFail:
-.1c0b	c9 00		cmp #$00			cmp 	#0 							; clears Z flag
-.1c0d	38		sec				sec
-.1c0e	60		rts				rts
-.1c0f					IFSTFAddR0:
-.1c0f	29 0f		and #$0f			and 	#15 						; to int value
-.1c11	48		pha				pha 								; save it.
-.1c12	a9 0a		lda #$0a			lda 	#10
-.1c14	a2 10		ldx #$10			ldx 	#IFR1
-.1c16	20 ed 1c	jsr $1ced			jsr 	IFloatSetByte
-.1c19	20 8b 17	jsr $178b			jsr 	IFloatMultiply
-.1c1c	68		pla				pla
-.1c1d	a2 10		ldx #$10			ldx 	#IFR1
-.1c1f	20 ed 1c	jsr $1ced			jsr 	IFloatSetByte
-.1c22	20 e1 16	jsr $16e1			jsr 	IFloatAdd
-.1c25	60		rts				rts
+.1b74					IFloatStringToFloatR0:
+.1b74	8d 47 02	sta $0247			sta 	IFCount 					; save it out.
+.1b77	86 0a		stx $0a				stx 	iTemp0
+.1b79	84 0b		sty $0b				sty 	iTemp0+1
+.1b7b	a2 0c		ldx #$0c			ldx 	#IFR0 						; reset the current value.
+.1b7d	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.1b80	9c 48 02	stz $0248			stz 	IFSignFlag 					; clear the sign flag
+.1b83	20 10 1c	jsr $1c10			jsr 	IFSTFGetNext 				; get first
+.1b86	f0 1b		beq $1ba3			beq 	_IFSTFFail 					; no character
+.1b88	90 10		bcc $1b9a			bcc 	_IFSTFHaveChar 				; legitimate character, go do it.
+.1b8a	c9 2d		cmp #$2d			cmp 	#"-" 						; if not -, fail
+.1b8c	d0 15		bne $1ba3			bne 	_IFSTFFail
+.1b8e	a9 40		lda #$40			lda 	#IFSign 					; set sign flag
+.1b90	8d 48 02	sta $0248			sta 	IFSignFlag
+.1b93					_IFSTFLoop:
+.1b93	20 10 1c	jsr $1c10			jsr 	IFSTFGetNext 				; get next
+.1b96	b0 0b		bcs $1ba3			bcs 	_IFSTFFail 					; bad character.
+.1b98	f0 11		beq $1bab			beq 	_IFSTFExit 					; end of data
+.1b9a					_IFSTFHaveChar:
+.1b9a	c9 2e		cmp #$2e			cmp 	#"."						; decimal point ?
+.1b9c	f0 08		beq $1ba6			beq 	_IFSTFDecimal
+.1b9e	20 34 1c	jsr $1c34			jsr 	IFSTFAddR0 					; add number in
+.1ba1	80 f0		bra $1b93			bra 	_IFSTFLoop 					; keep going until . or end.
+.1ba3					_IFSTFFail:
+.1ba3	38		sec				sec
+.1ba4	80 0d		bra $1bb3			bra 	_IFSTFReturn
+.1ba6					_IFSTFDecimal:
+.1ba6	20 bb 1b	jsr $1bbb			jsr 	IFSTFDecimal 				; call the decimal places code.
+.1ba9	b0 08		bcs $1bb3			bcs 	_IFSTFReturn 				; error
+.1bab					_IFSTFExit:
+.1bab	a5 0f		lda $0f				lda 	IFR0+IExp 					; copy sign flag in.
+.1bad	0d 48 02	ora $0248			ora 	IFSignFlag
+.1bb0	85 0f		sta $0f				sta 	IFR0+IExp
+.1bb2	18		clc				clc
+.1bb3					_IFSTFReturn:
+.1bb3	60		rts				rts
+.1bb4					IFloatAddDecimalToR0:
+.1bb4	8d 47 02	sta $0247			sta 	IFCount 					; save it out.
+.1bb7	86 0a		stx $0a				stx 	iTemp0
+.1bb9	84 0b		sty $0b				sty 	iTemp0+1
+.1bbb					IFSTFDecimal:
+.1bbb	a2 0c		ldx #$0c			ldx 	#IFR0 						; push integer part on stack
+.1bbd	20 5f 1c	jsr $1c5f			jsr 	IFloatPushRx
+.1bc0	a2 0c		ldx #$0c			ldx 	#IFR0 						; R0 is the decimal digits so far.
+.1bc2	20 10 1d	jsr $1d10			jsr 	IFloatSetZero
+.1bc5	9c 49 02	stz $0249			stz 	IFDecimalPlaces
+.1bc8					_IFSTDLoop:
+.1bc8	20 10 1c	jsr $1c10			jsr 	IFSTFGetNext 				; get next
+.1bcb	b0 41		bcs $1c0e			bcs 	_IFSTFFail2 				; bad character.
+.1bcd	f0 11		beq $1be0			beq 	_IFSTFComplete 				; end of data, work out the result.
+.1bcf	c9 2e		cmp #$2e			cmp 	#"."						; only one decimal
+.1bd1	f0 39		beq $1c0c			beq 	_IFSTFExit2
+.1bd3	20 34 1c	jsr $1c34			jsr 	IFSTFAddR0 					; add number in
+.1bd6	ee 49 02	inc $0249			inc 	IFDecimalPlaces 			; count decimals
+.1bd9	ad 49 02	lda $0249			lda 	IFDecimalPlaces 			; no more than 3 DP used.
+.1bdc	c9 03		cmp #$03			cmp 	#3
+.1bde	90 e8		bcc $1bc8			bcc 	_IFSTDLoop
+.1be0					_IFSTFComplete:
+.1be0	ad 49 02	lda $0249			lda 	IFDecimalPlaces 			; decimals x 4 as accessing multiplier from a LUT.
+.1be3	f0 27		beq $1c0c			beq 	_IFSTFExit2					; if none, this is syntactically fine, just ignore
+.1be5	3a		dec a				dec 	a 							; table indexed from 1.
+.1be6	0a		asl a				asl 	a
+.1be7	0a		asl a				asl 	a
+.1be8	aa		tax				tax
+.1be9	bd 4b 1c	lda $1c4b,x			lda 	TableTen,x 					; copy table entry into R0 - these are 0.1,0.01,0.001
+.1bec	85 10		sta $10				sta  	IFR1+IM0 					; 0.0001 etc, up to 5 decimals.
+.1bee	bd 4c 1c	lda $1c4c,x			lda 	TableTen+1,x
+.1bf1	85 11		sta $11				sta  	IFR1+IM1
+.1bf3	bd 4d 1c	lda $1c4d,x			lda 	TableTen+2,x
+.1bf6	85 12		sta $12				sta  	IFR1+IM2
+.1bf8	bd 4e 1c	lda $1c4e,x			lda 	TableTen+3,x
+.1bfb	85 13		sta $13				sta  	IFR1+IExp
+.1bfd	a2 10		ldx #$10			ldx 	#IFR1 						; multiply into result
+.1bff	20 b0 17	jsr $17b0			jsr 	IFloatMultiply
+.1c02	a2 10		ldx #$10			ldx 	#IFR1  						; pop and add the decimal.
+.1c04	20 80 1c	jsr $1c80			jsr 	IFloatPullRx
+.1c07	a2 10		ldx #$10			ldx 	#IFR1
+.1c09	20 06 17	jsr $1706			jsr 	IFloatAdd
+.1c0c					_IFSTFExit2:
+.1c0c	18		clc				clc
+.1c0d	60		rts				rts
+.1c0e					_IFSTFFail2:
+.1c0e	38		sec				sec
+.1c0f	60		rts				rts
+.1c10					IFSTFGetNext:
+.1c10	ad 47 02	lda $0247			lda 	IFCount  					; if count is zero, return with Z set.
+.1c13	f0 19		beq $1c2e			beq 	_IFSTFReturnOk
+.1c15	b2 0a		lda ($0a)			lda 	(iTemp0) 					; get next character
+.1c17	e6 0a		inc $0a				inc 	iTemp0 						; point at next.
+.1c19	d0 02		bne $1c1d			bne 	_IFSTFGNNoCarry
+.1c1b	e6 0b		inc $0b				inc 	iTemp0+1
+.1c1d					_IFSTFGNNoCarry:
+.1c1d	ce 47 02	dec $0247			dec 	IFCount 					; dec count.
+.1c20	c9 2e		cmp #$2e			cmp 	#"."	 					; check, dp is allowed.
+.1c22	f0 08		beq $1c2c			beq 	_IFSTFGOkay
+.1c24	c9 30		cmp #$30			cmp 	#"0"						; < 0 fail.
+.1c26	90 08		bcc $1c30			bcc 	_IFSTFGFail
+.1c28	c9 3a		cmp #$3a			cmp 	#"9"+1 						; > 9 fail.
+.1c2a	b0 04		bcs $1c30			bcs 	_IFSTFGFail
+.1c2c					_IFSTFGOkay:
+.1c2c	c9 00		cmp #$00			cmp 	#0 							; clears Z flag
+.1c2e					_IFSTFReturnOk:
+.1c2e	18		clc				clc
+.1c2f	60		rts				rts
+.1c30					_IFSTFGFail:
+.1c30	c9 00		cmp #$00			cmp 	#0 							; clears Z flag
+.1c32	38		sec				sec
+.1c33	60		rts				rts
+.1c34					IFSTFAddR0:
+.1c34	29 0f		and #$0f			and 	#15 						; to int value
+.1c36	48		pha				pha 								; save it.
+.1c37	a9 0a		lda #$0a			lda 	#10
+.1c39	a2 10		ldx #$10			ldx 	#IFR1
+.1c3b	20 12 1d	jsr $1d12			jsr 	IFloatSetByte
+.1c3e	20 b0 17	jsr $17b0			jsr 	IFloatMultiply
+.1c41	68		pla				pla
+.1c42	a2 10		ldx #$10			ldx 	#IFR1
+.1c44	20 12 1d	jsr $1d12			jsr 	IFloatSetByte
+.1c47	20 06 17	jsr $1706			jsr 	IFloatAdd
+.1c4a	60		rts				rts
 .0247					IFCount:
 >0247							.fill 	1
 .0248					IFSignFlag:
 >0248							.fill 	1
 .0249					IFDecimalPlaces:
 >0249							.fill 	1
-.1c26					TableTen:
->1c26	9a 19 00 30				.byte	$9a,$19,$00,$30 ; 0.10001
->1c2a	8f 02 00 30				.byte	$8f,$02,$00,$30 ; 0.00999
->1c2e	42 00 00 30				.byte	$42,$00,$00,$30 ; 0.00101
->1c32	07 00 00 30				.byte	$07,$00,$00,$30 ; 0.00011
->1c36	01 00 00 30				.byte	$01,$00,$00,$30 ; 2e-05
-.1c3a					IFloatPushRx:
-.1c3a	5a		phy				phy
-.1c3b	ac 4a 02	ldy $024a			ldy 	IFStackIndex
-.1c3e	b5 00		lda $00,x			lda 	IM0,x
-.1c40	99 4b 02	sta $024b,y			sta 	IFStack,y
-.1c43	b5 01		lda $01,x			lda 	IM1,x
-.1c45	99 4c 02	sta $024c,y			sta 	IFStack+1,y
-.1c48	b5 02		lda $02,x			lda 	IM2,x
-.1c4a	99 4d 02	sta $024d,y			sta 	IFStack+2,y
-.1c4d	b5 03		lda $03,x			lda 	IExp,x
-.1c4f	99 4e 02	sta $024e,y			sta 	IFStack+3,y
-.1c52	c8		iny				iny
-.1c53	c8		iny				iny
-.1c54	c8		iny				iny
-.1c55	c8		iny				iny
-.1c56	8c 4a 02	sty $024a			sty 	IFStackIndex
-.1c59	7a		ply				ply
-.1c5a	60		rts				rts
-.1c5b					IFloatPullRx:
-.1c5b	5a		phy				phy
-.1c5c	ac 4a 02	ldy $024a			ldy 	IFStackIndex
-.1c5f	88		dey				dey
-.1c60	88		dey				dey
-.1c61	88		dey				dey
-.1c62	88		dey				dey
-.1c63	b9 4b 02	lda $024b,y			lda 	IFStack,y
-.1c66	95 00		sta $00,x			sta 	IM0,x
-.1c68	b9 4c 02	lda $024c,y			lda 	IFStack+1,y
-.1c6b	95 01		sta $01,x			sta 	IM1,x
-.1c6d	b9 4d 02	lda $024d,y			lda 	IFStack+2,y
-.1c70	95 02		sta $02,x			sta 	IM2,x
-.1c72	b9 4e 02	lda $024e,y			lda 	IFStack+3,y
-.1c75	95 03		sta $03,x			sta 	IExp,x
-.1c77	8c 4a 02	sty $024a			sty 	IFStackIndex
-.1c7a	7a		ply				ply
-.1c7b	60		rts				rts
+.1c4b					TableTen:
+>1c4b	9a 19 00 30				.byte	$9a,$19,$00,$30 ; 0.10001
+>1c4f	8f 02 00 30				.byte	$8f,$02,$00,$30 ; 0.00999
+>1c53	42 00 00 30				.byte	$42,$00,$00,$30 ; 0.00101
+>1c57	07 00 00 30				.byte	$07,$00,$00,$30 ; 0.00011
+>1c5b	01 00 00 30				.byte	$01,$00,$00,$30 ; 2e-05
+.1c5f					IFloatPushRx:
+.1c5f	5a		phy				phy
+.1c60	ac 4a 02	ldy $024a			ldy 	IFStackIndex
+.1c63	b5 00		lda $00,x			lda 	IM0,x
+.1c65	99 4b 02	sta $024b,y			sta 	IFStack,y
+.1c68	b5 01		lda $01,x			lda 	IM1,x
+.1c6a	99 4c 02	sta $024c,y			sta 	IFStack+1,y
+.1c6d	b5 02		lda $02,x			lda 	IM2,x
+.1c6f	99 4d 02	sta $024d,y			sta 	IFStack+2,y
+.1c72	b5 03		lda $03,x			lda 	IExp,x
+.1c74	99 4e 02	sta $024e,y			sta 	IFStack+3,y
+.1c77	c8		iny				iny
+.1c78	c8		iny				iny
+.1c79	c8		iny				iny
+.1c7a	c8		iny				iny
+.1c7b	8c 4a 02	sty $024a			sty 	IFStackIndex
+.1c7e	7a		ply				ply
+.1c7f	60		rts				rts
+.1c80					IFloatPullRx:
+.1c80	5a		phy				phy
+.1c81	ac 4a 02	ldy $024a			ldy 	IFStackIndex
+.1c84	88		dey				dey
+.1c85	88		dey				dey
+.1c86	88		dey				dey
+.1c87	88		dey				dey
+.1c88	b9 4b 02	lda $024b,y			lda 	IFStack,y
+.1c8b	95 00		sta $00,x			sta 	IM0,x
+.1c8d	b9 4c 02	lda $024c,y			lda 	IFStack+1,y
+.1c90	95 01		sta $01,x			sta 	IM1,x
+.1c92	b9 4d 02	lda $024d,y			lda 	IFStack+2,y
+.1c95	95 02		sta $02,x			sta 	IM2,x
+.1c97	b9 4e 02	lda $024e,y			lda 	IFStack+3,y
+.1c9a	95 03		sta $03,x			sta 	IExp,x
+.1c9c	8c 4a 02	sty $024a			sty 	IFStackIndex
+.1c9f	7a		ply				ply
+.1ca0	60		rts				rts
 .024a					IFStackIndex:
 >024a							.fill 	1
 .024b					IFStack:
 >024b							.fill 	16*4
-.1c7c					IFloatCopyFromRegister:
-.1c7c	b5 00		lda $00,x			lda 	0,x
-.1c7e	85 0c		sta $0c				sta 	IFR0
-.1c80	b5 01		lda $01,x			lda 	1,x
-.1c82	85 0d		sta $0d				sta 	IFR0+1
-.1c84	b5 02		lda $02,x			lda 	2,x
-.1c86	85 0e		sta $0e				sta 	IFR0+2
-.1c88	b5 03		lda $03,x			lda 	3,x
-.1c8a	85 0f		sta $0f				sta 	IFR0+3
-.1c8c	60		rts				rts
-.1c8d					IFloatCopyToRegister:
-.1c8d	a5 0c		lda $0c				lda 	IFR0
-.1c8f	95 00		sta $00,x			sta 	0,x
-.1c91	a5 0d		lda $0d				lda 	IFR0+1
-.1c93	95 01		sta $01,x			sta 	1,x
-.1c95	a5 0e		lda $0e				lda 	IFR0+2
-.1c97	95 02		sta $02,x			sta 	2,x
-.1c99	a5 0f		lda $0f				lda 	IFR0+3
-.1c9b	95 03		sta $03,x			sta 	3,x
-.1c9d	60		rts				rts
-.1c9e					IFloatLoadInline:
-.1c9e	68		pla				pla 								; pop address off to iTemp0
-.1c9f	85 0a		sta $0a				sta 	iTemp0
-.1ca1	68		pla				pla
-.1ca2	85 0b		sta $0b				sta 	iTemp0+1
-.1ca4	a0 01		ldy #$01			ldy 	#1
-.1ca6	b1 0a		lda ($0a),y			lda 	(iTemp0),y 					; copy byte 0
-.1ca8	95 00		sta $00,x			sta 	0,x
-.1caa	c8		iny				iny
-.1cab	b1 0a		lda ($0a),y			lda 	(iTemp0),y 					; copy byte 1
-.1cad	95 01		sta $01,x			sta 	1,x
-.1caf	c8		iny				iny
-.1cb0	b1 0a		lda ($0a),y			lda 	(iTemp0),y 					; copy byte 2
-.1cb2	95 02		sta $02,x			sta 	2,x
-.1cb4	c8		iny				iny
-.1cb5	b1 0a		lda ($0a),y			lda 	(iTemp0),y 					; copy byte 3
-.1cb7	95 03		sta $03,x			sta 	3,x
-.1cb9	18		clc				clc 								; inc pointer, 1 for return, 4 for data
-.1cba	a5 0a		lda $0a				lda 	iTemp0
-.1cbc	69 05		adc #$05			adc 	#5
-.1cbe	85 0a		sta $0a				sta 	iTemp0
-.1cc0	90 02		bcc $1cc4			bcc 	_IFLINoCarry
-.1cc2	e6 0b		inc $0b				inc 	iTemp0+1
-.1cc4					_IFLINoCarry:
-.1cc4	6c 0a 00	jmp ($000a)			jmp 	(iTemp0)					; effectively RTS
-.1cc7					IFloatMultiply8BitRx:
-.1cc7	5a		phy		        phy
-.1cc8	b5 00		lda $00,x	        lda     IM0,x                       ; AY are the two values
-.1cca	a4 0c		ldy $0c		        ldy     IFR0+IM0
-.1ccc	4a		lsr a		        lsr     a                           ; prime the carry bit for the loop
-.1ccd	85 0c		sta $0c		        sta     IFR0+IM0
-.1ccf	84 0d		sty $0d		        sty     IFR0+IM1
-.1cd1	a9 00		lda #$00	        lda     #0
-.1cd3	a0 08		ldy #$08	        ldy     #8
-.1cd5					_IFMLoop:
-.1cd5	90 03		bcc $1cda	        bcc     _IFMNoAdd
-.1cd7	18		clc		        clc
-.1cd8	65 0d		adc $0d		        adc     IFR0+IM1
-.1cda					_IFMNoAdd:
-.1cda	6a		ror a		        ror     a
-.1cdb	66 0c		ror $0c		        ror     IFR0+IM0                    ; pull another bit out for the next iteration
-.1cdd	88		dey		        dey
-.1cde	d0 f5		bne $1cd5	        bne     _IFMLoop
-.1ce0	85 0d		sta $0d		        sta     IFR0+IM1                    ; write MSB out
-.1ce2	7a		ply		        ply
-.1ce3	60		rts		        rts
-.1ce4					IFloatCheckZero:
-.1ce4	b5 00		lda $00,x			lda 	IM0,x
-.1ce6	15 01		ora $01,x			ora 	IM1,x
-.1ce8	15 02		ora $02,x			ora 	IM2,x
-.1cea	60		rts				rts
-.1ceb					IFloatSetZero:
-.1ceb	a9 00		lda #$00			lda 	#0
-.1ced					IFloatSetByte:
-.1ced	95 00		sta $00,x			sta 	IM0,x 						; set mantissa to 00A
-.1cef	74 01		stz $01,x			stz 	IM1,x
-.1cf1	74 02		stz $02,x			stz 	IM2,x
-.1cf3	74 03		stz $03,x			stz 	IExp,x 						; zero the exponent.
-.1cf5	60		rts				rts
-.1cf6					IFloatNegate:
-.1cf6	b5 03		lda $03,x			lda 	IExp,x
-.1cf8	49 40		eor #$40			eor 	#IFSign
-.1cfa	95 03		sta $03,x			sta 	IExp,x
-.1cfc	18		clc				clc
-.1cfd	60		rts				rts
-.1cfe					IFloatMantissaNegate:
-.1cfe	38		sec				sec
-.1cff	a9 00		lda #$00			lda 	#0
-.1d01	f5 00		sbc $00,x			sbc 	IM0,x
-.1d03	95 00		sta $00,x			sta 	IM0,x
-.1d05	a9 00		lda #$00			lda 	#0
-.1d07	f5 01		sbc $01,x			sbc 	IM1,x
-.1d09	95 01		sta $01,x			sta 	IM1,x
-.1d0b	a9 00		lda #$00			lda 	#0
-.1d0d	f5 02		sbc $02,x			sbc 	IM2,x
-.1d0f	95 02		sta $02,x			sta 	IM2,x
-.1d11	60		rts				rts
-.1d12					IFloatShiftLeft:
-.1d12	18		clc				clc
-.1d13					IFloatRotateLeft:
-.1d13	36 00		rol $00,x			rol 	IM0,x
-.1d15	36 01		rol $01,x			rol 	IM1,x
-.1d17	36 02		rol $02,x			rol 	IM2,x
-.1d19	60		rts				rts
-.1d1a					IFloatShiftRight:
-.1d1a	18		clc				clc
-.1d1b					IFloatRotateRight:
-.1d1b	76 02		ror $02,x			ror 	IM2,x
-.1d1d	76 01		ror $01,x			ror 	IM1,x
-.1d1f	76 00		ror $00,x			ror 	IM0,x
-.1d21	60		rts				rts
-.1d22					IFloatNormalise:
-.1d22	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero 			; is it zero
-.1d25	f0 18		beq $1d3f			beq 	_IFNExitZero 				; if so exit
-.1d27					_IFNLoop:
-.1d27	b5 02		lda $02,x			lda 	IM2,x 						; is it normalised e.g. bits 7/6 are 01
-.1d29	29 c0		and #$c0			and 	#$C0
-.1d2b	c9 40		cmp #$40			cmp 	#$40
-.1d2d	f0 13		beq $1d42			beq 	_IFNExitOkay 				; if so , then we are done.
-.1d2f	b5 03		lda $03,x			lda 	IExp,x 						; check exponent is not -32 already.
-.1d31	29 3f		and #$3f			and 	#$3F
-.1d33	c9 20		cmp #$20			cmp 	#$20
-.1d35	f0 0b		beq $1d42			beq 	_IFNExitOkay 				; if so, then we cannot normalise any more.
-.1d37	20 58 1d	jsr $1d58			jsr 	IFloatDecExponent
-.1d3a	20 12 1d	jsr $1d12			jsr 	IFloatShiftLeft 			; shift mantissa left, e.g. multiply by 2
-.1d3d	80 e8		bra $1d27			bra 	_IFNLoop
-.1d3f					_IFNExitZero:
-.1d3f	20 eb 1c	jsr $1ceb			jsr 	IFloatSetZero 				; set the result to zero
-.1d42					_IFNExitOkay:
-.1d42	18		clc				clc  								; return with CC.
-.1d43	60		rts				rts
-.1d44					IFloatIncExponent:
-.1d44	b5 03		lda $03,x			lda 	IExp,x
-.1d46	48		pha				pha
-.1d47	29 c0		and #$c0			and 	#$C0
-.1d49	8d 8b 02	sta $028b			sta 	IFXTemp
-.1d4c	68		pla				pla
-.1d4d	1a		inc a				inc 	a
-.1d4e	29 3f		and #$3f			and 	#$3F
-.1d50	48		pha				pha
-.1d51	0d 8b 02	ora $028b			ora 	IFXTemp
-.1d54	95 03		sta $03,x			sta 	IExp,x
-.1d56	68		pla				pla
-.1d57	60		rts				rts
-.1d58					IFloatDecExponent:
-.1d58	b5 03		lda $03,x			lda 	IExp,x
-.1d5a	48		pha				pha
-.1d5b	29 c0		and #$c0			and 	#$C0
-.1d5d	8d 8b 02	sta $028b			sta 	IFXTemp
-.1d60	68		pla				pla
-.1d61	3a		dec a				dec 	a
-.1d62	29 3f		and #$3f			and 	#$3F
-.1d64	48		pha				pha
-.1d65	0d 8b 02	ora $028b			ora 	IFXTemp
-.1d68	95 03		sta $03,x			sta 	IExp,x
-.1d6a	68		pla				pla
-.1d6b	60		rts				rts
+.1ca1					IFloatCopyFromRegister:
+.1ca1	b5 00		lda $00,x			lda 	0,x
+.1ca3	85 0c		sta $0c				sta 	IFR0
+.1ca5	b5 01		lda $01,x			lda 	1,x
+.1ca7	85 0d		sta $0d				sta 	IFR0+1
+.1ca9	b5 02		lda $02,x			lda 	2,x
+.1cab	85 0e		sta $0e				sta 	IFR0+2
+.1cad	b5 03		lda $03,x			lda 	3,x
+.1caf	85 0f		sta $0f				sta 	IFR0+3
+.1cb1	60		rts				rts
+.1cb2					IFloatCopyToRegister:
+.1cb2	a5 0c		lda $0c				lda 	IFR0
+.1cb4	95 00		sta $00,x			sta 	0,x
+.1cb6	a5 0d		lda $0d				lda 	IFR0+1
+.1cb8	95 01		sta $01,x			sta 	1,x
+.1cba	a5 0e		lda $0e				lda 	IFR0+2
+.1cbc	95 02		sta $02,x			sta 	2,x
+.1cbe	a5 0f		lda $0f				lda 	IFR0+3
+.1cc0	95 03		sta $03,x			sta 	3,x
+.1cc2	60		rts				rts
+.1cc3					IFloatLoadInline:
+.1cc3	68		pla				pla 								; pop address off to iTemp0
+.1cc4	85 0a		sta $0a				sta 	iTemp0
+.1cc6	68		pla				pla
+.1cc7	85 0b		sta $0b				sta 	iTemp0+1
+.1cc9	a0 01		ldy #$01			ldy 	#1
+.1ccb	b1 0a		lda ($0a),y			lda 	(iTemp0),y 					; copy byte 0
+.1ccd	95 00		sta $00,x			sta 	0,x
+.1ccf	c8		iny				iny
+.1cd0	b1 0a		lda ($0a),y			lda 	(iTemp0),y 					; copy byte 1
+.1cd2	95 01		sta $01,x			sta 	1,x
+.1cd4	c8		iny				iny
+.1cd5	b1 0a		lda ($0a),y			lda 	(iTemp0),y 					; copy byte 2
+.1cd7	95 02		sta $02,x			sta 	2,x
+.1cd9	c8		iny				iny
+.1cda	b1 0a		lda ($0a),y			lda 	(iTemp0),y 					; copy byte 3
+.1cdc	95 03		sta $03,x			sta 	3,x
+.1cde	18		clc				clc 								; inc pointer, 1 for return, 4 for data
+.1cdf	a5 0a		lda $0a				lda 	iTemp0
+.1ce1	69 05		adc #$05			adc 	#5
+.1ce3	85 0a		sta $0a				sta 	iTemp0
+.1ce5	90 02		bcc $1ce9			bcc 	_IFLINoCarry
+.1ce7	e6 0b		inc $0b				inc 	iTemp0+1
+.1ce9					_IFLINoCarry:
+.1ce9	6c 0a 00	jmp ($000a)			jmp 	(iTemp0)					; effectively RTS
+.1cec					IFloatMultiply8BitRx:
+.1cec	5a		phy		        phy
+.1ced	b5 00		lda $00,x	        lda     IM0,x                       ; AY are the two values
+.1cef	a4 0c		ldy $0c		        ldy     IFR0+IM0
+.1cf1	4a		lsr a		        lsr     a                           ; prime the carry bit for the loop
+.1cf2	85 0c		sta $0c		        sta     IFR0+IM0
+.1cf4	84 0d		sty $0d		        sty     IFR0+IM1
+.1cf6	a9 00		lda #$00	        lda     #0
+.1cf8	a0 08		ldy #$08	        ldy     #8
+.1cfa					_IFMLoop:
+.1cfa	90 03		bcc $1cff	        bcc     _IFMNoAdd
+.1cfc	18		clc		        clc
+.1cfd	65 0d		adc $0d		        adc     IFR0+IM1
+.1cff					_IFMNoAdd:
+.1cff	6a		ror a		        ror     a
+.1d00	66 0c		ror $0c		        ror     IFR0+IM0                    ; pull another bit out for the next iteration
+.1d02	88		dey		        dey
+.1d03	d0 f5		bne $1cfa	        bne     _IFMLoop
+.1d05	85 0d		sta $0d		        sta     IFR0+IM1                    ; write MSB out
+.1d07	7a		ply		        ply
+.1d08	60		rts		        rts
+.1d09					IFloatCheckZero:
+.1d09	b5 00		lda $00,x			lda 	IM0,x
+.1d0b	15 01		ora $01,x			ora 	IM1,x
+.1d0d	15 02		ora $02,x			ora 	IM2,x
+.1d0f	60		rts				rts
+.1d10					IFloatSetZero:
+.1d10	a9 00		lda #$00			lda 	#0
+.1d12					IFloatSetByte:
+.1d12	95 00		sta $00,x			sta 	IM0,x 						; set mantissa to 00A
+.1d14	74 01		stz $01,x			stz 	IM1,x
+.1d16	74 02		stz $02,x			stz 	IM2,x
+.1d18	74 03		stz $03,x			stz 	IExp,x 						; zero the exponent.
+.1d1a	60		rts				rts
+.1d1b					IFloatNegate:
+.1d1b	b5 03		lda $03,x			lda 	IExp,x
+.1d1d	49 40		eor #$40			eor 	#IFSign
+.1d1f	95 03		sta $03,x			sta 	IExp,x
+.1d21	18		clc				clc
+.1d22	60		rts				rts
+.1d23					IFloatMantissaNegate:
+.1d23	38		sec				sec
+.1d24	a9 00		lda #$00			lda 	#0
+.1d26	f5 00		sbc $00,x			sbc 	IM0,x
+.1d28	95 00		sta $00,x			sta 	IM0,x
+.1d2a	a9 00		lda #$00			lda 	#0
+.1d2c	f5 01		sbc $01,x			sbc 	IM1,x
+.1d2e	95 01		sta $01,x			sta 	IM1,x
+.1d30	a9 00		lda #$00			lda 	#0
+.1d32	f5 02		sbc $02,x			sbc 	IM2,x
+.1d34	95 02		sta $02,x			sta 	IM2,x
+.1d36	60		rts				rts
+.1d37					IFloatShiftLeft:
+.1d37	18		clc				clc
+.1d38					IFloatRotateLeft:
+.1d38	36 00		rol $00,x			rol 	IM0,x
+.1d3a	36 01		rol $01,x			rol 	IM1,x
+.1d3c	36 02		rol $02,x			rol 	IM2,x
+.1d3e	60		rts				rts
+.1d3f					IFloatShiftRight:
+.1d3f	18		clc				clc
+.1d40					IFloatRotateRight:
+.1d40	76 02		ror $02,x			ror 	IM2,x
+.1d42	76 01		ror $01,x			ror 	IM1,x
+.1d44	76 00		ror $00,x			ror 	IM0,x
+.1d46	60		rts				rts
+.1d47					IFloatNormalise:
+.1d47	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero 			; is it zero
+.1d4a	f0 18		beq $1d64			beq 	_IFNExitZero 				; if so exit
+.1d4c					_IFNLoop:
+.1d4c	b5 02		lda $02,x			lda 	IM2,x 						; is it normalised e.g. bits 7/6 are 01
+.1d4e	29 c0		and #$c0			and 	#$C0
+.1d50	c9 40		cmp #$40			cmp 	#$40
+.1d52	f0 13		beq $1d67			beq 	_IFNExitOkay 				; if so , then we are done.
+.1d54	b5 03		lda $03,x			lda 	IExp,x 						; check exponent is not -32 already.
+.1d56	29 3f		and #$3f			and 	#$3F
+.1d58	c9 20		cmp #$20			cmp 	#$20
+.1d5a	f0 0b		beq $1d67			beq 	_IFNExitOkay 				; if so, then we cannot normalise any more.
+.1d5c	20 7d 1d	jsr $1d7d			jsr 	IFloatDecExponent
+.1d5f	20 37 1d	jsr $1d37			jsr 	IFloatShiftLeft 			; shift mantissa left, e.g. multiply by 2
+.1d62	80 e8		bra $1d4c			bra 	_IFNLoop
+.1d64					_IFNExitZero:
+.1d64	20 10 1d	jsr $1d10			jsr 	IFloatSetZero 				; set the result to zero
+.1d67					_IFNExitOkay:
+.1d67	18		clc				clc  								; return with CC.
+.1d68	60		rts				rts
+.1d69					IFloatIncExponent:
+.1d69	b5 03		lda $03,x			lda 	IExp,x
+.1d6b	48		pha				pha
+.1d6c	29 c0		and #$c0			and 	#$C0
+.1d6e	8d 8b 02	sta $028b			sta 	IFXTemp
+.1d71	68		pla				pla
+.1d72	1a		inc a				inc 	a
+.1d73	29 3f		and #$3f			and 	#$3F
+.1d75	48		pha				pha
+.1d76	0d 8b 02	ora $028b			ora 	IFXTemp
+.1d79	95 03		sta $03,x			sta 	IExp,x
+.1d7b	68		pla				pla
+.1d7c	60		rts				rts
+.1d7d					IFloatDecExponent:
+.1d7d	b5 03		lda $03,x			lda 	IExp,x
+.1d7f	48		pha				pha
+.1d80	29 c0		and #$c0			and 	#$C0
+.1d82	8d 8b 02	sta $028b			sta 	IFXTemp
+.1d85	68		pla				pla
+.1d86	3a		dec a				dec 	a
+.1d87	29 3f		and #$3f			and 	#$3F
+.1d89	48		pha				pha
+.1d8a	0d 8b 02	ora $028b			ora 	IFXTemp
+.1d8d	95 03		sta $03,x			sta 	IExp,x
+.1d8f	68		pla				pla
+.1d90	60		rts				rts
 .028b					IFXTemp:
 >028b							.fill 	1
-.1d6c					IFloatBufferReset:
-.1d6c	9c 8c 02	stz $028c			stz 	IFBufferCount
-.1d6f	9c 8d 02	stz $028d			stz 	IFBuffer
-.1d72	60		rts				rts
-.1d73					IFloatGetBufferAddress:
-.1d73	a0 02		ldy #$02			ldy 	#(IFBuffer >> 8)
-.1d75	a2 8d		ldx #$8d			ldx 	#(IFBuffer & $FF)
-.1d77	ad 8c 02	lda $028c			lda 	IFBufferCount
-.1d7a	60		rts				rts
-.1d7b					IFloatBufferWrite:
-.1d7b	da		phx				phx
-.1d7c	ae 8c 02	ldx $028c			ldx 	IFBufferCount
-.1d7f	9d 8d 02	sta $028d,x			sta 	IFBuffer,x
-.1d82	9e 8e 02	stz $028e,x			stz 	IFBuffer+1,x
-.1d85	ee 8c 02	inc $028c			inc 	IFBufferCount
-.1d88	fa		plx				plx
-.1d89	60		rts				rts
-.1d8a					IFloatStripTrailingZeros:
-.1d8a	ae 8c 02	ldx $028c			ldx 	IFBufferCount
-.1d8d	bd 8c 02	lda $028c,x			lda 	IFBuffer-1,x
-.1d90	c9 30		cmp #$30			cmp		#"0"
-.1d92	d0 0f		bne $1da3			bne 	_IFSTExit
-.1d94	bd 8b 02	lda $028b,x			lda 	IFBuffer-2,x
-.1d97	c9 2e		cmp #$2e			cmp 	#"."
-.1d99	f0 08		beq $1da3			beq 	_IFSTExit
-.1d9b	ce 8c 02	dec $028c			dec 	IFBufferCount
-.1d9e	9e 8c 02	stz $028c,x			stz 	IFBuffer-1,x
-.1da1	80 e7		bra $1d8a			bra 	IFloatStripTrailingZeros
-.1da3					_IFSTExit:
-.1da3	60		rts				rts
+.1d91					IFloatBufferReset:
+.1d91	9c 8c 02	stz $028c			stz 	IFBufferCount
+.1d94	9c 8d 02	stz $028d			stz 	IFBuffer
+.1d97	60		rts				rts
+.1d98					IFloatGetBufferAddress:
+.1d98	a0 02		ldy #$02			ldy 	#(IFBuffer >> 8)
+.1d9a	a2 8d		ldx #$8d			ldx 	#(IFBuffer & $FF)
+.1d9c	ad 8c 02	lda $028c			lda 	IFBufferCount
+.1d9f	60		rts				rts
+.1da0					IFloatBufferWrite:
+.1da0	da		phx				phx
+.1da1	ae 8c 02	ldx $028c			ldx 	IFBufferCount
+.1da4	9d 8d 02	sta $028d,x			sta 	IFBuffer,x
+.1da7	9e 8e 02	stz $028e,x			stz 	IFBuffer+1,x
+.1daa	ee 8c 02	inc $028c			inc 	IFBufferCount
+.1dad	fa		plx				plx
+.1dae	60		rts				rts
+.1daf					IFloatStripTrailingZeros:
+.1daf	ae 8c 02	ldx $028c			ldx 	IFBufferCount
+.1db2	bd 8c 02	lda $028c,x			lda 	IFBuffer-1,x
+.1db5	c9 30		cmp #$30			cmp		#"0"
+.1db7	d0 0f		bne $1dc8			bne 	_IFSTExit
+.1db9	bd 8b 02	lda $028b,x			lda 	IFBuffer-2,x
+.1dbc	c9 2e		cmp #$2e			cmp 	#"."
+.1dbe	f0 08		beq $1dc8			beq 	_IFSTExit
+.1dc0	ce 8c 02	dec $028c			dec 	IFBufferCount
+.1dc3	9e 8c 02	stz $028c,x			stz 	IFBuffer-1,x
+.1dc6	80 e7		bra $1daf			bra 	IFloatStripTrailingZeros
+.1dc8					_IFSTExit:
+.1dc8	60		rts				rts
 .028c					IFBufferCount:
 >028c							.fill 	1
 .028d					IFBuffer:
 >028d							.fill 	25
-.1da4					IFloatCheck:
-.1da4	a5 0f		lda $0f				lda 	IFR0+IExp					; force it negative
-.1da6	09 40		ora #$40			ora 	#IFSign
-.1da8	85 0f		sta $0f				sta 	IFR0+IExp
-.1daa	20 e1 16	jsr $16e1			jsr 	IFloatAdd 					; add allowed to error.
-.1dad	a2 0c		ldx #$0c			ldx 	#IFR0
-.1daf	20 e4 1c	jsr $1ce4			jsr 	IFloatCheckZero 			; error if < 0
-.1db2	f0 06		beq $1dba			beq 	_IFAOkay
-.1db4	a5 0f		lda $0f				lda 	IFR0+IExp
-.1db6	29 40		and #$40			and 	#IFSign
-.1db8	d0 01		bne $1dbb			bne 	_IFAFail
-.1dba					_IFAOkay:
-.1dba	60		rts				rts
-.1dbb					_IFAFail:
-.1dbb	38		sec				sec
-.1dbc	68		pla				pla 								; get address - 2
-.1dbd	e9 02		sbc #$02			sbc 	#2
-.1dbf	aa		tax				tax
-.1dc0	68		pla				pla
-.1dc1	e9 00		sbc #$00			sbc 	#0
-.1dc3	a8		tay				tay
-.1dc4	a9 aa		lda #$aa			lda 	#$AA 						; sign assert
-.1dc6					_IFAStop:
->1dc6	db						.byte 	$DB 						; display an error AA ADR ADR
-.1dc7	80 fd		bra $1dc6			bra 	_IFAStop
+.1dc9					IFloatCheck:
+.1dc9	a5 0f		lda $0f				lda 	IFR0+IExp					; force it negative
+.1dcb	09 40		ora #$40			ora 	#IFSign
+.1dcd	85 0f		sta $0f				sta 	IFR0+IExp
+.1dcf	20 06 17	jsr $1706			jsr 	IFloatAdd 					; add allowed to error.
+.1dd2	a2 0c		ldx #$0c			ldx 	#IFR0
+.1dd4	20 09 1d	jsr $1d09			jsr 	IFloatCheckZero 			; error if < 0
+.1dd7	f0 06		beq $1ddf			beq 	_IFAOkay
+.1dd9	a5 0f		lda $0f				lda 	IFR0+IExp
+.1ddb	29 40		and #$40			and 	#IFSign
+.1ddd	d0 01		bne $1de0			bne 	_IFAFail
+.1ddf					_IFAOkay:
+.1ddf	60		rts				rts
+.1de0					_IFAFail:
+.1de0	38		sec				sec
+.1de1	68		pla				pla 								; get address - 2
+.1de2	e9 02		sbc #$02			sbc 	#2
+.1de4	aa		tax				tax
+.1de5	68		pla				pla
+.1de6	e9 00		sbc #$00			sbc 	#0
+.1de8	a8		tay				tay
+.1de9	a9 aa		lda #$aa			lda 	#$AA 						; sign assert
+.1deb					_IFAStop:
+>1deb	db						.byte 	$DB 						; display an error AA ADR ADR
+.1dec	80 fd		bra $1deb			bra 	_IFAStop
 
 ;******  Return to file: basic.asm
 
-.1dc9					NotImplemented:
-.1dc9	a9 ff		lda #$ff			lda 	#$FF
-.1dcb	80 04		bra $1dd1			bra 	EnterDbg
-.1dcd					ErrorHandler:
-.1dcd	fa		plx				plx
-.1dce	7a		ply				ply
-.1dcf	a9 ee		lda #$ee			lda 	#$EE
-.1dd1					EnterDbg:
->1dd1	db						.byte 	$DB
-.1dd2	4c d1 1d	jmp $1dd1			jmp 	EnterDbg
+.1dee					NotImplemented:
+.1dee	a9 ff		lda #$ff			lda 	#$FF
+.1df0	80 04		bra $1df6			bra 	EnterDbg
+.1df2					ErrorHandler:
+.1df2	fa		plx				plx
+.1df3	7a		ply				ply
+.1df4	a9 ee		lda #$ee			lda 	#$EE
+.1df6					EnterDbg:
+>1df6	db						.byte 	$DB
+.1df7	4c f6 1d	jmp $1df6			jmp 	EnterDbg
 
 ;******  End of listing
