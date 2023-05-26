@@ -37,6 +37,8 @@ boot:
 		.include "include.files"
 		.include "build/libmathslib.asmlib"
 
+NotImplemented:
+
 ErrorHandler:
 		.debug
 		lda 	#$EE

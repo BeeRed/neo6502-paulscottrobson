@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		sqr.asm
-;		Purpose:	Square Root unary
-;		Created:	21st May 2023
+;		Name:		fractional.asm
+;		Purpose:	Fractional part of number
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -12,27 +12,23 @@
 
 ; ************************************************************************************************
 ;
-;									String length
+;								Fractional part of number
 ;
 ; ************************************************************************************************
 
 		.section code	
 
-EXPUnarySqr: ;; [SQR(]
+EXPUnaryFrac: ;; [frac(]
 		jsr 	EXPEvalNumber 					; number to R0
 		jsr 	ERRCheckRParen 					; )
-		jsr 	IFloatSquareRootR0 				; square root.
-		bcs 	_EUSValue
+		jsr 	IFloatFractionalR0
 		rts
-_EUSValue:
-		.error_range		
 
 		.send code
 
-;: [sqr(n)]\
-; Returns the square root of the given number \
-; { print sqr(144) } prints 12.0
-
+;: [frac(n)]\
+; Returns the fractional part of the number, e.g. without the integer part.\
+; { print frac(-4.3) , frac(5.6) } prints 0.3 0.6
 				
 ; ************************************************************************************************
 ;

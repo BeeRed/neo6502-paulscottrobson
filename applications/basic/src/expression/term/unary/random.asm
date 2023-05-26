@@ -3,7 +3,7 @@
 ;
 ;		Name:		random.asm
 ;		Purpose:	Random number generators
-;		Created:	22nd May 2023
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;

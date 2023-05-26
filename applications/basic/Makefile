@@ -15,7 +15,7 @@ else
 include ../../documents/common.make
 endif
 
-all: assemble
+all: assemble test
 
 assemble:
 	make -C scripts

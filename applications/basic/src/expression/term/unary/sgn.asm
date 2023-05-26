@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		abs.asm
-;		Purpose:	Absolute value of number
-;		Created:	22nd May 2023
+;		Name:		sgn.asm
+;		Purpose:	Sign of number
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -12,23 +12,29 @@
 
 ; ************************************************************************************************
 ;
-;								Absolute value of number
+;								Sign of number
 ;
 ; ************************************************************************************************
 
 		.section code	
 
-EXPUnaryAbs: ;; [abs(]
+EXPUnarySgn: ;; [sgn(]
 		jsr 	EXPEvalNumber 					; number to R0
 		jsr 	ERRCheckRParen 					; )
-		jsr 	IFloatAbsoluteR0
+		ldx 	#IFR1 							; copy to R1
+		jsr 	IFloatCopyToRegister
+		ldx 	#IFR0 							; R0 = 0
+		jsr 	IFloatSetZero
+		ldx 	#IFR1
+		jsr 	IFloatCompare 					; compare R1 vs 0.
 		rts
 
 		.send code
 
-;: [abs(n)]\
-; Returns the absolute value of the parameter\
-; { print abs(-4) , abs(5) } prints 4 5
+;: [sgn(n)]\
+; Returns the sign of the number n ; 0 if zero, -1 if negative, 1 if positive and not zero\
+; { print sgn(-13) } prints -1
+
 				
 ; ************************************************************************************************
 ;

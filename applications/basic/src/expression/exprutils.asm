@@ -3,7 +3,7 @@
 ;
 ;		Name:		exprutils.asm
 ;		Purpose:	Evaluate expression helpers.
-;		Created:	21st May 2023
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -19,7 +19,7 @@
 ; ************************************************************************************************
 
 EXPEvalNumber:
-		jsr 	EXPEvaluateExpression
+		jsr 	EXPTermValueR0
 		bit 	IFR0+IExp
 		bmi 	EVUType
 		rts
@@ -62,7 +62,7 @@ EXPEvalInteger8:
 ; ************************************************************************************************
 
 EXPEvalString:
-		jsr 	EXPEvaluateExpression
+		jsr 	EXPTermValueR0
 		bit 	IFR0+IExp
 		bpl 	EVUType
 		ldx 	IFR0+IM1

@@ -127,8 +127,6 @@ _ETMCallUnaryFunction:
 _ETMUnarySyntax:
 		.error_syntax				
 
-VectorTable:
-
 ; ************************************************************************************************
 ;
 ;				If followed by a [[DECIMAL]] adjust R0 to floating point value

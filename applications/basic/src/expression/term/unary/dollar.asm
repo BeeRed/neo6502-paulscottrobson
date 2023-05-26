@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		sgn.asm
-;		Purpose:	Sign of number
-;		Created:	22nd May 2023
+;		Name:		dollar.asm
+;		Purpose:	Dollar pass through
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -12,29 +12,22 @@
 
 ; ************************************************************************************************
 ;
-;								Sign of number
+;								Dollar pass through for hex
 ;
 ; ************************************************************************************************
 
 		.section code	
 
-EXPUnarySgn: ;; [sgn(]
-		jsr 	EXPEvalNumber 					; number to R0
-		jsr 	ERRCheckRParen 					; )
-		ldx 	#IFR1 							; copy to R1
-		jsr 	IFloatCopyToRegister
-		ldx 	#IFR0 							; R0 = 0
-		jsr 	IFloatSetZero
-		ldx 	#IFR1
-		jsr 	IFloatCompare 					; compare R1 vs 0.
+EXPUnaryNull: ;; [$]
+		jsr 	EXPTermValueR0
 		rts
 
 		.send code
 
-;: [sgn(n)]\
-; Returns the sign of the number n ; 0 if zero, -1 if negative, 1 if positive and not zero\
-; { print sgn(-13) } prints -1
-
+;: $\
+; $ is used as a hexadecimal marker, so if you have $7FFE in your code it is the same as the
+; constant 32766. This can improve readability.\
+; { print $2a } prints 42
 				
 ; ************************************************************************************************
 ;
