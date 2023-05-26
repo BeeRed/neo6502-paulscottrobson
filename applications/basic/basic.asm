@@ -36,10 +36,14 @@ boot:
 
 NotImplemented:
 		lda 	#$FF
-ErrorHandler:
-		.debug
+		bra 	EnterDbg
+ErrorHandler:			
+		plx
+		ply
 		lda 	#$EE
-		jmp 	ErrorHandler
+EnterDbg:		
+		.debug
+		jmp 	EnterDbg
 		.send code
 
 

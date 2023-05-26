@@ -113,7 +113,6 @@ Command_Shift_Handler: ;; [[[shift]]]
 ; ************************************************************************************************
 
 Command_END: ;; [end]
-		jmp 	Command_END
 		jmp 	$FFFF
 
 ;:[END]\

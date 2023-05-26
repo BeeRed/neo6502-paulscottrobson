@@ -3,7 +3,7 @@
 ;
 ;		Name:		expression.asm
 ;		Purpose:	Evaluate expression to R0
-;		Created:	21st May 2023
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -22,19 +22,18 @@ EXPEvaluateExpression:
 		lda 	#0 							; current precedence
 EXPEvaluateExpressionPrecedenceA:
 		pha		
-		jsr 	EXPEvaluateValTermR0		; do RHS
+		jsr 	EXPTermValueR0				; do first term.
 		;
 		;		Main loop (precedence on TOS)
 		;		
 _EELoop:		
 		lda 	(codePtr),y 				; what follows needs to be a binary operator
-		bpl		_EEExit
-		cmp 	#PR_BINARY_UPPER+1 		
-		bcs 	_EEExit
+		cmp 	#PR_BINARY_FIRST 			; binary tokens are the last ones up to $FF
+		bcc 	_EEExit
 		;
 		tax 								; access the precedence of the operator.
-		pla 								; restore precedence
-		cmp 	EXPBinaryPrecedence-$80,x 	; if >= operator precedence then exit
+		pla 								; restore precedence.if >= operator precedence then exit
+		cmp 	BinaryPrecedence-PR_BINARY_FIRST,x 	
 		bcs 	_EEExit2
 		;
 		pha 								; save current precedence.
@@ -45,8 +44,8 @@ _EELoop:
 		ldx 	#IFR0 						; push R0 on the stack
 		jsr 	IFloatPushRx
 		plx
-
-		lda 	EXPBinaryPrecedence-$80,x 	; get precedence of operator, and evaluate at that precedence -> R0
+											; get precedence of operator, and evaluate at that precedence -> R0
+		lda 	BinaryPrecedence-PR_BINARY_FIRST,x 	
 		jsr 	EXPEvaluateExpressionPrecedenceA
 
 		ldx 	#IFR1 						; pop LHS to R1.
@@ -54,16 +53,7 @@ _EELoop:
 
 		plx 								; operator
 
-		cpx 	#PR_LOWEST_BINARY_COMPARE  	; is it a comparison
-		bcs 	_EECheckCompare
-
-		lda 	IFR0+IExp 					; if not, both must be numbers
-		ora 	IFR1+IExp
-		bmi 	_EEType
-		bra 	_EETypeOkay
-
-_EECheckCompare:
-		lda 	IFR0+IExp 					; if comparison must be the same type.
+		lda 	IFR0+IExp 					; if check types match.
 		eor 	IFR1+IExp
 		bmi 	_EEType		
 
@@ -77,10 +67,11 @@ _EETypeOkay:
 _EEType:
 		.error_type
 _EECallBinary:
-		jmp 	(EXPBinaryVectors,x)
+		jmp 	(VectorTable,x)
 _EEExit:
 		pla 								; throw precedence
 _EEExit2:
+		clc 					
 		rts		
 		.send code
 				

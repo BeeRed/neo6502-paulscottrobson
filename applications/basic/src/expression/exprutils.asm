@@ -61,10 +61,6 @@ EXPEvalInteger8:
 ;
 ; ************************************************************************************************
 
-EXPEvaluateExpression:
-		jsr 	EXPTermValueR0
-		rts
-
 EXPEvalString:
 		jsr 	EXPEvaluateExpression
 		bit 	IFR0+IExp

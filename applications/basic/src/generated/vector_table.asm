@@ -119,14 +119,14 @@ VectorTable:
 	.word	NotImplemented           ; $f2 <
 	.word	NotImplemented           ; $f3 >=
 	.word	NotImplemented           ; $f4 >
-	.word	NotImplemented           ; $f5 XOR
-	.word	NotImplemented           ; $f6 OR
-	.word	NotImplemented           ; $f7 AND
-	.word	NotImplemented           ; $f8 DIV
-	.word	NotImplemented           ; $f9 MOD
+	.word	EXPBinXor                ; $f5 XOR
+	.word	EXPBinOr                 ; $f6 OR
+	.word	EXPBinAnd                ; $f7 AND
+	.word	EXPBinIDiv               ; $f8 DIV
+	.word	EXPBinIMod               ; $f9 MOD
 	.word	NotImplemented           ; $fa <<
 	.word	NotImplemented           ; $fb >>
-	.word	NotImplemented           ; $fc /
-	.word	NotImplemented           ; $fd *
-	.word	NotImplemented           ; $fe -
-	.word	NotImplemented           ; $ff +
+	.word	EXPBinFDiv               ; $fc /
+	.word	EXPBinMul                ; $fd *
+	.word	EXPBinSub                ; $fe -
+	.word	EXPBinAdd                ; $ff +

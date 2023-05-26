@@ -1,3 +1,5 @@
-print 4,"Hello world":print 3.1415
-print "End"
+print (2+3)*4
+print 22/7
+print sqr(145)
+print "Star",chr$(42)
 stop

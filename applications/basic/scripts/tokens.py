@@ -114,6 +114,14 @@ class RawTokenClass(object):
 			h.write("PR_{0} = ${1:02x}\n".format(t,self.constants[t]))	
 		h.close()
 
+	def outputPrecedence(self,f):
+		h = open(f,"w")
+		h.write(self.header)
+		h.write("BinaryPrecedence:\n")
+		for i in range(self.constants["BINARY_FIRST"],self.constants["BINARY_LAST"]+1):
+			h.write("\t.byte\t{0:2}\t; ${1:02x} {2}\n".format(self.precedence[self.idToTokens[i]],i,self.idToTokens[i]))
+		h.close()
+
 	def outputVectors(self,fn):
 		handlers = {}
 		for root,dirs,files in os.walk("src"):
@@ -145,3 +153,4 @@ if __name__ == '__main__':
 	
 	rt.outputConstants("src/generated/token_const.inc")
 	rt.outputVectors("src/generated/vector_table.asm")
+	rt.outputPrecedence("src/generated/precedence_table.asm")
