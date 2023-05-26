@@ -1,49 +1,34 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		dollar.asm
+;		Purpose:	Dollar pass through
+;		Created:	22nd May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;								Dollar pass through for hex
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryNull: ;; [$]
+		jsr 	EXPEvalNumber 					; number to R0
+		rts
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
-
+;: $\
+; $ is used as a hexadecimal marker, so if you have $7FFE in your code it is the same as the
+; constant 32766. This can improve readability.\
+; { print $2a } prints 42
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

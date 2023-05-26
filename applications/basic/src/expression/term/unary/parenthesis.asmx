@@ -1,49 +1,31 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		parenthesis.asm
+;		Purpose:	Parenthesis functions
+;		Created:	22nd May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;								Parenthesis is unary function
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryParenthesis: ;; [(]
+		jsr 	EXPEvalNumber 					; number to R0
+		jsr 	ERRCheckRParen 					; )
+		rts
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
-
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

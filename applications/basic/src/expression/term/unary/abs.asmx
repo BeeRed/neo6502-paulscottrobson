@@ -1,49 +1,35 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		abs.asm
+;		Purpose:	Absolute value of number
+;		Created:	22nd May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;								Absolute value of number
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryAbs: ;; [abs(]
+		jsr 	EXPEvalNumber 					; number to R0
+		jsr 	ERRCheckRParen 					; )
+		jsr 	IFloatAbsoluteR0
+		rts
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
-
+;: [abs(n)]\
+; Returns the absolute value of the parameter\
+; { print abs(-4) , abs(5) } prints 4 5
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

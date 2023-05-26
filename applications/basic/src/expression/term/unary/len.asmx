@@ -1,48 +1,43 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		len.asm
+;		Purpose:	String length
+;		Created:	21st May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;									String length
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryLen: ;; [LEN(]
+		jsr 	EXPEvalString 					; string to R0, zTemp0		
+		jsr 	ERRCheckRParen 					; )
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
+		phy 									; copy two length bytes.
+		ldy 	#1
+		lda 	(zTemp0)
+		sta 	IFR0+IM0
+		lda 	(zTemp0),y
+		sta 	IFR0+IM1
+		stz 	IFR0+IM2
+		stz 	IFR0+IExp
+		ply
+		rts
 
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
+;: [len(string)]\
+; Returns the length of the string\
+; { print len("Hello") } prints 5
 
 ; ************************************************************************************************
 ;

@@ -1,49 +1,51 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		string.asm
+;		Purpose:	Unary string 'function' (e.g. [[EXPRING]])
+;		Created:	21st May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;							Inline immutable string
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryInlineString: ;; [[[STRING]]]
+		lda 	(codePtr),y 				; string length
+		cmp 	#EXPMaxStringSize
+		bcs 	_EXPUISRange 				; too long
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
+		jsr 	EXPResetBuffer 				; reset the buffer
+		iny 								; consume length
+		tax 								; count zero, length to X
+		beq 	_EXPUIDone
+_EXPUICopy:
+		lda 	(codePtr),y
+		iny		
+		jsr 	EXPRAppendBuffer	
+		dex
+		bne 	_EXPUICopy
+_EXPUIDone:
+		jsr 	EXPSetupStringR0 			; set up the temporary string in R0		
+		rts
 
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
+_EXPUISRange:
+		.error_range
+
+
 		.send code
+		
 
 
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

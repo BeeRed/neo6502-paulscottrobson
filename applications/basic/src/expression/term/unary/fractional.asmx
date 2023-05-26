@@ -1,49 +1,35 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		fractional.asm
+;		Purpose:	Fractional part of number
+;		Created:	22nd May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;								Fractional part of number
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryFrac: ;; [frac(]
+		jsr 	EXPEvalNumber 					; number to R0
+		jsr 	ERRCheckRParen 					; )
+		jsr 	IFloatFractionalR0
+		rts
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
-
+;: [frac(n)]\
+; Returns the fractional part of the number, e.g. without the integer part.\
+; { print frac(-4.3) , frac(5.6) } prints 0.3 0.6
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

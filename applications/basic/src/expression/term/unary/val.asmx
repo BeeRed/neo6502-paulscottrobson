@@ -1,48 +1,47 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		val.asm
+;		Purpose:	Convert string to number
+;		Created:	22nd May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;						Convert string to number
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryVal: ;; [val(]
+		jsr 	EXPEvalString 					; string to R0, zTemp0		
+		jsr 	ERRCheckRParen 					; )
+		phy
+		clc
+		lda		zTemp0 							; point XY to the text
+		adc 	#2
+		tax
+		lda 	zTemp0+1
+		adc 	#0
+		tay
+		lda 	(zTemp0) 						; get length.
+		jsr 	IFloatStringToFloatR0 			; do conversion
+		bcs 	_EUVError
+		ply
+		rts
+_EUVError:
+		.error_value		
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
+;: [val(string)]\
+; Converts string to a number. Errors if not possible.\
+; { print val("146") } prints 146
 
 ; ************************************************************************************************
 ;

@@ -1,49 +1,40 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		chr.asm
+;		Purpose:	Convert integer to string
+;		Created:	21st May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;										Byte to String
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryChr: ;; [CHR$]
+		jsr 	ERRCheckLParen 					; (
+		jsr 	EXPEvalInteger8 				; expr
+		pha 									; push on stack
+		jsr 	ERRCheckRParen 					; )
+		jsr 	EXPResetBuffer 					; reset buffer and write that byte.
+		pla
+		jsr 	EXPRAppendBuffer
+		jsr 	EXPSetupStringR0 				; and return it.
+		rts
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
-
+;: [chr$(n)]\
+; Returns a one character string containing the character whose ASCII code is n\
+; { print chr$(42) } prints *
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

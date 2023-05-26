@@ -1,49 +1,35 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		intfn.asm
+;		Purpose:	Integer part of number
+;		Created:	22nd May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;								Integer part of number
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryInt: ;; [int(]
+		jsr 	EXPEvalNumber 					; number to R0
+		jsr 	ERRCheckRParen 					; )
+		jsr 	IFloatIntegerR0
+		rts
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
+;: [int(n)]\
+; Returns the integer part of the number, e.g. without the fractional part.\
+; { print int(-4.327) , int(5.61) } prints -4 5
 
-
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

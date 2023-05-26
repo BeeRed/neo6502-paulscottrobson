@@ -1,49 +1,39 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		sqr.asm
+;		Purpose:	Square Root unary
+;		Created:	21st May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;									String length
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnarySqr: ;; [SQR(]
+		jsr 	EXPEvalNumber 					; number to R0
+		jsr 	ERRCheckRParen 					; )
+		jsr 	IFloatSquareRootR0 				; square root.
+		bcs 	_EUSValue
+		rts
+_EUSValue:
+		.error_range		
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
+;: [sqr(n)]\
+; Returns the square root of the given number \
+; { print sqr(144) } prints 12.0
 
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

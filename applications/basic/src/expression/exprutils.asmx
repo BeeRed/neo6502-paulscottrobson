@@ -1,85 +1,82 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		osrom.asm
-;		Purpose:	OSRom wrapper program.
-;		Created:	25th May 2023
+;		Name:		exprutils.asm
+;		Purpose:	Evaluate expression helpers.
+;		Created:	21st May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "ramdata.inc"
-
-		* = $F800
-		.dsection code
+		.section code	
 
 ; ************************************************************************************************
 ;
-;										   Main Program
+;								Evaluate a numeric expression
 ;
 ; ************************************************************************************************
 
-		.section code
-Boot:	jsr 	OSInitialise 				; set everything up.
+EXPEvalNumber:
+		jsr 	EXPEvaluateExpression
+		bit 	IFR0+IExp
+		bmi 	EVUType
+		rts
 
-		jmp 	$1000
-h2:
-		jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
-		jsr 	OSReadKeyboard
-		bcs 	h2	
-		jsr 	OSWriteScreen
-		jsr 	OSTWriteHex
-		lda 	#' '
-		jsr 	OSWriteScreen
-		bra 	h2
-		
-NoInt:
-		rti
-
-		.include "include.files"
-
-OSTWriteHex:
-		pha
-		lsr 	a
-		lsr 	a
-		lsr 	a
-		lsr 	a
-		jsr 	_OSTWriteNibble		
-		pla
-_OSTWriteNibble:
-		pha
-		and 	#15
-		cmp 	#10
-		bcc 	_OSTNotAlpha
-		adc 	#6
-_OSTNotAlpha:
-		adc 	#48
-		jsr 	OSWriteScreen
-		pla
-		rts				
+EVUType:
+		.error_type
 
 ; ************************************************************************************************
 ;
-;									Vectors to $FFFA
+;								Evaluate an integer (various)
 ;
 ; ************************************************************************************************
 
-		.include "src/generated/vectors.asmx"
+EXPEvalInteger:
+		jsr 	EXPEvalNumber 				; get number, coeerce to integer.
+		jsr 	IFloatIntegerR0
+		rts
+
+EXPEvalInteger16:
+		jsr 	EXPEvalInteger
+		lda 	IFR0+IM2
+		bne 	EVURange
+		ldx 	IFR0+IM1
+		lda 	IFR0+IM0
+		rts
+
+EXPEvalInteger8:
+		jsr 	EXPEvalInteger
+		lda 	IFR0+IM2
+		ora 	IFR0+IM1
+		bne 	EVURange
+		lda 	IFR0+IM0
+		rts
 
 ; ************************************************************************************************
 ;
-;									Hardware vectors.
+;								Evaluate a string expression
+;				(on exit XA & zTemp0 points to a 2 byte headered size prefixed string)
 ;
 ; ************************************************************************************************
 
-		.word 	NoInt 						; NMI
-		.word 	Boot 						; Reset
-		.word 	NoInt						; IRQ
+EXPEvalString:
+		jsr 	EXPEvaluateExpression
+		bit 	IFR0+IExp
+		bpl 	EVUType
+		ldx 	IFR0+IM1
+		stx 	zTemp0+1
+		lda 	IFR0+IM0
+		sta 	zTemp0
+		rts
+
+EVURange:
+		.error_range
 
 		.send code
-		
+				
+
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

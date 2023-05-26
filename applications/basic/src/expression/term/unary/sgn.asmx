@@ -1,49 +1,41 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		sgn.asm
+;		Purpose:	Sign of number
+;		Created:	22nd May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;								Sign of number
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnarySgn: ;; [sgn(]
+		jsr 	EXPEvalNumber 					; number to R0
+		jsr 	ERRCheckRParen 					; )
+		ldx 	#IFR1 							; copy to R1
+		jsr 	IFloatCopyToRegister
+		ldx 	#IFR0 							; R0 = 0
+		jsr 	IFloatSetZero
+		ldx 	#IFR1
+		jsr 	IFloatCompare 					; compare R1 vs 0.
+		rts
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
-
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
+;: [sgn(n)]\
+; Returns the sign of the number n ; 0 if zero, -1 if negative, 1 if positive and not zero\
+; { print sgn(-13) } prints -1
 
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

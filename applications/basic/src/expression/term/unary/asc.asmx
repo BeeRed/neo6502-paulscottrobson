@@ -1,49 +1,46 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		asc.asm
+;		Purpose:	ASCII value of first character
+;		Created:	21st May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
 ; ************************************************************************************************
 ;
-;										   Main Program
+;									String length
 ;
 ; ************************************************************************************************
 
-		.section code
+		.section code	
 
-boot:	
-		jsr 	IFInitialise
-		;
-		lda 	#$40
-		sta 	codePtr+1
-		stz 	codePtr
-		ldy 	#4
-		jsr 	EXPTermR0
-		jmp 	$FFFF
+EXPUnaryAsc: ;; [ASC(]
+		jsr 	EXPEvalString 					; string to R0, zTemp0		
+		jsr 	ERRCheckRParen 					; )
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
+		phy 									; figure out length zero ?
+		ldy 	#1
+		lda 	(zTemp0)
+		ora 	(zTemp0),y
+		beq 	_EXAZero 						; if so return 0
+		iny 									; otherwise return offset 2
+		lda 	(zTemp0),y
+_EXAZero:		
+		ldx 	#IFR0
+		jsr 	IFloatSetByte
+		ply
+		rts
 
-ErrorHandler:
-		.debug
-		lda 	#$EE
-		jmp 	ErrorHandler
 		.send code
 
-
+;: [asc(string)]\
+; Returns the ASCII code of the first character of the string or zero if empty.\
+; { print asc("!") } prints 33
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates
