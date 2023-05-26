@@ -113,19 +113,19 @@ VectorTable:
 	.word	EXPUnaryNull             ; $ec $
 	.word	EXPUnaryInlineDec        ; $ed [[DECIMAL]]
 	.word	EXPUnaryInlineString     ; $ee [[STRING]]
-	.word	NotImplemented           ; $ef =
-	.word	NotImplemented           ; $f0 <>
-	.word	NotImplemented           ; $f1 <=
-	.word	NotImplemented           ; $f2 <
-	.word	NotImplemented           ; $f3 >=
-	.word	NotImplemented           ; $f4 >
+	.word	EXPCompareEqual          ; $ef =
+	.word	EXPCompareNotEqual       ; $f0 <>
+	.word	EXPCompareLessEqual      ; $f1 <=
+	.word	EXPCompareLess           ; $f2 <
+	.word	EXPCompareGreaterEqual   ; $f3 >=
+	.word	EXPCompareGreater        ; $f4 >
 	.word	EXPBinXor                ; $f5 XOR
 	.word	EXPBinOr                 ; $f6 OR
 	.word	EXPBinAnd                ; $f7 AND
 	.word	EXPBinIDiv               ; $f8 DIV
 	.word	EXPBinIMod               ; $f9 MOD
-	.word	NotImplemented           ; $fa <<
-	.word	NotImplemented           ; $fb >>
+	.word	EXPBinLeft               ; $fa <<
+	.word	EXPBinRight              ; $fb >>
 	.word	EXPBinFDiv               ; $fc /
 	.word	EXPBinMul                ; $fd *
 	.word	EXPBinSub                ; $fe -

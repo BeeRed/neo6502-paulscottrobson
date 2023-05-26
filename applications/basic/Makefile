@@ -46,3 +46,18 @@ parts:
 
 reg:
 	$(PYTHON) scripts$(S)showreg.py	
+
+test1: assemble
+	$(PYTHON) tests$(S)testbinary.py >build$(S)test.bas
+	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
+
+test2: assemble
+	$(PYTHON) tests$(S)testunary.py >build$(S)test.bas
+	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
+
+test3: assemble
+	$(PYTHON) tests$(S)testbrackets.py >build$(S)test.bas
+	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000

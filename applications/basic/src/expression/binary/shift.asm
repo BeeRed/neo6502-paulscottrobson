@@ -3,7 +3,7 @@
 ;
 ;		Name:		shift.asm
 ;		Purpose:	Shift binary operators
-;		Created:	23rd May 2023
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;

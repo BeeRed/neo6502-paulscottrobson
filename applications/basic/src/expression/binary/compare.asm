@@ -3,7 +3,7 @@
 ;
 ;		Name:		compare.asm
 ;		Purpose:	Compare operators
-;		Created:	22nd May 2023
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -124,6 +124,7 @@ _EXCBCExit:
 		rts
 		
 _EXCBCString:
+		.error_unimplemented
 		phy
 		ldy 	#1 							; check strings < 256 , don't do long compares.
 		lda 	(IFR0),y

@@ -1,11 +1,12 @@
 TODO
 	
 	Binary Operations.
-		Number comparison
-		Shift
 		String comparisons
+		String testing
 		String concatenation
-		Dereferencing
+
+		
+		Dereferencing of variables (no)
 
 
 Fixes:
