@@ -19,34 +19,13 @@
 ; ************************************************************************************************
 
 TOKFindToken:
-		;
-		;		Handle default set.
-		;
 		ldx 	#StandardTokens & $FF 		; do this table
 		ldy 	#StandardTokens >> 8
 		jsr 	TOKFindTokenXY 				; find it, or not
-		bcc 	_TOKFTCheckShift
-
-		cmp 	#PR_GAP_START 				; do we adjust for unary ?
-		bcc 	_TOKFTNoAdjust
-		clc 								; if so, do it.
-		adc 	#PR_GAP_ADJUST
-_TOKFTNoAdjust:		
+		bcc 	_TOKFTFail
 		ldx 	#0
 		sec
 		rts
-		;
-		;		Shifted set
-		;
-_TOKFTCheckShift:
-		ldx 	#ShiftedTokens & $FF 		; do this table
-		ldy 	#ShiftedTokens >> 8
-		jsr 	TOKFindTokenXY 				; find it, or not
-		bcc 	_TOKFTFail
-		ldx 	#PR_LSQLSQSHIFTRSQRSQ
-		sec
-		rts
-
 
 _TOKFTFail		
 		clc

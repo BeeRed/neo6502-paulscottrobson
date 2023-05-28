@@ -49,7 +49,7 @@ class RawTokenClass(object):
 
 	def getStructureTokens(self):
 		return """
-			REPEAT+	UNTIL-	WHILE+ 	WEND-	IF+		ENDIF-	DO+ 	LOOP -
+			REPEAT+	UNTIL-	WHILE+ 	WEND-	IF+		ENDIF-	DO+ 	LOOP-
 			PROC+ 	ENDPROC-
 			FOR+ 	NEXT-
 	"""
@@ -140,6 +140,23 @@ class RawTokenClass(object):
 			h.write("\t.word\t{0:24} ; ${1:02x} {2}\n".format(x,i,t))
 		h.close()
 
+	def outputText(self,f):
+		h = open(f,"w")
+		h.write(self.header)
+		h.write("StandardTokens:\n")
+		for i in range(0x80,0x100):
+			if i in self.idToTokens:
+				t = self.idToTokens[i]
+				t2 = "" if t.startswith("[[") else t
+				b = [ord(x) for x in t2]
+				b.insert(0,len(b))
+				b = ",".join(["${0:02x}".format(n) for n in b])
+				h.write("\t.byte\t{0:40}\t; ${1:02x} {2}\n".format(b,i,t.lower()))
+			else:
+				h.write("\t.byte\t0\t\t\t\t\t\t\t\t\t\t\t; ${0:02x}\n".format(i))
+		h.write("\t.byte\t$FF\n")
+		h.close()
+
 if __name__ == '__main__':
 	rt = RawTokenClass()
 	if False:
@@ -154,3 +171,4 @@ if __name__ == '__main__':
 	rt.outputConstants("src/generated/token_const.inc")
 	rt.outputVectors("src/generated/vector_table.asm")
 	rt.outputPrecedence("src/generated/precedence_table.asm")
+	rt.outputText("src/generated/token_text.asm")

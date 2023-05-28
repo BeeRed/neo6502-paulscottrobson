@@ -48,8 +48,6 @@ _TTHDone:
 		clc
 		rts
 
-
-
 		.send code
 
 

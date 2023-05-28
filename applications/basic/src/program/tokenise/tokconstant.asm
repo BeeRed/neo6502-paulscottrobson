@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		tokpunctuation.asm
-;		Purpose:	Tokenise punctuation
+;		Name:		tokconstant.asm
+;		Purpose:	Output integer
 ;		Created:	28th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -14,41 +14,36 @@
 
 ; ************************************************************************************************
 ;
-;									Tokenise punctuation
+;							Output token data for constant in R0
 ;
 ; ************************************************************************************************
 
-TOKTokenisePunctuation:
-		jsr 	TOKResetElement 			; copy first punctuation character into element.
-		jsr 	TOKGetNext 
-		jsr 	TOKWriteElement
-
-		jsr 	TOKGet 						; what follows ?
-		cmp 	#' '						; space, not 2 character
-		beq 	_TTPOne
-		jsr 	TOKIsAlphaNumeric 			; if alphanumberic don't bother doing 2 character
-		bcs 	_TTPOne 					; these speed things up a bit.
-		jsr 	TOKWriteElement 			; this is what we will search for.
-		jsr 	TOKFindToken
-		bcs 	_TTPConsumeExit 			; it was found, consume, generate, exit.
-		dec 	TOKElement 					; make it a single character 
-_TTPOne:
-		jsr 	TOKFindToken 				; look for one character punctuation
-		bcs 	_TTPOutputExit 				; we found it
-		sec 								; not recognised.
-		rts
-
-_TTPConsumeExit:
-		pha
-		jsr 	TOKGetNext 					; get the 2nd char out.
+TOKTokeniseConstant:
+		lda 	IFR0+IM0 					; check > 64
+		pha 								; save on stack
+		and 	#$C0
+		ora 	IFR0+IM1
+		ora 	IFR0+IM2
+		beq 	_TTCLess
+		;
+		phx
+		ldx 	#6 							; divide by 64
+_TTCShiftRight:		
+		lsr 	IFR0+IM2
+		ror 	IFR0+IM1
+		ror 	IFR0+IM0
+		dex
+		bne 	_TTCShiftRight
+		plx
+		jsr 	TOKTokeniseConstant
+_TTCLess:
 		pla
-_TTPOutputExit:		
-		jsr  	TOKWriteA 					; write token out
-		clc
+		and 	#$3F 						; lower 6 bits
+		jsr 	TOKWriteA
 		rts
 
 		.send code
-
+		
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

@@ -10,39 +10,39 @@ VectorTable:
 	.word	NotImplemented           ; $85 ENDIF
 	.word	NotImplemented           ; $86 DO
 	.word	NotImplemented           ; $87 LOOP
-	.word	NotImplemented           ; $88 
-	.word	NotImplemented           ; $89 PROC
-	.word	NotImplemented           ; $8a ENDPROC
-	.word	NotImplemented           ; $8b FOR
-	.word	NotImplemented           ; $8c NEXT
-	.word	RUNEndOfLine             ; $8d [[END]]
-	.word	Command_Shift_Handler    ; $8e [[SHIFT]]
-	.word	NotImplemented           ; $8f ELSE
-	.word	NoExec01                 ; $90 THEN
-	.word	NoExec02                 ; $91 TO
-	.word	NoExec03                 ; $92 STEP
-	.word	NotImplemented           ; $93 LET
-	.word	Command_Print            ; $94 PRINT
-	.word	NotImplemented           ; $95 INPUT
-	.word	NotImplemented           ; $96 CALL
-	.word	NotImplemented           ; $97 SYS
-	.word	Command_REM              ; $98 REM
-	.word	NotImplemented           ; $99 EXIT
-	.word	NoExec04                 ; $9a ,
-	.word	NoExec05                 ; $9b ;
-	.word	NoExec06                 ; $9c :
-	.word	Command_REM2             ; $9d '
-	.word	NoExec07                 ; $9e )
-	.word	NotImplemented           ; $9f DIM
-	.word	Command_CLEAR            ; $a0 CLEAR
-	.word	Command_NEW              ; $a1 NEW
-	.word	Command_RUN              ; $a2 RUN
-	.word	Command_STOP             ; $a3 STOP
-	.word	Command_END              ; $a4 END
-	.word	Command_ASSERT           ; $a5 ASSERT
-	.word	NotImplemented           ; $a6 LIST
-	.word	NotImplemented           ; $a7 SAVE
-	.word	NotImplemented           ; $a8 LOAD
+	.word	NotImplemented           ; $88 PROC
+	.word	NotImplemented           ; $89 ENDPROC
+	.word	NotImplemented           ; $8a FOR
+	.word	NotImplemented           ; $8b NEXT
+	.word	RUNEndOfLine             ; $8c [[END]]
+	.word	Command_Shift_Handler    ; $8d [[SHIFT]]
+	.word	NotImplemented           ; $8e ELSE
+	.word	NoExec01                 ; $8f THEN
+	.word	NoExec02                 ; $90 TO
+	.word	NoExec03                 ; $91 STEP
+	.word	NotImplemented           ; $92 LET
+	.word	Command_Print            ; $93 PRINT
+	.word	NotImplemented           ; $94 INPUT
+	.word	NotImplemented           ; $95 CALL
+	.word	NotImplemented           ; $96 SYS
+	.word	Command_REM              ; $97 REM
+	.word	NotImplemented           ; $98 EXIT
+	.word	NoExec04                 ; $99 ,
+	.word	NoExec05                 ; $9a ;
+	.word	NoExec06                 ; $9b :
+	.word	Command_REM2             ; $9c '
+	.word	NoExec07                 ; $9d )
+	.word	NotImplemented           ; $9e DIM
+	.word	Command_CLEAR            ; $9f CLEAR
+	.word	Command_NEW              ; $a0 NEW
+	.word	Command_RUN              ; $a1 RUN
+	.word	Command_STOP             ; $a2 STOP
+	.word	Command_END              ; $a3 END
+	.word	Command_ASSERT           ; $a4 ASSERT
+	.word	NotImplemented           ; $a5 LIST
+	.word	NotImplemented           ; $a6 SAVE
+	.word	NotImplemented           ; $a7 LOAD
+	.word	NotImplemented           ; $a8 
 	.word	NotImplemented           ; $a9 
 	.word	NotImplemented           ; $aa 
 	.word	NotImplemented           ; $ab 

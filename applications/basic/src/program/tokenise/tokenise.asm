@@ -48,7 +48,7 @@ _TOKMainLoop:
 _TOKElement:		
 		jsr 	TOKIsDigit 					; is it 0..9 
 		bcc 	_TOKNotDigit
-;****		jsr 	TOKTokeniseInteger 			; get integer
+		jsr 	TOKTokeniseInteger 			; get integer
 		bcs 	_TOKFail 					; did it fail ?
 		stz 	TOKRequireLineNumber 		; reset RLN flag.
 		bra 	_TOKMainLoop
@@ -57,25 +57,25 @@ _TOKNotDigit:
 		bne 	_TOKFail 					; if so, we've a problem.
 		cmp 	#"$"						; check for hexadecimal ?
 		bne 	_TOKNotHex
-;****		jsr 	TOKTokeniseHexadecimal 
+		jsr 	TOKTokeniseHexadecimal 
 		bcs 	_TOKFail
 		bra 	_TOKMainLoop
 _TOKNotHex:
 		cmp 	#"."						; is it decimal e.g. .012345 etc.
 		bne 	_TOKNotDecimal
-;****		jsr 	TOKTokeniseDecimals
+		jsr 	TOKTokeniseDecimals
 		bcs 	_TOKFail
 		bra 	_TOKMainLoop
 _TOKNotDecimal:
 		cmp 	#'"'						; quoted string ?
 		bne 	_TOKNotString
-;****		jsr 	TOKTokeniseString
+		jsr 	TOKTokeniseString
 		bcs 	_TOKFail
 		bra 	_TOKMainLoop
 _TOKNotString:
 		jsr 	TOKIsAlpha 					; identifier ?
 		bcs 	_TOKIdentifier
-;****		jsr 	TOKTokenisePunctuation 		; punctuation
+		jsr 	TOKTokenisePunctuation 		; punctuation
 		bcs 	_TOKFail
 		bra 	_TOKMainLoop
 _TOKIdentifier:
@@ -86,9 +86,11 @@ _TOKIdentifier:
 _TOKExit:									
 		lda 	#PR_LSQLSQENDRSQRSQ 		; write EOL
 		jsr 	TOKWriteA
+		.debug
 		clc									; return with carry set.
 		rts		
 _TOKFail:
+		.debug
 		sec
 		rts		
 
@@ -119,6 +121,17 @@ TOKGet:
 TOKGetNext:
 		sec	
 		jmp 	(TOKDataSource)
+
+TokTest:phx
+		ldx 	TokPos
+		lda 	TokLine,x
+		bcc 	_TTExit
+		inc 	TokPos
+_TTExit:plx
+		rts		
+
+TokLine:.text 	'68.144 $45 "Hello" < <>',0
+TokPos:	.byte 	0
 
 		.send code
 

@@ -29,6 +29,12 @@ boot:
 		ldy 	#$A0
 		jsr 	PGMSetBaseAddress
 		jsr 	IFInitialise
+
+		ldx 	#TokTest & $FF
+		ldy 	#TokTest >> 8
+		clc
+		jsr 	TOKTokenise
+
 		jmp 	Command_RUN
 
 		.include "include.files"

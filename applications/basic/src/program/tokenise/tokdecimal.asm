@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		tokconstant.asm
-;		Purpose:	Output integer
+;		Name:		tokdecimal.asm
+;		Purpose:	Tokenise decimal
 ;		Created:	28th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -14,51 +14,41 @@
 
 ; ************************************************************************************************
 ;
-;							Output token data for constant in R0
+;									Tokenise a decimal.
 ;
 ; ************************************************************************************************
 
-TOKTokeniseConstant:
-		lda 	IFR0+IM2 					; 010000..FFFFFF 3 byte
-		bne 	_TTC3Byte
-		lda 	IFR0+IM1 					; 00C000..00FFFF 3 byte
-		and 	#$C0
-		bne 	_TTC3Byte
-		;
-		lda 	IFR0+IM1 					; 000100..00BFFF 2 byte					
-		bne 	_TTC2Byte
-		lda 	IFR0+IM0 					; 000020..0000FF 1 byte
-		cmp 	#$20
-		bcc 	_TTC1Byte
-		;
-_TTC2Byte: 										
-		lda 	IFR0+IM1
-		and 	#$3F
+TOKTokeniseDecimals:
+		jsr 	TOKGetNext 					; consume the .
+		jsr 	TOKExtractInteger 			; pull an integer out as text.
+		lda 	#PR_LSQLSQDECIMALRSQRSQ	 	; decimal token
+		jsr 	TOKWriteA
+		jsr 	TOKOutputElementBuffer 		; then the buffer
 		clc
-		adc 	#$20
-		jsr 	TOKWriteA
-		lda 	IFR0+IM0		
-		jsr 	TOKWriteA 					
-		rts
-_TTC1Byte:
-		lda 	IFR0+IM0		
-		ora 	#$60
-		jsr 	TOKWriteA 					; 000000..00001F 
-		rts
-		;
-_TTC3Byte:
-		lda 	#PR_INTEGER	 				; [[INT]] B0 B1 B2
-		jsr 	TOKWriteA
-		lda 	IFR0+IM0
-		jsr 	TOKWriteA
-		lda 	IFR0+IM1
-		jsr 	TOKWriteA
-		lda 	IFR0+IM2
-		jsr 	TOKWriteA
 		rts
 
+; ************************************************************************************************
+;
+;							  Output current element in ASCII
+;	
+; ************************************************************************************************
+
+TOKOutputElementBuffer:
+		lda 	TOKElement 					; get count and write that
+		jsr 	TOKWriteA
+		tay 								; put in Y
+		beq 	_TOEExit 					; exit if empty which is okay.
+		ldx 	#1
+_TOELoop: 									; output Y characters
+		lda 	TOKElement,x
+		jsr 	TOKWriteA
+		inx
+		dey
+		bne 	_TOELoop		
+_TOEExit:
+		rts		
 		.send code
-		
+
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

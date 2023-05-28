@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		tokdecimal.asm
-;		Purpose:	Tokenise decimal
+;		Name:		tokstring.asm
+;		Purpose:	Tokenise a string
 ;		Created:	28th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -14,39 +14,30 @@
 
 ; ************************************************************************************************
 ;
-;									Tokenise a decimal.
+;									Tokenise a string
 ;
 ; ************************************************************************************************
 
-TOKTokeniseDecimals:
-		jsr 	TOKGetNext 					; consume the .
-		jsr 	TOKExtractInteger 			; pull an integer out as text.
-		lda 	#PR_DECIMAL				 	; decimal token
+TOKTokeniseString:
+		jsr 	TOKGetNext 					; consume the "
+		jsr 	TOKResetElement 			; start getting the string
+_TOKTSLoop:
+		jsr 	TOKGet 						; check EOL
+		cmp 	#0 					
+		beq 	_TOKTSExit
+		jsr 	TOKGetNext 					; get and consume
+		cmp 	#'"' 						; exit if " consumed
+		beq 	_TOKTSExit
+		jsr 	TOKWriteElement
+		bra 	_TOKTSLoop
+
+_TOKTSExit:
+		lda 	#PR_LSQLSQSTRINGRSQRSQ
 		jsr 	TOKWriteA
-		jsr 	TOKOutputElementBuffer 		; then the buffer
+		jsr 	TOKOutputElementBuffer
 		clc
 		rts
 
-; ************************************************************************************************
-;
-;							  Output current element in ASCII
-;	
-; ************************************************************************************************
-
-TOKOutputElementBuffer:
-		lda 	TOKElement 					; get count and write that
-		jsr 	TOKWriteA
-		tay 								; put in Y
-		beq 	_TOEExit 					; exit if empty which is okay.
-		ldx 	#1
-_TOELoop: 									; output Y characters
-		lda 	TOKElement,x
-		jsr 	TOKWriteA
-		inx
-		dey
-		bne 	_TOELoop		
-_TOEExit:
-		rts		
 		.send code
 
 ; ************************************************************************************************

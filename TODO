@@ -4,10 +4,9 @@ TODO
 		LEFT$ MID$ RIGHT$
 		
 	Tokenising/Detokenising
-		- Testing get.
-		- Add tokenising code back in adapting as you go.
+		- Identifiers / Text tokens.
 		- Modify test script to test tokenising.
-
+		- Detokenising.
 
 Fixes:
 	Dereferencing of variables (no)
