@@ -26,7 +26,7 @@
 
 boot:	
 		ldx 	#$40
-		ldy 	#$C0
+		ldy 	#$A0
 		jsr 	PGMSetBaseAddress
 		jsr 	IFInitialise
 		jmp 	Command_RUN

@@ -20,7 +20,7 @@
 
 EXPBinAdd:	;; [+]
 		bit 	IFR0+IExp
-		bmi 	EXPTypeError
+		bmi 	EXPConcatenate
 		ldx 	#IFR1
 		jmp 	IFloatAdd
 
@@ -131,6 +131,54 @@ EXPBinXor: ;; [xor]
 		bcs 	EXPDRange
 		rts
 
+; ************************************************************************************************
+;
+;									String concatenate
+;
+; ************************************************************************************************
+
+EXPConcatenate:
+		clc
+		lda 	(IFR0) 	 					; work out total length
+		adc 	(IFR1)
+		bcs 	_EXPCError
+
+		ldx 	IFR0 						; push R0 string on stack.
+		phx
+		ldx 	IFR0+1
+		phx
+
+		jsr 	StringTempAllocate 			; allocate string, set up return
+
+
+		ldx 	IFR1+1 						; copy first string.
+		lda 	IFR1
+		jsr 	_EXPCCopyXA
+		plx 								; copy second string
+		pla
+		jsr 	_EXPCCopyXA
+		rts
+
+_EXPCCopyXA:
+		stx 	zTemp0+1 					; save address to zTemp0
+		sta 	zTemp0
+		lda 	(zTemp0)					; length
+		beq 	_EXPCCExit 					; nothing.
+		tax 								; count
+		phy 								; start positioin
+		ldy 	#1 						
+_EXPCCLoop:
+		lda 	(zTemp0),y 					; write characters one at a time.
+		jsr 	StringTempWrite		
+		iny
+		dex
+		bne 	_EXPCCLoop
+		ply
+_EXPCCExit:
+		rts		
+
+_EXPCError:
+		.error_string		
 		.send code		
 
 ; ************************************************************************************************

@@ -1,9 +1,12 @@
 TODO
 	
 	Binary Operations.
-		String concatenation
-
+		LEFT$ MID$ RIGHT$
 		
+	Tokenising/Detokenising
+		- Testing get.
+		- Add tokenising code back in adapting as you go.
+		- Modify test script to test tokenising.
 
 
 Fixes:
