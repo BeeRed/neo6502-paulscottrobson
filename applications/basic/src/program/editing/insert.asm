@@ -26,9 +26,6 @@ PGMInsertLine:
 		stz 	zTemp1						; copy base address of code to zTemp1
 		lda 	PGMBaseHigh		
 		sta 	zTemp1+1
-		clc
-		adc 	(zTemp1)
-		sta 	zTemp1+1
 		;
 		;		Try to find the line whose line number is greater than the one in the token 
 		;		buffer.

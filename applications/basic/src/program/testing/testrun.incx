@@ -1,0 +1,480 @@
+	ldx #Line0 & $FF
+	ldy #Line0 >> 8
+	jsr TOKOneLine
+
+	ldx #Line1 & $FF
+	ldy #Line1 >> 8
+	jsr TOKOneLine
+
+	ldx #Line2 & $FF
+	ldy #Line2 >> 8
+	jsr TOKOneLine
+
+	ldx #Line3 & $FF
+	ldy #Line3 >> 8
+	jsr TOKOneLine
+
+	ldx #Line4 & $FF
+	ldy #Line4 >> 8
+	jsr TOKOneLine
+
+	ldx #Line5 & $FF
+	ldy #Line5 >> 8
+	jsr TOKOneLine
+
+	ldx #Line6 & $FF
+	ldy #Line6 >> 8
+	jsr TOKOneLine
+
+	ldx #Line7 & $FF
+	ldy #Line7 >> 8
+	jsr TOKOneLine
+
+	ldx #Line8 & $FF
+	ldy #Line8 >> 8
+	jsr TOKOneLine
+
+	ldx #Line9 & $FF
+	ldy #Line9 >> 8
+	jsr TOKOneLine
+
+	ldx #Line10 & $FF
+	ldy #Line10 >> 8
+	jsr TOKOneLine
+
+	ldx #Line11 & $FF
+	ldy #Line11 >> 8
+	jsr TOKOneLine
+
+	ldx #Line12 & $FF
+	ldy #Line12 >> 8
+	jsr TOKOneLine
+
+	ldx #Line13 & $FF
+	ldy #Line13 >> 8
+	jsr TOKOneLine
+
+	ldx #Line14 & $FF
+	ldy #Line14 >> 8
+	jsr TOKOneLine
+
+	ldx #Line15 & $FF
+	ldy #Line15 >> 8
+	jsr TOKOneLine
+
+	ldx #Line16 & $FF
+	ldy #Line16 >> 8
+	jsr TOKOneLine
+
+	ldx #Line17 & $FF
+	ldy #Line17 >> 8
+	jsr TOKOneLine
+
+	ldx #Line18 & $FF
+	ldy #Line18 >> 8
+	jsr TOKOneLine
+
+	ldx #Line19 & $FF
+	ldy #Line19 >> 8
+	jsr TOKOneLine
+
+	ldx #Line20 & $FF
+	ldy #Line20 >> 8
+	jsr TOKOneLine
+
+	ldx #Line21 & $FF
+	ldy #Line21 >> 8
+	jsr TOKOneLine
+
+	ldx #Line22 & $FF
+	ldy #Line22 >> 8
+	jsr TOKOneLine
+
+	ldx #Line23 & $FF
+	ldy #Line23 >> 8
+	jsr TOKOneLine
+
+	ldx #Line24 & $FF
+	ldy #Line24 >> 8
+	jsr TOKOneLine
+
+	ldx #Line25 & $FF
+	ldy #Line25 >> 8
+	jsr TOKOneLine
+
+	ldx #Line26 & $FF
+	ldy #Line26 >> 8
+	jsr TOKOneLine
+
+	ldx #Line27 & $FF
+	ldy #Line27 >> 8
+	jsr TOKOneLine
+
+	ldx #Line28 & $FF
+	ldy #Line28 >> 8
+	jsr TOKOneLine
+
+	ldx #Line29 & $FF
+	ldy #Line29 >> 8
+	jsr TOKOneLine
+
+	ldx #Line30 & $FF
+	ldy #Line30 >> 8
+	jsr TOKOneLine
+
+	ldx #Line31 & $FF
+	ldy #Line31 >> 8
+	jsr TOKOneLine
+
+	ldx #Line32 & $FF
+	ldy #Line32 >> 8
+	jsr TOKOneLine
+
+	ldx #Line33 & $FF
+	ldy #Line33 >> 8
+	jsr TOKOneLine
+
+	ldx #Line34 & $FF
+	ldy #Line34 >> 8
+	jsr TOKOneLine
+
+	ldx #Line35 & $FF
+	ldy #Line35 >> 8
+	jsr TOKOneLine
+
+	ldx #Line36 & $FF
+	ldy #Line36 >> 8
+	jsr TOKOneLine
+
+	ldx #Line37 & $FF
+	ldy #Line37 >> 8
+	jsr TOKOneLine
+
+	ldx #Line38 & $FF
+	ldy #Line38 >> 8
+	jsr TOKOneLine
+
+	ldx #Line39 & $FF
+	ldy #Line39 >> 8
+	jsr TOKOneLine
+
+	ldx #Line40 & $FF
+	ldy #Line40 >> 8
+	jsr TOKOneLine
+
+	ldx #Line41 & $FF
+	ldy #Line41 >> 8
+	jsr TOKOneLine
+
+	ldx #Line42 & $FF
+	ldy #Line42 >> 8
+	jsr TOKOneLine
+
+	ldx #Line43 & $FF
+	ldy #Line43 >> 8
+	jsr TOKOneLine
+
+	ldx #Line44 & $FF
+	ldy #Line44 >> 8
+	jsr TOKOneLine
+
+	ldx #Line45 & $FF
+	ldy #Line45 >> 8
+	jsr TOKOneLine
+
+	ldx #Line46 & $FF
+	ldy #Line46 >> 8
+	jsr TOKOneLine
+
+	ldx #Line47 & $FF
+	ldy #Line47 >> 8
+	jsr TOKOneLine
+
+	ldx #Line48 & $FF
+	ldy #Line48 >> 8
+	jsr TOKOneLine
+
+	ldx #Line49 & $FF
+	ldy #Line49 >> 8
+	jsr TOKOneLine
+
+	ldx #Line50 & $FF
+	ldy #Line50 >> 8
+	jsr TOKOneLine
+
+	ldx #Line51 & $FF
+	ldy #Line51 >> 8
+	jsr TOKOneLine
+
+	ldx #Line52 & $FF
+	ldy #Line52 >> 8
+	jsr TOKOneLine
+
+	ldx #Line53 & $FF
+	ldy #Line53 >> 8
+	jsr TOKOneLine
+
+	ldx #Line54 & $FF
+	ldy #Line54 >> 8
+	jsr TOKOneLine
+
+	ldx #Line55 & $FF
+	ldy #Line55 >> 8
+	jsr TOKOneLine
+
+	ldx #Line56 & $FF
+	ldy #Line56 >> 8
+	jsr TOKOneLine
+
+	ldx #Line57 & $FF
+	ldy #Line57 >> 8
+	jsr TOKOneLine
+
+	ldx #Line58 & $FF
+	ldy #Line58 >> 8
+	jsr TOKOneLine
+
+	ldx #Line59 & $FF
+	ldy #Line59 >> 8
+	jsr TOKOneLine
+
+	ldx #Line60 & $FF
+	ldy #Line60 >> 8
+	jsr TOKOneLine
+
+	ldx #Line61 & $FF
+	ldy #Line61 >> 8
+	jsr TOKOneLine
+
+	ldx #Line62 & $FF
+	ldy #Line62 >> 8
+	jsr TOKOneLine
+
+	ldx #Line63 & $FF
+	ldy #Line63 >> 8
+	jsr TOKOneLine
+
+	ldx #Line64 & $FF
+	ldy #Line64 >> 8
+	jsr TOKOneLine
+
+	ldx #Line65 & $FF
+	ldy #Line65 >> 8
+	jsr TOKOneLine
+
+	ldx #Line66 & $FF
+	ldy #Line66 >> 8
+	jsr TOKOneLine
+
+	ldx #Line67 & $FF
+	ldy #Line67 >> 8
+	jsr TOKOneLine
+
+	ldx #Line68 & $FF
+	ldy #Line68 >> 8
+	jsr TOKOneLine
+
+	ldx #Line69 & $FF
+	ldy #Line69 >> 8
+	jsr TOKOneLine
+
+	ldx #Line70 & $FF
+	ldy #Line70 >> 8
+	jsr TOKOneLine
+
+	ldx #Line71 & $FF
+	ldy #Line71 >> 8
+	jsr TOKOneLine
+
+	ldx #Line72 & $FF
+	ldy #Line72 >> 8
+	jsr TOKOneLine
+
+	ldx #Line73 & $FF
+	ldy #Line73 >> 8
+	jsr TOKOneLine
+
+	ldx #Line74 & $FF
+	ldy #Line74 >> 8
+	jsr TOKOneLine
+
+	ldx #Line75 & $FF
+	ldy #Line75 >> 8
+	jsr TOKOneLine
+
+	ldx #Line76 & $FF
+	ldy #Line76 >> 8
+	jsr TOKOneLine
+
+	ldx #Line77 & $FF
+	ldy #Line77 >> 8
+	jsr TOKOneLine
+
+	ldx #Line78 & $FF
+	ldy #Line78 >> 8
+	jsr TOKOneLine
+
+	ldx #Line79 & $FF
+	ldy #Line79 >> 8
+	jsr TOKOneLine
+
+	ldx #Line80 & $FF
+	ldy #Line80 >> 8
+	jsr TOKOneLine
+
+	ldx #Line81 & $FF
+	ldy #Line81 >> 8
+	jsr TOKOneLine
+
+	ldx #Line82 & $FF
+	ldy #Line82 >> 8
+	jsr TOKOneLine
+
+	ldx #Line83 & $FF
+	ldy #Line83 >> 8
+	jsr TOKOneLine
+
+	ldx #Line84 & $FF
+	ldy #Line84 >> 8
+	jsr TOKOneLine
+
+	ldx #Line85 & $FF
+	ldy #Line85 >> 8
+	jsr TOKOneLine
+
+	ldx #Line86 & $FF
+	ldy #Line86 >> 8
+	jsr TOKOneLine
+
+	ldx #Line87 & $FF
+	ldy #Line87 >> 8
+	jsr TOKOneLine
+
+	ldx #Line88 & $FF
+	ldy #Line88 >> 8
+	jsr TOKOneLine
+
+	ldx #Line89 & $FF
+	ldy #Line89 >> 8
+	jsr TOKOneLine
+
+	ldx #Line90 & $FF
+	ldy #Line90 >> 8
+	jsr TOKOneLine
+
+	ldx #Line91 & $FF
+	ldy #Line91 >> 8
+	jsr TOKOneLine
+
+	ldx #Line92 & $FF
+	ldy #Line92 >> 8
+	jsr TOKOneLine
+
+	ldx #Line93 & $FF
+	ldy #Line93 >> 8
+	jsr TOKOneLine
+
+	ldx #Line94 & $FF
+	ldy #Line94 >> 8
+	jsr TOKOneLine
+
+	ldx #Line95 & $FF
+	ldy #Line95 >> 8
+	jsr TOKOneLine
+
+	ldx #Line96 & $FF
+	ldy #Line96 >> 8
+	jsr TOKOneLine
+
+	ldx #Line97 & $FF
+	ldy #Line97 >> 8
+	jsr TOKOneLine
+
+	ldx #Line98 & $FF
+	ldy #Line98 >> 8
+	jsr TOKOneLine
+
+	ldx #Line99 & $FF
+	ldy #Line99 >> 8
+	jsr TOKOneLine
+
+	ldx #Line100 & $FF
+	ldy #Line100 >> 8
+	jsr TOKOneLine
+
+	ldx #Line101 & $FF
+	ldy #Line101 >> 8
+	jsr TOKOneLine
+
+	ldx #Line102 & $FF
+	ldy #Line102 >> 8
+	jsr TOKOneLine
+
+	ldx #Line103 & $FF
+	ldy #Line103 >> 8
+	jsr TOKOneLine
+
+	ldx #Line104 & $FF
+	ldy #Line104 >> 8
+	jsr TOKOneLine
+
+	ldx #Line105 & $FF
+	ldy #Line105 >> 8
+	jsr TOKOneLine
+
+	ldx #Line106 & $FF
+	ldy #Line106 >> 8
+	jsr TOKOneLine
+
+	ldx #Line107 & $FF
+	ldy #Line107 >> 8
+	jsr TOKOneLine
+
+	ldx #Line108 & $FF
+	ldy #Line108 >> 8
+	jsr TOKOneLine
+
+	ldx #Line109 & $FF
+	ldy #Line109 >> 8
+	jsr TOKOneLine
+
+	ldx #Line110 & $FF
+	ldy #Line110 >> 8
+	jsr TOKOneLine
+
+	ldx #Line111 & $FF
+	ldy #Line111 >> 8
+	jsr TOKOneLine
+
+	ldx #Line112 & $FF
+	ldy #Line112 >> 8
+	jsr TOKOneLine
+
+	ldx #Line113 & $FF
+	ldy #Line113 >> 8
+	jsr TOKOneLine
+
+	ldx #Line114 & $FF
+	ldy #Line114 >> 8
+	jsr TOKOneLine
+
+	ldx #Line115 & $FF
+	ldy #Line115 >> 8
+	jsr TOKOneLine
+
+	ldx #Line116 & $FF
+	ldy #Line116 >> 8
+	jsr TOKOneLine
+
+	ldx #Line117 & $FF
+	ldy #Line117 >> 8
+	jsr TOKOneLine
+
+	ldx #Line118 & $FF
+	ldy #Line118 >> 8
+	jsr TOKOneLine
+
+	ldx #Line119 & $FF
+	ldy #Line119 >> 8
+	jsr TOKOneLine
+

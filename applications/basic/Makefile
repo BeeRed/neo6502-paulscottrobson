@@ -17,7 +17,10 @@ endif
 
 all: assemble test
 
-assemble:
+assemble: prelim
+	$(ASM) basic.asm -o build$(S)basic.bin
+
+prelim:
 	make -C scripts
 	$(PYTHON) scripts$(S)errors.py en
 	$(CCOPY) $(BINDIR)ramdata.inc build
@@ -25,10 +28,9 @@ assemble:
 	$(CCOPY) $(BINDIR)libmathslib.asmlib build
 	$(PYTHON) scripts$(S)tokens.py
 	$(PYTHON) $(SCRIPTDIR)makebuild.py >include.files
-	$(ASM) basic.asm -o build$(S)basic.bin
 
 run: emulator assemble test
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
 	
 emulator:
 	make -C $(ROOTDIR)emulator	
@@ -50,19 +52,25 @@ reg:
 test1: assemble
 	$(PYTHON) tests$(S)testbinary.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
 
 test2: assemble
 	$(PYTHON) tests$(S)testunary.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
 
 test3: assemble
 	$(PYTHON) tests$(S)testbrackets.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
 
 test4: assemble
 	$(PYTHON) tests$(S)teststring.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@4000
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+
+edtest: prelim
+	$(PYTHON) scripts$(S)maketest.py 
+	$(ASM) basic.asm -o build$(S)basic.bin
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 
+	$(PYTHON) scripts$(S)checktest.py 

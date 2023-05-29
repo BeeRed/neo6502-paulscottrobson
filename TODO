@@ -1,11 +1,12 @@
-TODO
+TODO:
+	Automatic editing testing code changing.
 	
 	Binary Operations.
 		LEFT$ MID$ RIGHT$
-		
-	Tokenising/Detokenising
-		- Modify test script to test tokenising.
 
+	Variables / String dereferencing ?
+	Assignment
+	Arrays.		
 Fixes:
 	Dereferencing of variables (no)
 	Memory checking on string allocate stuff.

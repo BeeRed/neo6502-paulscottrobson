@@ -1,55 +1,70 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		testing.asmx
+;		Purpose:	Testing code
+;		Created:	29th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		* = $1000
-		.dsection code
-
-; ************************************************************************************************
-;
-;										   Main Program
-;
-; ************************************************************************************************
-
 		.section code
 
-boot:	
-		ldx 	#$60
-		ldy 	#$A0
-		jsr 	PGMSetBaseAddress
-		jsr 	IFInitialise
+TestCode:
+		jsr 	PGMNewProgram
+		stz 	$FFFF
+		.include "testrun.incx"
+		jmp 	$FFFF
 
-		jmp 	TestCode
+		.include "testdat.incx"
 
-		jmp 	Command_RUN
+; ************************************************************************************************
+;
+;									Process one input line
+;
+; ************************************************************************************************
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
+TOKOneLine:
+		stx 	zTemp2
+		sty 	zTemp2+1
+		ldx 	#TOKGetSource & $FF
+		ldy 	#TOKGetSource >> 8
+		sec
+		jsr 	TOKTokenise
+		jsr 	PGMDeleteLine
+		lda 	TOKLineSize
+		cmp 	#4
+		beq 	_TOKNoInsert
+		jsr 	PGMInsertLine
+_TOKNoInsert:
+		rts		
 
-NotImplemented:
-		lda 	#$FF
-		bra 	EnterDbg
-ErrorHandler:			
-		plx
-		ply
-		lda 	#$EE
-EnterDbg:		
-		.debug
-		jmp 	EnterDbg
+; ************************************************************************************************
+;
+;		Get data, test for the library, Get CC, Get advance CS, return zero when out of data
+;
+; ************************************************************************************************
+
+TOKGetSource:
+		lda 	(zTemp2)
+		bcc 	_GSNoIncrement
+		inc 	zTemp2
+		bne 	_GSNoIncrement
+		inc 	zTemp2+1
+_GSNoIncrement:
+		cmp 	#0
+		rts
 		.send code
 
+		.section storage
+SrcPosition:
+		.fill 		1				
+		.send storage
 
+
+		
 ; ************************************************************************************************
 ;
 ;									Changes and Updates
