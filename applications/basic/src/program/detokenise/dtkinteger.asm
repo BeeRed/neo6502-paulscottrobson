@@ -19,33 +19,27 @@
 ; ************************************************************************************************
 
 TOKDInteger:
-		pha 								; erase R0 preserving A. 	
-		ldx 	#IFR0
-		jsr 	IFloatSetZero
-		pla
-		cmp 	#PR_INTEGER 				; integer handler
-		beq 	_TOKD3ByteInteger
-		sec 	
-		sbc 	#$60 						;  now 60-7F mapped on to $00-$1F
-		sta 	IFR0+IM0 					
-		bpl 	_TOKDHaveInteger
-		;
-		clc 								; map 20-5F to 00-3F
-		adc 	#$40
-		sta 	IFR0+IM1 					; the MS Byte
-		jsr 	TOKDGet 					; the LS Byte
+		phy 								; save base
+		ldx 	#IFR0 						; set into R0
+		jsr 	IFloatSetByte
+_TOKDILoop:
+		lda 	(zTemp2) 					; followed by a 00-3F
+		cmp 	#$40
+		bcs 	_TOKDIHaveInteger
+		ldx 	#IFR0 						; R0 << 6
+		jsr 	IFloatShiftLeft
+		jsr 	IFloatShiftLeft
+		jsr 	IFloatShiftLeft
+		jsr 	IFloatShiftLeft
+		jsr 	IFloatShiftLeft
+		jsr 	IFloatShiftLeft
+		jsr 	TOKDGet 					; OR byte in.
+		ora 	IFR0+IM0
 		sta 	IFR0+IM0
-		bra 	_TOKDHaveInteger
-
-_TOKD3ByteInteger: 							; copy 3 bytes of integer data.
-		jsr 	TOKDGet
-		sta 	IFR0+IM0
-		jsr 	TOKDGet
-		sta 	IFR0+IM1
-		jsr 	TOKDGet
-		sta 	IFR0+IM2
-
-_TOKDHaveInteger:							; integer in R0, base in Y
+		bra 	_TOKDILoop
+		
+_TOKDIHaveInteger:							; integer in R0, base in Y
+		ply 								; restore base
 		tya 								; base in A
 		jsr 	IFloatIntegerToStringR0 		
 		stx 	zTemp0

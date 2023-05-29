@@ -48,7 +48,7 @@ _TOKDNotToken:
 		;
 _TOKDNotIdentifier: 						; 00-3F Base 10 Integer
 		ldy 	#10 						
-; ****	jsr 	TOKDInteger
+		jsr 	TOKDInteger
 		bra 	_TOKDLoop
 
 _TOKDDataItem:								; [[STRING]] [[DECIMAL]]

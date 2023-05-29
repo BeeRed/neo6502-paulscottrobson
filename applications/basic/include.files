@@ -43,6 +43,7 @@
 	.include "src/program/detokenise/detokenise.asm"
 	.include "src/program/detokenise/dtkdataitem.asm"
 	.include "src/program/detokenise/dtkidentifier.asm"
+	.include "src/program/detokenise/dtkinteger.asm"
 	.include "src/program/detokenise/dtktoken.asm"
 	.include "src/program/editing/delete.asm"
 	.include "src/program/editing/insert.asm"

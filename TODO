@@ -4,9 +4,8 @@ TODO
 		LEFT$ MID$ RIGHT$
 		
 	Tokenising/Detokenising
-		- Detokenising.
 		- Modify test script to test tokenising.
-		- Check math still works !
+
 Fixes:
 	Dereferencing of variables (no)
 	Memory checking on string allocate stuff.

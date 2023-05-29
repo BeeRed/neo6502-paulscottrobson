@@ -1,400 +1,450 @@
-assert abs(("FFUNKOGKYX"<"IEA")--1) <= 0.001
-assert abs(("FFUNKOGKYX"<="IEA")--1) <= 0.001
-assert abs(("FFUNKOGKYX"="IEA")-0) <= 0.001
-assert abs(("FFUNKOGKYX">"IEA")-0) <= 0.001
-assert abs(("FFUNKOGKYX">="IEA")-0) <= 0.001
-assert abs(("FFUNKOGKYX"<>"IEA")--1) <= 0.001
-assert "FFUNKOGKYX"+"IEA" = "FFUNKOGKYXIEA"
-assert abs((asc(chr$(93)))-93) <= 0.001
-assert abs((val(str$(7)))-7) <= 0.035
-assert abs((dec(hex$(253)))-253) <= 0.001
-assert abs((""<"O")--1) <= 0.001
-assert abs((""<="O")--1) <= 0.001
-assert abs((""="O")-0) <= 0.001
-assert abs(("">"O")-0) <= 0.001
-assert abs(("">="O")-0) <= 0.001
-assert abs((""<>"O")--1) <= 0.001
-assert ""+"O" = "O"
-assert abs((asc(chr$(77)))-77) <= 0.001
-assert abs((val(str$(638)))-638) <= 3.19
-assert abs((dec(hex$(257)))-257) <= 0.001
-assert abs(("UOHQHFGBO"<"SU")-0) <= 0.001
-assert abs(("UOHQHFGBO"<="SU")-0) <= 0.001
-assert abs(("UOHQHFGBO"="SU")-0) <= 0.001
-assert abs(("UOHQHFGBO">"SU")--1) <= 0.001
-assert abs(("UOHQHFGBO">="SU")--1) <= 0.001
-assert abs(("UOHQHFGBO"<>"SU")--1) <= 0.001
-assert "UOHQHFGBO"+"SU" = "UOHQHFGBOSU"
-assert abs((asc(chr$(64)))-64) <= 0.001
-assert abs((val(str$(-825.12)))--825.12) <= 4.126
-assert abs((dec(hex$(780)))-780) <= 0.001
-assert abs(("G"<"UFIFYPPCX")--1) <= 0.001
-assert abs(("G"<="UFIFYPPCX")--1) <= 0.001
-assert abs(("G"="UFIFYPPCX")-0) <= 0.001
-assert abs(("G">"UFIFYPPCX")-0) <= 0.001
-assert abs(("G">="UFIFYPPCX")-0) <= 0.001
-assert abs(("G"<>"UFIFYPPCX")--1) <= 0.001
-assert "G"+"UFIFYPPCX" = "GUFIFYPPCX"
-assert abs((asc(chr$(65)))-65) <= 0.001
-assert abs((val(str$(-164)))--164) <= 0.82
-assert abs((dec(hex$(268)))-268) <= 0.001
-assert abs(("QBVOODU"<"WI")--1) <= 0.001
-assert abs(("QBVOODU"<="WI")--1) <= 0.001
-assert abs(("QBVOODU"="WI")-0) <= 0.001
-assert abs(("QBVOODU">"WI")-0) <= 0.001
-assert abs(("QBVOODU">="WI")-0) <= 0.001
-assert abs(("QBVOODU"<>"WI")--1) <= 0.001
-assert "QBVOODU"+"WI" = "QBVOODUWI"
-assert abs((asc(chr$(85)))-85) <= 0.001
-assert abs((val(str$(-43)))--43) <= 0.215
-assert abs((dec(hex$(33)))-33) <= 0.001
-assert abs(("OUHX"<"QOMVU")--1) <= 0.001
-assert abs(("OUHX"<="QOMVU")--1) <= 0.001
-assert abs(("OUHX"="QOMVU")-0) <= 0.001
-assert abs(("OUHX">"QOMVU")-0) <= 0.001
-assert abs(("OUHX">="QOMVU")-0) <= 0.001
-assert abs(("OUHX"<>"QOMVU")--1) <= 0.001
-assert "OUHX"+"QOMVU" = "OUHXQOMVU"
-assert abs((asc(chr$(91)))-91) <= 0.001
-assert abs((val(str$(-282)))--282) <= 1.41
-assert abs((dec(hex$(484)))-484) <= 0.001
-assert abs((""<"UUDKKW")--1) <= 0.001
-assert abs((""<="UUDKKW")--1) <= 0.001
-assert abs((""="UUDKKW")-0) <= 0.001
-assert abs(("">"UUDKKW")-0) <= 0.001
-assert abs(("">="UUDKKW")-0) <= 0.001
-assert abs((""<>"UUDKKW")--1) <= 0.001
-assert ""+"UUDKKW" = "UUDKKW"
-assert abs((asc(chr$(92)))-92) <= 0.001
-assert abs((val(str$(-658.53)))--658.53) <= 3.293
-assert abs((dec(hex$(387)))-387) <= 0.001
-assert abs(("OECYAGSHI"<"")-0) <= 0.001
-assert abs(("OECYAGSHI"<="")-0) <= 0.001
-assert abs(("OECYAGSHI"="")-0) <= 0.001
-assert abs(("OECYAGSHI">"")--1) <= 0.001
-assert abs(("OECYAGSHI">="")--1) <= 0.001
-assert abs(("OECYAGSHI"<>"")--1) <= 0.001
-assert "OECYAGSHI"+"" = "OECYAGSHI"
-assert abs((asc(chr$(71)))-71) <= 0.001
-assert abs((val(str$(-943.5)))--943.5) <= 4.718
-assert abs((dec(hex$(646)))-646) <= 0.001
-assert abs(("FLXYQC"<"B")-0) <= 0.001
-assert abs(("FLXYQC"<="B")-0) <= 0.001
-assert abs(("FLXYQC"="B")-0) <= 0.001
-assert abs(("FLXYQC">"B")--1) <= 0.001
-assert abs(("FLXYQC">="B")--1) <= 0.001
-assert abs(("FLXYQC"<>"B")--1) <= 0.001
-assert "FLXYQC"+"B" = "FLXYQCB"
-assert abs((asc(chr$(76)))-76) <= 0.001
-assert abs((val(str$(-18.23)))--18.23) <= 0.091
-assert abs((dec(hex$(596)))-596) <= 0.001
-assert abs(("LCHE"<"LCHE")-0) <= 0.001
-assert abs(("LCHE"<="LCHE")--1) <= 0.001
-assert abs(("LCHE"="LCHE")--1) <= 0.001
-assert abs(("LCHE">"LCHE")-0) <= 0.001
-assert abs(("LCHE">="LCHE")--1) <= 0.001
-assert abs(("LCHE"<>"LCHE")-0) <= 0.001
-assert "LCHE"+"LCHE" = "LCHELCHE"
-assert abs((asc(chr$(75)))-75) <= 0.001
-assert abs((val(str$(-300.55)))--300.55) <= 1.503
-assert abs((dec(hex$(860)))-860) <= 0.001
-assert abs(("RKFOFHMC"<"FUYYFV")-0) <= 0.001
-assert abs(("RKFOFHMC"<="FUYYFV")-0) <= 0.001
-assert abs(("RKFOFHMC"="FUYYFV")-0) <= 0.001
-assert abs(("RKFOFHMC">"FUYYFV")--1) <= 0.001
-assert abs(("RKFOFHMC">="FUYYFV")--1) <= 0.001
-assert abs(("RKFOFHMC"<>"FUYYFV")--1) <= 0.001
-assert "RKFOFHMC"+"FUYYFV" = "RKFOFHMCFUYYFV"
-assert abs((asc(chr$(73)))-73) <= 0.001
-assert abs((val(str$(-387)))--387) <= 1.935
-assert abs((dec(hex$(112)))-112) <= 0.001
-assert abs(("OTXSPP"<"BT")-0) <= 0.001
-assert abs(("OTXSPP"<="BT")-0) <= 0.001
-assert abs(("OTXSPP"="BT")-0) <= 0.001
-assert abs(("OTXSPP">"BT")--1) <= 0.001
-assert abs(("OTXSPP">="BT")--1) <= 0.001
-assert abs(("OTXSPP"<>"BT")--1) <= 0.001
-assert "OTXSPP"+"BT" = "OTXSPPBT"
-assert abs((asc(chr$(73)))-73) <= 0.001
-assert abs((val(str$(-836.67)))--836.67) <= 4.183
-assert abs((dec(hex$(621)))-621) <= 0.001
-assert abs(("UJXUIR"<"UVNHNUM")--1) <= 0.001
-assert abs(("UJXUIR"<="UVNHNUM")--1) <= 0.001
-assert abs(("UJXUIR"="UVNHNUM")-0) <= 0.001
-assert abs(("UJXUIR">"UVNHNUM")-0) <= 0.001
-assert abs(("UJXUIR">="UVNHNUM")-0) <= 0.001
-assert abs(("UJXUIR"<>"UVNHNUM")--1) <= 0.001
-assert "UJXUIR"+"UVNHNUM" = "UJXUIRUVNHNUM"
-assert abs((asc(chr$(64)))-64) <= 0.001
-assert abs((val(str$(694)))-694) <= 3.47
-assert abs((dec(hex$(286)))-286) <= 0.001
-assert abs(("VSIROCE"<"KLK")-0) <= 0.001
-assert abs(("VSIROCE"<="KLK")-0) <= 0.001
-assert abs(("VSIROCE"="KLK")-0) <= 0.001
-assert abs(("VSIROCE">"KLK")--1) <= 0.001
-assert abs(("VSIROCE">="KLK")--1) <= 0.001
-assert abs(("VSIROCE"<>"KLK")--1) <= 0.001
-assert "VSIROCE"+"KLK" = "VSIROCEKLK"
-assert abs((asc(chr$(68)))-68) <= 0.001
-assert abs((val(str$(-769.2)))--769.2) <= 3.846
-assert abs((dec(hex$(10)))-10) <= 0.001
-assert abs(("RJLVSP"<"RJLVSP")-0) <= 0.001
-assert abs(("RJLVSP"<="RJLVSP")--1) <= 0.001
-assert abs(("RJLVSP"="RJLVSP")--1) <= 0.001
-assert abs(("RJLVSP">"RJLVSP")-0) <= 0.001
-assert abs(("RJLVSP">="RJLVSP")--1) <= 0.001
-assert abs(("RJLVSP"<>"RJLVSP")-0) <= 0.001
-assert "RJLVSP"+"RJLVSP" = "RJLVSPRJLVSP"
-assert abs((asc(chr$(67)))-67) <= 0.001
-assert abs((val(str$(188.87)))-188.87) <= 0.944
-assert abs((dec(hex$(806)))-806) <= 0.001
-assert abs(("BSCOW"<"MCUZRRV")--1) <= 0.001
-assert abs(("BSCOW"<="MCUZRRV")--1) <= 0.001
-assert abs(("BSCOW"="MCUZRRV")-0) <= 0.001
-assert abs(("BSCOW">"MCUZRRV")-0) <= 0.001
-assert abs(("BSCOW">="MCUZRRV")-0) <= 0.001
-assert abs(("BSCOW"<>"MCUZRRV")--1) <= 0.001
-assert "BSCOW"+"MCUZRRV" = "BSCOWMCUZRRV"
-assert abs((asc(chr$(75)))-75) <= 0.001
-assert abs((val(str$(-925.11)))--925.11) <= 4.626
-assert abs((dec(hex$(498)))-498) <= 0.001
-assert abs(("OINKSFKXUB"<"OINKSFKXUB")-0) <= 0.001
-assert abs(("OINKSFKXUB"<="OINKSFKXUB")--1) <= 0.001
-assert abs(("OINKSFKXUB"="OINKSFKXUB")--1) <= 0.001
-assert abs(("OINKSFKXUB">"OINKSFKXUB")-0) <= 0.001
-assert abs(("OINKSFKXUB">="OINKSFKXUB")--1) <= 0.001
-assert abs(("OINKSFKXUB"<>"OINKSFKXUB")-0) <= 0.001
-assert "OINKSFKXUB"+"OINKSFKXUB" = "OINKSFKXUBOINKSFKXUB"
-assert abs((asc(chr$(95)))-95) <= 0.001
-assert abs((val(str$(-813)))--813) <= 4.065
-assert abs((dec(hex$(287)))-287) <= 0.001
-assert abs(("XKPNGVJ"<"XKPNGVJ")-0) <= 0.001
-assert abs(("XKPNGVJ"<="XKPNGVJ")--1) <= 0.001
-assert abs(("XKPNGVJ"="XKPNGVJ")--1) <= 0.001
-assert abs(("XKPNGVJ">"XKPNGVJ")-0) <= 0.001
-assert abs(("XKPNGVJ">="XKPNGVJ")--1) <= 0.001
-assert abs(("XKPNGVJ"<>"XKPNGVJ")-0) <= 0.001
-assert "XKPNGVJ"+"XKPNGVJ" = "XKPNGVJXKPNGVJ"
-assert abs((asc(chr$(65)))-65) <= 0.001
-assert abs((val(str$(436)))-436) <= 2.18
-assert abs((dec(hex$(846)))-846) <= 0.001
-assert abs(("SINTWWPJYX"<"SINTWWPJYX")-0) <= 0.001
-assert abs(("SINTWWPJYX"<="SINTWWPJYX")--1) <= 0.001
-assert abs(("SINTWWPJYX"="SINTWWPJYX")--1) <= 0.001
-assert abs(("SINTWWPJYX">"SINTWWPJYX")-0) <= 0.001
-assert abs(("SINTWWPJYX">="SINTWWPJYX")--1) <= 0.001
-assert abs(("SINTWWPJYX"<>"SINTWWPJYX")-0) <= 0.001
-assert "SINTWWPJYX"+"SINTWWPJYX" = "SINTWWPJYXSINTWWPJYX"
-assert abs((asc(chr$(80)))-80) <= 0.001
-assert abs((val(str$(949.01)))-949.01) <= 4.745
-assert abs((dec(hex$(111)))-111) <= 0.001
-assert abs(("VFDOBWPAS"<"FPE")-0) <= 0.001
-assert abs(("VFDOBWPAS"<="FPE")-0) <= 0.001
-assert abs(("VFDOBWPAS"="FPE")-0) <= 0.001
-assert abs(("VFDOBWPAS">"FPE")--1) <= 0.001
-assert abs(("VFDOBWPAS">="FPE")--1) <= 0.001
-assert abs(("VFDOBWPAS"<>"FPE")--1) <= 0.001
-assert "VFDOBWPAS"+"FPE" = "VFDOBWPASFPE"
-assert abs((asc(chr$(71)))-71) <= 0.001
-assert abs((val(str$(-347.53)))--347.53) <= 1.738
-assert abs((dec(hex$(976)))-976) <= 0.001
-assert abs(("FRFFCYCG"<"WIIBJSS")--1) <= 0.001
-assert abs(("FRFFCYCG"<="WIIBJSS")--1) <= 0.001
-assert abs(("FRFFCYCG"="WIIBJSS")-0) <= 0.001
-assert abs(("FRFFCYCG">"WIIBJSS")-0) <= 0.001
-assert abs(("FRFFCYCG">="WIIBJSS")-0) <= 0.001
-assert abs(("FRFFCYCG"<>"WIIBJSS")--1) <= 0.001
-assert "FRFFCYCG"+"WIIBJSS" = "FRFFCYCGWIIBJSS"
-assert abs((asc(chr$(86)))-86) <= 0.001
-assert abs((val(str$(712.04)))-712.04) <= 3.56
-assert abs((dec(hex$(871)))-871) <= 0.001
-assert abs(("EURRVYID"<"LIWWDNXZD")--1) <= 0.001
-assert abs(("EURRVYID"<="LIWWDNXZD")--1) <= 0.001
-assert abs(("EURRVYID"="LIWWDNXZD")-0) <= 0.001
-assert abs(("EURRVYID">"LIWWDNXZD")-0) <= 0.001
-assert abs(("EURRVYID">="LIWWDNXZD")-0) <= 0.001
-assert abs(("EURRVYID"<>"LIWWDNXZD")--1) <= 0.001
-assert "EURRVYID"+"LIWWDNXZD" = "EURRVYIDLIWWDNXZD"
-assert abs((asc(chr$(71)))-71) <= 0.001
-assert abs((val(str$(-786)))--786) <= 3.93
-assert abs((dec(hex$(931)))-931) <= 0.001
-assert abs((""<"OPLOPTK")--1) <= 0.001
-assert abs((""<="OPLOPTK")--1) <= 0.001
-assert abs((""="OPLOPTK")-0) <= 0.001
-assert abs(("">"OPLOPTK")-0) <= 0.001
-assert abs(("">="OPLOPTK")-0) <= 0.001
-assert abs((""<>"OPLOPTK")--1) <= 0.001
-assert ""+"OPLOPTK" = "OPLOPTK"
-assert abs((asc(chr$(66)))-66) <= 0.001
-assert abs((val(str$(-55.35)))--55.35) <= 0.277
-assert abs((dec(hex$(180)))-180) <= 0.001
-assert abs(("POWCVXOD"<"I")-0) <= 0.001
-assert abs(("POWCVXOD"<="I")-0) <= 0.001
-assert abs(("POWCVXOD"="I")-0) <= 0.001
-assert abs(("POWCVXOD">"I")--1) <= 0.001
-assert abs(("POWCVXOD">="I")--1) <= 0.001
-assert abs(("POWCVXOD"<>"I")--1) <= 0.001
-assert "POWCVXOD"+"I" = "POWCVXODI"
-assert abs((asc(chr$(67)))-67) <= 0.001
-assert abs((val(str$(-271.59)))--271.59) <= 1.358
-assert abs((dec(hex$(575)))-575) <= 0.001
-assert abs(("QVO"<"SAN")--1) <= 0.001
-assert abs(("QVO"<="SAN")--1) <= 0.001
-assert abs(("QVO"="SAN")-0) <= 0.001
-assert abs(("QVO">"SAN")-0) <= 0.001
-assert abs(("QVO">="SAN")-0) <= 0.001
-assert abs(("QVO"<>"SAN")--1) <= 0.001
-assert "QVO"+"SAN" = "QVOSAN"
-assert abs((asc(chr$(83)))-83) <= 0.001
-assert abs((val(str$(451)))-451) <= 2.255
-assert abs((dec(hex$(177)))-177) <= 0.001
-assert abs(("BUJLTDBL"<"BUJLTDBL")-0) <= 0.001
-assert abs(("BUJLTDBL"<="BUJLTDBL")--1) <= 0.001
-assert abs(("BUJLTDBL"="BUJLTDBL")--1) <= 0.001
-assert abs(("BUJLTDBL">"BUJLTDBL")-0) <= 0.001
-assert abs(("BUJLTDBL">="BUJLTDBL")--1) <= 0.001
-assert abs(("BUJLTDBL"<>"BUJLTDBL")-0) <= 0.001
-assert "BUJLTDBL"+"BUJLTDBL" = "BUJLTDBLBUJLTDBL"
-assert abs((asc(chr$(71)))-71) <= 0.001
-assert abs((val(str$(-921.6)))--921.6) <= 4.608
-assert abs((dec(hex$(975)))-975) <= 0.001
-assert abs(("JEFWHSSI"<"CMWFGA")-0) <= 0.001
-assert abs(("JEFWHSSI"<="CMWFGA")-0) <= 0.001
-assert abs(("JEFWHSSI"="CMWFGA")-0) <= 0.001
-assert abs(("JEFWHSSI">"CMWFGA")--1) <= 0.001
-assert abs(("JEFWHSSI">="CMWFGA")--1) <= 0.001
-assert abs(("JEFWHSSI"<>"CMWFGA")--1) <= 0.001
-assert "JEFWHSSI"+"CMWFGA" = "JEFWHSSICMWFGA"
-assert abs((asc(chr$(82)))-82) <= 0.001
-assert abs((val(str$(-434)))--434) <= 2.17
-assert abs((dec(hex$(328)))-328) <= 0.001
-assert abs(("VL"<"Q")-0) <= 0.001
-assert abs(("VL"<="Q")-0) <= 0.001
-assert abs(("VL"="Q")-0) <= 0.001
-assert abs(("VL">"Q")--1) <= 0.001
-assert abs(("VL">="Q")--1) <= 0.001
-assert abs(("VL"<>"Q")--1) <= 0.001
-assert "VL"+"Q" = "VLQ"
-assert abs((asc(chr$(76)))-76) <= 0.001
-assert abs((val(str$(-1000)))--1000) <= 5.0
-assert abs((dec(hex$(813)))-813) <= 0.001
-assert abs(("MTOU"<"KO")-0) <= 0.001
-assert abs(("MTOU"<="KO")-0) <= 0.001
-assert abs(("MTOU"="KO")-0) <= 0.001
-assert abs(("MTOU">"KO")--1) <= 0.001
-assert abs(("MTOU">="KO")--1) <= 0.001
-assert abs(("MTOU"<>"KO")--1) <= 0.001
-assert "MTOU"+"KO" = "MTOUKO"
-assert abs((asc(chr$(89)))-89) <= 0.001
-assert abs((val(str$(-681.44)))--681.44) <= 3.407
-assert abs((dec(hex$(63)))-63) <= 0.001
-assert abs(("HQYHKMLG"<"ULR")--1) <= 0.001
-assert abs(("HQYHKMLG"<="ULR")--1) <= 0.001
-assert abs(("HQYHKMLG"="ULR")-0) <= 0.001
-assert abs(("HQYHKMLG">"ULR")-0) <= 0.001
-assert abs(("HQYHKMLG">="ULR")-0) <= 0.001
-assert abs(("HQYHKMLG"<>"ULR")--1) <= 0.001
-assert "HQYHKMLG"+"ULR" = "HQYHKMLGULR"
-assert abs((asc(chr$(91)))-91) <= 0.001
-assert abs((val(str$(743.26)))-743.26) <= 3.716
-assert abs((dec(hex$(617)))-617) <= 0.001
-assert abs(("YKQYMQOZQB"<"GHBJ")-0) <= 0.001
-assert abs(("YKQYMQOZQB"<="GHBJ")-0) <= 0.001
-assert abs(("YKQYMQOZQB"="GHBJ")-0) <= 0.001
-assert abs(("YKQYMQOZQB">"GHBJ")--1) <= 0.001
-assert abs(("YKQYMQOZQB">="GHBJ")--1) <= 0.001
-assert abs(("YKQYMQOZQB"<>"GHBJ")--1) <= 0.001
-assert "YKQYMQOZQB"+"GHBJ" = "YKQYMQOZQBGHBJ"
-assert abs((asc(chr$(66)))-66) <= 0.001
-assert abs((val(str$(370)))-370) <= 1.85
-assert abs((dec(hex$(266)))-266) <= 0.001
-assert abs(("OH"<"OH")-0) <= 0.001
-assert abs(("OH"<="OH")--1) <= 0.001
-assert abs(("OH"="OH")--1) <= 0.001
-assert abs(("OH">"OH")-0) <= 0.001
-assert abs(("OH">="OH")--1) <= 0.001
-assert abs(("OH"<>"OH")-0) <= 0.001
-assert "OH"+"OH" = "OHOH"
-assert abs((asc(chr$(81)))-81) <= 0.001
-assert abs((val(str$(-635)))--635) <= 3.175
-assert abs((dec(hex$(6)))-6) <= 0.001
-assert abs(("OG"<"RAIRQZII")--1) <= 0.001
-assert abs(("OG"<="RAIRQZII")--1) <= 0.001
-assert abs(("OG"="RAIRQZII")-0) <= 0.001
-assert abs(("OG">"RAIRQZII")-0) <= 0.001
-assert abs(("OG">="RAIRQZII")-0) <= 0.001
-assert abs(("OG"<>"RAIRQZII")--1) <= 0.001
-assert "OG"+"RAIRQZII" = "OGRAIRQZII"
-assert abs((asc(chr$(71)))-71) <= 0.001
-assert abs((val(str$(-410)))--410) <= 2.05
-assert abs((dec(hex$(252)))-252) <= 0.001
-assert abs(("OSCIJY"<"OSCIJY")-0) <= 0.001
-assert abs(("OSCIJY"<="OSCIJY")--1) <= 0.001
-assert abs(("OSCIJY"="OSCIJY")--1) <= 0.001
-assert abs(("OSCIJY">"OSCIJY")-0) <= 0.001
-assert abs(("OSCIJY">="OSCIJY")--1) <= 0.001
-assert abs(("OSCIJY"<>"OSCIJY")-0) <= 0.001
-assert "OSCIJY"+"OSCIJY" = "OSCIJYOSCIJY"
-assert abs((asc(chr$(87)))-87) <= 0.001
-assert abs((val(str$(816.05)))-816.05) <= 4.08
-assert abs((dec(hex$(186)))-186) <= 0.001
-assert abs(("PPLCKUBA"<"")-0) <= 0.001
-assert abs(("PPLCKUBA"<="")-0) <= 0.001
-assert abs(("PPLCKUBA"="")-0) <= 0.001
-assert abs(("PPLCKUBA">"")--1) <= 0.001
-assert abs(("PPLCKUBA">="")--1) <= 0.001
-assert abs(("PPLCKUBA"<>"")--1) <= 0.001
-assert "PPLCKUBA"+"" = "PPLCKUBA"
-assert abs((asc(chr$(85)))-85) <= 0.001
-assert abs((val(str$(123)))-123) <= 0.615
-assert abs((dec(hex$(917)))-917) <= 0.001
-assert abs(("NXQ"<"YDZR")--1) <= 0.001
-assert abs(("NXQ"<="YDZR")--1) <= 0.001
-assert abs(("NXQ"="YDZR")-0) <= 0.001
-assert abs(("NXQ">"YDZR")-0) <= 0.001
-assert abs(("NXQ">="YDZR")-0) <= 0.001
-assert abs(("NXQ"<>"YDZR")--1) <= 0.001
-assert "NXQ"+"YDZR" = "NXQYDZR"
-assert abs((asc(chr$(74)))-74) <= 0.001
-assert abs((val(str$(351)))-351) <= 1.755
-assert abs((dec(hex$(977)))-977) <= 0.001
-assert abs(("BEEAWHLXXE"<"BEEAWHLXXE")-0) <= 0.001
-assert abs(("BEEAWHLXXE"<="BEEAWHLXXE")--1) <= 0.001
-assert abs(("BEEAWHLXXE"="BEEAWHLXXE")--1) <= 0.001
-assert abs(("BEEAWHLXXE">"BEEAWHLXXE")-0) <= 0.001
-assert abs(("BEEAWHLXXE">="BEEAWHLXXE")--1) <= 0.001
-assert abs(("BEEAWHLXXE"<>"BEEAWHLXXE")-0) <= 0.001
-assert "BEEAWHLXXE"+"BEEAWHLXXE" = "BEEAWHLXXEBEEAWHLXXE"
-assert abs((asc(chr$(82)))-82) <= 0.001
-assert abs((val(str$(-206)))--206) <= 1.03
-assert abs((dec(hex$(143)))-143) <= 0.001
-assert abs(("YHPDKTOBP"<"YHPDKTOBP")-0) <= 0.001
-assert abs(("YHPDKTOBP"<="YHPDKTOBP")--1) <= 0.001
-assert abs(("YHPDKTOBP"="YHPDKTOBP")--1) <= 0.001
-assert abs(("YHPDKTOBP">"YHPDKTOBP")-0) <= 0.001
-assert abs(("YHPDKTOBP">="YHPDKTOBP")--1) <= 0.001
-assert abs(("YHPDKTOBP"<>"YHPDKTOBP")-0) <= 0.001
-assert "YHPDKTOBP"+"YHPDKTOBP" = "YHPDKTOBPYHPDKTOBP"
-assert abs((asc(chr$(90)))-90) <= 0.001
-assert abs((val(str$(711)))-711) <= 3.555
-assert abs((dec(hex$(536)))-536) <= 0.001
-assert abs(("SILQKJQS"<"SILQKJQS")-0) <= 0.001
-assert abs(("SILQKJQS"<="SILQKJQS")--1) <= 0.001
-assert abs(("SILQKJQS"="SILQKJQS")--1) <= 0.001
-assert abs(("SILQKJQS">"SILQKJQS")-0) <= 0.001
-assert abs(("SILQKJQS">="SILQKJQS")--1) <= 0.001
-assert abs(("SILQKJQS"<>"SILQKJQS")-0) <= 0.001
-assert "SILQKJQS"+"SILQKJQS" = "SILQKJQSSILQKJQS"
-assert abs((asc(chr$(95)))-95) <= 0.001
-assert abs((val(str$(-58)))--58) <= 0.29
-assert abs((dec(hex$(402)))-402) <= 0.001
-assert abs(("U"<"JRGGA")-0) <= 0.001
-assert abs(("U"<="JRGGA")-0) <= 0.001
-assert abs(("U"="JRGGA")-0) <= 0.001
-assert abs(("U">"JRGGA")--1) <= 0.001
-assert abs(("U">="JRGGA")--1) <= 0.001
-assert abs(("U"<>"JRGGA")--1) <= 0.001
-assert "U"+"JRGGA" = "UJRGGA"
-assert abs((asc(chr$(95)))-95) <= 0.001
-assert abs((val(str$(107.08)))-107.08) <= 0.535
-assert abs((dec(hex$(893)))-893) <= 0.001
+assert abs((-294.02+-16)--310.02) <= 0.001
+assert abs((-294.02--16)--278.02) <= 0.001
+assert abs((-294.02*-16)-4704.32) <= 47.043
+assert abs((-294.02/-16)-18.3762) <= 0.368
+assert abs((-294.02<-16)--1) <= 0.001
+assert abs((-294.02<=-16)--1) <= 0.001
+assert abs((-294.02=-16)-0) <= 0.001
+assert abs((-294.02>-16)-0) <= 0.001
+assert abs((-294.02>=-16)-0) <= 0.001
+assert abs((-294.02<>-16)--1) <= 0.001
+assert abs((686 and 629)-548) <= 0.001
+assert abs((686 or 629)-767) <= 0.001
+assert abs((686 xor 629)-219) <= 0.001
+assert abs((686 >> 0)-686) <= 0.001
+assert abs((686 << 0)-686) <= 0.001
+assert abs((650.47+620)-1270.47) <= 0.001
+assert abs((650.47-620)-30.47) <= 0.001
+assert abs((650.47*620)-403291.4) <= 4032.914
+assert abs((650.47/620)-1.0491) <= 0.021
+assert abs((650.47<620)-0) <= 0.001
+assert abs((650.47<=620)-0) <= 0.001
+assert abs((650.47=620)-0) <= 0.001
+assert abs((650.47>620)--1) <= 0.001
+assert abs((650.47>=620)--1) <= 0.001
+assert abs((650.47<>620)--1) <= 0.001
+assert abs((503 and 44)-36) <= 0.001
+assert abs((503 or 44)-511) <= 0.001
+assert abs((503 xor 44)-475) <= 0.001
+assert abs((503 >> 8)-1) <= 0.001
+assert abs((503 << 8)-128768) <= 0.129
+assert abs((747+713)-1460) <= 0.001
+assert abs((747-713)-34) <= 0.001
+assert abs((747*713)-532611) <= 5326.11
+assert abs((747/713)-1.0477) <= 0.021
+assert abs((747<713)-0) <= 0.001
+assert abs((747<=713)-0) <= 0.001
+assert abs((747=713)-0) <= 0.001
+assert abs((747>713)--1) <= 0.001
+assert abs((747>=713)--1) <= 0.001
+assert abs((747<>713)--1) <= 0.001
+assert abs((591 and 649)-521) <= 0.001
+assert abs((591 or 649)-719) <= 0.001
+assert abs((591 xor 649)-198) <= 0.001
+assert abs((591 >> 8)-2) <= 0.001
+assert abs((591 << 8)-151296) <= 0.151
+assert abs((806.41+659.41)-1465.82) <= 0.001
+assert abs((806.41-659.41)-147.0) <= 0.001
+assert abs((806.41*659.41)-531754.8181) <= 5317.548
+assert abs((806.41/659.41)-1.2229) <= 0.024
+assert abs((806.41<659.41)-0) <= 0.001
+assert abs((806.41<=659.41)-0) <= 0.001
+assert abs((806.41=659.41)-0) <= 0.001
+assert abs((806.41>659.41)--1) <= 0.001
+assert abs((806.41>=659.41)--1) <= 0.001
+assert abs((806.41<>659.41)--1) <= 0.001
+assert abs((675 and 373)-33) <= 0.001
+assert abs((675 or 373)-1015) <= 0.001
+assert abs((675 xor 373)-982) <= 0.001
+assert abs((675 >> 11)-0) <= 0.001
+assert abs((675 << 11)-1382400) <= 1.382
+assert abs((-397+-703.3)--1100.3) <= 0.001
+assert abs((-397--703.3)-306.3) <= 0.001
+assert abs((-397*-703.3)-279210.1) <= 2792.101
+assert abs((-397/-703.3)-0.5645) <= 0.011
+assert abs((-397<-703.3)-0) <= 0.001
+assert abs((-397<=-703.3)-0) <= 0.001
+assert abs((-397=-703.3)-0) <= 0.001
+assert abs((-397>-703.3)--1) <= 0.001
+assert abs((-397>=-703.3)--1) <= 0.001
+assert abs((-397<>-703.3)--1) <= 0.001
+assert abs((205 and 591)-77) <= 0.001
+assert abs((205 or 591)-719) <= 0.001
+assert abs((205 xor 591)-642) <= 0.001
+assert abs((205 >> 8)-0) <= 0.001
+assert abs((205 << 8)-52480) <= 0.052
+assert abs((769.52+-506.1)-263.42) <= 0.001
+assert abs((769.52--506.1)-1275.62) <= 0.001
+assert abs((769.52*-506.1)--389454.072) <= 3894.541
+assert abs((769.52/-506.1)--1.5205) <= 0.03
+assert abs((769.52<-506.1)-0) <= 0.001
+assert abs((769.52<=-506.1)-0) <= 0.001
+assert abs((769.52=-506.1)-0) <= 0.001
+assert abs((769.52>-506.1)--1) <= 0.001
+assert abs((769.52>=-506.1)--1) <= 0.001
+assert abs((769.52<>-506.1)--1) <= 0.001
+assert abs((710 and 301)-4) <= 0.001
+assert abs((710 or 301)-1007) <= 0.001
+assert abs((710 xor 301)-1003) <= 0.001
+assert abs((710 >> 6)-11) <= 0.001
+assert abs((710 << 6)-45440) <= 0.045
+assert abs((-994.79+391.19)--603.6) <= 0.001
+assert abs((-994.79-391.19)--1385.98) <= 0.001
+assert abs((-994.79*391.19)--389151.9001) <= 3891.519
+assert abs((-994.79/391.19)--2.543) <= 0.051
+assert abs((-994.79<391.19)--1) <= 0.001
+assert abs((-994.79<=391.19)--1) <= 0.001
+assert abs((-994.79=391.19)-0) <= 0.001
+assert abs((-994.79>391.19)-0) <= 0.001
+assert abs((-994.79>=391.19)-0) <= 0.001
+assert abs((-994.79<>391.19)--1) <= 0.001
+assert abs((446 and 619)-42) <= 0.001
+assert abs((446 or 619)-1023) <= 0.001
+assert abs((446 xor 619)-981) <= 0.001
+assert abs((446 >> 5)-13) <= 0.001
+assert abs((446 << 5)-14272) <= 0.014
+assert abs((-219+7)--212) <= 0.001
+assert abs((-219-7)--226) <= 0.001
+assert abs((-219*7)--1533) <= 15.33
+assert abs((-219/7)--31.2857) <= 0.626
+assert abs((-219<7)--1) <= 0.001
+assert abs((-219<=7)--1) <= 0.001
+assert abs((-219=7)-0) <= 0.001
+assert abs((-219>7)-0) <= 0.001
+assert abs((-219>=7)-0) <= 0.001
+assert abs((-219<>7)--1) <= 0.001
+assert abs((84 and 284)-20) <= 0.001
+assert abs((84 or 284)-348) <= 0.001
+assert abs((84 xor 284)-328) <= 0.001
+assert abs((84 >> 7)-0) <= 0.001
+assert abs((84 << 7)-10752) <= 0.011
+assert abs((1000+-737)-263) <= 0.001
+assert abs((1000--737)-1737) <= 0.002
+assert abs((1000*-737)--737000) <= 7370.0
+assert abs((1000/-737)--1.3569) <= 0.027
+assert abs((-737<-737)-0) <= 0.001
+assert abs((-737<=-737)--1) <= 0.001
+assert abs((-737=-737)--1) <= 0.001
+assert abs((-737>-737)-0) <= 0.001
+assert abs((-737>=-737)--1) <= 0.001
+assert abs((-737<>-737)-0) <= 0.001
+assert abs((96 and 976)-64) <= 0.001
+assert abs((96 or 976)-1008) <= 0.001
+assert abs((96 xor 976)-944) <= 0.001
+assert abs((96 >> 0)-96) <= 0.001
+assert abs((96 << 0)-96) <= 0.001
+assert abs((916.75+-619)-297.75) <= 0.001
+assert abs((916.75--619)-1535.75) <= 0.002
+assert abs((916.75*-619)--567468.25) <= 5674.682
+assert abs((916.75/-619)--1.481) <= 0.03
+assert abs((-619<-619)-0) <= 0.001
+assert abs((-619<=-619)--1) <= 0.001
+assert abs((-619=-619)--1) <= 0.001
+assert abs((-619>-619)-0) <= 0.001
+assert abs((-619>=-619)--1) <= 0.001
+assert abs((-619<>-619)-0) <= 0.001
+assert abs((863 and 158)-30) <= 0.001
+assert abs((863 or 158)-991) <= 0.001
+assert abs((863 xor 158)-961) <= 0.001
+assert abs((863 >> 12)-0) <= 0.001
+assert abs((863 << 12)-3534848) <= 3.535
+assert abs((-127.99+-422.23)--550.22) <= 0.001
+assert abs((-127.99--422.23)-294.24) <= 0.001
+assert abs((-127.99*-422.23)-54041.2177) <= 540.412
+assert abs((-127.99/-422.23)-0.3031) <= 0.006
+assert abs((-127.99<-422.23)-0) <= 0.001
+assert abs((-127.99<=-422.23)-0) <= 0.001
+assert abs((-127.99=-422.23)-0) <= 0.001
+assert abs((-127.99>-422.23)--1) <= 0.001
+assert abs((-127.99>=-422.23)--1) <= 0.001
+assert abs((-127.99<>-422.23)--1) <= 0.001
+assert abs((752 and 674)-672) <= 0.001
+assert abs((752 or 674)-754) <= 0.001
+assert abs((752 xor 674)-82) <= 0.001
+assert abs((752 >> 12)-0) <= 0.001
+assert abs((752 << 12)-3080192) <= 3.08
+assert abs((-988.78+-655)--1643.78) <= 0.002
+assert abs((-988.78--655)--333.78) <= 0.001
+assert abs((-988.78*-655)-647650.9) <= 6476.509
+assert abs((-988.78/-655)-1.5096) <= 0.03
+assert abs((-655<-655)-0) <= 0.001
+assert abs((-655<=-655)--1) <= 0.001
+assert abs((-655=-655)--1) <= 0.001
+assert abs((-655>-655)-0) <= 0.001
+assert abs((-655>=-655)--1) <= 0.001
+assert abs((-655<>-655)-0) <= 0.001
+assert abs((821 and 890)-816) <= 0.001
+assert abs((821 or 890)-895) <= 0.001
+assert abs((821 xor 890)-79) <= 0.001
+assert abs((821 >> 8)-3) <= 0.001
+assert abs((821 << 8)-210176) <= 0.21
+assert abs((805+720.29)-1525.29) <= 0.002
+assert abs((805-720.29)-84.71) <= 0.001
+assert abs((805*720.29)-579833.45) <= 5798.334
+assert abs((805/720.29)-1.1176) <= 0.022
+assert abs((805<720.29)-0) <= 0.001
+assert abs((805<=720.29)-0) <= 0.001
+assert abs((805=720.29)-0) <= 0.001
+assert abs((805>720.29)--1) <= 0.001
+assert abs((805>=720.29)--1) <= 0.001
+assert abs((805<>720.29)--1) <= 0.001
+assert abs((720 and 184)-144) <= 0.001
+assert abs((720 or 184)-760) <= 0.001
+assert abs((720 xor 184)-616) <= 0.001
+assert abs((720 >> 2)-180) <= 0.001
+assert abs((720 << 2)-2880) <= 0.003
+assert abs((-373.88+-275)--648.88) <= 0.001
+assert abs((-373.88--275)--98.88) <= 0.001
+assert abs((-373.88*-275)-102817.0) <= 1028.17
+assert abs((-373.88/-275)-1.3596) <= 0.027
+assert abs((-373.88<-275)--1) <= 0.001
+assert abs((-373.88<=-275)--1) <= 0.001
+assert abs((-373.88=-275)-0) <= 0.001
+assert abs((-373.88>-275)-0) <= 0.001
+assert abs((-373.88>=-275)-0) <= 0.001
+assert abs((-373.88<>-275)--1) <= 0.001
+assert abs((766 and 22)-22) <= 0.001
+assert abs((766 or 22)-766) <= 0.001
+assert abs((766 xor 22)-744) <= 0.001
+assert abs((766 >> 4)-47) <= 0.001
+assert abs((766 << 4)-12256) <= 0.012
+assert abs((769+726.48)-1495.48) <= 0.001
+assert abs((769-726.48)-42.52) <= 0.001
+assert abs((769*726.48)-558663.12) <= 5586.631
+assert abs((769/726.48)-1.0585) <= 0.021
+assert abs((769<726.48)-0) <= 0.001
+assert abs((769<=726.48)-0) <= 0.001
+assert abs((769=726.48)-0) <= 0.001
+assert abs((769>726.48)--1) <= 0.001
+assert abs((769>=726.48)--1) <= 0.001
+assert abs((769<>726.48)--1) <= 0.001
+assert abs((413 and 392)-392) <= 0.001
+assert abs((413 or 392)-413) <= 0.001
+assert abs((413 xor 392)-21) <= 0.001
+assert abs((413 >> 11)-0) <= 0.001
+assert abs((413 << 11)-845824) <= 0.846
+assert abs((-885+333.98)--551.02) <= 0.001
+assert abs((-885-333.98)--1218.98) <= 0.001
+assert abs((-885*333.98)--295572.3) <= 2955.723
+assert abs((-885/333.98)--2.6499) <= 0.053
+assert abs((-885<333.98)--1) <= 0.001
+assert abs((-885<=333.98)--1) <= 0.001
+assert abs((-885=333.98)-0) <= 0.001
+assert abs((-885>333.98)-0) <= 0.001
+assert abs((-885>=333.98)-0) <= 0.001
+assert abs((-885<>333.98)--1) <= 0.001
+assert abs((601 and 692)-528) <= 0.001
+assert abs((601 or 692)-765) <= 0.001
+assert abs((601 xor 692)-237) <= 0.001
+assert abs((601 >> 6)-9) <= 0.001
+assert abs((601 << 6)-38464) <= 0.038
+assert abs((776.27+568.36)-1344.63) <= 0.001
+assert abs((776.27-568.36)-207.91) <= 0.001
+assert abs((776.27*568.36)-441200.8172) <= 4412.008
+assert abs((776.27/568.36)-1.3658) <= 0.027
+assert abs((776.27<568.36)-0) <= 0.001
+assert abs((776.27<=568.36)-0) <= 0.001
+assert abs((776.27=568.36)-0) <= 0.001
+assert abs((776.27>568.36)--1) <= 0.001
+assert abs((776.27>=568.36)--1) <= 0.001
+assert abs((776.27<>568.36)--1) <= 0.001
+assert abs((157 and 532)-20) <= 0.001
+assert abs((157 or 532)-669) <= 0.001
+assert abs((157 xor 532)-649) <= 0.001
+assert abs((157 >> 8)-0) <= 0.001
+assert abs((157 << 8)-40192) <= 0.04
+assert abs((-80+-646.33)--726.33) <= 0.001
+assert abs((-80--646.33)-566.33) <= 0.001
+assert abs((-80*-646.33)-51706.4) <= 517.064
+assert abs((-80/-646.33)-0.1238) <= 0.002
+assert abs((-80<-646.33)-0) <= 0.001
+assert abs((-80<=-646.33)-0) <= 0.001
+assert abs((-80=-646.33)-0) <= 0.001
+assert abs((-80>-646.33)--1) <= 0.001
+assert abs((-80>=-646.33)--1) <= 0.001
+assert abs((-80<>-646.33)--1) <= 0.001
+assert abs((974 and 21)-4) <= 0.001
+assert abs((974 or 21)-991) <= 0.001
+assert abs((974 xor 21)-987) <= 0.001
+assert abs((974 >> 7)-7) <= 0.001
+assert abs((974 << 7)-124672) <= 0.125
+assert abs((704+631.72)-1335.72) <= 0.001
+assert abs((704-631.72)-72.28) <= 0.001
+assert abs((704*631.72)-444730.88) <= 4447.309
+assert abs((704/631.72)-1.1144) <= 0.022
+assert abs((704<631.72)-0) <= 0.001
+assert abs((704<=631.72)-0) <= 0.001
+assert abs((704=631.72)-0) <= 0.001
+assert abs((704>631.72)--1) <= 0.001
+assert abs((704>=631.72)--1) <= 0.001
+assert abs((704<>631.72)--1) <= 0.001
+assert abs((376 and 542)-24) <= 0.001
+assert abs((376 or 542)-894) <= 0.001
+assert abs((376 xor 542)-870) <= 0.001
+assert abs((376 >> 0)-376) <= 0.001
+assert abs((376 << 0)-376) <= 0.001
+assert abs((613+565)-1178) <= 0.001
+assert abs((613-565)-48) <= 0.001
+assert abs((613*565)-346345) <= 3463.45
+assert abs((613/565)-1.085) <= 0.022
+assert abs((613<565)-0) <= 0.001
+assert abs((613<=565)-0) <= 0.001
+assert abs((613=565)-0) <= 0.001
+assert abs((613>565)--1) <= 0.001
+assert abs((613>=565)--1) <= 0.001
+assert abs((613<>565)--1) <= 0.001
+assert abs((344 and 257)-256) <= 0.001
+assert abs((344 or 257)-345) <= 0.001
+assert abs((344 xor 257)-89) <= 0.001
+assert abs((344 >> 9)-0) <= 0.001
+assert abs((344 << 9)-176128) <= 0.176
+assert abs((946+-251)-695) <= 0.001
+assert abs((946--251)-1197) <= 0.001
+assert abs((946*-251)--237446) <= 2374.46
+assert abs((946/-251)--3.7689) <= 0.075
+assert abs((-251<-251)-0) <= 0.001
+assert abs((-251<=-251)--1) <= 0.001
+assert abs((-251=-251)--1) <= 0.001
+assert abs((-251>-251)-0) <= 0.001
+assert abs((-251>=-251)--1) <= 0.001
+assert abs((-251<>-251)-0) <= 0.001
+assert abs((214 and 466)-210) <= 0.001
+assert abs((214 or 466)-470) <= 0.001
+assert abs((214 xor 466)-260) <= 0.001
+assert abs((214 >> 9)-0) <= 0.001
+assert abs((214 << 9)-109568) <= 0.11
+assert abs((454+-60)-394) <= 0.001
+assert abs((454--60)-514) <= 0.001
+assert abs((454*-60)--27240) <= 272.4
+assert abs((454/-60)--7.5667) <= 0.151
+assert abs((454<-60)-0) <= 0.001
+assert abs((454<=-60)-0) <= 0.001
+assert abs((454=-60)-0) <= 0.001
+assert abs((454>-60)--1) <= 0.001
+assert abs((454>=-60)--1) <= 0.001
+assert abs((454<>-60)--1) <= 0.001
+assert abs((42 and 693)-32) <= 0.001
+assert abs((42 or 693)-703) <= 0.001
+assert abs((42 xor 693)-671) <= 0.001
+assert abs((42 >> 2)-10) <= 0.001
+assert abs((42 << 2)-168) <= 0.001
+assert abs((856+-911)--55) <= 0.001
+assert abs((856--911)-1767) <= 0.002
+assert abs((856*-911)--779816) <= 7798.16
+assert abs((856/-911)--0.9396) <= 0.019
+assert abs((-911<-911)-0) <= 0.001
+assert abs((-911<=-911)--1) <= 0.001
+assert abs((-911=-911)--1) <= 0.001
+assert abs((-911>-911)-0) <= 0.001
+assert abs((-911>=-911)--1) <= 0.001
+assert abs((-911<>-911)-0) <= 0.001
+assert abs((344 and 524)-8) <= 0.001
+assert abs((344 or 524)-860) <= 0.001
+assert abs((344 xor 524)-852) <= 0.001
+assert abs((344 >> 1)-172) <= 0.001
+assert abs((344 << 1)-688) <= 0.001
+assert abs((-50+-904)--954) <= 0.001
+assert abs((-50--904)-854) <= 0.001
+assert abs((-50*-904)-45200) <= 452.0
+assert abs((-50/-904)-0.0553) <= 0.001
+assert abs((-904<-904)-0) <= 0.001
+assert abs((-904<=-904)--1) <= 0.001
+assert abs((-904=-904)--1) <= 0.001
+assert abs((-904>-904)-0) <= 0.001
+assert abs((-904>=-904)--1) <= 0.001
+assert abs((-904<>-904)-0) <= 0.001
+assert abs((805 and 694)-548) <= 0.001
+assert abs((805 or 694)-951) <= 0.001
+assert abs((805 xor 694)-403) <= 0.001
+assert abs((805 >> 2)-201) <= 0.001
+assert abs((805 << 2)-3220) <= 0.003
+assert abs((-990+983.01)--6.99) <= 0.001
+assert abs((-990-983.01)--1973.01) <= 0.002
+assert abs((-990*983.01)--973179.9) <= 9731.799
+assert abs((-990/983.01)--1.0071) <= 0.02
+assert abs((-990<983.01)--1) <= 0.001
+assert abs((-990<=983.01)--1) <= 0.001
+assert abs((-990=983.01)-0) <= 0.001
+assert abs((-990>983.01)-0) <= 0.001
+assert abs((-990>=983.01)-0) <= 0.001
+assert abs((-990<>983.01)--1) <= 0.001
+assert abs((86 and 489)-64) <= 0.001
+assert abs((86 or 489)-511) <= 0.001
+assert abs((86 xor 489)-447) <= 0.001
+assert abs((86 >> 9)-0) <= 0.001
+assert abs((86 << 9)-44032) <= 0.044
+assert abs((-554.7+194.38)--360.32) <= 0.001
+assert abs((-554.7-194.38)--749.08) <= 0.001
+assert abs((-554.7*194.38)--107822.586) <= 1078.226
+assert abs((-554.7/194.38)--2.8537) <= 0.057
+assert abs((-554.7<194.38)--1) <= 0.001
+assert abs((-554.7<=194.38)--1) <= 0.001
+assert abs((-554.7=194.38)-0) <= 0.001
+assert abs((-554.7>194.38)-0) <= 0.001
+assert abs((-554.7>=194.38)-0) <= 0.001
+assert abs((-554.7<>194.38)--1) <= 0.001
+assert abs((750 and 555)-554) <= 0.001
+assert abs((750 or 555)-751) <= 0.001
+assert abs((750 xor 555)-197) <= 0.001
+assert abs((750 >> 9)-1) <= 0.001
+assert abs((750 << 9)-384000) <= 0.384
+assert abs((-909+988.9)-79.9) <= 0.001
+assert abs((-909-988.9)--1897.9) <= 0.002
+assert abs((-909*988.9)--898910.1) <= 8989.101
+assert abs((-909/988.9)--0.9192) <= 0.018
+assert abs((-909<988.9)--1) <= 0.001
+assert abs((-909<=988.9)--1) <= 0.001
+assert abs((-909=988.9)-0) <= 0.001
+assert abs((-909>988.9)-0) <= 0.001
+assert abs((-909>=988.9)-0) <= 0.001
+assert abs((-909<>988.9)--1) <= 0.001
+assert abs((791 and 949)-789) <= 0.001
+assert abs((791 or 949)-951) <= 0.001
+assert abs((791 xor 949)-162) <= 0.001
+assert abs((791 >> 1)-395) <= 0.001
+assert abs((791 << 1)-1582) <= 0.002
+assert abs((-878.05+-601.04)--1479.09) <= 0.001
+assert abs((-878.05--601.04)--277.01) <= 0.001
+assert abs((-878.05*-601.04)-527743.172) <= 5277.432
+assert abs((-878.05/-601.04)-1.4609) <= 0.029
+assert abs((-601.04<-601.04)-0) <= 0.001
+assert abs((-601.04<=-601.04)--1) <= 0.001
+assert abs((-601.04=-601.04)--1) <= 0.001
+assert abs((-601.04>-601.04)-0) <= 0.001
+assert abs((-601.04>=-601.04)--1) <= 0.001
+assert abs((-601.04<>-601.04)-0) <= 0.001
+assert abs((981 and 22)-20) <= 0.001
+assert abs((981 or 22)-983) <= 0.001
+assert abs((981 xor 22)-963) <= 0.001
+assert abs((981 >> 3)-122) <= 0.001
+assert abs((981 << 3)-7848) <= 0.008
+assert abs((698+169.53)-867.53) <= 0.001
+assert abs((698-169.53)-528.47) <= 0.001
+assert abs((698*169.53)-118331.94) <= 1183.319
+assert abs((698/169.53)-4.1173) <= 0.082
+assert abs((698<169.53)-0) <= 0.001
+assert abs((698<=169.53)-0) <= 0.001
+assert abs((698=169.53)-0) <= 0.001
+assert abs((698>169.53)--1) <= 0.001
+assert abs((698>=169.53)--1) <= 0.001
+assert abs((698<>169.53)--1) <= 0.001
+assert abs((757 and 191)-181) <= 0.001
+assert abs((757 or 191)-767) <= 0.001
+assert abs((757 xor 191)-586) <= 0.001
+assert abs((757 >> 11)-0) <= 0.001
+assert abs((757 << 11)-1550336) <= 1.55
+assert abs((-693+15.2)--677.8) <= 0.001
+assert abs((-693-15.2)--708.2) <= 0.001
+assert abs((-693*15.2)--10533.6) <= 105.336
+assert abs((-693/15.2)--45.5921) <= 0.912
+assert abs((-693<15.2)--1) <= 0.001
+assert abs((-693<=15.2)--1) <= 0.001
+assert abs((-693=15.2)-0) <= 0.001
+assert abs((-693>15.2)-0) <= 0.001
+assert abs((-693>=15.2)-0) <= 0.001
+assert abs((-693<>15.2)--1) <= 0.001
+assert abs((344 and 689)-16) <= 0.001
+assert abs((344 or 689)-1017) <= 0.001
+assert abs((344 xor 689)-1001) <= 0.001
+assert abs((344 >> 12)-0) <= 0.001
+assert abs((344 << 12)-1409024) <= 1.409

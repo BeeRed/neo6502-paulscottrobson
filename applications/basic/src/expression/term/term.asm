@@ -47,40 +47,7 @@ EXPTermR0:
 ;
 ; ------------------------------------------------------------------------------------------------		
 
-		sta 	IFR0+IM0 					; initial value in IM0
-		stz 	IFR0+IExp	
-		stz 	IFR0+IM1
-		stz 	IFR0+IM2		
-_ETMConstant:
-		lda 	(codePtr),y 				; what follows.
-		cmp 	#$40 						; continuing constant
-		bcs 	_ETMCExit 					; no.
-
-		ldx 	IFR0+IM2 					; x 256 into A:M2 M1 M0
-		lda 	IFR0+IM1
-		sta 	IFR0+IM2
-		lda 	IFR0+IM0
-		sta 	IFR0+IM1
-		stz 	IFR0+IM0
-		txa
-
-		lsr 	a 							; shift right twice, e.g. whole thing is x 64
-		ror 	IFR0+IM2
-		ror 	IFR0+IM1
-		ror 	IFR0+IM0
-
-		lsr 	a
-		ror 	IFR0+IM2
-		ror 	IFR0+IM1
-		ror 	IFR0+IM0
-
-		lda 	IFR0+IM0 					; LSB in.
-		ora 	(codePtr),y
-		sta 	IFR0+IM0
-		iny 								; consume, loop back
-		bra 	_ETMConstant
-		
-_ETMCExit:
+		jsr 	EXPExtractTokenisedInteger 	; pull out tokenised integer to R0
 		jsr 	EXPCheckDecimalFollows 		; check for decimals.
 		clc 								; return value
 		rts
@@ -126,6 +93,49 @@ _ETMCallUnaryFunction:
 
 _ETMUnarySyntax:
 		.error_syntax				
+
+; ************************************************************************************************
+;
+;								Pull out sequence of 00-3F to R0
+;
+; ************************************************************************************************
+
+EXPExtractTokenisedInteger:
+		sta 	IFR0+IM0 					; initial value in IM0
+		stz 	IFR0+IExp	
+		stz 	IFR0+IM1
+		stz 	IFR0+IM2		
+_ETMConstant:
+		lda 	(codePtr),y 				; what follows.
+		cmp 	#$40 						; continuing constant
+		bcs 	_ETMCExit 					; no.
+
+		ldx 	IFR0+IM2 					; x 256 into A:M2 M1 M0
+		lda 	IFR0+IM1
+		sta 	IFR0+IM2
+		lda 	IFR0+IM0
+		sta 	IFR0+IM1
+		stz 	IFR0+IM0
+		txa
+
+		lsr 	a 							; shift right twice, e.g. whole thing is x 64
+		ror 	IFR0+IM2
+		ror 	IFR0+IM1
+		ror 	IFR0+IM0
+
+		lsr 	a
+		ror 	IFR0+IM2
+		ror 	IFR0+IM1
+		ror 	IFR0+IM0
+
+		lda 	IFR0+IM0 					; LSB in.
+		ora 	(codePtr),y
+		sta 	IFR0+IM0
+		iny 								; consume, loop back
+		bra 	_ETMConstant
+		
+_ETMCExit:
+		rts
 
 ; ************************************************************************************************
 ;

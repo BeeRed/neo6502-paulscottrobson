@@ -120,17 +120,6 @@ TOKGetNext:
 		sec	
 		jmp 	(TOKDataSource)
 
-TokTest:phx
-		ldx 	TokPos
-		lda 	TokLine,x
-		bcc 	_TTExit
-		inc 	TokPos
-_TTExit:plx
-		rts		
-
-TokLine:.text 	'"Hello" .306 > <> let print az09._ a a$ a( a$(',0
-TokPos:	.byte 	0
-
 		.send code
 
 		.section storage
