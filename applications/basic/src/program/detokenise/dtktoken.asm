@@ -19,19 +19,6 @@
 ; ************************************************************************************************
 
 TOKDToken:
-		cmp 	#PR_LSQLSQSHIFTRSQRSQ 		; shifted ?
-		bne 	_TOKDNotShifted
-		jsr 	TOKDGet 					; get what is shifted
-		ldx 	#ShiftedTokens & $FF
-		ldy 	#ShiftedTokens >> 8
-		bra 	_TOKDSearch
-
-_TOKDNotShifted:		
-		cmp 	#PR_GAP_START 				; rejoin the two halves of the token.
-		bcc 	_TOKDNoGap
-		sec
-		sbc 	#PR_GAP_ADJUST
-_TOKDNoGap:
 		ldx 	#StandardTokens & $FF
 		ldy 	#StandardTokens >> 8
 		;
@@ -65,7 +52,6 @@ _TOKDOutput:
 		iny
 		dex
 		bne 	_TOKDOutput		
-
 _TOKDExit:
 		rts		
 
@@ -76,10 +62,10 @@ _TOKDExit:
 ; ************************************************************************************************
 
 TOKDSpacing:
-		jsr 	TOKIsAlphaNumeric 			; next character alphanumeric
+		jsr 	TOKIsIdentifierElement		; next character alphanumeric
 		bcc 	_TOKDSExit
 		lda 	TOKLastCharacter			; and last character also alphanumeric
-		jsr 	TOKIsAlphaNumeric
+		jsr 	TOKIsIdentifierElement
 		bcc 	_TOKDSExit
 		lda 	#" " 						; we need a space.
 		jsr 	TOKDOutput

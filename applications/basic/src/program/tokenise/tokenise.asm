@@ -128,7 +128,7 @@ TokTest:phx
 _TTExit:plx
 		rts		
 
-TokLine:.text 	'"Hello" .306',0
+TokLine:.text 	'"Hello" .306 > <> let print az09._ a a$ a( a$(',0
 TokPos:	.byte 	0
 
 		.send code

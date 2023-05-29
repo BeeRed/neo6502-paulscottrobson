@@ -37,13 +37,13 @@ _TOKDLoop:
 		;
 		cmp 	#0 							; is it a token 80-FF
 		bpl 	_TOKDNotToken
-; ***		jsr 	TOKDToken 					; token to text.		
+		jsr 	TOKDToken 					; token to text.		
 		bra 	_TOKDLoop
 		;
 _TOKDNotToken:
 		cmp 	#$40  						; 40-7F Identifier
 		bcc 	_TOKDNotIdentifier
-; ****	jsr 	TOKDIdentifier
+		jsr 	TOKDIdentifier
 		bra 	_TOKDLoop
 		;
 _TOKDNotIdentifier: 						; 00-3F Base 10 Integer
