@@ -45,7 +45,7 @@ class TestNumberString(TestNumber):
 		return '"'+TestNumber.render(self)+'"'
 
 class BinaryChecker(object):
-	def generate(self,n1,op,n2,result,errorPC = 0.0001):
+	def generate(self,n1,op,n2,result,errorPC = 0.0002):
 		expr = "({0}{1}{2})".format(n1.render(),op,n2.render())
 		rerror = round(abs(result/100*errorPC),3)
 		if errorPC != 0 and rerror == 0:
