@@ -42,8 +42,8 @@ StandardTokens:
 	.byte	$04,$4c,$49,$53,$54                     	; $a5 list
 	.byte	$04,$53,$41,$56,$45                     	; $a6 save
 	.byte	$04,$4c,$4f,$41,$44                     	; $a7 load
-	.byte	0											; $a8
-	.byte	0											; $a9
+	.byte	$04,$50,$4f,$4b,$45                     	; $a8 poke
+	.byte	$04,$44,$4f,$4b,$45                     	; $a9 doke
 	.byte	0											; $aa
 	.byte	0											; $ab
 	.byte	0											; $ac
@@ -87,8 +87,8 @@ StandardTokens:
 	.byte	0											; $d2
 	.byte	0											; $d3
 	.byte	0											; $d4
-	.byte	0											; $d5
-	.byte	0											; $d6
+	.byte	$05,$44,$45,$45,$4b,$28                 	; $d5 deek(
+	.byte	$05,$50,$45,$45,$4b,$28                 	; $d6 peek(
 	.byte	$07,$52,$49,$47,$48,$54,$24,$28         	; $d7 right$(
 	.byte	$06,$4c,$45,$46,$54,$24,$28             	; $d8 left$(
 	.byte	$05,$4d,$49,$44,$24,$28                 	; $d9 mid$(

@@ -40,6 +40,7 @@ class RawTokenClass(object):
 			[[STRING]] [[DECIMAL]]
 			$ 		(		RAND(	RND(	HEX$(	DEC(	FRAC(	INT(	TIME	EVENT(	INKEY$(
 			ASC(	CHR$(	SQR( 	LEN(  	ABS(  	SGN( 	VAL( 	STR$( 	MID$(	LEFT$( 	RIGHT$(
+			PEEK( 	DEEK(
 			"""
 
 	def getBinaryOperators(self):
@@ -58,7 +59,7 @@ class RawTokenClass(object):
 		return  """
 			[[END]] [[SHIFT]] 	ELSE	THEN	TO 		STEP	LET 	PRINT	INPUT	CALL 	SYS 	
 			REM 	EXIT		, 		; 		: 		' 		)		DIM 	CLEAR	NEW 	RUN 	
-			STOP 	END 	ASSERT 	LIST 	SAVE	LOAD	
+			STOP 	END 		ASSERT 	LIST 	SAVE	LOAD	POKE 	DOKE
 		"""
 
 	def append(self,tokenData,topDown,descr):

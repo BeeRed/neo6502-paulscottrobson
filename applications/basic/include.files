@@ -61,3 +61,4 @@
 	.include "src/program/tokenise/tokstring.asm"
 	.include "src/program/tokenise/toktypes.asm"
 	.include "src/support/strings/stringalloc.asm"
+	.include "src/variables/simple.asm"

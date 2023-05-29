@@ -17,9 +17,35 @@
 ; ************************************************************************************************
 
 EXPTermValueR0:
-		jsr 	EXPTermR0
-		bcc 	_ETVNotReference
+		jsr 	EXPTermR0 					; get term
+		bcc 	_ETVNotReference 			; exit if value.
+		phy
+		ldy 	#3 							; get type
+		lda 	(IFR0),y
+		bmi 	_ETVDereferenceString
+		;
+		;		Dereference a number
+		;
+		sta 	IFR0+IExp 					; dereference to R0
+		dey
+		lda 	(IFR0),y
+		sta 	IFR0+IM2
+		dey
+		lda 	(IFR0),y
+		tax
+		lda 	(IFR0)
+		stx 	IFR0+IM1
+		sta 	IFR0+IM0
+		ply
+		clc
+		rts
+		;
+		;		Dereference a string.
+		;
+_ETVDereferenceString:		
+		.debug
 		.error_unimplemented
+
 _ETVNotReference:
 		rts
 
@@ -59,7 +85,7 @@ EXPTermR0:
 ; ------------------------------------------------------------------------------------------------		
 
 _ETMIdentifier:
-		.error_unimplemented
+		jmp 	VARCheckSimple 				; check simple variables A-Z
 
 ; ------------------------------------------------------------------------------------------------		
 ;

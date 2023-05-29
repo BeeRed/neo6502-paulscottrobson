@@ -42,8 +42,8 @@ VectorTable:
 	.word	NotImplemented           ; $a5 LIST
 	.word	NotImplemented           ; $a6 SAVE
 	.word	NotImplemented           ; $a7 LOAD
-	.word	NotImplemented           ; $a8 
-	.word	NotImplemented           ; $a9 
+	.word	NotImplemented           ; $a8 POKE
+	.word	NotImplemented           ; $a9 DOKE
 	.word	NotImplemented           ; $aa 
 	.word	NotImplemented           ; $ab 
 	.word	NotImplemented           ; $ac 
@@ -87,8 +87,8 @@ VectorTable:
 	.word	NotImplemented           ; $d2 
 	.word	NotImplemented           ; $d3 
 	.word	NotImplemented           ; $d4 
-	.word	NotImplemented           ; $d5 
-	.word	NotImplemented           ; $d6 
+	.word	NotImplemented           ; $d5 DEEK(
+	.word	NotImplemented           ; $d6 PEEK(
 	.word	EXPUnaryRight            ; $d7 RIGHT$(
 	.word	EXPUnaryLeft             ; $d8 LEFT$(
 	.word	EXPUnaryMid              ; $d9 MID$(
