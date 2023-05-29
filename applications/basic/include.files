@@ -36,6 +36,7 @@
 	.include "src/expression/term/unary/sqr.asm"
 	.include "src/expression/term/unary/strhex.asm"
 	.include "src/expression/term/unary/string.asm"
+	.include "src/expression/term/unary/substring.asm"
 	.include "src/expression/term/unary/val.asm"
 	.include "src/generated/precedence_table.asm"
 	.include "src/generated/token_text.asm"

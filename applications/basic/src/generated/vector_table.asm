@@ -89,9 +89,9 @@ VectorTable:
 	.word	NotImplemented           ; $d4 
 	.word	NotImplemented           ; $d5 
 	.word	NotImplemented           ; $d6 
-	.word	NotImplemented           ; $d7 RIGHT$(
-	.word	NotImplemented           ; $d8 LEFT$(
-	.word	NotImplemented           ; $d9 MID$(
+	.word	EXPUnaryRight            ; $d7 RIGHT$(
+	.word	EXPUnaryLeft             ; $d8 LEFT$(
+	.word	EXPUnaryMid              ; $d9 MID$(
 	.word	EXPUnaryStr              ; $da STR$(
 	.word	EXPUnaryVal              ; $db VAL(
 	.word	EXPUnarySgn              ; $dc SGN(

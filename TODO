@@ -1,12 +1,11 @@
 TODO:
 	
-	Binary Operations.
-		LEFT$ MID$ RIGHT$
-
+	Substring testing.
 	Simple Variables 
 	Assignment
 	Complex Variables / String derefenceing.
 	Arrays.		
+	
 Fixes:
 	Dereferencing of variables (no)
 	Memory checking on string allocate stuff.
