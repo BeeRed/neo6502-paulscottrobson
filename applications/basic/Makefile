@@ -71,6 +71,6 @@ test4: assemble
 
 edtest: prelim
 	$(PYTHON) scripts$(S)maketest.py 
-	$(ASM) basic.asm -o build$(S)basic.bin
+	$(ASM) basic.asm -D runEdit=1 -o build$(S)basic.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 
 	$(PYTHON) scripts$(S)checktest.py 

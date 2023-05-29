@@ -13,6 +13,10 @@
 		.include "build/ramdata.inc"
 		.include "build/osvectors.inc"
 
+		.weak
+runEdit = 0 								; setting to 1 builds with the program/testing stuff in.
+		.endweak
+
 		* = $1000
 		.dsection code
 
@@ -30,7 +34,10 @@ boot:
 		jsr 	PGMSetBaseAddress
 		jsr 	IFInitialise
 
+		.if  	runEdit==1
 		jmp 	TestCode
+		.include "src/program/testing/testing.asmx"
+		.endif
 
 		jmp 	Command_RUN
 

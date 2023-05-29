@@ -16,7 +16,7 @@ def checkList(d1,d2,p1,p2):
 	print("Scanning from ${0:04x} ${0:04x}".format(p1,p2))
 	eCount = 0
 	while d1[p1] != 0:
-		print("{0:04x} {1:04x} {2} {3}".format(p1,p2,d1[p1],d2[p2]))
+		#print("{0:04x} {1:04x} {2} {3}".format(p1,p2,d1[p1],d2[p2]))
 		assert d1[p1] == d2[p2]
 		eCount += 1
 		for i in range(0,d1[p1]):

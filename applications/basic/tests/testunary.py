@@ -30,7 +30,7 @@ for i in range(0,40):
 	in1 = in1 if n1.get() > 0 else -in1
 	uc.generate(n1,"int",in1)
 	n1 = TestNumber().absolute()
-	uc.generate(n1,"sqr",math.sqrt(n1.get()),0.5)
+	uc.generate(n1,"sqr",math.sqrt(n1.get()),0.8)
 	uc.generate(s1,"asc",ord(s1.get()[0]) if len(s1.get()) != 0 else 0)
 	h1 = TestHexNumber(True).absolute()
 	uc.generate(h1,"dec",h1.get())

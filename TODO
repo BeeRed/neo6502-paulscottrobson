@@ -1,11 +1,11 @@
 TODO:
-	Automatic editing testing code changing.
 	
 	Binary Operations.
 		LEFT$ MID$ RIGHT$
 
-	Variables / String dereferencing ?
+	Simple Variables 
 	Assignment
+	Complex Variables / String derefenceing.
 	Arrays.		
 Fixes:
 	Dereferencing of variables (no)
