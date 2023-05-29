@@ -79,18 +79,16 @@ _TOKNotString:
 		bcs 	_TOKFail
 		bra 	_TOKMainLoop
 _TOKIdentifier:
-; ****		jsr 	TOKTokeniseIdentifier 		; identifier/token.
+		jsr 	TOKTokeniseIdentifier 		; identifier/token.
 		bcs 	_TOKFail
 		bra 	_TOKMainLoop
 
 _TOKExit:									
 		lda 	#PR_LSQLSQENDRSQRSQ 		; write EOL
 		jsr 	TOKWriteA
-		.debug
 		clc									; return with carry set.
 		rts		
 _TOKFail:
-		.debug
 		sec
 		rts		
 
@@ -130,7 +128,7 @@ TokTest:phx
 _TTExit:plx
 		rts		
 
-TokLine:.text 	'68.144 $45 "Hello" < <>',0
+TokLine:.text 	'"Hello" .306',0
 TokPos:	.byte 	0
 
 		.send code

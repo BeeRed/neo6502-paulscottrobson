@@ -4,10 +4,9 @@ TODO
 		LEFT$ MID$ RIGHT$
 		
 	Tokenising/Detokenising
-		- Identifiers / Text tokens.
-		- Modify test script to test tokenising.
 		- Detokenising.
-
+		- Modify test script to test tokenising.
+		- Check math still works !
 Fixes:
 	Dereferencing of variables (no)
 	Memory checking on string allocate stuff.

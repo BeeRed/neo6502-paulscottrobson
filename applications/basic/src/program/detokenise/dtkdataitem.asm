@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		tokidentifier.asm
-;		Purpose:	Tokenise an identifier
+;		Name:		dtkdataitem.asm
+;		Purpose:	Detokenise data item
 ;		Created:	28th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -14,54 +14,36 @@
 
 ; ************************************************************************************************
 ;
-;								Tokenise an identifier
+;										Detokenise data item
 ;
 ; ************************************************************************************************
 
-TOKTokeniseIdentifier:
-		jsr 	TOKResetElement 			; extract an identifier
-_TOKGetIdentifier:
-		jsr 	TOKGet
-		jsr 	TOKIsAlphaNumeric
-		bcc 	_TOKEndIdent
-		jsr		TOKWriteElement
-		jsr 	TOKGetNext
-		bra 	_TOKGetIdentifier
-		;
-_TOKEndIdent:		
-		cmp 	#"$" 						; append $ or ( if typed, not both.
-		beq 	_TOKAppendType 
-		cmp 	#"("
-		bne 	_TOKNoAppend
-_TOKAppendType:		
-		jsr 	TOKWriteElement 			; add it
-		jsr 	TOKGetNext 					; consume it
-_TOKNoAppend:
-		jsr 	TOKFindToken 				; find it
-		bcc		_TOKIsVariable 				; it must be a variable or proc name
-
-		cpx 	#0 							; shifted ?
-		beq 	_TOKNoShift
-		pha
-		txa
-		jsr 	TOKWriteA
-		pla
-_TOKNoShift:		
-		jsr 	TOKWriteA
-		clc
-		rts
-
-_TOKIsVariable:				
-		jsr 	PGMFindIdentifier 			; find/create identifier.
-		tya
-		jsr 	TOKWriteA
-		txa
-		jsr 	TOKWriteA
-		clc
-		rts
+TOKDDataItem:
+		tay 								; type in Y
+		lda 	#'"'						; start with " or .
+		cpy 	#PR_LSQLSQSTRINGRSQRSQ
+		beq 	_TOKDDIsString
+		lda 	#'.'
+_TOKDDIsString:
+		jsr 	TOKDOutput 					; dump it
+		jsr 	TOKDGet 					; get length into X
+		tax 
+_TOKDDOutput:
+		dex 								; are we complete
+		bmi 	_TOKDDEnd
+		jsr 	TOKDGet 					; get character and output it
+		jsr 	TOKDOutput
+		bra 	_TOKDDOutput
+_TOKDDEnd:
+		cpy 	#PR_LSQLSQSTRINGRSQRSQ 		; if string, do closing quote
+		bne 	_TOKDDNotString
+		lda 	#'"'
+		jsr 	TOKDOutput
+_TOKDDNotString:
+		rts				
 
 		.send code
-
+		
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

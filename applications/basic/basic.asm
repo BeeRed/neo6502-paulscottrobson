@@ -35,6 +35,13 @@ boot:
 		clc
 		jsr 	TOKTokenise
 
+		ldx 	#OSWriteScreen & $FF
+		ldy 	#OSWriteScreen >> 8
+		jsr 	TOKSetDetokeniseOutput
+		ldx 	#TOKBuffer & $FF
+		ldy 	#TOKBuffer >> 8
+		jsr 	TOKDetokenise
+		.debug
 		jmp 	Command_RUN
 
 		.include "include.files"

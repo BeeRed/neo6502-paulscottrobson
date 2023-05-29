@@ -26,6 +26,7 @@ TOKWriteElement:
 		phx
 		ldx 	TOKElement
 		sta 	TOKElementText,x
+		stz 	TOKElementText+1,x
 		plx
 		inc 	TOKElement		
 		rts		

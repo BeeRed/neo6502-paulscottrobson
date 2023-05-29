@@ -27,28 +27,28 @@ TOKDetokenise:
 		;
 _TOKDLoop:
 		jsr 	TOKDGet 					; get next
-		cmp 	#PR_EOL 					; end of line
+		cmp 	#PR_LSQLSQENDRSQRSQ			; end of line
 		beq 	_TOKDExit
 		;
-		cmp 	#PR_STRING 					; is it a string/integer with additional data.
+		cmp 	#PR_LSQLSQSTRINGRSQRSQ		; is it a string/integer with additional data.
 		beq 	_TOKDDataItem
-		cmp 	#PR_DECIMAL
+		cmp 	#PR_LSQLSQDECIMALRSQRSQ
 		beq 	_TOKDDataItem
 		;
 		cmp 	#0 							; is it a token 80-FF
 		bpl 	_TOKDNotToken
-		jsr 	TOKDToken 					; token to text.		
+; ***		jsr 	TOKDToken 					; token to text.		
 		bra 	_TOKDLoop
 		;
 _TOKDNotToken:
-		cmp 	#$20  						; 00-1F Identifier
-		bcs 	_TOKDNotIdentifier
-		jsr 	TOKDIdentifier
+		cmp 	#$40  						; 40-7F Identifier
+		bcc 	_TOKDNotIdentifier
+; ****	jsr 	TOKDIdentifier
 		bra 	_TOKDLoop
 		;
-_TOKDNotIdentifier: 						; 20-7F and [[INT]]
-		ldy 	#10 						; base 10.
-		jsr 	TOKDInteger
+_TOKDNotIdentifier: 						; 00-3F Base 10 Integer
+		ldy 	#10 						
+; ****	jsr 	TOKDInteger
 		bra 	_TOKDLoop
 
 _TOKDDataItem:								; [[STRING]] [[DECIMAL]]
