@@ -1,9 +1,8 @@
 TODO:
-	Assignment & Script.
+	Assignment test script.
 	Complex Variables / String derefenceing.
 	Arrays.		
 	
-Fixes:
-	Dereferencing of variables (no)
-	Memory checking on string allocate stuff.
+Changes:
+	Memory checking on string/array allocate stuff.
 	Input code.

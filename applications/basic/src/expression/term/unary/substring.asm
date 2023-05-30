@@ -27,6 +27,10 @@ EXPUnaryLeft: ;; [left$(]
 		jsr 	EXPEvalInteger8 				; characters to do
 		bra 	EXPSubstringCommon
 
+;: [left$(string,count)]\
+; Returns the leftmost 'count' characters of a string.\
+; { print left$("dennis",3) } prints den
+
 ; ************************************************************************************************
 ;
 ;							RIGHT$(a$,n) - right most a$ characters
@@ -51,6 +55,10 @@ _EUROffLeft:
 		pha 									; start pos
 		lda 	#255		
 		bra 	EXPSubstringCommon
+
+;: [right$(string,count)]\
+; Returns the rightmost 'count' characters of a string.\
+; { print right$("dennis",3) } prints nis
 
 ; ************************************************************************************************
 ;
@@ -79,6 +87,12 @@ _EUMLength:
 
 _EUSError:
 		.error_value		
+
+;: [mid$(string,start<,count>)]\
+; Returns a substring of a string. start is the start position, which is indexed from
+; 1. The count parameter, which is optional is the number of characters to extract.\
+; { print mid$("dennis",3) } prints nnis\
+; { print mid$("dennis",4,2) } prints ni
 
 ; ************************************************************************************************
 ;

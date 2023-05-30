@@ -12,8 +12,8 @@ Variables in chains/hashed identifier markers.
 
 	+00+01 	link to next
 	+02 	hash (of the 40-65 markers & 0x7F)
-	+03..6 	data (number or string address)	
-	+04..7 	names, bit 7 of last set high. 40-65 values.
+	+03+04 	address of name in code.
+	+05..8 	data (number or string address)	
 
 Tokens:
 	Basic set $80 structures first.

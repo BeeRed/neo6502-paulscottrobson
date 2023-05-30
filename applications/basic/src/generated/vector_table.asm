@@ -20,7 +20,7 @@ VectorTable:
 	.word	NoExec01                 ; $8f THEN
 	.word	NoExec02                 ; $90 TO
 	.word	NoExec03                 ; $91 STEP
-	.word	NotImplemented           ; $92 LET
+	.word	CommandLET               ; $92 LET
 	.word	Command_Print            ; $93 PRINT
 	.word	NotImplemented           ; $94 INPUT
 	.word	NotImplemented           ; $95 CALL

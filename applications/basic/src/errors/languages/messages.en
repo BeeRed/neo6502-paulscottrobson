@@ -25,3 +25,4 @@
 	memory 		  : out of memory
 	uninitialised : variable uninitialised	
 	string 		  : bad string length
+	variable 	  : variable missing

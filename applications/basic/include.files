@@ -9,6 +9,7 @@
 	.include "src/commands/clear.asm"
 	.include "src/commands/dead.asm"
 	.include "src/commands/inputprint.asm"
+	.include "src/commands/let.asm"
 	.include "src/commands/new.asm"
 	.include "src/commands/rem.asm"
 	.include "src/commands/run.asm"

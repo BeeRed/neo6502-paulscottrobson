@@ -49,3 +49,6 @@ error_uninitialised .macro
 error_string .macro
 	jmp	ErrorV_string
 	.endm
+error_variable .macro
+	jmp	ErrorV_variable
+	.endm

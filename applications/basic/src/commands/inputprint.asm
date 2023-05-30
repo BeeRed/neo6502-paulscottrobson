@@ -110,6 +110,12 @@ CPPrintA:
 		jmp 	OSWriteScreen
 		.send code
 
+;:[PRINT]\
+; Prints the following items on the display, can be a mixture of strings and numbers. A semicolon
+; can be used to seperate elements, and a comma to move to the next tab position. If the last 
+; character is not a semicolon or comma, a new line is printed after this.\
+; { PRINT "Hello";name$,"tabbed" for example.}
+
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

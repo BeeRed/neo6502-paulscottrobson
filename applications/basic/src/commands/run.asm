@@ -95,7 +95,10 @@ _RUNSyntax:
 		; ----------------------------------------------------------------------------------------
 
 _RUNNotToken:		
-		.error_unimplemented
+		cmp 	#$40 						; 00-3F is a syntax error
+		bcc 	_RUNSyntax
+		jsr 	CommandLET 					; assignment
+		bra 	RUNNewCommand 				; loop round.
 
 ; ************************************************************************************************
 ;

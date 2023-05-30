@@ -50,4 +50,7 @@ ErrorV_uninitialised:
 ErrorV_string:
 	jsr	ErrorHandler
 	.text	"Bad String Length",0
+ErrorV_variable:
+	jsr	ErrorHandler
+	.text	"Variable Missing",0
 	.send code
