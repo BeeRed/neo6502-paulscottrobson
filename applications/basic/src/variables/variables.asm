@@ -42,7 +42,6 @@ VARCheckSimple:
 _VCSComplex:
 		dey	 								; extract information.
 		jsr 	VARGetInfo
-		.debug	
 		jsr 	VARFind 					; search for variable
 		bcs 	_VCSHaveVariable
 		jsr 	VARCreate 					; create variable

@@ -56,7 +56,7 @@ AllocateMemory:
 		ldy 	freeMemory 					; save addr.low
 		phy
 		ldy 	freeMemory+1 				; save addr.high
-		ply
+		phy
 		tay 								; count is now in XY
 _AllocateLoop:
 		cpx 	#0 							; allocate count is zero ?

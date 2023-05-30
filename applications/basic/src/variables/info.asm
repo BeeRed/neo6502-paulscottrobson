@@ -49,7 +49,6 @@ _VARCopyName:
 		;
 		and 	#3 							; type is 0-3
 		.VAREntryShift 						; 3 x entries per type
-		asl 	a 							; now a word offset, also CC
 		sta 	zTemp0 
 		;
 		lda 	VARHash 					; force into range of hash entries per type.		

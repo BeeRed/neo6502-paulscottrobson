@@ -19,6 +19,7 @@
 		.section code
 
 VARCreate:
+		phy
 		;
 		;		Allocate memory
 		;
@@ -58,9 +59,9 @@ VARCreate:
 		;		New Record is the new head
 		;
 		lda 	zTemp1 						; address of the new record into head
-		sta 	(zTemp1)
+		sta 	(zTemp0)
 		lda 	zTemp1+1
-		sta 	(zTemp1),y
+		sta 	(zTemp0),y
 		;
 		;		Make XA point to the data part of the variable (e.g. offset 5)
 		;
@@ -70,7 +71,8 @@ VARCreate:
 		adc 	#5
 		bcc 	_VCNoCarry
 		inx
-_VCNoCarry:		
+_VCNoCarry:
+		ply		
 		rts
 
 		.send code

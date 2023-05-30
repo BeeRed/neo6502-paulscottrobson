@@ -14,12 +14,18 @@ from testutils import *
 
 identifiers = []
 idValues = {}
-for i in range(0,10):
-	newID = chr(random.randint(65,90))
+for i in range(0,50):
+	newID = ""
+	for i in range(0,random.randint(1,6)):
+		if i % 2 == 0:
+			newID += chr(random.randint(65,90))
+		else:
+			newID += chr(random.randint(48,57))
+
 	if newID not in idValues:
 		identifiers.append(newID)
 
-for i in range(0,len(identifiers)*2):
+for i in range(0,len(identifiers)*3):
 	n1 = TestNumber()
 	idn = identifiers[random.randint(0,len(identifiers)-1)]
 	idValues[idn] = n1
