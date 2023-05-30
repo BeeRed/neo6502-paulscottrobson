@@ -62,4 +62,7 @@
 	.include "src/program/tokenise/tokstring.asm"
 	.include "src/program/tokenise/toktypes.asm"
 	.include "src/support/strings/stringalloc.asm"
-	.include "src/variables/simple.asm"
+	.include "src/variables/create.asm"
+	.include "src/variables/find.asm"
+	.include "src/variables/info.asm"
+	.include "src/variables/variables.asm"

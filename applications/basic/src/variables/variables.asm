@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		simple.asm
-;		Purpose:	Check for simple variables
+;		Name:		variables.asm
+;		Purpose:	Check for simple variables, then complex.
 ;		Created:	29th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -12,6 +12,7 @@
 
 ; ************************************************************************************************
 ;
+;									Check for simple variables
 ;
 ; ************************************************************************************************
 
@@ -39,8 +40,25 @@ VARCheckSimple:
 		rts
 		;
 _VCSComplex:
-		.debug		
+		dey	 								; extract information.
+		jsr 	VARGetInfo
+		.debug	
+		jsr 	VARFind 					; search for variable
+		bcs 	_VCSHaveVariable
+		jsr 	VARCreate 					; create variable
+_VCSHaveVariable:							; address of data part of variable is in XA.
 
+		stx 	IFR0+IM1 					; save address
+		sta 	IFR0+IM0
+		stz 	IFR0+IM2 					; clear the unused byte.
+		;
+		lda 	VARType 					; number/string bit into carry
+		ror 	a
+		lda 	#0
+		ror 	a 							; now $00 or $80
+		sta 	IFR0+IExp
+		sec 								; it's a reference
+		rts
 		.send code
 		
 		.section storage

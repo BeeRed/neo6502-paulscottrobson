@@ -11,7 +11,7 @@ Type markers (default # $ #( $() can be 7C-7F
 Variables in chains/hashed identifier markers.
 
 	+00+01 	link to next
-	+02 	hash (of the 40-65 markers & 0x7F)
+	+02 	hash (of the 40-65 markers)
 	+03+04 	address of name in code.
 	+05..8 	data (number or string address)	
 
