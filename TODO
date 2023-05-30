@@ -1,6 +1,5 @@
 TODO:
-	String variables
-	String derefenceing (can be $0000)
+	String assignment overwriting a concreted string.
 	Arrays.		
 	
 Changes:

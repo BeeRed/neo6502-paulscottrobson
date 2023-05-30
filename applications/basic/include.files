@@ -61,6 +61,7 @@
 	.include "src/program/tokenise/tokpunctuation.asm"
 	.include "src/program/tokenise/tokstring.asm"
 	.include "src/program/tokenise/toktypes.asm"
+	.include "src/support/strings/concrete.asm"
 	.include "src/support/strings/stringalloc.asm"
 	.include "src/variables/create.asm"
 	.include "src/variables/find.asm"

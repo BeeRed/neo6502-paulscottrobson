@@ -40,11 +40,41 @@ EXPTermValueR0:
 		clc
 		rts
 		;
-		;		Dereference a string.
+		;		Dereference a string, allowing for case of unintialised (e.g. $0000)
 		;
 _ETVDereferenceString:		
-		.debug
-		.error_unimplemented
+
+		ldy 	#1 							; check if it is as yet unassigned.
+		lda 	(IFR0),y
+		ora 	(IFR0)
+		beq 	_ETVNull
+		; 						
+		lda 	(IFR0),y 					; load address of string to XA
+		tax
+		lda 	(IFR0)
+		clc 								; add two so points to actual string.
+		adc 	#2
+		bcc 	_EVDSNoCarry
+		inx
+_EVDSNoCarry:		
+		stx 	IFR0+IM1 					; save in slots
+		sta 	IFR0
+		bra 	_ETVFillExit 				; tidy up and exit.
+
+_ETVNull:
+		lda 	#_EVTNString & $FF
+		sta 	IFR0+IM0
+		lda 	#_EVTNString >> 8
+		sta 	IFR0+IM1
+_ETVFillExit:		
+		stz 	IFR0+IM2
+		lda 	#$80
+		sta 	IFR0+IExp
+		ply
+		rts
+		
+_EVTNString: 								; a null string.
+		.byte 	0
 
 _ETVNotReference:
 		rts

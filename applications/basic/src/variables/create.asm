@@ -1,3 +1,4 @@
+
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
@@ -41,6 +42,16 @@ VARCreate:
 		iny
 		lda 	VARNameAddress+1
 		sta 	(zTemp1),y
+		;
+		;		Set type bit of data offset 3 if string.
+		;
+		lda 	VARType
+		and 	#1
+		beq 	_CVNotString
+		ldy 	#5+3
+		lda 	#$80
+		sta 	(zTemp1),y
+_CVNotString:		
 		;
 		;		Link into hash table - old head becomes link on new record
 		;		(inserted into front)

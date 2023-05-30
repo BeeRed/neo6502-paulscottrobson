@@ -44,9 +44,13 @@ CommandLET:	;; [let]
 		;
 		lda 	IFR0+IExp 					; string assignment
 		bmi 	_CLStringAssign
+
+		; ---------------------------------------------------------------------------------------
 		;
-		;		Number assignment
+		;									Number assignment
 		;
+		; ---------------------------------------------------------------------------------------
+
 		phy 						
 		ldy 	#3
 		sta 	(zTemp0),y
@@ -60,12 +64,40 @@ CommandLET:	;; [let]
 		sta 	(zTemp0)
 		ply
 		rts
+
+		; ---------------------------------------------------------------------------------------
 		;
-		;		String assignment
+		;									  String assignment
 		;
+		; ---------------------------------------------------------------------------------------
+
 _CLStringAssign:
+		phy
+		;
+		;		If space doesn't contain a concreted string, go to concrete and store.
+		;
+		ldy 	#1 							; check if any concreted string.
+		lda 	(zTemp0),y
+		ora 	(zTemp0)
+		beq 	_CLConcreteString
+
 		.error_unimplemented
 
+		;
+		;		Concrete string in IFR0
+		;		
+_CLConcreteString:
+		jsr 	StringConcrete  			; concreted string in XA. 
+		;
+		;		Copy concreted string address to storage at zTemp0
+		;		
+		ldy 	#1 							; store the address
+		sta 	(zTemp0)
+		txa
+		sta 	(zTemp0),y
+_CLExit:
+		ply
+		rts
 _CLError:
 		.error_variable
 _CLType:
