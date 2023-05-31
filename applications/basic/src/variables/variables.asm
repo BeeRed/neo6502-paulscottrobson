@@ -44,6 +44,9 @@ _VCSComplex:
 		jsr 	VARGetInfo
 		jsr 	VARFind 					; search for variable
 		bcs 	_VCSHaveVariable
+		lda 	VARType 					; error if arrays, cannot autocreate
+		bne 	_VCNoCreate
+		and 	#2
 		jsr 	VARCreate 					; create variable
 _VCSHaveVariable:							; address of data part of variable is in XA.
 
@@ -58,6 +61,10 @@ _VCSHaveVariable:							; address of data part of variable is in XA.
 		sta 	IFR0+IExp
 		sec 								; it's a reference
 		rts
+
+_VCNoCreate:
+		.error_uninitialised
+				
 		.send code
 		
 		.section storage
