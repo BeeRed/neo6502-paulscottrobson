@@ -49,7 +49,6 @@ _VCSComplex:
 		bne 	_VCNoCreate
 		jsr 	VARCreate 					; create variable
 _VCSHaveVariable:							; address of data part of variable is in XA.
-
 		stx 	IFR0+IM1 					; save address
 		sta 	IFR0+IM0
 		stz 	IFR0+IM2 					; clear the unused byte.

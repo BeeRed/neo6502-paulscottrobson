@@ -1,5 +1,6 @@
 TODO:
-	Arrays.		
+	Arrays - 2D created dynamically.
+	Array testing code.	
 	
 Changes:
 	Memory checking on string/array allocate stuff.

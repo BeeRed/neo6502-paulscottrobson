@@ -20,10 +20,6 @@
 
 Command_CLEAR:	;; [clear]
 		;
-		;		TODO: Reset stack
-		;
-
-		;
 		;		Reset variable memory pointer
 		;
 		jsr 	PGMEndProgram 				; end program => zTemp0
@@ -36,13 +32,17 @@ Command_CLEAR:	;; [clear]
 		; 
 		jsr 	VARClearHashTables
 		;
-		;		TODO: Scan for procedures
+		;		Reset stack
 		;
-
+		lda 	PGMEndMemoryHigh
+		jsr 	StackReset
 		;
 		;		Initialise string usage.
 		;
 		jsr 	StringSystemInitialise 		
+		;
+		;		TODO: Scan for procedures
+		;
 		rts
 
 ; ************************************************************************************************

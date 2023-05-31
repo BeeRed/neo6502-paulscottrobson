@@ -14,13 +14,12 @@
 
 ; ************************************************************************************************
 ;
-;							  Reset the concreted string pointer.
+;			Reset the concreted string pointer, A is high byte of string memory top
 ;
 ; ************************************************************************************************
 
 StringSystemInitialise:
-		lda 	PGMEndMemoryHigh 			; last byte of memory
-		dec 	a
+		dec 	a 							; make last byte of previous page.
 		sta 	stringMemory+1
 		sta 	zTemp0+1
 		lda 	#$FF
