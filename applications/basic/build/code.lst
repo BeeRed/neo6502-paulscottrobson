@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/basic.bin basic.asm
-; Wed May 31 08:33:43 2023
+; Wed May 31 08:58:52 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -3010,8 +3010,8 @@
 .213a	20 76 20	jsr $2076			jsr 	VARFind 					; search for variable
 .213d	b0 0a		bcs $2149			bcs 	_VCSHaveVariable
 .213f	ad 51 04	lda $0451			lda 	VARType 					; error if arrays, cannot autocreate
-.2142	d0 16		bne $215a			bne 	_VCNoCreate
-.2144	29 02		and #$02			and 	#2
+.2142	29 02		and #$02			and 	#2
+.2144	d0 14		bne $215a			bne 	_VCNoCreate
 .2146	20 22 20	jsr $2022			jsr 	VARCreate 					; create variable
 .2149					_VCSHaveVariable:
 .2149	86 0d		stx $0d				stx 	IFR0+IM1 					; save address

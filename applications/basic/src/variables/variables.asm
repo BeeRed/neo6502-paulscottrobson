@@ -45,8 +45,8 @@ _VCSComplex:
 		jsr 	VARFind 					; search for variable
 		bcs 	_VCSHaveVariable
 		lda 	VARType 					; error if arrays, cannot autocreate
-		bne 	_VCNoCreate
 		and 	#2
+		bne 	_VCNoCreate
 		jsr 	VARCreate 					; create variable
 _VCSHaveVariable:							; address of data part of variable is in XA.
 
