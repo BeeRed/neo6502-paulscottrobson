@@ -80,9 +80,35 @@ _CLStringAssign:
 		lda 	(zTemp0),y
 		ora 	(zTemp0)
 		beq 	_CLConcreteString
+		;
+		;		Check to see if the new string will fit in the old string.
+		;
+		lda 	(zTemp0) 					; copy address of string to zTemp1
+		sta 	zTemp1
+		lda 	(zTemp0),y
+		sta 	zTemp1+1
 
-		.error_unimplemented
-
+		lda 	(zTemp1) 					; bytes available in the new slot
+		sec 								; we want 3 for slot size, status, string size.
+		sbc 	#3
+		cmp 	(IFR0) 						; compare against string size.
+		bcc 	_CLConcreteString 			; if so, concrete the string again.
+		;
+		;		Copy the new string into the old string concreted space.
+		;
+		lda 	(IFR0) 						; copy size + 1 bytes (for the length byte.)
+		inc 	a
+		tax
+		ldy 	#0 							; offset in replacement string.
+_CLReplaceString:
+		lda 	(IFR0),y 					; copy new string into previous space.
+		iny
+		iny
+		sta 	(zTemp1),y
+		dey
+		dex
+		bne 	_CLReplaceString		
+		bra 	_CLExit
 		;
 		;		Concrete string in IFR0
 		;		
