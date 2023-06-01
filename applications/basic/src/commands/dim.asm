@@ -79,8 +79,54 @@ CreateArray:
 		beq 	_CATwoDimensions 
 		jsr 	CreateSingleArray 			; create a lowest level array (e.g. data)
 		rts
-_CATwoDimensions:
+_CATwoDimensions:		
 		.debug
+		lda 	IFR0+IM1 					; copy outer dimension to CADim1
+		sta 	CADim1+1
+		lda 	IFR0+IM0
+		sta 	CADim1+0
+
+		jsr 	ERRCheckComma 				; check comma
+		jsr 	EXPEvalInteger16 			; calculate size of 2nd dimension.
+
+		phy 								; save Y position
+
+		clc 								; allocate the outer array of pointers.
+		ldx 	CADim1+1
+		lda 	CADim1
+		jsr 	CSAAllocate 				; allocate the outer array
+		phx									; save this address on the stack
+		pha
+		stx 	zTemp2+1					; and in zTemp2
+		sta 	zTemp2
+_CACreateSubLoop:
+		sec
+		jsr 	CreateSingleArray 			; create data array of required size.
+		ldy 	#2 							; save two on missing the two byte header.
+		sta 	(zTemp2),y
+		txa
+		iny
+		sta 	(zTemp2),y
+
+		clc  								; next slot.
+		lda 	zTemp2
+		adc 	#2
+		sta 	zTemp2
+		bcc 	_CACNoCarry
+		inc 	zTemp2+1
+_CACNoCarry:
+		lda 	CADim1 						; use DIM1 as a counter
+		bne 	_CACNoBorrow
+		dec 	CADim1+1
+_CACNoBorrow:
+		dec 	CADim1
+		lda 	CADim1+1 					; but do one more.
+		bpl 	_CACreateSubLoop
+	
+		pla
+		plx
+		ply
+		rts		 
 
 ; ************************************************************************************************
 ;
@@ -203,6 +249,8 @@ _CSARange:
 		.section storage
 CAType:										; array type being created - 0 number, 1 string.
 		.fill 	1
+CADim1: 									; outer dimension 2D arrays.
+		.fill 	2		
 		.send storage
 
 ; ************************************************************************************************

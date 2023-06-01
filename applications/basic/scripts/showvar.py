@@ -78,7 +78,8 @@ for g in range(0,4):
 				while memory[na] < 0x7C:
 					name += chr(convert(memory[na] & 0x3F))
 					na += 1
-				s = "{3:<12} @${0:04x} [#${2:02x}] = {1}".format(hv,toString(qRead(hv+5)),memory[hv+2],name.lower()+postfix[g])
+				v = toString(qRead(hv+5)) if g < 2 else "(array)"
+				s = "{3:<12} @${0:04x} [#${2:02x}] = {1}".format(hv,v,memory[hv+2],name.lower()+postfix[g])
 				print("\t"+s)
 				hv = dRead(hv)
-		print()
+			print()
