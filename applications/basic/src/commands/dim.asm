@@ -55,7 +55,7 @@ CommandDIM: ;; [dim]
 		;
 		lda 	(codePtr),y 				; if a comma, consume and go round again.
 		iny
-		cpy 	#PR_COMMA
+		cmp 	#PR_COMMA
 		beq 	CommandDIM
 		dey
 		rts
@@ -80,7 +80,6 @@ CreateArray:
 		jsr 	CreateSingleArray 			; create a lowest level array (e.g. data)
 		rts
 _CATwoDimensions:		
-		.debug
 		lda 	IFR0+IM1 					; copy outer dimension to CADim1
 		sta 	CADim1+1
 		lda 	IFR0+IM0

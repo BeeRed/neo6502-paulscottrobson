@@ -64,6 +64,21 @@ print()
 htSize = labels.get("VARHashEntriesPerType")
 postfix = [ "","$","()","$()"]
 
+def dumpArray(m,lv):
+	ts = "\t" * (lv + 3)
+	sz = dRead(m)
+	if (sz & 0x8000) != 0:
+		for i in range(0,sz & 0x7FFF):
+			p = m + 2 + i * 2
+			s = "[{0:2}] @ ${1:04x} ".format(i,p)
+			print(ts+s)
+			dumpArray(dRead(p),lv+1)
+	else:
+		for i in range(0,sz):
+			p = m + 2 + i * 4
+			s = "[{0:2}] @ ${1:04x} = {2}".format(i,p,toString(qRead(p)))
+			print(ts+s)
+
 for g in range(0,4):		
 	for t in range(0,htSize):
 		head = (g * htSize + t) * 2 +labels.get("VARHashTables")
@@ -81,5 +96,6 @@ for g in range(0,4):
 				v = toString(qRead(hv+5)) if g < 2 else "(array)"
 				s = "{3:<12} @${0:04x} [#${2:02x}] = {1}".format(hv,v,memory[hv+2],name.lower()+postfix[g])
 				print("\t"+s)
+				dumpArray(dRead(hv+5),0)
 				hv = dRead(hv)
 			print()
