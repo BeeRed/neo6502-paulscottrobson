@@ -25,6 +25,7 @@ NoExec04: ;; [,]
 NoExec05: ;; [;]
 NoExec06: ;; [:]
 NoExec07: ;; [)]
+NoExec08: ;; [proc]
 		.error_syntax
 				
 		.send code

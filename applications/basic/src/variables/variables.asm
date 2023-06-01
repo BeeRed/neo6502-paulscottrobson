@@ -49,6 +49,18 @@ _VCSComplex:
 		bne 	_VCNoCreate
 		jsr 	VARCreate 					; create variable
 _VCSHaveVariable:							; address of data part of variable is in XA.
+	
+		pha 								; save LSB on the stack
+		lda 	VARType 					; get var type, and shift bit 1 into carry
+		ror 	a
+		ror 	a
+		pla 								; restore LSB
+		bcc 	_VCSNotArray 				; skip if not an array
+			
+		.debug
+
+_VCSNotArray:		
+
 		stx 	IFR0+IM1 					; save address
 		sta 	IFR0+IM0
 		stz 	IFR0+IM2 					; clear the unused byte.
@@ -58,6 +70,7 @@ _VCSHaveVariable:							; address of data part of variable is in XA.
 		lda 	#0
 		ror 	a 							; now $00 or $80
 		sta 	IFR0+IExp
+
 		sec 								; it's a reference
 		rts
 

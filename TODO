@@ -1,7 +1,22 @@
 TODO:
+
 	Array access/update.
 	Array testing code.	
-	
+	REPEAT UNTIL
+	WHILE WEND (skip code, bear in mind DO LOOP usage)
+	DO LOOP
+	FOR NEXT
+	CALL / ENDPROC (and scanner)
+	SYS
+	Input with cursor
+	INPUT
+	LIST
+	POKE/DOKE/PEEK/DEEK
+	INKEY$
+	EVENT/TIME (when timer available)
+	LOAD/SAVE
+	MOS Redirection.
+
 Changes:
 	Memory checking on string/array allocate stuff.
 	Input code.

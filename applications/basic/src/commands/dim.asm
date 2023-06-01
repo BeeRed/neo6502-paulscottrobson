@@ -65,6 +65,12 @@ _CDSyntax:
 _CDExists:
 		.error_redefine
 
+;:[dim]
+; Dimensions an array. Arrays can have 1 or 2 dimensions. Multiply arrays can be declared in the 
+; same statement. Array Identifiers and procedures cannot have the same name (and if you think 
+; about it it's really not good practice to do so.) \
+; { dim name$(10),age(10): dim grid(8,8) }
+
 ; ************************************************************************************************
 ;
 ;					Create an array, collecting array sizes from the code

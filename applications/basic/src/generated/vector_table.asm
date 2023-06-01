@@ -10,7 +10,7 @@ VectorTable:
 	.word	NotImplemented           ; $85 ENDIF
 	.word	NotImplemented           ; $86 DO
 	.word	NotImplemented           ; $87 LOOP
-	.word	NotImplemented           ; $88 PROC
+	.word	NoExec08                 ; $88 PROC
 	.word	NotImplemented           ; $89 ENDPROC
 	.word	NotImplemented           ; $8a FOR
 	.word	NotImplemented           ; $8b NEXT
