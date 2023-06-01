@@ -28,7 +28,7 @@ def toStringNumber(n):
 	f.mantissa = n & 0xFFFFFF
 	f.exponent = (n >> 24) & 0x3F
 	f.exponent = f.exponent if f.exponent < 0x20 else f.exponent-64
-	f.isSigned = (n & 0x400000) != 0
+	f.isSigned = (n & 0x40000000) != 0
 	if f.exponent == 0:
 		return "{0} ${0:x}".format(-f.mantissa if f.isSigned else f.mantissa)
 	else:
@@ -37,7 +37,7 @@ def toStringNumber(n):
 def toStringString(n):
 	sa = n & 0xFFFF
 	if sa == 0:
-		return '"" (Uninitialised)'
+		return '"" (Null)'
 	max = dRead(sa)
 	s = ""
 	for i in range(0,memory[sa+2]):

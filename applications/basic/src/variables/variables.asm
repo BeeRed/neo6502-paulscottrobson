@@ -57,8 +57,11 @@ _VCSHaveVariable:							; address of data part of variable is in XA.
 		pla 								; restore LSB
 		bcc 	_VCSNotArray 				; skip if not an array
 			
-		.debug
-
+		jsr 	VARArrayLookup 				; look for subscripts.
+		pha 								; check )
+		jsr 	ERRCheckRParen
+		pla
+		
 _VCSNotArray:		
 
 		stx 	IFR0+IM1 					; save address

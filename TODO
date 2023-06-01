@@ -1,6 +1,4 @@
 TODO:
-
-	Array access/update.
 	Array testing code.	
 	REPEAT UNTIL
 	WHILE WEND (skip code, bear in mind DO LOOP usage)
