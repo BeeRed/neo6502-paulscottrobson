@@ -77,6 +77,11 @@ test5: assemble
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
 
+test6: assemble
+	$(PYTHON) tests$(S)testarray.py >build$(S)test.bas
+	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
+	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+
 edtest: prelim
 	$(PYTHON) scripts$(S)maketest.py 
 	$(ASM) basic.asm -D runEdit=1 -o build$(S)basic.bin
