@@ -32,7 +32,7 @@ VectorTable:
 	.word	NoExec06                 ; $9b :
 	.word	Command_REM2             ; $9c '
 	.word	NoExec07                 ; $9d )
-	.word	NotImplemented           ; $9e DIM
+	.word	CommandDIM               ; $9e DIM
 	.word	Command_CLEAR            ; $9f CLEAR
 	.word	Command_NEW              ; $a0 NEW
 	.word	Command_RUN              ; $a1 RUN

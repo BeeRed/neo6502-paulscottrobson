@@ -49,6 +49,9 @@ parts:
 reg:
 	$(PYTHON) scripts$(S)showreg.py	
 
+var:
+	$(PYTHON) scripts$(S)showvar.py	
+
 test1: assemble
 	$(PYTHON) tests$(S)testbinary.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
