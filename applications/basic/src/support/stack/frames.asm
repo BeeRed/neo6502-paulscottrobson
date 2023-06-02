@@ -55,19 +55,17 @@ _SCExit:
 
 ; ************************************************************************************************
 ;
-;						Pop all Locals, Check in Frame A, if not report Error X
+;								Check in Frame A, if not report Error
 ;
 ; ************************************************************************************************
 
 StackCheckFrame:
-		eor 	(basicStack) 				; xor with toS marker
-		and 	#$F0 						; check type bits
+		cmp		(basicStack) 				; check  frames match
 		bne 	_SCFError 					; different, we have structures mixed up
 		rts
 _SCFError:
-		txa 								; report error X
-		jmp 	ErrorHandler		
-		
+		.error_structure
+				
 		.send code
 
 ; ************************************************************************************************

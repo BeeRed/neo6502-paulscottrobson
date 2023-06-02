@@ -123,6 +123,14 @@ class RawTokenClass(object):
 			h.write("\t.byte\t{0:2}\t; ${1:02x} {2}\n".format(self.precedence[self.idToTokens[i]],i,self.idToTokens[i]))
 		h.close()
 
+	def outputStructure(self,f):
+		h = open(f,"w")
+		h.write(self.header)
+		h.write("StructureOffsets:\n")
+		for i in range(self.constants["STRUCTURE_FIRST"],self.constants["STRUCTURE_LAST"]+1):
+			h.write("\t.byte\t{0:<3}\t; ${1:02x} {2}\n".format(self.structure[self.idToTokens[i]] & 0xFF,i,self.idToTokens[i]))
+		h.close()
+
 	def outputVectors(self,fn):
 		handlers = {}
 		for root,dirs,files in os.walk("src"):
@@ -170,6 +178,7 @@ if __name__ == '__main__':
 		print(rt.constants)
 	
 	rt.outputConstants("src/generated/token_const.inc")
+	rt.outputStructure("src/generated/structure_table.asm")
 	rt.outputVectors("src/generated/vector_table.asm")
 	rt.outputPrecedence("src/generated/precedence_table.asm")
 	rt.outputText("src/generated/token_text.asm")

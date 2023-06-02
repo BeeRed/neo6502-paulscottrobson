@@ -1,42 +1,53 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		data.inc
-;		Purpose:	Data files
-;		Created:	28th May 2023
+;		Name:		repeat.asm
+;		Purpose:	Repeat/Until loops
+;		Created:	2nd June 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-; ************************************************************************************************
-;
-;											Buffers
-;
-; ************************************************************************************************
-
-		.section 	storage
-
-TOKLineSize: 								; offset to end of line
-		.fill 	1
-TOKLineNumber: 								; line number of current life
-		.fill 	2		
-TOKBuffer: 									; tokenised line buffer
-		.fill 	256 			
-
-		.send 		storage
-
-
+		.section code
 
 ; ************************************************************************************************
 ;
-;									Changes and Updates
+;										REPEAT command
 ;
+; ************************************************************************************************
+
+Command_REPEAT:	;; [repeat]
+		lda 	#STK_REPEAT 				
+		jsr 	StackOpen 
+		jsr 	STKSaveCodePosition 		; save loop position
+		rts
+
+; ************************************************************************************************
+;
+;										UNTIL command
+;
+; ************************************************************************************************
+
+Command_UNTIL:	;; [until]
+		lda 	#STK_REPEAT 				
+		jsr 	StackCheckFrame
+		jsr 	EXPEvalNumber 				; work out the test
+		jsr 	IFloatCheckZero 			; check if zero
+		beq 	_CULoopBack 				; if so keep looping
+		jsr 	StackClose		 			; return
+		rts
+
+_CULoopBack:		
+		jsr 	STKLoadCodePosition 		; loop back
+		rts
+
+		.send code
+
 ; ************************************************************************************************
 ;
 ;		Date			Notes
 ;		==== 			=====
 ;
 ; ************************************************************************************************
-

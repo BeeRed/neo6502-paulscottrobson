@@ -14,7 +14,7 @@
 
 ; ************************************************************************************************
 ;
-;				Tokenise line. Data source function in YX. CS if requires line number.
+;								Tokenise line. Data source function in YX. 
 ;
 ; ************************************************************************************************
 
@@ -22,9 +22,8 @@ TOKTokenise:
 		sty 	TOKDataSource+1 			; save source routine pointer
 		stx 	TOKDataSource
 		;
-		lda 	#0 							; now A = carry = require line #
-		rol  	a
-		sta 	TOKRequireLineNumber 		; store in require line number flag.
+		lda 	#1 							; set first element flag.
+		sta 	TOKIsFirstElement
 		;
 		lda 	#3 							; set the line length to three for the 
 		sta 	TOKLineSize 				; line length itself and the line numbers.
@@ -34,6 +33,7 @@ TOKTokenise:
 		;							Main tokenising loop
 		;
 		; ----------------------------------------------------------------------------------
+
 _TOKMainLoop:
 		jsr 	TOKGet 						; what follows.
 		cmp 	#0 							; if zero, we are complete
@@ -50,11 +50,10 @@ _TOKElement:
 		bcc 	_TOKNotDigit
 		jsr 	TOKTokeniseInteger 			; get integer
 		bcs 	_TOKFail 					; did it fail ?
-		stz 	TOKRequireLineNumber 		; reset RLN flag.
+		stz 	TOKIsFirstElement 			; clear first element flag
 		bra 	_TOKMainLoop
 _TOKNotDigit:
-		ldx 	TOKRequireLineNumber 		; was a line # required
-		bne 	_TOKFail 					; if so, we've a problem.
+		stz 	TOKIsFirstElement 			; clear first element flag
 		cmp 	#"$"						; check for hexadecimal ?
 		bne 	_TOKNotHex
 		jsr 	TOKTokeniseHexadecimal 
@@ -125,6 +124,8 @@ TOKGetNext:
 		.section storage
 TOKDataSource:
 		.fill 	2
+TOKIsFirstElement:
+		.fill 	1		
 		.send storage		
 
 ; ************************************************************************************************

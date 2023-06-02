@@ -25,7 +25,7 @@ TOKTokeniseInteger:
 		lda		TOKElement
 		jsr 	IFloatStringToFloatR0 		; convert to R0 integer
 		;
-		lda 	TOKRequireLineNumber 		; do we require a line number.
+		lda 	TOKIsFirstElement 			; first element ?
 		beq 	_TOKNotLineNumber
 		;
 		lda 	IFR0+IM2 					; check it's a 2 digit number

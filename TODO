@@ -1,6 +1,5 @@
 TODO:
-	REPEAT UNTIL
-	WHILE WEND (skip code, bear in mind DO LOOP usage)
+	IF..THEN..ELSE..ENDIF
 	DO LOOP
 	FOR NEXT
 	CALL / ENDPROC (and scanner)
