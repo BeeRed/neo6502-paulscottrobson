@@ -12,8 +12,8 @@ VectorTable:
 	.word	Command_LOOP             ; $87 LOOP
 	.word	NoExec08                 ; $88 PROC
 	.word	NotImplemented           ; $89 ENDPROC
-	.word	NotImplemented           ; $8a FOR
-	.word	NotImplemented           ; $8b NEXT
+	.word	Command_FOR              ; $8a FOR
+	.word	Command_NEXT             ; $8b NEXT
 	.word	RUNEndOfLine             ; $8c [[END]]
 	.word	Command_Shift_Handler    ; $8d [[SHIFT]]
 	.word	ElseCode                 ; $8e ELSE

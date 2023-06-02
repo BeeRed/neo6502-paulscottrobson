@@ -24,6 +24,10 @@ Command_REPEAT:	;; [repeat]
 		jsr 	STKSaveCodePosition 		; save loop position
 		rts
 
+;:[repeat .. until]
+; Repeats a block of code until a condition is true.
+; { c = 5:repeat:c = c-1:print c:until c = 0 }
+
 ; ************************************************************************************************
 ;
 ;										UNTIL command

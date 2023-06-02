@@ -48,6 +48,11 @@ _WHExitLoop:
 		jsr 	ScanForward
 		rts
 
+;:[while .. wend]
+; Repeats a block of code while a condition is true. The main difference between WHILE and REPEAT
+; is that WHILE may never be executed, if the test is initially false.
+; { x = 0:while x < 10:print x:x = x+1:wend }
+
 ; ************************************************************************************************
 ;
 ;										WEND command

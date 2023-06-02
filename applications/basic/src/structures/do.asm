@@ -24,6 +24,10 @@ Command_DO:	;; [do]
 		jsr 	STKSaveCodePosition 		; save loop position
 		rts
 
+;:[do .. loop .. exit]
+; Repeats a block of code until you finish the loop by using the EXIT command
+; { c = 0: do: c = c + 1:if c = 10:exit:endif:print c:loop }
+
 ; ************************************************************************************************
 ;
 ;										EXIT command
