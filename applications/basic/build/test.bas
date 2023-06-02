@@ -1,7 +1,13 @@
-count = 10
-while count <> 3
-	print count,3.14159:count = count - 1
-	s1 = 4:repeat:print "-";:s1=s1-1:until s1=0:print
-wend
-print "Exit ",count
+count = 0
+do
+	count = count+1
+	print count
+	if count mod 2 = 0 
+		print "Even"
+	else
+		print "Odd"
+	endif
+	if count = 7 then exit	
+loop	
+print "Exit",count
 stop

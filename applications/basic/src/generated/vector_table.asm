@@ -6,17 +6,17 @@ VectorTable:
 	.word	Command_UNTIL            ; $81 UNTIL
 	.word	Command_WHILE            ; $82 WHILE
 	.word	Command_WEND             ; $83 WEND
-	.word	NotImplemented           ; $84 IF
-	.word	NotImplemented           ; $85 ENDIF
-	.word	NotImplemented           ; $86 DO
-	.word	NotImplemented           ; $87 LOOP
+	.word	IfCommand                ; $84 IF
+	.word	EndIf                    ; $85 ENDIF
+	.word	Command_DO               ; $86 DO
+	.word	Command_LOOP             ; $87 LOOP
 	.word	NoExec08                 ; $88 PROC
 	.word	NotImplemented           ; $89 ENDPROC
 	.word	NotImplemented           ; $8a FOR
 	.word	NotImplemented           ; $8b NEXT
 	.word	RUNEndOfLine             ; $8c [[END]]
 	.word	Command_Shift_Handler    ; $8d [[SHIFT]]
-	.word	NotImplemented           ; $8e ELSE
+	.word	ElseCode                 ; $8e ELSE
 	.word	NoExec01                 ; $8f THEN
 	.word	NoExec02                 ; $90 TO
 	.word	NoExec03                 ; $91 STEP
@@ -26,7 +26,7 @@ VectorTable:
 	.word	NotImplemented           ; $95 CALL
 	.word	NotImplemented           ; $96 SYS
 	.word	Command_REM              ; $97 REM
-	.word	NotImplemented           ; $98 EXIT
+	.word	Command_EXIT             ; $98 EXIT
 	.word	NoExec04                 ; $99 ,
 	.word	NoExec05                 ; $9a ;
 	.word	NoExec06                 ; $9b :

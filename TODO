@@ -1,6 +1,4 @@
 TODO:
-	IF..THEN..ELSE..ENDIF
-	DO LOOP
 	FOR NEXT
 	CALL / ENDPROC (and scanner)
 	SYS

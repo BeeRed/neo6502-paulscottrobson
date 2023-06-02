@@ -86,7 +86,6 @@ _ScanNoCarry:
 ;		Scan over [decimal] or [string]
 ;
 _ScanDataItem:	 					
-		.debug
 		tya
 		sec
 		adc 	(codePtr),y

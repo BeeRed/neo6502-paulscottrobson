@@ -3,8 +3,8 @@
 ;
 ;		Name:		if.asm
 ;		Purpose:	IF command
-;		Created:	1st October 2022
-;		Reviewed: 	1st December 2022
+;		Created:	2nd June 2023
+;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -18,11 +18,10 @@
 		.section code
 
 IfCommand: ;; [if]
-		ldx 	#0 							; Get the if test.
-		jsr 	EvaluateNumber
+		jsr 	EXPEvalNumber 				; Get the if test.
 		;
-		.cget 								; what follows ?
-		cmp 	#KWD_THEN  					; could be THEN <stuff> 
+		lda 	(codePtr),y					; what follows ?
+		cmp 	#PR_THEN  					; could be THEN <stuff> 
 		bne 	_IfStructured 				; we still support it.
 
 		; ------------------------------------------------------------------------
@@ -32,11 +31,11 @@ IfCommand: ;; [if]
 		; ------------------------------------------------------------------------
 
 		iny 								; consume THEN
-		jsr 	NSMIsZero 					; is it zero
+		jsr 	IFloatCheckZero 			; is it zero
 		beq 	_IfFail 					; if fail, go to next line
 		rts 								; if THEN just continue
 _IfFail:
-		jmp 	EOLCommand
+		jmp 	RUNEndOfLine
 
 		; ------------------------------------------------------------------------
 		;
@@ -45,10 +44,10 @@ _IfFail:
 		; ------------------------------------------------------------------------
 
 _IfStructured:
-		jsr 	NSMIsZero 					; is it zero
+		jsr 	IFloatCheckZero 			; is it zero
 		bne 	_IfExit 					; if not, then continue normally.
-		lda 	#KWD_ELSE 					; look for else/endif 
-		ldx 	#KWD_ENDIF
+		lda 	#PR_ELSE 					; look for else/endif 
+		ldx 	#PR_ENDIF
 		jsr 	ScanForward 				; and run from there
 _IfExit: 
 		rts
@@ -60,7 +59,7 @@ _IfExit:
 ; ************************************************************************************************
 
 ElseCode: ;; [else] 					
-		lda 	#KWD_ENDIF 					; else is only run after the if clause succeeds
+		lda 	#PR_ENDIF 					; else is only run after the if clause succeeds
 		tax 								; so just go to the structure exit
 		jsr 	ScanForward
 		rts
@@ -71,8 +70,8 @@ ElseCode: ;; [else]
 ;
 ; ************************************************************************************************
 
-EndIf:	;; [endif]							; endif code does nothing
-		rts
+EndIf:	;; [endif]							
+		rts 								; endif code does nothing
 
 		.send code
 

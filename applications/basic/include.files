@@ -62,6 +62,8 @@
 	.include "src/program/tokenise/tokpunctuation.asm"
 	.include "src/program/tokenise/tokstring.asm"
 	.include "src/program/tokenise/toktypes.asm"
+	.include "src/structures/do.asm"
+	.include "src/structures/if.asm"
 	.include "src/structures/repeat.asm"
 	.include "src/structures/scan.asm"
 	.include "src/structures/while.asm"
