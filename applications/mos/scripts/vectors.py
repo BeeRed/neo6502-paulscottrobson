@@ -14,11 +14,14 @@ import sys
 vectors = """
 
 	OSGetScreenSize 				: Get size of screen to XY
+	OSIsKeyAvailable 				: Check if key available (CS if so)
+ 	OSReadKeyboardWithCursor  		: Read A from keyboard, showing cursor while waiting.
+
+	OSReadKeyboard 					: Read A from keyboard (device 1)
+	OSWriteScreen 					: Write A to screen (device 0)
+
 	OSReadDevice 					: Read device X to A
 	OSWriteDevice 					: Write A to device X
-	OSWriteScreen 					: Write A to screen (device 0)
-	OSReadKeyboard 					: Read A from keyboard (device 1)
-	OSIsKeyAvailable 				: Check if key available (CS if so)
 
 """
 vectors = [x.strip() for x in vectors.split("\n") if x.strip() != ""]

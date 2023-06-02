@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Fri May 26 06:15:27 2023
+; Fri Jun  2 21:46:04 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -642,6 +642,7 @@
 .fac0	68		pla				pla
 .fac1	60		rts				rts
 .fac2					OSReadKeyboard:
+.fac2					OSReadKeyboardWithCursor:
 .fac2	da		phx				phx
 .fac3	a2 01		ldx #$01			ldx 	#1
 .fac5	20 ca fa	jsr $faca			jsr 	OSReadDevice
@@ -816,12 +817,13 @@
 
 ;******  Processing file: src/generated/vectors.asmx
 
-.ffe8	4c a1 fb	jmp $fba1		jmp		OSGetScreenSize          ; Get size of screen to XY
-.ffeb	4c ca fa	jmp $faca		jmp		OSReadDevice             ; Read device X to A
-.ffee	4c f1 fa	jmp $faf1		jmp		OSWriteDevice            ; Write A to device X
+.ffe5	4c a1 fb	jmp $fba1		jmp		OSGetScreenSize          ; Get size of screen to XY
+.ffe8	4c b8 fa	jmp $fab8		jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
+.ffeb	4c c2 fa	jmp $fac2		jmp		OSReadKeyboardWithCursor ; Read A from keyboard, showing cursor while waiting.
+.ffee	4c c2 fa	jmp $fac2		jmp		OSReadKeyboard           ; Read A from keyboard (device 1)
 .fff1	4c e9 fa	jmp $fae9		jmp		OSWriteScreen            ; Write A to screen (device 0)
-.fff4	4c c2 fa	jmp $fac2		jmp		OSReadKeyboard           ; Read A from keyboard (device 1)
-.fff7	4c b8 fa	jmp $fab8		jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
+.fff4	4c ca fa	jmp $faca		jmp		OSReadDevice             ; Read device X to A
+.fff7	4c f1 fa	jmp $faf1		jmp		OSWriteDevice            ; Write A to device X
 
 ;******  Return to file: osrom.asm
 

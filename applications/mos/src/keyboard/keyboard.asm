@@ -35,6 +35,7 @@ _OSIKAHasKey:
 ; ************************************************************************************************
 
 OSReadKeyboard:
+OSReadKeyboardWithCursor:
 		phx
 		ldx 	#1
 		jsr 	OSReadDevice
