@@ -53,4 +53,7 @@ ErrorV_string:
 ErrorV_variable:
 	jsr	ErrorHandler
 	.text	"Variable Missing",0
+ErrorV_stack:
+	jsr	ErrorHandler
+	.text	"Stack Full",0
 	.send code

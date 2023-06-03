@@ -10,6 +10,10 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 
+startMemory = $6000
+endMemory = $A000
+stackPages = 2
+
 		.include "build/ramdata.inc"
 		.include "build/osvectors.inc"
 
@@ -29,8 +33,8 @@ runEdit = 0 								; setting to 1 builds with the program/testing stuff in.
 		.section code
 
 boot:	
-		ldx 	#$60
-		ldy 	#$A0
+		ldx 	#startMemory >> 8
+		ldy 	#endMemory >> 8
 		jsr 	PGMSetBaseAddress
 		jsr 	IFInitialise
 

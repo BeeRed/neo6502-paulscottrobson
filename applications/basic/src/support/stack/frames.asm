@@ -31,11 +31,17 @@ StackOpen:
 		bcs 	_SONoBorrow
 		.debug
 		dec 	basicStack+1
+		lda 	basicStack+1 				; reached the bottom ?
+		cmp 	basicStackEnd
+		beq 	_SOMemory
 _SONoBorrow:
 		pla 								; get marker back and write at TOS
 		sta 	(basicStack)		
 		rts
 	
+_SOMemory:
+		.error_stack
+			
 ; ************************************************************************************************
 ;
 ;										Close a frame

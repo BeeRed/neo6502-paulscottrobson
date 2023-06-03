@@ -70,7 +70,6 @@
 	.include "src/structures/while.asm"
 	.include "src/support/errors/generated/errors.asm"
 	.include "src/support/errors/syntax.asm"
-	.include "src/support/stack/bytes.asm"
 	.include "src/support/stack/frames.asm"
 	.include "src/support/stack/location.asm"
 	.include "src/support/stack/setup.asm"

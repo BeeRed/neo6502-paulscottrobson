@@ -45,6 +45,7 @@ StringSpaceInitialise:
 		lda 	stringMemory+1
 		dec 	a
 		sta 	stringTempPointer+1
+		jsr 	ClearCheckMemory
 		rts
 
 ; ************************************************************************************************

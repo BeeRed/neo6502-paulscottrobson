@@ -71,6 +71,7 @@ _AllocateOne:
 		inc 	freeMemory 					; bump pointer
 		bne 	_AllocateSkipCarry
 		inc 	freeMemory+1
+		jsr 	ClearCheckMemory
 _AllocateSkipCarry:
 		;
 		cpy 	#0 							; decrement XY
@@ -86,6 +87,22 @@ _AllocateExit:
 		ply 								; restore Y
 		rts
 
+; ************************************************************************************************	
+;
+;					Check space between free memory and string memory
+;
+; ************************************************************************************************	
+
+ClearCheckMemory:
+		lda 	freeMemory+1
+		inc 	a
+		inc 	a
+		cmp 	stringMemory+1
+		bcs  	_CCMError
+		rts
+
+_CCMError:
+		.error_memory		
 		.send code
 
 		.section zeropage

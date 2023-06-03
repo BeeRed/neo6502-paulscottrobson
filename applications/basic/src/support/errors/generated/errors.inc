@@ -52,3 +52,6 @@ error_string .macro
 error_variable .macro
 	jmp	ErrorV_variable
 	.endm
+error_stack .macro
+	jmp	ErrorV_stack
+	.endm

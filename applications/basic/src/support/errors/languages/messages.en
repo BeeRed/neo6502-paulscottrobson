@@ -26,3 +26,4 @@
 	uninitialised : variable uninitialised	
 	string 		  : bad string length
 	variable 	  : variable missing
+	stack 		  : stack full
