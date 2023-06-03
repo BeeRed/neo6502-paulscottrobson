@@ -1,2 +1,6 @@
-c = 0: do: c = c + 1:if c = 10:exit:endif:print c:loop 
+for i = 0 to 5
+a = i + 65530
+print a,hex$(peek(a))
+next
+print hex$(deek(65530))
 stop

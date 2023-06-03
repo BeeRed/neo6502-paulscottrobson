@@ -87,8 +87,8 @@ VectorTable:
 	.word	NotImplemented           ; $d2 
 	.word	NotImplemented           ; $d3 
 	.word	NotImplemented           ; $d4 
-	.word	NotImplemented           ; $d5 DEEK(
-	.word	NotImplemented           ; $d6 PEEK(
+	.word	EXPUnaryDeek             ; $d5 DEEK(
+	.word	EXPUnaryPeek             ; $d6 PEEK(
 	.word	EXPUnaryRight            ; $d7 RIGHT$(
 	.word	EXPUnaryLeft             ; $d8 LEFT$(
 	.word	EXPUnaryMid              ; $d9 MID$(

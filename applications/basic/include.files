@@ -27,6 +27,7 @@
 	.include "src/expression/term/unary/chr.asm"
 	.include "src/expression/term/unary/dec.asm"
 	.include "src/expression/term/unary/decimal.asm"
+	.include "src/expression/term/unary/deekpeek.asm"
 	.include "src/expression/term/unary/dollar.asm"
 	.include "src/expression/term/unary/fractional.asm"
 	.include "src/expression/term/unary/intfn.asm"
