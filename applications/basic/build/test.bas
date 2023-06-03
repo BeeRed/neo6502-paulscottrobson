@@ -1,6 +1,3 @@
-for i = 0 to 5
-a = i + 65530
-print a,hex$(peek(a))
-next
-print hex$(deek(65530))
+doke $0FF0,32766 
+poke $0FF4,42 
 stop

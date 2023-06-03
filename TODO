@@ -5,7 +5,6 @@ TODO:
 	Input / max length.
 	INPUT
 	LIST
-	POKE/DOKE
 	INKEY$
 	EVENT/TIME (when timer available)
 	LOAD/SAVE
