@@ -16,6 +16,7 @@
 	.include "src/commands/rem.asm"
 	.include "src/commands/run.asm"
 	.include "src/commands/stop.asm"
+	.include "src/commands/sys.asm"
 	.include "src/commands/unused.asm"
 	.include "src/expression/binary/basic.asm"
 	.include "src/expression/binary/compare.asm"

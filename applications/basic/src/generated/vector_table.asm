@@ -24,7 +24,7 @@ VectorTable:
 	.word	Command_Print            ; $93 PRINT
 	.word	NotImplemented           ; $94 INPUT
 	.word	NotImplemented           ; $95 CALL
-	.word	NotImplemented           ; $96 SYS
+	.word	Command_Sys              ; $96 SYS
 	.word	Command_REM              ; $97 REM
 	.word	Command_EXIT             ; $98 EXIT
 	.word	NoExec04                 ; $99 ,
