@@ -94,11 +94,6 @@ _OSRDExit:
 		rts
 
 		.send code
-
-		.section storage
-OSRKOriginal:
-		.fill 	1
-		.send storage
 				
 ; ************************************************************************************************
 ;

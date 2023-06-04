@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Sun Jun  4 16:56:33 2023
+; Sun Jun  4 19:29:35 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -43,8 +43,20 @@
 >0235							.fill 	1
 .0236					OSIsKeyShift:
 >0236							.fill 	1
->0237							.fill 	32
->0257							.align 	256
+.0237					OSRKOriginal:
+>0237							.fill 	1
+.0238					OSEditX:
+>0238							.fill 	1
+.0239					OSEditY:
+>0239							.fill 	1
+.023a					OSEditWidth:
+>023a							.fill 	1
+.023b					OSEditLength:
+>023b							.fill 	1
+.023c					OSEditBuffer:
+>023c							.fill 	256
+>033c							.fill 	32
+>035c							.align 	256
 
 ;******  Return to file: osrom.asm
 
@@ -324,6 +336,12 @@
 .f98b					_OSTTAFail:
 .f98b	38		sec				sec
 .f98c	60		rts				rts
+
+;******  Return to file: include.files
+
+
+;******  Processing file: src/editor/editor.asm
+
 
 ;******  Return to file: include.files
 
@@ -651,7 +669,7 @@
 .fac5	da		phx				phx 								; save XY
 .fac6	5a		phy				phy
 .fac7	20 17 f8	jsr $f817			jsr 	OSReadPhysical 				; save old character
-.faca	8d 00 03	sta $0300			sta 	OSRKOriginal
+.faca	8d 37 02	sta $0237			sta 	OSRKOriginal
 .facd	a9 7f		lda #$7f			lda 	#$7F 						; write prompt
 .facf	20 1d f8	jsr $f81d			jsr 	OSWritePhysical
 .fad2					_OSWaitKey:
@@ -659,7 +677,7 @@
 .fad5	20 bd fa	jsr $fabd			jsr 	OSReadKeyboard 				; key available
 .fad8	b0 f8		bcs $fad2			bcs 	_OSWaitKey
 .fada	48		pha				pha 								; save key
-.fadb	ad 00 03	lda $0300			lda 	OSRKOriginal 				; old character back
+.fadb	ad 37 02	lda $0237			lda 	OSRKOriginal 				; old character back
 .fade	20 1d f8	jsr $f81d			jsr 	OSWritePhysical
 .fae1	68		pla				pla 								; restore
 .fae2	7a		ply				ply
@@ -685,8 +703,6 @@
 .fb03	18		clc				clc
 .fb04					_OSRDExit:
 .fb04	60		rts				rts
-.0300					OSRKOriginal:
->0300							.fill 	1
 
 ;******  Return to file: include.files
 

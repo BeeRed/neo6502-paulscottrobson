@@ -6,6 +6,7 @@
 	.include "src/drivers/ps2keyboard.asm"
 	.include "src/drivers/scroll.asm"
 	.include "src/drivers/translate.asm"
+	.include "src/editor/editor.asm"
 	.include "src/generated/ps2convert.asm"
 	.include "src/keyboard/keyboard.asm"
 	.include "src/screen/charout.asm"
