@@ -53,10 +53,27 @@ _CFStep1:
 		lda 	#1
 		jsr 	IFloatSetByte
 		;
-		;		TODO: Check for optimised FOR/NEXT option.
-		;
+		phy 								; check for fast loop,step 1, integer start/end.
+		ldy 	#4 							; get variable address
+		lda 	(basicStack),y
+		sta 	zTemp0
+		iny
+		lda 	(basicStack),y
+		sta 	zTemp0+1
+		ldy 	#IExp 						; check that's an integer
+		lda 	(zTemp0),y
+		bne 	_CFNotOptimised
+		ldy 	#13 						; check terminal value is integer.
+		lda 	(basicStack),y
+		bne 	_CFNotOptimised
+
+		lda 	#$80 						; set the step so it's a string/
+		sta 	IFR0+IExp		
+_CFNotOptimised:
+		ply		
+
 _CFWriteStep:
-		
+	
 		ldx 	#IFR0 						; Write to additive.
 		lda 	#6
 		jsr 	CFSaveR0X
@@ -127,6 +144,13 @@ Command_NEXT:	;; [next]
 		lda 	#STK_FOR
 		jsr 	StackCheckFrame
 		;
+		phy 								; check optimised loop
+		ldy 	#9
+		lda 	(basicStack),y
+		ply
+		asl 	a
+		bcs 	_CNOptimised
+		;
 		jsr 	_CNLoadValue 				; load index value to R0.
 
 		ldx 	#IFR1 						; load adding value to R1.
@@ -134,7 +158,6 @@ Command_NEXT:	;; [next]
 		jsr 	CFLoadR0X
 		jsr 	IFloatAdd 					; add them together and write back.
 		jsr 	_CNSaveValue 
-
 
 		lda 	#10 						; terminal value in R1
 		ldx 	#IFR1
@@ -152,12 +175,53 @@ Command_NEXT:	;; [next]
 		ply
 		and 	#IFSign
 		beq 	_CNLoopBack
+_CNExitLoop:		
 		jsr 	StackClose		 			; return
 		rts
 
 _CNLoopBack:		
 		jsr 	STKLoadCodePosition 		; loop back
 		rts
+		;
+		;		Optimised version (step 1, integer values)
+		;
+_CNOptimised:
+		phy
+
+		ldy 	#4 							; copy address of index variable to zTemp2
+		lda 	(basicStack),y
+		sta 	zTemp2
+		iny
+		lda 	(basicStack),y
+		sta 	zTemp2+1
+		;
+		ldy 	#$FF 						; increment that value. this won't go round 
+_CNIncrement: 								; for ever because maxint is $7FFFF
+		iny		
+		lda 	(zTemp2),y
+		inc 	a
+		sta 	(zTemp2),y
+		beq 	_CNIncrement
+		;
+		clc 								; point zTemp0 to terminal value
+		lda 	basicStack
+		adc 	#10
+		sta 	zTemp0
+		lda 	basicStack+1
+		adc 	#0
+		sta 	zTemp0+1
+		;
+		ldy 	#1 							; compare value to terminal.
+		lda 	(zTemp2) 		
+		cmp 	(zTemp0)
+		lda 	(zTemp2),y
+		sbc 	(zTemp0),y
+		iny
+		lda 	(zTemp2),y
+		sbc 	(zTemp0),y
+		ply
+		bcs 	_CNExitLoop
+		bra 	_CNLoopBack
 
 ; ************************************************************************************************
 
