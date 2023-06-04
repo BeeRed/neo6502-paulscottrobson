@@ -24,7 +24,7 @@
 		.section code
 Boot:	jsr 	OSInitialise 				; set everything up.
 
-		jmp 	$1000
+;		jmp 	$1000
 h2:
 		jsr 	OSReadKeystroke
 		jsr 	OSWriteScreen
