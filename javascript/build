@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+#source /backup/emsdk/emsdk_env.sh
+#
+#		Download all the emulator source as is, and stop it auto running
+#
+cp -R ../emulator/src ../emulator/include ../emulator/framework ../emulator/6502 ../emulator/storage . -R
+#
+#		Build the emulator in javascript.
+#
+emcc framework/main.cpp framework/gfx.cpp framework/debugger.cpp src/core/sys_processor.cpp src/core/sys_debugger.cpp src/core/hardware.cpp -D EMSCRIPTEN -D LINUX -D NO_DEBUGGER -DINCLUDE_OS_SUPPORT -I. -I framework -I./cpu -I./bin -I include -O2 -s USE_SDL=2 -s WASM=1 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' --preload-file storage -o neo.html
