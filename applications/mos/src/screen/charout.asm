@@ -51,6 +51,7 @@ _OSWriteDeviceExit:
 		ply
 		plx
 		pla
+		clc 								; written fine.
 		rts
 
 _OSCallVectorCode:

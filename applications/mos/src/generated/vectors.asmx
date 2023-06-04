@@ -5,8 +5,8 @@
 
 	jmp		OSGetScreenSize          ; Get size of screen to XY
 	jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
-	jmp		OSReadKeyboardWithCursor ; Read A from keyboard, showing cursor while waiting.
-	jmp		OSReadKeyboard           ; Read A from keyboard (device 1)
-	jmp		OSWriteScreen            ; Write A to screen (device 0)
-	jmp		OSReadDevice             ; Read device X to A
-	jmp		OSWriteDevice            ; Write A to device X
+	jmp		OSReadKeystroke          ; Read A from keyboard, showing cursor while waiting.
+	jmp		OSReadKeyboard           ; Read A from keyboard (device 1), CC = success
+	jmp		OSWriteScreen            ; Write A to screen (device 0), CC = success
+	jmp		OSReadDevice             ; Read device X to A, CC = success
+	jmp		OSWriteDevice            ; Write A to device X, CC = success

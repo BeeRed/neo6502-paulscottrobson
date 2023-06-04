@@ -41,12 +41,35 @@ OSReadKeyboard:
 		plx
 		rts
 
-OSReadKeyboardWithCursor:
-		jmp 	OSReadKeyboard
+; ************************************************************************************************
+;
+;							Read a keypress to A displaying cursor
+;
+; ************************************************************************************************
+
+OSReadKeystroke:
+		phx 								; save XY
+		phy
+		jsr 	OSReadPhysical 				; save old character
+		sta 	OSRKOriginal
+		lda 	#$7F 						; write prompt
+		jsr 	OSWritePhysical
+_OSWaitKey:
+		jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
+		jsr 	OSReadKeyboard 				; key available
+		bcs 	_OSWaitKey
+		pha 								; save key
+		lda 	OSRKOriginal 				; old character back
+		jsr 	OSWritePhysical
+		pla 								; restore
+		ply
+		plx
+		clc 								; success
+		rts
 
 ; ************************************************************************************************
 ;
-;						Read from device X to A, CS if data received.
+;						Read from device X to A, CC if data received.
 ;
 ; ************************************************************************************************
 
@@ -72,6 +95,11 @@ _OSRDExit:
 
 		.send code
 
+		.section storage
+OSRKOriginal:
+		.fill 	1
+		.send storage
+				
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

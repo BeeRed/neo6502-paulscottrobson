@@ -15,13 +15,13 @@ vectors = """
 
 	OSGetScreenSize 				: Get size of screen to XY
 	OSIsKeyAvailable 				: Check if key available (CS if so)
- 	OSReadKeyboardWithCursor  		: Read A from keyboard, showing cursor while waiting.
+ 	OSReadKeystroke 		 		: Read A from keyboard, showing cursor while waiting.
 
-	OSReadKeyboard 					: Read A from keyboard (device 1)
-	OSWriteScreen 					: Write A to screen (device 0)
+	OSReadKeyboard 					: Read A from keyboard (device 1), CC = success
+	OSWriteScreen 					: Write A to screen (device 0), CC = success
 
-	OSReadDevice 					: Read device X to A
-	OSWriteDevice 					: Write A to device X
+	OSReadDevice 					: Read device X to A, CC = success
+	OSWriteDevice 					: Write A to device X, CC = success
 
 """
 vectors = [x.strip() for x in vectors.split("\n") if x.strip() != ""]
