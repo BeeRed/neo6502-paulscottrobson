@@ -3,8 +3,8 @@
 ;
 OSGetScreenSize          = $ffe5 ; Get size of screen to XY
 OSIsKeyAvailable         = $ffe8 ; Check if key available (CS if so)
-OSReadKeyboardWithCursor = $ffeb ; Read A from keyboard, showing cursor while waiting.
-OSReadKeyboard           = $ffee ; Read A from keyboard (device 1)
-OSWriteScreen            = $fff1 ; Write A to screen (device 0)
-OSReadDevice             = $fff4 ; Read device X to A
-OSWriteDevice            = $fff7 ; Write A to device X
+OSReadKeystroke          = $ffeb ; Read A from keyboard, showing cursor while waiting.
+OSReadKeyboard           = $ffee ; Read A from keyboard (device 1), CC = success
+OSWriteScreen            = $fff1 ; Write A to screen (device 0), CC = success
+OSReadDevice             = $fff4 ; Read device X to A, CC = success
+OSWriteDevice            = $fff7 ; Write A to device X, CC = success

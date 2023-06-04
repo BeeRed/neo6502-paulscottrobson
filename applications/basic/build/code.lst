@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/basic.bin basic.asm
-; Sun Jun  4 10:42:55 2023
+; Sun Jun  4 16:56:52 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -56,11 +56,11 @@
 
 =$ffe5					OSGetScreenSize          = $ffe5 ; Get size of screen to XY
 =$ffe8					OSIsKeyAvailable         = $ffe8 ; Check if key available (CS if so)
-=$ffeb					OSReadKeyboardWithCursor = $ffeb ; Read A from keyboard, showing cursor while waiting.
-=$ffee					OSReadKeyboard           = $ffee ; Read A from keyboard (device 1)
-=$fff1					OSWriteScreen            = $fff1 ; Write A to screen (device 0)
-=$fff4					OSReadDevice             = $fff4 ; Read device X to A
-=$fff7					OSWriteDevice            = $fff7 ; Write A to device X
+=$ffeb					OSReadKeystroke          = $ffeb ; Read A from keyboard, showing cursor while waiting.
+=$ffee					OSReadKeyboard           = $ffee ; Read A from keyboard (device 1), CC = success
+=$fff1					OSWriteScreen            = $fff1 ; Write A to screen (device 0), CC = success
+=$fff4					OSReadDevice             = $fff4 ; Read device X to A, CC = success
+=$fff7					OSWriteDevice            = $fff7 ; Write A to device X, CC = success
 
 ;******  Return to file: basic.asm
 

@@ -23,6 +23,7 @@ FLAGS = -DINCLUDE_OS_SUPPORT -I. -I framework -I./cpu -I./bin -I include -O2 -s 
 
 all: 
 	cp -R ../emulator/src ../emulator/include ../emulator/framework ../emulator/6502 ../emulator/storage . -R
+	cp ../bin/osrom.bin storage
 	emcc $(SOURCES) -D EMSCRIPTEN -D LINUX -D NO_DEBUGGER $(FLAGS)  -o neo.html
 
 server:
