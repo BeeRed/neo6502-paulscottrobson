@@ -78,7 +78,8 @@ int GFXXRender(SDL_Surface *surface,int autoStart) {
 		if (currentKey >= 0) {														// Key depressed ?
 			currentKey = toupper(currentKey);										// Make it capital.
 
-			#define CMDKEY(n) GFXIsKeyPressed(keyMapping[n])						// Support Macro.
+																					// Debugger keys don't work with CTRL pressed.
+			#define CMDKEY(n) (GFXIsKeyPressed(keyMapping[n]) && (!GFXIsKeyPressed(GFXKEY_CONTROL)))
 
 			if (CMDKEY(DBGKEY_RESET)) {												// Reset processor (F1)
 				DEBUG_RESET();					

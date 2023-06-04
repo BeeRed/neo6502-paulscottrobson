@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Fri Jun  2 21:46:04 2023
+; Sun Jun  4 04:56:25 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -43,6 +43,8 @@
 >0235							.fill 	1
 .0236					OSIsKeyShift:
 >0236							.fill 	1
+>0237							.fill 	32
+>0257							.align 	256
 
 ;******  Return to file: osrom.asm
 
@@ -332,18 +334,18 @@
 
 .f992					OSASCIIFromScanCode:
 >f992	00					.byte	$00 ; $00
->f993	00					.byte	$00 ; $01
+>f993	19					.byte	$19 ; $01 chr$(25)
 >f994	00					.byte	$00 ; $02
->f995	00					.byte	$00 ; $03
->f996	00					.byte	$00 ; $04
->f997	00					.byte	$00 ; $05
->f998	00					.byte	$00 ; $06
+>f995	15					.byte	$15 ; $03 chr$(21)
+>f996	13					.byte	$13 ; $04 chr$(19)
+>f997	11					.byte	$11 ; $05 chr$(17)
+>f998	12					.byte	$12 ; $06 chr$(18)
 >f999	00					.byte	$00 ; $07
 >f99a	00					.byte	$00 ; $08
->f99b	00					.byte	$00 ; $09
->f99c	00					.byte	$00 ; $0a
->f99d	00					.byte	$00 ; $0b
->f99e	00					.byte	$00 ; $0c
+>f99b	1a					.byte	$1a ; $09 chr$(26)
+>f99c	18					.byte	$18 ; $0a chr$(24)
+>f99d	16					.byte	$16 ; $0b chr$(22)
+>f99e	14					.byte	$14 ; $0c chr$(20)
 >f99f	09					.byte	$09 ; $0d chr$(9)
 >f9a0	60					.byte	$60 ; $0e '`'
 >f9a1	00					.byte	$00 ; $0f
@@ -462,7 +464,7 @@
 >fa12	00					.byte	$00 ; $80
 >fa13	00					.byte	$00 ; $81
 >fa14	00					.byte	$00 ; $82
->fa15	00					.byte	$00 ; $83
+>fa15	17					.byte	$17 ; $83 chr$(23)
 >fa16	00					.byte	$00 ; $84
 >fa17	00					.byte	$00 ; $85
 >fa18	00					.byte	$00 ; $86

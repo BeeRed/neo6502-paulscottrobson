@@ -3,18 +3,18 @@
 ;
 OSASCIIFromScanCode:
 	.byte	$00 ; $00 
-	.byte	$00 ; $01 
+	.byte	$19 ; $01 chr$(25)
 	.byte	$00 ; $02 
-	.byte	$00 ; $03 
-	.byte	$00 ; $04 
-	.byte	$00 ; $05 
-	.byte	$00 ; $06 
+	.byte	$15 ; $03 chr$(21)
+	.byte	$13 ; $04 chr$(19)
+	.byte	$11 ; $05 chr$(17)
+	.byte	$12 ; $06 chr$(18)
 	.byte	$00 ; $07 
 	.byte	$00 ; $08 
-	.byte	$00 ; $09 
-	.byte	$00 ; $0a 
-	.byte	$00 ; $0b 
-	.byte	$00 ; $0c 
+	.byte	$1a ; $09 chr$(26)
+	.byte	$18 ; $0a chr$(24)
+	.byte	$16 ; $0b chr$(22)
+	.byte	$14 ; $0c chr$(20)
 	.byte	$09 ; $0d chr$(9)
 	.byte	$60 ; $0e '`'
 	.byte	$00 ; $0f 
@@ -133,7 +133,7 @@ OSASCIIFromScanCode:
 	.byte	$00 ; $80 
 	.byte	$00 ; $81 
 	.byte	$00 ; $82 
-	.byte	$00 ; $83 
+	.byte	$17 ; $83 chr$(23)
 	.byte	$00 ; $84 
 	.byte	$00 ; $85 
 	.byte	$00 ; $86 

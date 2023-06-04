@@ -2,7 +2,7 @@
 ; ************************************************************************************************
 ;
 ;		Name:		ramdata.inc
-;		Purpose:	Common setup program
+;		Purpose:	Common setup program, allocate RAM for MOS.
 ;		Created:	25th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -66,6 +66,9 @@ OSIsKeyUp: 									; $FF if $F0 received else $F0
 OSIsKeyShift: 								; $80 if $E0 received else $00
 		.fill 	1			
 
+		.fill 	32
+		.align 	256
+		
 		.dsection storage
 
 debug 	.macro

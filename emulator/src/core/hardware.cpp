@@ -36,7 +36,7 @@ void HWSync(void) {
 // *******************************************************************************************************************************
 
 void HWQueueKeyboardEvent(int scanCode) {
-	// printf("Scancode %x\n",scanCode);
+	//printf("Scancode %x\n",scanCode);
 	if (scanKeyQueueSize < 16) {													// Push keycode on scanqueue if not empty.
 		scanKeyQueue[scanKeyQueueSize++] = scanCode;
 	}

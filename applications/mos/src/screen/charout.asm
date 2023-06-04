@@ -74,6 +74,9 @@ _OSWDVector:
 		.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
 		.word 	OSScrollUp 					; $0E 	Scroll Up 	(e.g. off bottom)
 		.word 	OSScrollDown 				; $0F 	Scroll Down (e.g. off top)
+											; $10 	
+											; $11-A Function Keys 1-10
+											; $1B 	Escape key.
 
 ; ************************************************************************************************
 ;
