@@ -24,10 +24,10 @@
 		.section code
 Boot:	jsr 	OSInitialise 				; set everything up.
 
-		jmp 	$1000
+;		jmp 	$1000
 h2:
 		jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
-		jsr 	OSReadKeyboard
+		jsr 	OSReadKeyboardWithCursor
 		bcs 	h2	
 		jsr 	OSWriteScreen
 		jsr 	OSTWriteHex

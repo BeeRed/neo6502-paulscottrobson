@@ -35,12 +35,14 @@ _OSIKAHasKey:
 ; ************************************************************************************************
 
 OSReadKeyboard:
-OSReadKeyboardWithCursor:
 		phx
 		ldx 	#1
 		jsr 	OSReadDevice
 		plx
 		rts
+
+OSReadKeyboardWithCursor:
+		jmp 	OSReadKeyboard
 
 ; ************************************************************************************************
 ;
@@ -69,7 +71,7 @@ _OSRDExit:
 		rts
 
 		.send code
-	
+
 ; ************************************************************************************************
 ;
 ;									Changes and Updates
