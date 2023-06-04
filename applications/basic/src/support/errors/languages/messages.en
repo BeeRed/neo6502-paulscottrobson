@@ -27,3 +27,5 @@
 	string 		  : bad string length
 	variable 	  : variable missing
 	stack 		  : stack full
+	dupproc		  : procedure identifier used
+	unknown		  : unknown procedure

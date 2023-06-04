@@ -55,3 +55,9 @@ error_variable .macro
 error_stack .macro
 	jmp	ErrorV_stack
 	.endm
+error_dupproc .macro
+	jmp	ErrorV_dupproc
+	.endm
+error_unknown .macro
+	jmp	ErrorV_unknown
+	.endm

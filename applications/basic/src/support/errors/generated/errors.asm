@@ -56,4 +56,10 @@ ErrorV_variable:
 ErrorV_stack:
 	jsr	ErrorHandler
 	.text	"Stack Full",0
+ErrorV_dupproc:
+	jsr	ErrorHandler
+	.text	"Procedure Identifier Used",0
+ErrorV_unknown:
+	jsr	ErrorHandler
+	.text	"Unknown Procedure",0
 	.send code

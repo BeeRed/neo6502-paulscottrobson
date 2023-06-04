@@ -41,8 +41,9 @@ Command_CLEAR:	;; [clear]
 		;
 		jsr 	StringSystemInitialise 		
 		;
-		;		TODO: Scan for procedures
+		;		Scan for procedures
 		;
+		jsr 	ScanProcedures
 		rts
 
 ; ************************************************************************************************

@@ -12,6 +12,9 @@
 import os,sys,math,re
 from showreg import *
 
+def read(a):
+	return memory[a]
+	
 def dRead(a):
 	return memory[a] + (memory[a+1] << 8) 
 
@@ -49,7 +52,7 @@ def convert(c):
 		return c + 65
 	if c < 36:
 		return c - 26 + 48
-	return 36 if c == "." else 37
+	return ord("_") if c == 36 else ord(".")
 
 labels = Labels()
 memory = [x for x in open("memory.dump","rb").read(-1)]
@@ -65,6 +68,7 @@ htSize = labels.get("VARHashEntriesPerType")
 postfix = [ "","$","()","$()"]
 
 def dumpArray(m,lv):
+	sys.exit(-1)
 	ts = "\t" * (lv + 3)
 	sz = dRead(m)
 	if (sz & 0x8000) != 0:
@@ -93,9 +97,11 @@ for g in range(0,4):
 				while memory[na] < 0x7C:
 					name += chr(convert(memory[na] & 0x3F))
 					na += 1
-				v = toString(qRead(hv+5)) if g < 2 else "(array)"
+				isProc = read(hv+8) == 0xFF
+				v = toString(qRead(hv+5)) if g < 2 else ("(procedure @${0:04x}.${1:02X})".format(dRead(hv+5),read(hv+7)) if isProc else "(array)")
 				s = "{3:<12} @${0:04x} [#${2:02x}] = {1}".format(hv,v,memory[hv+2],name.lower()+postfix[g])
 				print("\t"+s)
-				dumpArray(dRead(hv+5),0)
+				if not isProc:
+					dumpArray(dRead(hv+5),0)
 				hv = dRead(hv)
 			print()

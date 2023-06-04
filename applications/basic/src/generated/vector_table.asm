@@ -11,7 +11,7 @@ VectorTable:
 	.word	Command_DO               ; $86 DO
 	.word	Command_LOOP             ; $87 LOOP
 	.word	NoExec08                 ; $88 PROC
-	.word	NotImplemented           ; $89 ENDPROC
+	.word	Command_ENDPROC          ; $89 ENDPROC
 	.word	Command_FOR              ; $8a FOR
 	.word	Command_NEXT             ; $8b NEXT
 	.word	RUNEndOfLine             ; $8c [[END]]
@@ -23,7 +23,7 @@ VectorTable:
 	.word	CommandLET               ; $92 LET
 	.word	Command_Print            ; $93 PRINT
 	.word	NotImplemented           ; $94 INPUT
-	.word	NotImplemented           ; $95 CALL
+	.word	Command_CALL             ; $95 CALL
 	.word	Command_Sys              ; $96 SYS
 	.word	Command_REM              ; $97 REM
 	.word	Command_EXIT             ; $98 EXIT
