@@ -108,6 +108,7 @@ void CPUReset(void) {
 		char *p = strchr(szBuffer,'@');
 		if (p == NULL) exit(fprintf(stderr,"Bad argument %s\n",argumentList[i]));
 		*p++ = '\0';
+		if (*p == '$') p++; 
 		if (sscanf(p,"%x",&loadAddress) != 1) exit(fprintf(stderr,"Bad argument %s\n",argumentList[i]));
 		printf("Loading '%s' to $%06x ..",szBuffer,loadAddress);
 		FILE *f = fopen(szBuffer,"rb");

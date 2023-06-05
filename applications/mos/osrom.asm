@@ -29,52 +29,21 @@ _Intro:	lda 	MainPrompt,x
 		inx
 		lda 	MainPrompt,x
 		bne 	_Intro
-
-;		jmp 	$1000
-;		jmp 	KeyEcho
-
-TestEdit:
-		jsr 	OSEditNewLine
-		lda 	#13
-		jsr 	OSWriteScreen
-		bra 	TestEdit
-
-
-KeyEcho:
-		jsr 	OSReadKeystroke
-		jsr 	OSWriteScreen
-		jsr 	OSTWriteHex
-		lda 	#' '
-		jsr 	OSWriteScreen
-		bra 	KeyEcho
+		jmp 	$1000
 		
 NoInt:
 		rti
 
 		.include "include.files"
 
-OSTWriteHex:
-		pha
-		lsr 	a
-		lsr 	a
-		lsr 	a
-		lsr 	a
-		jsr 	_OSTWriteNibble		
-		pla
-_OSTWriteNibble:
-		pha
-		and 	#15
-		cmp 	#10
-		bcc 	_OSTNotAlpha
-		adc 	#6
-_OSTNotAlpha:
-		adc 	#48
-		jsr 	OSWriteScreen
-		pla
-		rts				
+; ************************************************************************************************
+;
+;										Main prompt
+;
+; ************************************************************************************************
 
 MainPrompt:
-		.text 	"Neo6502 RetroComputer",13,13
+		.text 	"*** Neo6502 RetroComputer ***",13,13
 		.text 	"Hardware:",13
 		.text	"    Olimex Ltd, 2 Pravda St",13
 		.text 	"    PO Box 237, Plovdiv 4000 Bulgaria",13

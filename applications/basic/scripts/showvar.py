@@ -68,7 +68,6 @@ htSize = labels.get("VARHashEntriesPerType")
 postfix = [ "","$","()","$()"]
 
 def dumpArray(m,lv):
-	sys.exit(-1)
 	ts = "\t" * (lv + 3)
 	sz = dRead(m)
 	if (sz & 0x8000) != 0:
@@ -101,7 +100,7 @@ for g in range(0,4):
 				v = toString(qRead(hv+5)) if g < 2 else ("(procedure @${0:04x}.${1:02X})".format(dRead(hv+5),read(hv+7)) if isProc else "(array)")
 				s = "{3:<12} @${0:04x} [#${2:02x}] = {1}".format(hv,v,memory[hv+2],name.lower()+postfix[g])
 				print("\t"+s)
-				if not isProc:
+				if not isProc and g >= 2:
 					dumpArray(dRead(hv+5),0)
 				hv = dRead(hv)
 			print()

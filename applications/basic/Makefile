@@ -15,10 +15,18 @@ else
 include ../../documents/common.make
 endif
 
+BASICLOAD = 	\$$1000
+BASICCODE = 	\$$6000
+ENDMEMORY = 	\$$B000
+MOSLOAD =   	\$$F800
+STACKPAGES =	2
+
+CONFIG =  -D BASICLOAD=$(BASICLOAD) -D BASICCODE=$(BASICCODE) -D ENDMEMORY=$(ENDMEMORY) -D STACKPAGES=$(STACKPAGES) 
+
 all: assemble test
 
 assemble: prelim
-	$(ASM) basic.asm -o build$(S)basic.bin
+	$(ASM) $(CONFIG) basic.asm -o build$(S)basic.bin
 
 prelim:
 	make -C scripts
@@ -30,7 +38,7 @@ prelim:
 	$(PYTHON) $(SCRIPTDIR)makebuild.py >include.files
 
 run: emulator assemble test
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 	
 emulator:
 	make -C $(ROOTDIR)emulator	
@@ -55,35 +63,35 @@ var:
 test1: assemble
 	$(PYTHON) tests$(S)testbinary.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
 test2: assemble
 	$(PYTHON) tests$(S)testunary.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
 test3: assemble
 	$(PYTHON) tests$(S)testbrackets.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
 test4: assemble
 	$(PYTHON) tests$(S)teststring.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
 test5: assemble
 	$(PYTHON) tests$(S)testassign.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
 test6: assemble
 	$(PYTHON) tests$(S)testarray.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 build$(S)program.bin@6000
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
 edtest: prelim
 	$(PYTHON) scripts$(S)maketest.py 
-	$(ASM) basic.asm -D runEdit=1 -o build$(S)basic.bin
-	$(EMULATOR) $(BINDIR)osrom.bin@f800 build$(S)basic.bin@1000 
+	$(ASM) basic.asm $(CONFIG) -D runEdit=1 -o build$(S)basic.bin
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) 
 	$(PYTHON) scripts$(S)checktest.py 

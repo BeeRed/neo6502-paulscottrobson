@@ -14,7 +14,7 @@ from testutils import *
 
 identifiers = []
 idValues = {}
-for i in range(0,40):
+for i in range(0,80):
 	newID = ""
 	for i in range(0,random.randint(1,6)):
 		if i % 2 == 0:

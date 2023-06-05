@@ -30,7 +30,7 @@ StackReset:
 
 		pla 								; allocate pages for stack.
 		sec
-		sbc 	#stackPages											
+		sbc 	#STACKPAGES											
 		sta 	basicStackEnd 				; when stack MSB hits this, it's out of memory.
 		rts
 
