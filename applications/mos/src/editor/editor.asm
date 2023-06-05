@@ -21,15 +21,22 @@
 OSEditNewLine:
 		stz 	OSEditLength 				; clear buffer
 OSEditLine:
+		lda 	OSXPos 						; save edit point.
+		sta 	OSXEdit
+		lda 	OSYPos
+		sta 	OSYEdit
+
 		lda 	OSEditLength 				; edit point at end of line.
 		sta 	OSEditPos
 		stz 	OSEditScroll 				; no initial scrolling
+
 		sec 								; calculate edit box width.
-		lda 	OSYSize
-		sbc 	OSYPos
+		lda 	OSXSize
+		sbc 	OSXPos
 		sta 	OSEditWidth
+
 		sec 								; force repaint.
-		jsr 	OSECheckVisible 			; do we need to make it visible ?
+		jsr 	OSEUpdatePosition 			; update the position.
 _OSEditLoop:		
 		jsr 	OSReadKeystroke 			; get one key.
 		;
@@ -45,16 +52,76 @@ _OSEditExit:
 		rts
 _OSEditContinue:
 
-		.send code
 		
 ; ************************************************************************************************
 ;
-;	Check if write position on screen, if not put it on screen. Repaint on this or CS on entry
+;			Update the scrolling position. Repaint on this changing or CS on entry
+;
+; ************************************************************************************************
+
+OSEUpdatePosition:
+		.debug
+		php 								; save repaint flag.
+		lda 	OSEditScroll 				; save old edit scroll position.
+		pha
+		jsr 	OSECheckPosition 			; check position in range of text
+		jsr 	OSECheckVisible 			; is it on screen ?
+
+		pla 								; has the edit scroll position changed ?
+		cmp 	OSEditScroll 				
+		beq 	_OSECVNoChange
+		plp 								; if so, set repaint flag
+		sec
+		php
+_OSECVNoChange:
+		plp	 								; do we need a repaint.
+		bcc 	_OSECVNoRepaint
+		jsr 	OSERepaint
+_OSECVNoRepaint:				
+		rts		
+
+; ************************************************************************************************
+;
+;					Check position actually in the range of the string
+;
+; ************************************************************************************************
+
+OSECheckPosition:
+		lda 	OSEditPos 					; if position = 255 (e.g. -1) then off left.
+		cmp 	#255
+		bne 	_OSECPNotLeft
+		stz 	OSEditPos 
+		rts
+_OSECPNotLeft:
+		cmp 	OSEditLength 				; if >= edit length reset to edit length
+		bne 	_OSEPCNotRight
+		lda 	OSEditLength
+		sta 	OSEditPos
+_OSEPCNotRight:		
+		rts
+
+; ************************************************************************************************
+;
+;							Check actually visible on the screen
 ;
 ; ************************************************************************************************
 
 OSECheckVisible:
-		rts		
+		lda 	OSEditPos 					; if editpos < editscroll
+		cmp 	OSEditScroll
+		bcs 	_OSENotOffLeft
+		sta 	OSEditScroll 				; then scroll at that position.
+		rts
+
+_OSENotOffLeft:								; if editpos - editscroll >= editwidth off screen
+		sec
+		lda 	OSEditPos
+		sbc 	OSEditScroll
+		cmp 	OSEditWidth
+		bcs 	_OSEOffRight
+		rts
+
+_OSEOffRight:													
 
 ; ************************************************************************************************
 ;
@@ -64,6 +131,8 @@ OSECheckVisible:
 
 OSERepaint:
 		rts
+
+		.send code
 
 ; ************************************************************************************************
 ;

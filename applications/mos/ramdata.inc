@@ -71,9 +71,9 @@ OSRKOriginal: 								; character under cursor (for keystroke)
 
 OSTextBufferSize = 192
 
-OSEditX: 									; position of start of edit area
+OSXEdit: 									; position of start of edit area
 		.fill 	1			
-OSEditY:
+OSYEdit:
 		.fill 	1		
 OSEditWidth: 								; width in characters of edit area.
 		.fill 	1	

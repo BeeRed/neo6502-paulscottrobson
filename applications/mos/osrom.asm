@@ -40,7 +40,8 @@ _TEFill:txa
 		sta 	OSEditLength,x
 		dex
 		bne 	_TEFill		
-		
+		jsr 	OSEditLine
+
 h1:		jsr 	OSReadKeystroke
 		jsr 	OSWriteScreen
 		bra 	h1				

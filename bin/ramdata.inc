@@ -69,9 +69,11 @@ OSIsKeyShift: 								; $80 if $E0 received else $00
 OSRKOriginal: 								; character under cursor (for keystroke)
 		.fill 	1
 
-OSEditX: 									; position of start of edit area
+OSTextBufferSize = 192
+
+OSXEdit: 									; position of start of edit area
 		.fill 	1			
-OSEditY:
+OSYEdit:
 		.fill 	1		
 OSEditWidth: 								; width in characters of edit area.
 		.fill 	1	
@@ -82,7 +84,7 @@ OSEditScroll: 								; offset in characters of the left most character.
 OSEditLength: 								; number of characters on line
 		.fill 	1
 OSEditBuffer: 								; text buffer.
-		.fill 	256
+		.fill 	OSTextBufferSize
 
 		.fill 	32
 		.align 	256
