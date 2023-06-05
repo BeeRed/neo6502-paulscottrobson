@@ -65,7 +65,8 @@ OSIsKeyUp: 									; $FF if $F0 received else $F0
 		.fill 	1
 OSIsKeyShift: 								; $80 if $E0 received else $00
 		.fill 	1			
-OSRKOriginal: 								; character under cursor.
+
+OSRKOriginal: 								; character under cursor (for keystroke)
 		.fill 	1
 
 OSEditX: 									; position of start of edit area
@@ -73,6 +74,10 @@ OSEditX: 									; position of start of edit area
 OSEditY:
 		.fill 	1		
 OSEditWidth: 								; width in characters of edit area.
+		.fill 	1	
+OSEditPos: 									; current cursor position in string.
+		.fill 	1			
+OSEditScroll: 								; offset in characters of the left most character.
 		.fill 	1		
 OSEditLength: 								; number of characters on line
 		.fill 	1

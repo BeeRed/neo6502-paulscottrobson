@@ -25,13 +25,34 @@
 Boot:	jsr 	OSInitialise 				; set everything up.
 
 ;		jmp 	$1000
-h2:
+;		jmp 	KeyEcho
+
+TestEdit:
+		lda 	#30
+		sta 	OSXPos
+		lda 	#3
+		sta 	OSYPos
+
+		ldx 	#16
+		stx 	OSEditLength
+_TEFill:txa
+		ora 	#64
+		sta 	OSEditLength,x
+		dex
+		bne 	_TEFill		
+		
+h1:		jsr 	OSReadKeystroke
+		jsr 	OSWriteScreen
+		bra 	h1				
+
+
+KeyEcho:
 		jsr 	OSReadKeystroke
 		jsr 	OSWriteScreen
 		jsr 	OSTWriteHex
 		lda 	#' '
 		jsr 	OSWriteScreen
-		bra 	h2
+		bra 	KeyEcho
 		
 NoInt:
 		rti
