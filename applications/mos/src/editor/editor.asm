@@ -33,11 +33,13 @@ OSEditLine:
 		sec 								; calculate edit box width.
 		lda 	OSXSize
 		sbc 	OSXPos
+		dec 	a 							; one forr RHS
 		sta 	OSEditWidth
 
 		sec 								; force repaint.
 		jsr 	OSEUpdatePosition 			; update the position.
 _OSEditLoop:		
+		jsr 	OSEPositionCursor
 		jsr 	OSReadKeystroke 			; get one key.
 		;
 		cmp 	#3 							; down, up, esc, CR all exit
@@ -51,7 +53,10 @@ _OSEditLoop:
 _OSEditExit:
 		rts
 _OSEditContinue:
-
+		jsr 	OSReadKeystroke
+		clc
+		jsr 	OSEUpdatePosition
+		bra 	_OSEditLoop
 		
 ; ************************************************************************************************
 ;
@@ -64,7 +69,6 @@ OSEUpdatePosition:
 		lda 	OSEditScroll 				; save old edit scroll position.
 		pha
 		jsr 	OSECheckPosition 			; check position in range of text
-		.debug
 		jsr 	OSECheckVisible 			; is it on screen ?
 
 		pla 								; has the edit scroll position changed ?
@@ -139,9 +143,46 @@ _OSENoTrim:
 ;
 ; ************************************************************************************************
 
-OSERepaint:
+OSERepaint:	
+		lda 	OSXEdit 					; reset drawing pos
+		sta 	OSXPos
+		lda 	OSYEdit
+		sta 	OSYPos
+		;
+		ldx 	OSEditScroll 				; start data from here.
+		ldy 	OSEditWidth 				; counter
+_OSERepaintLoop:
+		lda 	OSEditBuffer,x 				; read character from buffer
+		cpx 	OSEditLength 				; past end of buffer
+		bcc 	_OSEOut
+		lda 	#"_"		
+_OSEOut:phx 								; output character.
+		phy
+		jsr 	OSWritePhysical
+		ply
+		plx
+		inc 	OSXPos 						; next screen pos
+		inx									; next char
+		dey 								; one fewer to do.
+		bne 	_OSERepaintLoop
 		rts
 
+; ************************************************************************************************
+;
+;								Position cursor ready for entry
+;
+; ************************************************************************************************
+
+OSEPositionCursor:
+		sec
+		lda 	OSEditPos
+		sbc 	OSEditScroll
+		clc
+		adc 	OSXEdit
+		sta 	OSXPos
+		lda 	OSYEdit
+		sta 	OSYPos
+		rts		
 		.send code
 
 ; ************************************************************************************************

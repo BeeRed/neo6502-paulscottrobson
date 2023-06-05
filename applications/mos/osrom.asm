@@ -33,7 +33,7 @@ TestEdit:
 		lda 	#3
 		sta 	OSYPos
 
-		ldx 	#16
+		ldx 	#6
 		stx 	OSEditLength
 _TEFill:txa
 		ora 	#64
