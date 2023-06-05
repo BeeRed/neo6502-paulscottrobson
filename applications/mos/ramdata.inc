@@ -84,7 +84,7 @@ OSEditScroll: 								; offset in characters of the left most character.
 OSEditLength: 								; number of characters on line
 		.fill 	1
 OSEditBuffer: 								; text buffer.
-		.fill 	OSTextBufferSize
+		.fill 	OSTextBufferSize+1
 
 		.fill 	32
 		.align 	256

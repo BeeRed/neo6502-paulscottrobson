@@ -3,7 +3,7 @@
 ;
 ;		Name:		editor.asm
 ;		Purpose:	Line editor
-;		Created:	4th June 2023
+;		Created:	5th June 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -21,6 +21,9 @@
 OSEditNewLine:
 		stz 	OSEditLength 				; clear buffer
 OSEditLine:
+		;
+		;		Set everything up
+		;
 		lda 	OSXPos 						; save edit point.
 		sta 	OSXEdit
 		lda 	OSYPos
@@ -35,10 +38,16 @@ OSEditLine:
 		sbc 	OSXPos
 		dec 	a 							; one forr RHS
 		sta 	OSEditWidth
-
+		;
+		;		Come here to force redraw
+		;
+_OSForceUpdate:
 		sec 								; force repaint.
 		jsr 	OSEUpdatePosition 			; update the position.
 _OSEditLoop:		
+		;
+		;		Get keystroke, handle up/down/esc/CR.
+		;
 		jsr 	OSEPositionCursor
 		jsr 	OSReadKeystroke 			; get one key.
 		;
@@ -52,12 +61,129 @@ _OSEditLoop:
 		bne 	_OSEditContinue
 _OSEditExit:
 		rts
+		;
+		;		Action keys.
+		;
 _OSEditContinue:
-		jsr 	OSReadKeystroke
+		cmp 	#1 							; left (Ctrl-A)
+		beq 	_OSELeft
+		cmp 	#2
+		beq 	_OSEHome
+		cmp 	#4 							; right (Ctrl-D)
+		beq 	_OSERight
+		cmp 	#7 							; delete at cursor (Delete)
+		beq 	_OSEDelete		
+		cmp 	#8 							; backspace (<-)
+		beq 	_OSEBackspace
+		cmp 	#9 							; tab (9)
+		beq 	_OSETab
+		cmp 	#32 						; character code, insert it
+		bcc 	_OSEditLoop
+		;
+		;		Insert a character, move right
+		;
+_OSAddCharacter:		
+		ldx 	OSEditLength 				; already full ?
+		cpx 	#OSTextBufferSize
+		beq 	_OSCheckUpdate
+		jsr 	_OSEInsertCharacter 		; insert character at pos
+		inc 	OSEditPos 					; advance forward
+		bra 	_OSForceUpdate 				; force a repaint.
+		;
+		;		Home cursor
+		;
+_OSEHome:
+		stz 	OSEditPos
+		stz 	OSEditScroll
+		bra 	_OSForceUpdate		
+		;
+		;		Delete character
+		;		
+_OSEBackspace:
+		lda 	OSEditPos 					; can't backspace from the start.
+		beq 	_OSCheckUpdate
+		dec 	OSEditPos
+_OSEDelete:	
+		lda 	OSEditLength 				; not if at far right, e.g. appending to end.
+		cmp 	OSEditPos
+		beq 	_OSCheckUpdate		
+		jsr 	_OSEDeleteCharacter 		; delete character and repaint.
+		bra 	_OSForceUpdate
+		;
+		;		Move right, if possible
+		;
+_OSERight:
+		lda 	OSEditPos 					; if x before end then go right
+		cmp 	OSEditLength
+		beq 	_OSCheckUpdate		
+		inc 	OSEditPos
+		bra 	_OSCheckUpdate
+		;
+		;		Move left if possible
+		;	
+_OSELeft:
+		lda 	OSEditPos 					; if x past start go left
+		beq 	_OSCheckUpdate
+		dec 	OSEditPos		
+		;
+		;		Come here to check if update needed and loop back.
+		;
+_OSCheckUpdate:		
 		clc
 		jsr 	OSEUpdatePosition
 		bra 	_OSEditLoop
-		
+		;
+		;		TAB position
+		;	
+_OSETab:
+		clc
+		lda 	OSEditPos
+		adc 	#8
+		cmp 	OSEditLength
+		bcc 	_OSTabOk
+		lda 	OSEditLength
+_OSTabOk:
+		sta 	OSEditPos
+		bra 	_OSCheckUpdate
+
+; ************************************************************************************************
+;
+;								Insert character at cursor position
+;
+; ************************************************************************************************
+
+_OSEInsertCharacter:
+		pha 								; save character
+		ldx 	OSEditLength
+		inx
+_OSMakeSpace:
+		dex
+		lda 	OSEditBuffer,x
+		sta 	OSEditBuffer+1,x
+		cpx 	OSEditPos
+		bne 	_OSMakeSpace		
+		pla
+		sta 	OSEditBuffer,x
+		inc 	OSEditLength
+		rts
+
+; ************************************************************************************************
+;
+;								Delete character at cursor position
+;
+; ************************************************************************************************
+
+_OSEDeleteCharacter:
+		ldx 	OSEditPos
+_OSERemove:
+		lda 	OSEditBuffer+1,x
+		sta 	OSEditBuffer,x
+		inx
+		cpx 	OSEditLength
+		bcc 	_OSERemove
+		dec 	OSEditLength
+		rts		
+
 ; ************************************************************************************************
 ;
 ;			Update the scrolling position. Repaint on this changing or CS on entry
@@ -155,7 +281,7 @@ _OSERepaintLoop:
 		lda 	OSEditBuffer,x 				; read character from buffer
 		cpx 	OSEditLength 				; past end of buffer
 		bcc 	_OSEOut
-		lda 	#"_"		
+		lda 	#" "		
 _OSEOut:phx 								; output character.
 		phy
 		jsr 	OSWritePhysical

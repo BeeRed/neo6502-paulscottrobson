@@ -92,14 +92,14 @@ void CPUReset(void) {
 	Write(0xFFFC,0);Write(0xFFFD,0x10);												// Boot to $1000 if no
 
 	#ifdef EMSCRIPTEN
-	#define OSROMSIZE  	(2048)
+	#define OSROMSIZE (2048)
 	FILE *f = fopen("storage/osrom.bin","rb");
 	for (int i = 0;i < OSROMSIZE;i++) {
 		ramMemory[0x10000-OSROMSIZE+i] = fgetc(f);
 	}
 	fclose(f);
-	#endif
 
+	#else
 	for (int i = 1;i < argumentCount;i++) {
 		char szBuffer[128];
 		int loadAddress;
@@ -118,6 +118,7 @@ void CPUReset(void) {
 		fclose(f);
 		printf("Okay\n");		
 	}
+	#endif
 	inFastMode = 0;																	// Fast mode flag reset
 	resetProcessor();																// Reset CPU
 }

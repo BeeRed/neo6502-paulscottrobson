@@ -23,28 +23,21 @@
 
 		.section code
 Boot:	jsr 	OSInitialise 				; set everything up.
+		ldx 	#0
+_Intro:	lda 	MainPrompt,x
+		jsr 	OSWriteScreen
+		inx
+		lda 	MainPrompt,x
+		bne 	_Intro
 
 ;		jmp 	$1000
 ;		jmp 	KeyEcho
 
 TestEdit:
-		lda 	#30
-		sta 	OSXPos
-		lda 	#3
-		sta 	OSYPos
-
-		ldx 	#6
-		stx 	OSEditLength
-_TEFill:txa
-		ora 	#64
-		sta 	OSEditLength,x
-		dex
-		bne 	_TEFill		
-		jsr 	OSEditLine
-
-h1:		jsr 	OSReadKeystroke
+		jsr 	OSEditNewLine
+		lda 	#13
 		jsr 	OSWriteScreen
-		bra 	h1				
+		bra 	TestEdit
 
 
 KeyEcho:
@@ -79,6 +72,15 @@ _OSTNotAlpha:
 		jsr 	OSWriteScreen
 		pla
 		rts				
+
+MainPrompt:
+		.text 	"Neo6502 RetroComputer",13,13
+		.text 	"Hardware:",13
+		.text	"    Olimex Ltd, 2 Pravda St",13
+		.text 	"    PO Box 237, Plovdiv 4000 Bulgaria",13
+		.text 	"Software:",13
+		.text 	"    Paul Robson paul@robsons.org.uk",13
+		.byte 	13,0
 
 ; ************************************************************************************************
 ;
