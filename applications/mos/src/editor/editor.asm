@@ -60,11 +60,11 @@ _OSEditContinue:
 ; ************************************************************************************************
 
 OSEUpdatePosition:
-		.debug
 		php 								; save repaint flag.
 		lda 	OSEditScroll 				; save old edit scroll position.
 		pha
 		jsr 	OSECheckPosition 			; check position in range of text
+		.debug
 		jsr 	OSECheckVisible 			; is it on screen ?
 
 		pla 								; has the edit scroll position changed ?
@@ -113,15 +113,25 @@ OSECheckVisible:
 		sta 	OSEditScroll 				; then scroll at that position.
 		rts
 
-_OSENotOffLeft:								; if editpos - editscroll >= editwidth off screen
+_OSENotOffLeft:								; if editpos - editscroll >= editwidth off screen right
 		sec
 		lda 	OSEditPos
 		sbc 	OSEditScroll
 		cmp 	OSEditWidth
 		bcs 	_OSEOffRight
 		rts
-
-_OSEOffRight:													
+		;
+		;		Scroll pos is off screen to right - scroll position = textpos-textwidth, limited to zero.
+		;
+_OSEOffRight:
+		sec
+		lda 	OSEditPos
+		sbc 	OSEditWidth
+		bcs 	_OSENoTrim
+		lda 	#0
+_OSENoTrim:
+		sta 	OSEditScroll		
+		rts
 
 ; ************************************************************************************************
 ;
