@@ -4,62 +4,62 @@
 	.section code
 ErrorV_syntax:
 	jsr	ErrorHandler
-	.text	"Syntax Error",0
+	.text	12,"Syntax Error",0
 ErrorV_range:
 	jsr	ErrorHandler
-	.text	"Out Of Range",0
+	.text	12,"Out Of Range",0
 ErrorV_value:
 	jsr	ErrorHandler
-	.text	"Bad Value",0
+	.text	9,"Bad Value",0
 ErrorV_type:
 	jsr	ErrorHandler
-	.text	"Type Mismatch",0
+	.text	13,"Type Mismatch",0
 ErrorV_unimplemented:
 	jsr	ErrorHandler
-	.text	"Not Implemented",0
+	.text	15,"Not Implemented",0
 ErrorV_assert:
 	jsr	ErrorHandler
-	.text	"Assert Fail",0
+	.text	11,"Assert Fail",0
 ErrorV_internal:
 	jsr	ErrorHandler
-	.text	"Internal Error",0
+	.text	14,"Internal Error",0
 ErrorV_divzero:
 	jsr	ErrorHandler
-	.text	"Divide By Zero",0
+	.text	14,"Divide By Zero",0
 ErrorV_structure:
 	jsr	ErrorHandler
-	.text	"Structure Imbalance",0
+	.text	19,"Structure Imbalance",0
 ErrorV_stop:
 	jsr	ErrorHandler
-	.text	"Program Stopped",0
+	.text	15,"Program Stopped",0
 ErrorV_data:
 	jsr	ErrorHandler
-	.text	"Out Of Data",0
+	.text	11,"Out Of Data",0
 ErrorV_redefine:
 	jsr	ErrorHandler
-	.text	"Array Redefined",0
+	.text	15,"Array Redefined",0
 ErrorV_index:
 	jsr	ErrorHandler
-	.text	"Bad Array Index",0
+	.text	15,"Bad Array Index",0
 ErrorV_memory:
 	jsr	ErrorHandler
-	.text	"Out Of Memory",0
+	.text	13,"Out Of Memory",0
 ErrorV_uninitialised:
 	jsr	ErrorHandler
-	.text	"Variable Uninitialised",0
+	.text	22,"Variable Uninitialised",0
 ErrorV_string:
 	jsr	ErrorHandler
-	.text	"Bad String Length",0
+	.text	17,"Bad String Length",0
 ErrorV_variable:
 	jsr	ErrorHandler
-	.text	"Variable Missing",0
+	.text	16,"Variable Missing",0
 ErrorV_stack:
 	jsr	ErrorHandler
-	.text	"Stack Full",0
+	.text	10,"Stack Full",0
 ErrorV_dupproc:
 	jsr	ErrorHandler
-	.text	"Procedure Identifier Used",0
+	.text	25,"Procedure Identifier Used",0
 ErrorV_unknown:
 	jsr	ErrorHandler
-	.text	"Unknown Procedure",0
+	.text	17,"Unknown Procedure",0
 	.send code

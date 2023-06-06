@@ -1,56 +1,65 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		errorhandler.asm
+;		Purpose:	Handle errors
+;		Created:	6th June 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
-
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		.weak
-runEdit = 0 								; setting to 1 builds with the program/testing stuff in.
-autoRun = 0 								; setting to 1 autoruns program in memory space.
-		.endweak
-
-		* = $1000
-		.dsection code
-
-; ************************************************************************************************
-;
-;										   Main Program
-;
-; ************************************************************************************************
-
+		
 		.section code
 
-boot:	
-		ldx 	#BASICCODE >> 8 			; common setup
-		ldy 	#ENDMEMORY >> 8
-		jsr 	PGMSetBaseAddress
-		jsr 	IFInitialise 				; setup math library
+; ************************************************************************************************
+;
+;										Handle Errors
+;
+; ************************************************************************************************
 
-		.if  	runEdit==1 					; run edit check code (checks line editing)
-		jmp 	TestCode
-		.include "src/program/testing/testing.asmx"
-		.endif
+ErrorHandler:			
+		plx 								; get address of msg
+		ply
+		inx 								; bump past RTS
+		bne 	_EHNoInc
+		iny
+_EHNoInc:		
+		jsr	 	OSWriteString 				; print it.
+		lda 	ERRLine 					; direct command ?
+		ora 	ERRLine+1
+		beq 	_EHNoNumber
+		;
+		;		Not direct so print number.
+		;
+		ldx 	#_EHAtMsg & $FF
+		ldy 	#_EHAtMsg >> 8
+		jsr 	OSWriteStringZ
 
-		.if 	autoRun==1 					; run program in memory.
-		jmp 	Command_RUN
-		.endif
+		lda 	ERRLine 					; line number -> R0
+		ldx 	#IFR0
+		jsr 	IFloatSetByte
+		lda 	ERRLine+1
+		sta 	IFR0+IM1
+		lda 	#10 						; decimal
+		jsr 	IFloatIntegerToStringR0	 	; convert
+		jsr 	OSWriteStringZ 				; print
 
-		jmp 	Command_NEW
+_EHNoNumber:		
+		jmp 	WarmStartNewLine
 
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
+_EHAtMsg:
+		.text 	" at ",0
+
+NotImplemented:
+		.error_unimplemented
 
 		.send code
-
+		
+		.section storage
+ERRLine:
+		.fill 	2
+		.send storage
 
 ; ************************************************************************************************
 ;

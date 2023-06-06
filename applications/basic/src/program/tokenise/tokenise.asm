@@ -27,7 +27,9 @@ TOKTokenise:
 		;
 		lda 	#3 							; set the line length to three for the 
 		sta 	TOKLineSize 				; line length itself and the line numbers.
-
+		stz 	TOKLineNumber
+		stz 	TOKLineNumber+1
+		
 		; ----------------------------------------------------------------------------------
 		;
 		;							Main tokenising loop

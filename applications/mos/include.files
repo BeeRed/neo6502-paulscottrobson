@@ -10,4 +10,5 @@
 	.include "src/generated/ps2convert.asm"
 	.include "src/keyboard/keyboard.asm"
 	.include "src/screen/charout.asm"
+	.include "src/screen/writestring.asm"
 	.include "src/utility/setup.asm"

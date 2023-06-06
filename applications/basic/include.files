@@ -80,6 +80,8 @@
 	.include "src/support/stack/setup.asm"
 	.include "src/support/strings/concrete.asm"
 	.include "src/support/strings/stringalloc.asm"
+	.include "src/ui/errorhandler.asm"
+	.include "src/ui/warmstart.asm"
 	.include "src/variables/array.asm"
 	.include "src/variables/create.asm"
 	.include "src/variables/find.asm"

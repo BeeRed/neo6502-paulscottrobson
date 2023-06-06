@@ -22,6 +22,8 @@ StorageBase = $200 							; ROM usage
 		* = ZeroPageBase
 rTemp0: 									; temporary register for OS, zero page
 		.fill 	2
+rTemp1:
+		.fill 	2		
 iTemp0:										; temporary register for maths library, zero page.
 		.fill 	2
 

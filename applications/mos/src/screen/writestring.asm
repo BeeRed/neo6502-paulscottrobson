@@ -1,57 +1,65 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		basic.asm
-;		Purpose:	BASIC main program
-;		Created:	25th May 2023
+;		Name:		writestring.asm
+;		Purpose:	Write string 
+;		Created:	6th June 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"
-		.include "build/osvectors.inc"
-
-		.weak
-runEdit = 0 								; setting to 1 builds with the program/testing stuff in.
-autoRun = 0 								; setting to 1 autoruns program in memory space.
-		.endweak
-
-		* = $1000
-		.dsection code
-
-; ************************************************************************************************
-;
-;										   Main Program
-;
-; ************************************************************************************************
-
 		.section code
 
-boot:	
-		ldx 	#BASICCODE >> 8 			; common setup
-		ldy 	#ENDMEMORY >> 8
-		jsr 	PGMSetBaseAddress
-		jsr 	IFInitialise 				; setup math library
+; ************************************************************************************************
+;
+;								Write YX ASCII string to screen
+;
+; ************************************************************************************************
 
-		.if  	runEdit==1 					; run edit check code (checks line editing)
-		jmp 	TestCode
-		.include "src/program/testing/testing.asmx"
-		.endif
+OSWriteStringZ:
+		pha
+		phx
+		phy
+		stx		rTemp1
+		sty 	rTemp1+1
+		ldx 	#255
+		ldy 	#255
+		bra 	OSWSLoop
 
-		.if 	autoRun==1 					; run program in memory.
-		jmp 	Command_RUN
-		.endif
+; ************************************************************************************************
+;
+;								Write len prefixed YX string to screen
+;
+; ************************************************************************************************
 
-		jmp 	Command_NEW
-
-		.include "include.files"
-		.include "build/libmathslib.asmlib"
+OSWriteString:
+		pha
+		phx
+		phy
+		stx		rTemp1
+		sty 	rTemp1+1
+		lda 	(rTemp1)
+		tax
+		ldy 	#0
+OSWSLoop:
+		cpx 	#0
+		beq 	_OSWSExit
+		dex
+		iny
+		lda 	(rTemp1),y
+		beq 	_OSWSExit
+		jsr 	OSWriteScreen
+		bra 	OSWSLoop
+_OSWSExit:
+		ply
+		plx
+		pla
+		rts		
 
 		.send code
-
-
+		
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

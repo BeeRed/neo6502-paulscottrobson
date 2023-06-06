@@ -13,7 +13,12 @@ import sys
 
 vectors = """
 
+	OSEditLine						: Edit line, return completion in A, line in YX
+	OSEditNewLine 					: Edit line, start clear.
+	OSWriteString 					: Write length prefixed string YX to screen
+	OSWriteStringZ 					: Write ASCIIZ string YX to screen
 	OSGetScreenSize 				: Get size of screen to XY
+
 	OSIsKeyAvailable 				: Check if key available (CS if so)
  	OSReadKeystroke 		 		: Read A from keyboard, showing cursor while waiting.
 

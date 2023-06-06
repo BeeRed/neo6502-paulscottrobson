@@ -19,7 +19,7 @@
 		.section code
 
 Command_RUN:	;; [run]
-	
+
 		jsr 	Command_CLEAR 				; clear everything out.
 
 		lda 	PGMBaseHigh 				; back to the program start
@@ -56,7 +56,13 @@ RUNNewLine:
 		txs
 		lda 	(codePtr) 					; check off end of program
 		beq 	Command_END
-		ldy 	#3 							; offset into codePtr for start of line.
+		ldy 	#1 							; copy error line#
+		lda 	(codePtr),y 
+		sta 	ERRLine
+		iny
+		lda 	(codePtr),y 
+		sta 	ERRLine+1
+		iny 								; offset into codePtr for start of line.
 
 		; ----------------------------------------------------------------------------------------
 		;
@@ -116,7 +122,7 @@ Command_Shift_Handler: ;; [[[shift]]]
 ; ************************************************************************************************
 
 Command_END: ;; [end]
-		jmp 	$FFFF
+		jmp 	WarmStart
 
 ;:[END]\
 ; Ends the current program and returns to the main prompt.
