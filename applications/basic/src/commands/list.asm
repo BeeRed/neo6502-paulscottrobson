@@ -68,7 +68,9 @@ _CLList:
 _CLLoop:
 		lda 	(codePtr) 					; finished
 		beq 	_CLExit
-
+		jsr 	OSKeyboardDataProcess
+		jsr 	OSCheckBreak 				; check escape.
+		bne 	_CLExit
 		ldx 	#CLFrom-CLFrom 				; compare line number vs from
 		jsr 	_CLCompareLine
 		cmp 	#255 						; < from then skip

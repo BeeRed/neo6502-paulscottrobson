@@ -50,6 +50,9 @@ _OSKShift: 									; received $E0 (shift)
 _OSKUp:
 		dec 	OSIsKeyUp 					; received $F0 (key up)
 _OSKExit:		
+		lda 	OSKeyStatus+$0E
+		and 	#$40
+		sta 	OSEscapePressed
 		rts
 
 ; ************************************************************************************************
