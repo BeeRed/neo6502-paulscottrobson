@@ -94,11 +94,12 @@ void CPUReset(void) {
 	#ifdef EMSCRIPTEN
 	#define OSROMSIZE (2048)
 	FILE *f = fopen("storage/osrom.bin","rb");
-	for (int i = 0;i < OSROMSIZE;i++) {
-		ramMemory[0x10000-OSROMSIZE+i] = fgetc(f);
-	}
+	fread(ramMemory+0x10000-OSROMSIZE,1,OSROMSIZE,f);
 	fclose(f);
-
+	#define BASROMSIZE (12288)
+	f = fopen("storage/basic.bin","rb");
+	fread(ramMemory+0x1000,1,BASROMSIZE,f);
+	fclose(f);
 	#else
 	for (int i = 1;i < argumentCount;i++) {
 		char szBuffer[128];

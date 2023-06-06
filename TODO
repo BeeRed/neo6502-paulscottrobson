@@ -1,7 +1,7 @@
 TODO:
 	INPUT
 	INKEY$
-	[Showable]
+	[Showable] - Javascript now working.
 	EVENT/TIME (when timer available)
 	LOAD/SAVE
 	MOS Redirection.
