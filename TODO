@@ -1,10 +1,7 @@
 TODO:
-	INPUT
-	INKEY$
-	[Showable] - Javascript now working.
-	EVENT/TIME (when timer available)
-	LOAD/SAVE
+	INPUT, patched through PRINT.
 	MOS Redirection.
 
-Changes:
-	Input code.
+	EVENT/TIME (when timer available)
+	LOAD/SAVE (when flash r/w available)
+

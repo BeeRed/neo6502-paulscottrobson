@@ -100,7 +100,7 @@ VectorTable:
 	.word	EXPUnarySqr              ; $df SQR(
 	.word	EXPUnaryChr              ; $e0 CHR$(
 	.word	EXPUnaryAsc              ; $e1 ASC(
-	.word	NotImplemented           ; $e2 INKEY$(
+	.word	EXPUnaryInkey            ; $e2 INKEY$(
 	.word	NotImplemented           ; $e3 EVENT(
 	.word	NotImplemented           ; $e4 TIME
 	.word	EXPUnaryInt              ; $e5 INT(

@@ -20,7 +20,7 @@
 
 CommandLET:	;; [let]
 		jsr 	EXPTermR0 					; get term
-		bcc 	_CLError 					; must be a reference term.
+		bcc 	CLError 					; must be a reference term.
 		;
 		lda 	IFR0+IM0 					; push address and type onto stack
 		pha
@@ -35,13 +35,19 @@ CommandLET:	;; [let]
 		jsr 	EXPEvaluateExpression 		; right hand side.
 		pla 								; type of l-expr
 		eor 	IFR0+IExp 					; check types match
-		bmi 	_CLType
+		bmi 	CLType
 		;
 		plx 	 							; pop target address to zTemp0
 		stx 	zTemp0+1 
 		plx
 		stx 	zTemp0
+		; ---------------------------------------------------------------------------------------
 		;
+		;		Assign the value in IFR0 (string or number) to the data address in zTemp0
+		;
+		; ---------------------------------------------------------------------------------------
+
+AssignData:		
 		lda 	IFR0+IExp 					; string assignment
 		bmi 	_CLStringAssign
 
@@ -124,9 +130,10 @@ _CLConcreteString:
 _CLExit:
 		ply
 		rts
-_CLError:
+
+CLError:
 		.error_variable
-_CLType:
+CLType:
 		.error_type
 		.send code
 		
