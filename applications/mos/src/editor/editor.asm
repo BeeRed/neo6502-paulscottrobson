@@ -60,6 +60,10 @@ _OSEditLoop:
 		cmp 	#27
 		bne 	_OSEditContinue
 _OSEditExit:
+		ldx 	OSEditLength 				; make it ASCIIZ as well (!)
+		stz 	OSEditBuffer,x
+		ldx 	#OSEditLength & $FF 		; XY = Buffer
+		ldy 	#OSEditLength >> 8
 		rts
 		;
 		;		Action keys.
@@ -131,7 +135,7 @@ _OSELeft:
 _OSCheckUpdate:		
 		clc
 		jsr 	OSEUpdatePosition
-		bra 	_OSEditLoop
+		jmp 	_OSEditLoop
 		;
 		;		TAB position
 		;	

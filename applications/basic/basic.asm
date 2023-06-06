@@ -15,6 +15,7 @@
 
 		.weak
 runEdit = 0 								; setting to 1 builds with the program/testing stuff in.
+autoRun = 0 								; setting to 1 autoruns program in memory space.
 		.endweak
 
 		* = $1000
@@ -29,18 +30,23 @@ runEdit = 0 								; setting to 1 builds with the program/testing stuff in.
 		.section code
 
 boot:	
-		ldx 	#BASICCODE >> 8
+		ldx 	#BASICCODE >> 8 			; common setup
 		ldy 	#ENDMEMORY >> 8
 		jsr 	PGMSetBaseAddress
-		jsr 	IFInitialise
+		jsr 	IFInitialise 				; setup math library
 
-		.if  	runEdit==1
+		.if  	runEdit==1 					; run edit check code (checks line editing)
 		jmp 	TestCode
 		.include "src/program/testing/testing.asmx"
 		.endif
 
+		.if 	autoRun==1 					; run program in memory.
 		jmp 	Command_RUN
+		.endif
 
+		.debug
+		jmp 	Command_NEW
+		
 		.include "include.files"
 		.include "build/libmathslib.asmlib"
 

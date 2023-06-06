@@ -28,6 +28,9 @@ all: assemble test
 assemble: prelim
 	$(ASM) $(CONFIG) basic.asm -o build$(S)basic.bin
 
+autoasm:prelim
+	$(ASM) $(CONFIG) basic.asm -D autoRun=1 -o build$(S)basic.bin
+
 prelim:
 	make -C scripts
 	$(PYTHON) scripts$(S)errors.py en
@@ -38,6 +41,9 @@ prelim:
 	$(PYTHON) $(SCRIPTDIR)makebuild.py >include.files
 
 run: emulator assemble test
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
+	
+autorun:emulator autoasm test
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 	
 emulator:
@@ -60,32 +66,32 @@ reg:
 var:
 	$(PYTHON) scripts$(S)showvar.py	
 
-test1: assemble
+test1: autoasm
 	$(PYTHON) tests$(S)testbinary.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
-test2: assemble
+test2: autoasm
 	$(PYTHON) tests$(S)testunary.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
-test3: assemble
+test3: autoasm
 	$(PYTHON) tests$(S)testbrackets.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
-test4: assemble
+test4: autoasm
 	$(PYTHON) tests$(S)teststring.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
-test5: assemble
+test5: autoasm
 	$(PYTHON) tests$(S)testassign.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 
-test6: assemble
+test6: autoasm
 	$(PYTHON) tests$(S)testarray.py >build$(S)test.bas
 	$(PYTHON) $(BINDIR)makepgm.zip build$(S)test.bas -obuild$(S)program.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
