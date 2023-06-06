@@ -41,6 +41,8 @@ boot:
 		.endif
 
 		.if 	autoRun==1 					; run program in memory.
+		lda 	#12
+		jsr 	OSWriteScreen
 		jmp 	Command_RUN
 		.endif
 

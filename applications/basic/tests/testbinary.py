@@ -42,5 +42,5 @@ for i in range(0,30):
 	if (i1.get() << i2.get()) < 0x400000:
 		bc.generate(i1," << ",i2,i1.get() << i2.get())
 
-
+print("sys 65535")	
 

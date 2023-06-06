@@ -40,3 +40,4 @@ for i in range(0,40):
 
 	n1 = TestNumber(True).absolute()
 	uc.generate(n1,"dec(hex$",n1.get())	
+print("sys 65535")	

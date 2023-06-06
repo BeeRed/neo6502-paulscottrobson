@@ -67,7 +67,8 @@ OSIsKeyUp: 									; $FF if $F0 received else $F0
 		.fill 	1
 OSIsKeyShift: 								; $80 if $E0 received else $00
 		.fill 	1			
-
+OSEscapePressed: 							; non zero if escape pressed.
+		.fill 	1
 OSRKOriginal: 								; character under cursor (for keystroke)
 		.fill 	1
 

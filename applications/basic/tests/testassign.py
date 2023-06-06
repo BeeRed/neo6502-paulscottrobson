@@ -38,3 +38,4 @@ for i in range(0,len(identifiers)):
 	if idn in idValues:
 		v = idValues[idn].render()
 		print("assert {0} = {1}".format(idn,v))
+print("sys 65535")	

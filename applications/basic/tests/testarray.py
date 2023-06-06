@@ -76,3 +76,4 @@ for i in range(0,len(arrayList)*10):
 	arrayList[random.randint(0,len(arrayList)-1)].assign()
 for a in arrayList:
 	a.check()
+print("sys 65535")	

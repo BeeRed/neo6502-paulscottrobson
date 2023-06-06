@@ -19,6 +19,7 @@ vectors = """
 	OSWriteStringZ 					: Write ASCIIZ string YX to screen
 	OSGetScreenSize 				: Get size of screen to XY
 
+	OSCheckBreak					: NZ if ESC pressed.
 	OSIsKeyAvailable 				: Check if key available (CS if so)
  	OSReadKeystroke 		 		: Read A from keyboard, showing cursor while waiting.
 

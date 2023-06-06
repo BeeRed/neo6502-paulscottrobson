@@ -34,3 +34,4 @@ for i in range(0,140):
 	v = eval(x)
 	if v < 0x800000:
 		print("assert (({0})-{1}) = 0".format(x,eval(x)))
+print("sys 65535")	

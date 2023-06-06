@@ -45,3 +45,4 @@ for i in range(0,30):
 	if n2 > 0:
 		print('assert mid$("{0}",{1}) = "{2}"'.format(s1,n2,s1[n2-1:]))
 		print('assert mid$("{0}",{1},{2}) = "{3}"'.format(s1,n2,n3,s1[n2-1:n2-1+n3]))
+print("sys 65535")	

@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Tue Jun  6 08:13:36 2023
+; Tue Jun  6 17:47:55 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -45,32 +45,34 @@
 >0235							.fill 	1
 .0236					OSIsKeyShift:
 >0236							.fill 	1
-.0237					OSRKOriginal:
+.0237					OSEscapePressed:
 >0237							.fill 	1
-=192					OSTextBufferSize = 192
-.0238					OSXEdit:
+.0238					OSRKOriginal:
 >0238							.fill 	1
-.0239					OSYEdit:
+=192					OSTextBufferSize = 192
+.0239					OSXEdit:
 >0239							.fill 	1
-.023a					OSEditWidth:
+.023a					OSYEdit:
 >023a							.fill 	1
-.023b					OSEditPos:
+.023b					OSEditWidth:
 >023b							.fill 	1
-.023c					OSEditScroll:
+.023c					OSEditPos:
 >023c							.fill 	1
-.023d					OSEditLength:
+.023d					OSEditScroll:
 >023d							.fill 	1
-.023e					OSEditBuffer:
->023e							.fill 	OSTextBufferSize+1
->02ff							.fill 	32
->031f							.align 	256
+.023e					OSEditLength:
+>023e							.fill 	1
+.023f					OSEditBuffer:
+>023f							.fill 	OSTextBufferSize+1
+>0300							.fill 	32
+>0320							.align 	256
 
 ;******  Return to file: osrom.asm
 
-.f800	20 55 fd	jsr $fd55	Boot:	jsr 	OSInitialise 				; set everything up.
-.f803	a2 6d		ldx #$6d			ldx 	#MainPrompt & $FF
+.f800	20 58 fd	jsr $fd58	Boot:	jsr 	OSInitialise 				; set everything up.
+.f803	a2 74		ldx #$74			ldx 	#MainPrompt & $FF
 .f805	a0 fd		ldy #$fd			ldy 	#MainPrompt >> 8
-.f807	20 29 fd	jsr $fd29			jsr 	OSWriteStringZ
+.f807	20 2c fd	jsr $fd2c			jsr 	OSWriteStringZ
 .f80a	4c 00 10	jmp $1000			jmp 	$1000
 .f80d					NoInt:
 .f80d	40		rti				rti
@@ -144,7 +146,7 @@
 .f85f	d0 f3		bne $f854			bne 	_OSCSLoop2
 .f861	88		dey				dey
 .f862	d0 ed		bne $f851			bne 	_OSCSLoop1
-.f864	20 22 fd	jsr $fd22			jsr 	OSHomeCursor 				; cursor to (0,0)
+.f864	20 25 fd	jsr $fd25			jsr 	OSHomeCursor 				; cursor to (0,0)
 .f867	60		rts				rts
 
 ;******  Return to file: include.files
@@ -346,20 +348,20 @@
 ;******  Processing file: src/editor/editor.asm
 
 .f984					OSEditNewLine:
-.f984	9c 3d 02	stz $023d			stz 	OSEditLength 				; clear buffer
+.f984	9c 3e 02	stz $023e			stz 	OSEditLength 				; clear buffer
 .f987					OSEditLine:
 .f987	ad 00 02	lda $0200			lda 	OSXPos 						; save edit point.
-.f98a	8d 38 02	sta $0238			sta 	OSXEdit
+.f98a	8d 39 02	sta $0239			sta 	OSXEdit
 .f98d	ad 01 02	lda $0201			lda 	OSYPos
-.f990	8d 39 02	sta $0239			sta 	OSYEdit
-.f993	ad 3d 02	lda $023d			lda 	OSEditLength 				; edit point at end of line.
-.f996	8d 3b 02	sta $023b			sta 	OSEditPos
-.f999	9c 3c 02	stz $023c			stz 	OSEditScroll 				; no initial scrolling
+.f990	8d 3a 02	sta $023a			sta 	OSYEdit
+.f993	ad 3e 02	lda $023e			lda 	OSEditLength 				; edit point at end of line.
+.f996	8d 3c 02	sta $023c			sta 	OSEditPos
+.f999	9c 3d 02	stz $023d			stz 	OSEditScroll 				; no initial scrolling
 .f99c	38		sec				sec 								; calculate edit box width.
 .f99d	ad 02 02	lda $0202			lda 	OSXSize
 .f9a0	ed 00 02	sbc $0200			sbc 	OSXPos
 .f9a3	3a		dec a				dec 	a 							; one forr RHS
-.f9a4	8d 3a 02	sta $023a			sta 	OSEditWidth
+.f9a4	8d 3b 02	sta $023b			sta 	OSEditWidth
 .f9a7					_OSForceUpdate:
 .f9a7	38		sec				sec 								; force repaint.
 .f9a8	20 6f fa	jsr $fa6f			jsr 	OSEUpdatePosition 			; update the position.
@@ -375,9 +377,9 @@
 .f9bd	c9 1b		cmp #$1b			cmp 	#27
 .f9bf	d0 0b		bne $f9cc			bne 	_OSEditContinue
 .f9c1					_OSEditExit:
-.f9c1	ae 3d 02	ldx $023d			ldx 	OSEditLength 				; make it ASCIIZ as well (!)
-.f9c4	9e 3e 02	stz $023e,x			stz 	OSEditBuffer,x
-.f9c7	a2 3d		ldx #$3d			ldx 	#OSEditLength & $FF 		; XY = Buffer
+.f9c1	ae 3e 02	ldx $023e			ldx 	OSEditLength 				; make it ASCIIZ as well (!)
+.f9c4	9e 3f 02	stz $023f,x			stz 	OSEditBuffer,x
+.f9c7	a2 3e		ldx #$3e			ldx 	#OSEditLength & $FF 		; XY = Buffer
 .f9c9	a0 02		ldy #$02			ldy 	#OSEditLength >> 8
 .f9cb	60		rts				rts
 .f9cc					_OSEditContinue:
@@ -396,82 +398,82 @@
 .f9e4	c9 20		cmp #$20			cmp 	#32 						; character code, insert it
 .f9e6	90 c3		bcc $f9ab			bcc 	_OSEditLoop
 .f9e8					_OSAddCharacter:
-.f9e8	ae 3d 02	ldx $023d			ldx 	OSEditLength 				; already full ?
+.f9e8	ae 3e 02	ldx $023e			ldx 	OSEditLength 				; already full ?
 .f9eb	e0 c0		cpx #$c0			cpx 	#OSTextBufferSize
 .f9ed	f0 3a		beq $fa29			beq 	_OSCheckUpdate
 .f9ef	20 43 fa	jsr $fa43			jsr 	_OSEInsertCharacter 		; insert character at pos
-.f9f2	ee 3b 02	inc $023b			inc 	OSEditPos 					; advance forward
+.f9f2	ee 3c 02	inc $023c			inc 	OSEditPos 					; advance forward
 .f9f5	80 b0		bra $f9a7			bra 	_OSForceUpdate 				; force a repaint.
 .f9f7					_OSEHome:
-.f9f7	9c 3b 02	stz $023b			stz 	OSEditPos
-.f9fa	9c 3c 02	stz $023c			stz 	OSEditScroll
+.f9f7	9c 3c 02	stz $023c			stz 	OSEditPos
+.f9fa	9c 3d 02	stz $023d			stz 	OSEditScroll
 .f9fd	80 a8		bra $f9a7			bra 	_OSForceUpdate
 .f9ff					_OSEBackspace:
-.f9ff	ad 3b 02	lda $023b			lda 	OSEditPos 					; can't backspace from the start.
+.f9ff	ad 3c 02	lda $023c			lda 	OSEditPos 					; can't backspace from the start.
 .fa02	f0 25		beq $fa29			beq 	_OSCheckUpdate
-.fa04	ce 3b 02	dec $023b			dec 	OSEditPos
+.fa04	ce 3c 02	dec $023c			dec 	OSEditPos
 .fa07					_OSEDelete:
-.fa07	ad 3d 02	lda $023d			lda 	OSEditLength 				; not if at far right, e.g. appending to end.
-.fa0a	cd 3b 02	cmp $023b			cmp 	OSEditPos
+.fa07	ad 3e 02	lda $023e			lda 	OSEditLength 				; not if at far right, e.g. appending to end.
+.fa0a	cd 3c 02	cmp $023c			cmp 	OSEditPos
 .fa0d	f0 1a		beq $fa29			beq 	_OSCheckUpdate
 .fa0f	20 5c fa	jsr $fa5c			jsr 	_OSEDeleteCharacter 		; delete character and repaint.
 .fa12	80 93		bra $f9a7			bra 	_OSForceUpdate
 .fa14					_OSERight:
-.fa14	ad 3b 02	lda $023b			lda 	OSEditPos 					; if x before end then go right
-.fa17	cd 3d 02	cmp $023d			cmp 	OSEditLength
+.fa14	ad 3c 02	lda $023c			lda 	OSEditPos 					; if x before end then go right
+.fa17	cd 3e 02	cmp $023e			cmp 	OSEditLength
 .fa1a	f0 0d		beq $fa29			beq 	_OSCheckUpdate
-.fa1c	ee 3b 02	inc $023b			inc 	OSEditPos
+.fa1c	ee 3c 02	inc $023c			inc 	OSEditPos
 .fa1f	80 08		bra $fa29			bra 	_OSCheckUpdate
 .fa21					_OSELeft:
-.fa21	ad 3b 02	lda $023b			lda 	OSEditPos 					; if x past start go left
+.fa21	ad 3c 02	lda $023c			lda 	OSEditPos 					; if x past start go left
 .fa24	f0 03		beq $fa29			beq 	_OSCheckUpdate
-.fa26	ce 3b 02	dec $023b			dec 	OSEditPos
+.fa26	ce 3c 02	dec $023c			dec 	OSEditPos
 .fa29					_OSCheckUpdate:
 .fa29	18		clc				clc
 .fa2a	20 6f fa	jsr $fa6f			jsr 	OSEUpdatePosition
 .fa2d	4c ab f9	jmp $f9ab			jmp 	_OSEditLoop
 .fa30					_OSETab:
 .fa30	18		clc				clc
-.fa31	ad 3b 02	lda $023b			lda 	OSEditPos
+.fa31	ad 3c 02	lda $023c			lda 	OSEditPos
 .fa34	69 08		adc #$08			adc 	#8
-.fa36	cd 3d 02	cmp $023d			cmp 	OSEditLength
+.fa36	cd 3e 02	cmp $023e			cmp 	OSEditLength
 .fa39	90 03		bcc $fa3e			bcc 	_OSTabOk
-.fa3b	ad 3d 02	lda $023d			lda 	OSEditLength
+.fa3b	ad 3e 02	lda $023e			lda 	OSEditLength
 .fa3e					_OSTabOk:
-.fa3e	8d 3b 02	sta $023b			sta 	OSEditPos
+.fa3e	8d 3c 02	sta $023c			sta 	OSEditPos
 .fa41	80 e6		bra $fa29			bra 	_OSCheckUpdate
 .fa43					_OSEInsertCharacter:
 .fa43	48		pha				pha 								; save character
-.fa44	ae 3d 02	ldx $023d			ldx 	OSEditLength
+.fa44	ae 3e 02	ldx $023e			ldx 	OSEditLength
 .fa47	e8		inx				inx
 .fa48					_OSMakeSpace:
 .fa48	ca		dex				dex
-.fa49	bd 3e 02	lda $023e,x			lda 	OSEditBuffer,x
-.fa4c	9d 3f 02	sta $023f,x			sta 	OSEditBuffer+1,x
-.fa4f	ec 3b 02	cpx $023b			cpx 	OSEditPos
+.fa49	bd 3f 02	lda $023f,x			lda 	OSEditBuffer,x
+.fa4c	9d 40 02	sta $0240,x			sta 	OSEditBuffer+1,x
+.fa4f	ec 3c 02	cpx $023c			cpx 	OSEditPos
 .fa52	d0 f4		bne $fa48			bne 	_OSMakeSpace
 .fa54	68		pla				pla
-.fa55	9d 3e 02	sta $023e,x			sta 	OSEditBuffer,x
-.fa58	ee 3d 02	inc $023d			inc 	OSEditLength
+.fa55	9d 3f 02	sta $023f,x			sta 	OSEditBuffer,x
+.fa58	ee 3e 02	inc $023e			inc 	OSEditLength
 .fa5b	60		rts				rts
 .fa5c					_OSEDeleteCharacter:
-.fa5c	ae 3b 02	ldx $023b			ldx 	OSEditPos
+.fa5c	ae 3c 02	ldx $023c			ldx 	OSEditPos
 .fa5f					_OSERemove:
-.fa5f	bd 3f 02	lda $023f,x			lda 	OSEditBuffer+1,x
-.fa62	9d 3e 02	sta $023e,x			sta 	OSEditBuffer,x
+.fa5f	bd 40 02	lda $0240,x			lda 	OSEditBuffer+1,x
+.fa62	9d 3f 02	sta $023f,x			sta 	OSEditBuffer,x
 .fa65	e8		inx				inx
-.fa66	ec 3d 02	cpx $023d			cpx 	OSEditLength
+.fa66	ec 3e 02	cpx $023e			cpx 	OSEditLength
 .fa69	90 f4		bcc $fa5f			bcc 	_OSERemove
-.fa6b	ce 3d 02	dec $023d			dec 	OSEditLength
+.fa6b	ce 3e 02	dec $023e			dec 	OSEditLength
 .fa6e	60		rts				rts
 .fa6f					OSEUpdatePosition:
 .fa6f	08		php				php 								; save repaint flag.
-.fa70	ad 3c 02	lda $023c			lda 	OSEditScroll 				; save old edit scroll position.
+.fa70	ad 3d 02	lda $023d			lda 	OSEditScroll 				; save old edit scroll position.
 .fa73	48		pha				pha
 .fa74	20 8a fa	jsr $fa8a			jsr 	OSECheckPosition 			; check position in range of text
 .fa77	20 a1 fa	jsr $faa1			jsr 	OSECheckVisible 			; is it on screen ?
 .fa7a	68		pla				pla 								; has the edit scroll position changed ?
-.fa7b	cd 3c 02	cmp $023c			cmp 	OSEditScroll
+.fa7b	cd 3d 02	cmp $023d			cmp 	OSEditScroll
 .fa7e	f0 03		beq $fa83			beq 	_OSECVNoChange
 .fa80	28		plp				plp 								; if so, set repaint flag
 .fa81	38		sec				sec
@@ -483,50 +485,50 @@
 .fa89					_OSECVNoRepaint:
 .fa89	60		rts				rts
 .fa8a					OSECheckPosition:
-.fa8a	ad 3b 02	lda $023b			lda 	OSEditPos 					; if position = 255 (e.g. -1) then off left.
+.fa8a	ad 3c 02	lda $023c			lda 	OSEditPos 					; if position = 255 (e.g. -1) then off left.
 .fa8d	c9 ff		cmp #$ff			cmp 	#255
 .fa8f	d0 04		bne $fa95			bne 	_OSECPNotLeft
-.fa91	9c 3b 02	stz $023b			stz 	OSEditPos
+.fa91	9c 3c 02	stz $023c			stz 	OSEditPos
 .fa94	60		rts				rts
 .fa95					_OSECPNotLeft:
-.fa95	cd 3d 02	cmp $023d			cmp 	OSEditLength 				; if >= edit length reset to edit length
+.fa95	cd 3e 02	cmp $023e			cmp 	OSEditLength 				; if >= edit length reset to edit length
 .fa98	d0 06		bne $faa0			bne 	_OSEPCNotRight
-.fa9a	ad 3d 02	lda $023d			lda 	OSEditLength
-.fa9d	8d 3b 02	sta $023b			sta 	OSEditPos
+.fa9a	ad 3e 02	lda $023e			lda 	OSEditLength
+.fa9d	8d 3c 02	sta $023c			sta 	OSEditPos
 .faa0					_OSEPCNotRight:
 .faa0	60		rts				rts
 .faa1					OSECheckVisible:
-.faa1	ad 3b 02	lda $023b			lda 	OSEditPos 					; if editpos < editscroll
-.faa4	cd 3c 02	cmp $023c			cmp 	OSEditScroll
+.faa1	ad 3c 02	lda $023c			lda 	OSEditPos 					; if editpos < editscroll
+.faa4	cd 3d 02	cmp $023d			cmp 	OSEditScroll
 .faa7	b0 04		bcs $faad			bcs 	_OSENotOffLeft
-.faa9	8d 3c 02	sta $023c			sta 	OSEditScroll 				; then scroll at that position.
+.faa9	8d 3d 02	sta $023d			sta 	OSEditScroll 				; then scroll at that position.
 .faac	60		rts				rts
 .faad					_OSENotOffLeft:
 .faad	38		sec				sec
-.faae	ad 3b 02	lda $023b			lda 	OSEditPos
-.fab1	ed 3c 02	sbc $023c			sbc 	OSEditScroll
-.fab4	cd 3a 02	cmp $023a			cmp 	OSEditWidth
+.faae	ad 3c 02	lda $023c			lda 	OSEditPos
+.fab1	ed 3d 02	sbc $023d			sbc 	OSEditScroll
+.fab4	cd 3b 02	cmp $023b			cmp 	OSEditWidth
 .fab7	b0 01		bcs $faba			bcs 	_OSEOffRight
 .fab9	60		rts				rts
 .faba					_OSEOffRight:
 .faba	38		sec				sec
-.fabb	ad 3b 02	lda $023b			lda 	OSEditPos
-.fabe	ed 3a 02	sbc $023a			sbc 	OSEditWidth
+.fabb	ad 3c 02	lda $023c			lda 	OSEditPos
+.fabe	ed 3b 02	sbc $023b			sbc 	OSEditWidth
 .fac1	b0 02		bcs $fac5			bcs 	_OSENoTrim
 .fac3	a9 00		lda #$00			lda 	#0
 .fac5					_OSENoTrim:
-.fac5	8d 3c 02	sta $023c			sta 	OSEditScroll
+.fac5	8d 3d 02	sta $023d			sta 	OSEditScroll
 .fac8	60		rts				rts
 .fac9					OSERepaint:
-.fac9	ad 38 02	lda $0238			lda 	OSXEdit 					; reset drawing pos
+.fac9	ad 39 02	lda $0239			lda 	OSXEdit 					; reset drawing pos
 .facc	8d 00 02	sta $0200			sta 	OSXPos
-.facf	ad 39 02	lda $0239			lda 	OSYEdit
+.facf	ad 3a 02	lda $023a			lda 	OSYEdit
 .fad2	8d 01 02	sta $0201			sta 	OSYPos
-.fad5	ae 3c 02	ldx $023c			ldx 	OSEditScroll 				; start data from here.
-.fad8	ac 3a 02	ldy $023a			ldy 	OSEditWidth 				; counter
+.fad5	ae 3d 02	ldx $023d			ldx 	OSEditScroll 				; start data from here.
+.fad8	ac 3b 02	ldy $023b			ldy 	OSEditWidth 				; counter
 .fadb					_OSERepaintLoop:
-.fadb	bd 3e 02	lda $023e,x			lda 	OSEditBuffer,x 				; read character from buffer
-.fade	ec 3d 02	cpx $023d			cpx 	OSEditLength 				; past end of buffer
+.fadb	bd 3f 02	lda $023f,x			lda 	OSEditBuffer,x 				; read character from buffer
+.fade	ec 3e 02	cpx $023e			cpx 	OSEditLength 				; past end of buffer
 .fae1	90 02		bcc $fae5			bcc 	_OSEOut
 .fae3	a9 20		lda #$20			lda 	#" "
 .fae5	da		phx		_OSEOut:phx 								; output character.
@@ -541,12 +543,12 @@
 .faf3	60		rts				rts
 .faf4					OSEPositionCursor:
 .faf4	38		sec				sec
-.faf5	ad 3b 02	lda $023b			lda 	OSEditPos
-.faf8	ed 3c 02	sbc $023c			sbc 	OSEditScroll
+.faf5	ad 3c 02	lda $023c			lda 	OSEditPos
+.faf8	ed 3d 02	sbc $023d			sbc 	OSEditScroll
 .fafb	18		clc				clc
-.fafc	6d 38 02	adc $0238			adc 	OSXEdit
+.fafc	6d 39 02	adc $0239			adc 	OSXEdit
 .faff	8d 00 02	sta $0200			sta 	OSXPos
-.fb02	ad 39 02	lda $0239			lda 	OSYEdit
+.fb02	ad 3a 02	lda $023a			lda 	OSYEdit
 .fb05	8d 01 02	sta $0201			sta 	OSYPos
 .fb08	60		rts				rts
 
@@ -876,7 +878,7 @@
 .fc41	da		phx				phx 								; save XY
 .fc42	5a		phy				phy
 .fc43	20 0e f8	jsr $f80e			jsr 	OSReadPhysical 				; save old character
-.fc46	8d 37 02	sta $0237			sta 	OSRKOriginal
+.fc46	8d 38 02	sta $0238			sta 	OSRKOriginal
 .fc49	a9 7f		lda #$7f			lda 	#$7F 						; write prompt
 .fc4b	20 14 f8	jsr $f814			jsr 	OSWritePhysical
 .fc4e					_OSWaitKey:
@@ -884,7 +886,7 @@
 .fc51	20 39 fc	jsr $fc39			jsr 	OSReadKeyboard 				; key available
 .fc54	b0 f8		bcs $fc4e			bcs 	_OSWaitKey
 .fc56	48		pha				pha 								; save key
-.fc57	ad 37 02	lda $0237			lda 	OSRKOriginal 				; old character back
+.fc57	ad 38 02	lda $0238			lda 	OSRKOriginal 				; old character back
 .fc5a	20 14 f8	jsr $f814			jsr 	OSWritePhysical
 .fc5d	68		pla				pla 								; restore
 .fc5e	7a		ply				ply
@@ -892,220 +894,225 @@
 .fc60	18		clc				clc 								; success
 .fc61	60		rts				rts
 .fc62					OSReadDevice:
-.fc62	20 2f fc	jsr $fc2f			jsr 	OSIsKeyAvailable 			; key available ?
-.fc65	b0 19		bcs $fc80			bcs 	_OSRDExit
-.fc67	ad 24 02	lda $0224			lda 	OSKeyboardQueue 			; push char on stack
-.fc6a	48		pha				pha
-.fc6b	da		phx				phx
-.fc6c	a2 00		ldx #$00			ldx		#0 							; remove from queue array
-.fc6e					_OSRDDequeue:
-.fc6e	bd 25 02	lda $0225,x			lda 	OSKeyboardQueue+1,x
-.fc71	9d 24 02	sta $0224,x			sta 	OSKeyboardQueue,x
-.fc74	e8		inx				inx
-.fc75	ec 34 02	cpx $0234			cpx 	OSKeyboardQueueSize
-.fc78	d0 f4		bne $fc6e			bne 	_OSRDDequeue
-.fc7a	ce 34 02	dec $0234			dec 	OSKeyboardQueueSize			; dec queue count
-.fc7d	fa		plx				plx
-.fc7e	68		pla				pla 								; restore key
-.fc7f	18		clc				clc
-.fc80					_OSRDExit:
-.fc80	60		rts				rts
+.fc62	20 68 f8	jsr $f868			jsr 	OSKeyboardDataProcess 		; this scans the keyboard.
+.fc65	20 2f fc	jsr $fc2f			jsr 	OSIsKeyAvailable 			; key available ?
+.fc68	b0 19		bcs $fc83			bcs 	_OSRDExit
+.fc6a	ad 24 02	lda $0224			lda 	OSKeyboardQueue 			; push char on stack
+.fc6d	48		pha				pha
+.fc6e	da		phx				phx
+.fc6f	a2 00		ldx #$00			ldx		#0 							; remove from queue array
+.fc71					_OSRDDequeue:
+.fc71	bd 25 02	lda $0225,x			lda 	OSKeyboardQueue+1,x
+.fc74	9d 24 02	sta $0224,x			sta 	OSKeyboardQueue,x
+.fc77	e8		inx				inx
+.fc78	ec 34 02	cpx $0234			cpx 	OSKeyboardQueueSize
+.fc7b	d0 f4		bne $fc71			bne 	_OSRDDequeue
+.fc7d	ce 34 02	dec $0234			dec 	OSKeyboardQueueSize			; dec queue count
+.fc80	fa		plx				plx
+.fc81	68		pla				pla 								; restore key
+.fc82	18		clc				clc
+.fc83					_OSRDExit:
+.fc83	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/screen/charout.asm
 
-.fc81					OSWriteScreen:
-.fc81	da		phx				phx
-.fc82	a2 00		ldx #$00			ldx 	#0
-.fc84	20 89 fc	jsr $fc89			jsr 	OSWriteDevice
-.fc87	fa		plx				plx
-.fc88	60		rts				rts
-.fc89					OSWriteDevice:
-.fc89	48		pha				pha
-.fc8a	da		phx				phx
-.fc8b	5a		phy				phy
-.fc8c	c9 20		cmp #$20			cmp 	#32 						; standard character
-.fc8e	b0 0c		bcs $fc9c			bcs 	_OSWriteDirect
-.fc90	c9 10		cmp #$10			cmp 	#16 						; 16-32 for set colours, reserved.
-.fc92	b0 0e		bcs $fca2			bcs 	_OSWriteDeviceExit
-.fc94	0a		asl a				asl 	a 							; make to an offset in vector table
-.fc95	aa		tax				tax
-.fc96	4a		lsr a				lsr 	a
-.fc97	20 a7 fc	jsr $fca7			jsr 	_OSCallVectorCode
-.fc9a	80 06		bra $fca2			bra 	_OSWriteDeviceExit
-.fc9c					_OSWriteDirect:
-.fc9c	20 14 f8	jsr $f814			jsr 	OSWritePhysical
-.fc9f	20 eb fc	jsr $fceb			jsr 	_OSCursorAdvance
-.fca2					_OSWriteDeviceExit:
-.fca2	7a		ply				ply
-.fca3	fa		plx				plx
-.fca4	68		pla				pla
-.fca5	18		clc				clc 								; written fine.
-.fca6	60		rts				rts
-.fca7					_OSCallVectorCode:
-.fca7	7c ab fc	jmp ($fcab,x)			jmp 	(_OSWDVector,x)
-.fcaa					_OSWNoFunction:
-.fcaa	60		rts				rts
-.fcab					_OSWDVector:
->fcab	aa fc						.word 	_OSWNoFunction 				; $00 	No operation
->fcad	d9 fc						.word 	_OSCursorLeft 				; $01 	Left 		(Ctrl-A)
->fcaf	22 fd						.word 	OSHomeCursor 				; $02 	Home Cursor (Ctrl-B)
->fcb1	f9 fc						.word 	_OSCursorDown 				; $03 	Down 		(Ctrl-C)
->fcb3	e2 fc						.word 	_OSCursorRight 				; $04 	Right 		(Ctrl-D)
->fcb5	eb fc						.word 	_OSCursorAdvance			; $05 	Advance
->fcb7	0b fd						.word 	_OSCursorUp 				; $06	Up 			(Ctrl-F)
->fcb9	aa fc						.word 	_OSWNoFunction 				; $07 	Delete 		(Del)
->fcbb	cb fc						.word 	_OSBackspace				; $08 	Backspace 	(Backspace)
->fcbd	17 fd						.word 	_OSWHTab 					; $09	Tab
->fcbf	aa fc						.word 	_OSWNoFunction 				; $0A
->fcc1	aa fc						.word 	_OSWNoFunction 				; $0B
->fcc3	48 f8						.word 	OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
->fcc5	f6 fc						.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
->fcc7	df f8						.word 	OSScrollUp 					; $0E 	Scroll Up 	(e.g. off bottom)
->fcc9	0c f9						.word 	OSScrollDown 				; $0F 	Scroll Down (e.g. off top)
-.fccb					_OSBackspace:
-.fccb	ad 00 02	lda $0200			lda 	OSXPos 						; left side already ?
-.fcce	f0 11		beq $fce1			beq 	_OSCLExit
-.fcd0	ce 00 02	dec $0200			dec 	OSXPos
-.fcd3	a9 20		lda #$20			lda 	#' '
-.fcd5	20 14 f8	jsr $f814			jsr 	OSWritePhysical
-.fcd8	60		rts				rts
-.fcd9					_OSCursorLeft:
-.fcd9	ad 00 02	lda $0200			lda 	OSXPos 						; left side
-.fcdc	f0 03		beq $fce1			beq 	_OSCLExit 					; yes, exit
-.fcde	ce 00 02	dec $0200			dec 	OSXPos 						; cursor left
-.fce1					_OSCLExit:
-.fce1	60		rts				rts
-.fce2					_OSCursorRight:
-.fce2	ad 00 02	lda $0200			lda 	OSXPos 						; reached right side ?
-.fce5	1a		inc a				inc 	a
-.fce6	cd 02 02	cmp $0202			cmp 	OSXSize
-.fce9	f0 1f		beq $fd0a			beq 	_OSCRExit 					; yes, exit.
-.fceb					_OSCursorAdvance:
-.fceb	ee 00 02	inc $0200			inc 	OSXPos 						; advance cursor and position.
-.fcee	ad 00 02	lda $0200			lda 	OSXPos 						; reached RHS
-.fcf1	cd 02 02	cmp $0202			cmp 	OSXSize
-.fcf4	90 14		bcc $fd0a			bcc 	_OSCRExit 					; if so exit.
-.fcf6					_OSNewLine:
-.fcf6	9c 00 02	stz $0200			stz 	OSXPos 						; start next line.
-.fcf9					_OSCursorDown:
-.fcf9	ee 01 02	inc $0201			inc 	OSYPos
-.fcfc	ad 01 02	lda $0201			lda 	OSYPos 						; reached bottom
-.fcff	cd 03 02	cmp $0203			cmp 	OSYSize
-.fd02	90 06		bcc $fd0a			bcc 	_OSCRExit
-.fd04	ce 01 02	dec $0201			dec 	OSYPos 						; back to bottom line.
-.fd07	20 df f8	jsr $f8df			jsr 	OSScrollUp 					; scroll whole screen up.
-.fd0a					_OSCRExit:
-.fd0a	60		rts				rts
-.fd0b					_OSCursorUp:
-.fd0b	ce 01 02	dec $0201			dec 	OSYPos 						; up
-.fd0e	10 fa		bpl $fd0a			bpl 	_OSCRExit 					; still on screen
-.fd10	ee 01 02	inc $0201			inc 	OSYPos 						; fix up
-.fd13	20 0c f9	jsr $f90c			jsr 	OSScrollDown 				; scroll down.
-.fd16	60		rts				rts
-.fd17					_OSWHTab:
-.fd17	20 eb fc	jsr $fceb			jsr 	_OSCursorAdvance
-.fd1a	ad 00 02	lda $0200			lda 	OSXPos
-.fd1d	29 07		and #$07			and 	#7
-.fd1f	d0 f6		bne $fd17			bne 	_OSWHTab
-.fd21	60		rts				rts
-.fd22					OSHomeCursor:
-.fd22	9c 00 02	stz $0200			stz 	OSXPos
-.fd25	9c 01 02	stz $0201			stz 	OSYPos
-.fd28	60		rts				rts
+.fc84					OSWriteScreen:
+.fc84	da		phx				phx
+.fc85	a2 00		ldx #$00			ldx 	#0
+.fc87	20 8c fc	jsr $fc8c			jsr 	OSWriteDevice
+.fc8a	fa		plx				plx
+.fc8b	60		rts				rts
+.fc8c					OSWriteDevice:
+.fc8c	48		pha				pha
+.fc8d	da		phx				phx
+.fc8e	5a		phy				phy
+.fc8f	c9 20		cmp #$20			cmp 	#32 						; standard character
+.fc91	b0 0c		bcs $fc9f			bcs 	_OSWriteDirect
+.fc93	c9 10		cmp #$10			cmp 	#16 						; 16-32 for set colours, reserved.
+.fc95	b0 0e		bcs $fca5			bcs 	_OSWriteDeviceExit
+.fc97	0a		asl a				asl 	a 							; make to an offset in vector table
+.fc98	aa		tax				tax
+.fc99	4a		lsr a				lsr 	a
+.fc9a	20 aa fc	jsr $fcaa			jsr 	_OSCallVectorCode
+.fc9d	80 06		bra $fca5			bra 	_OSWriteDeviceExit
+.fc9f					_OSWriteDirect:
+.fc9f	20 14 f8	jsr $f814			jsr 	OSWritePhysical
+.fca2	20 ee fc	jsr $fcee			jsr 	_OSCursorAdvance
+.fca5					_OSWriteDeviceExit:
+.fca5	7a		ply				ply
+.fca6	fa		plx				plx
+.fca7	68		pla				pla
+.fca8	18		clc				clc 								; written fine.
+.fca9	60		rts				rts
+.fcaa					_OSCallVectorCode:
+.fcaa	7c ae fc	jmp ($fcae,x)			jmp 	(_OSWDVector,x)
+.fcad					_OSWNoFunction:
+.fcad	60		rts				rts
+.fcae					_OSWDVector:
+>fcae	ad fc						.word 	_OSWNoFunction 				; $00 	No operation
+>fcb0	dc fc						.word 	_OSCursorLeft 				; $01 	Left 		(Ctrl-A)
+>fcb2	25 fd						.word 	OSHomeCursor 				; $02 	Home Cursor (Ctrl-B)
+>fcb4	fc fc						.word 	_OSCursorDown 				; $03 	Down 		(Ctrl-C)
+>fcb6	e5 fc						.word 	_OSCursorRight 				; $04 	Right 		(Ctrl-D)
+>fcb8	ee fc						.word 	_OSCursorAdvance			; $05 	Advance
+>fcba	0e fd						.word 	_OSCursorUp 				; $06	Up 			(Ctrl-F)
+>fcbc	ad fc						.word 	_OSWNoFunction 				; $07 	Delete 		(Del)
+>fcbe	ce fc						.word 	_OSBackspace				; $08 	Backspace 	(Backspace)
+>fcc0	1a fd						.word 	_OSWHTab 					; $09	Tab
+>fcc2	ad fc						.word 	_OSWNoFunction 				; $0A
+>fcc4	ad fc						.word 	_OSWNoFunction 				; $0B
+>fcc6	48 f8						.word 	OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
+>fcc8	f9 fc						.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
+>fcca	df f8						.word 	OSScrollUp 					; $0E 	Scroll Up 	(e.g. off bottom)
+>fccc	0c f9						.word 	OSScrollDown 				; $0F 	Scroll Down (e.g. off top)
+.fcce					_OSBackspace:
+.fcce	ad 00 02	lda $0200			lda 	OSXPos 						; left side already ?
+.fcd1	f0 11		beq $fce4			beq 	_OSCLExit
+.fcd3	ce 00 02	dec $0200			dec 	OSXPos
+.fcd6	a9 20		lda #$20			lda 	#' '
+.fcd8	20 14 f8	jsr $f814			jsr 	OSWritePhysical
+.fcdb	60		rts				rts
+.fcdc					_OSCursorLeft:
+.fcdc	ad 00 02	lda $0200			lda 	OSXPos 						; left side
+.fcdf	f0 03		beq $fce4			beq 	_OSCLExit 					; yes, exit
+.fce1	ce 00 02	dec $0200			dec 	OSXPos 						; cursor left
+.fce4					_OSCLExit:
+.fce4	60		rts				rts
+.fce5					_OSCursorRight:
+.fce5	ad 00 02	lda $0200			lda 	OSXPos 						; reached right side ?
+.fce8	1a		inc a				inc 	a
+.fce9	cd 02 02	cmp $0202			cmp 	OSXSize
+.fcec	f0 1f		beq $fd0d			beq 	_OSCRExit 					; yes, exit.
+.fcee					_OSCursorAdvance:
+.fcee	ee 00 02	inc $0200			inc 	OSXPos 						; advance cursor and position.
+.fcf1	ad 00 02	lda $0200			lda 	OSXPos 						; reached RHS
+.fcf4	cd 02 02	cmp $0202			cmp 	OSXSize
+.fcf7	90 14		bcc $fd0d			bcc 	_OSCRExit 					; if so exit.
+.fcf9					_OSNewLine:
+.fcf9	9c 00 02	stz $0200			stz 	OSXPos 						; start next line.
+.fcfc					_OSCursorDown:
+.fcfc	ee 01 02	inc $0201			inc 	OSYPos
+.fcff	ad 01 02	lda $0201			lda 	OSYPos 						; reached bottom
+.fd02	cd 03 02	cmp $0203			cmp 	OSYSize
+.fd05	90 06		bcc $fd0d			bcc 	_OSCRExit
+.fd07	ce 01 02	dec $0201			dec 	OSYPos 						; back to bottom line.
+.fd0a	20 df f8	jsr $f8df			jsr 	OSScrollUp 					; scroll whole screen up.
+.fd0d					_OSCRExit:
+.fd0d	60		rts				rts
+.fd0e					_OSCursorUp:
+.fd0e	ce 01 02	dec $0201			dec 	OSYPos 						; up
+.fd11	10 fa		bpl $fd0d			bpl 	_OSCRExit 					; still on screen
+.fd13	ee 01 02	inc $0201			inc 	OSYPos 						; fix up
+.fd16	20 0c f9	jsr $f90c			jsr 	OSScrollDown 				; scroll down.
+.fd19	60		rts				rts
+.fd1a					_OSWHTab:
+.fd1a	20 ee fc	jsr $fcee			jsr 	_OSCursorAdvance
+.fd1d	ad 00 02	lda $0200			lda 	OSXPos
+.fd20	29 07		and #$07			and 	#7
+.fd22	d0 f6		bne $fd1a			bne 	_OSWHTab
+.fd24	60		rts				rts
+.fd25					OSHomeCursor:
+.fd25	9c 00 02	stz $0200			stz 	OSXPos
+.fd28	9c 01 02	stz $0201			stz 	OSYPos
+.fd2b	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/screen/writestring.asm
 
-.fd29					OSWriteStringZ:
-.fd29	48		pha				pha
-.fd2a	da		phx				phx
-.fd2b	5a		phy				phy
-.fd2c	86 0a		stx $0a				stx		rTemp1
-.fd2e	84 0b		sty $0b				sty 	rTemp1+1
-.fd30	a2 ff		ldx #$ff			ldx 	#255
-.fd32	a0 ff		ldy #$ff			ldy 	#255
-.fd34	80 0c		bra $fd42			bra 	OSWSLoop
-.fd36					OSWriteString:
-.fd36	48		pha				pha
-.fd37	da		phx				phx
-.fd38	5a		phy				phy
-.fd39	86 0a		stx $0a				stx		rTemp1
-.fd3b	84 0b		sty $0b				sty 	rTemp1+1
-.fd3d	b2 0a		lda ($0a)			lda 	(rTemp1)
-.fd3f	aa		tax				tax
-.fd40	a0 00		ldy #$00			ldy 	#0
-.fd42					OSWSLoop:
-.fd42	e0 00		cpx #$00			cpx 	#0
-.fd44	f0 0b		beq $fd51			beq 	_OSWSExit
-.fd46	ca		dex				dex
-.fd47	c8		iny				iny
-.fd48	b1 0a		lda ($0a),y			lda 	(rTemp1),y
-.fd4a	f0 05		beq $fd51			beq 	_OSWSExit
-.fd4c	20 81 fc	jsr $fc81			jsr 	OSWriteScreen
-.fd4f	80 f1		bra $fd42			bra 	OSWSLoop
-.fd51					_OSWSExit:
-.fd51	7a		ply				ply
-.fd52	fa		plx				plx
-.fd53	68		pla				pla
-.fd54	60		rts				rts
+.fd2c					OSWriteStringZ:
+.fd2c	48		pha				pha
+.fd2d	da		phx				phx
+.fd2e	5a		phy				phy
+.fd2f	86 0a		stx $0a				stx		rTemp1
+.fd31	84 0b		sty $0b				sty 	rTemp1+1
+.fd33	a2 ff		ldx #$ff			ldx 	#255
+.fd35	a0 ff		ldy #$ff			ldy 	#255
+.fd37	80 0c		bra $fd45			bra 	OSWSLoop
+.fd39					OSWriteString:
+.fd39	48		pha				pha
+.fd3a	da		phx				phx
+.fd3b	5a		phy				phy
+.fd3c	86 0a		stx $0a				stx		rTemp1
+.fd3e	84 0b		sty $0b				sty 	rTemp1+1
+.fd40	b2 0a		lda ($0a)			lda 	(rTemp1)
+.fd42	aa		tax				tax
+.fd43	a0 00		ldy #$00			ldy 	#0
+.fd45					OSWSLoop:
+.fd45	e0 00		cpx #$00			cpx 	#0
+.fd47	f0 0b		beq $fd54			beq 	_OSWSExit
+.fd49	ca		dex				dex
+.fd4a	c8		iny				iny
+.fd4b	b1 0a		lda ($0a),y			lda 	(rTemp1),y
+.fd4d	f0 05		beq $fd54			beq 	_OSWSExit
+.fd4f	20 84 fc	jsr $fc84			jsr 	OSWriteScreen
+.fd52	80 f1		bra $fd45			bra 	OSWSLoop
+.fd54					_OSWSExit:
+.fd54	7a		ply				ply
+.fd55	fa		plx				plx
+.fd56	68		pla				pla
+.fd57	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/utility/setup.asm
 
-.fd55					OSInitialise:
-.fd55	a9 28		lda #$28			lda 	#40 						; 40 x 30 display
-.fd57	8d 02 02	sta $0202			sta 	OSXSize
-.fd5a	a9 1e		lda #$1e			lda 	#30
-.fd5c	8d 03 02	sta $0203			sta 	OSYSize
-.fd5f	20 48 f8	jsr $f848			jsr 	OSClearScreen 				; clear the display
-.fd62	20 d6 f8	jsr $f8d6			jsr 	OSKeyboardInitialise 		; reset the keyboard state.
-.fd65	60		rts				rts
-.fd66					OSGetScreenSize:
-.fd66	ae 02 02	ldx $0202			ldx 	OSXSize
-.fd69	ac 03 02	ldy $0203			ldy 	OSYSize
-.fd6c	60		rts				rts
+.fd58					OSInitialise:
+.fd58	a9 28		lda #$28			lda 	#40 						; 40 x 30 display
+.fd5a	8d 02 02	sta $0202			sta 	OSXSize
+.fd5d	a9 1e		lda #$1e			lda 	#30
+.fd5f	8d 03 02	sta $0203			sta 	OSYSize
+.fd62	20 48 f8	jsr $f848			jsr 	OSClearScreen 				; clear the display
+.fd65	20 d6 f8	jsr $f8d6			jsr 	OSKeyboardInitialise 		; reset the keyboard state.
+.fd68	60		rts				rts
+.fd69					OSGetScreenSize:
+.fd69	ae 02 02	ldx $0202			ldx 	OSXSize
+.fd6c	ac 03 02	ldy $0203			ldy 	OSYSize
+.fd6f	60		rts				rts
+.fd70					OSCheckBreak:
+.fd70	ad 37 02	lda $0237			lda 	OSEscapePressed
+.fd73	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Return to file: osrom.asm
 
-.fd6d					MainPrompt:
->fd6d	2a 2a 2a 20 4f 4c 49 4d				.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
->fd75	45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72 6f
->fd85	43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
->fd93	48 61 72 64 77 61 72 65				.text 	"Hardware:",13
->fd9b	3a 0d
->fd9d	20 20 20 20 54 73 76 65				.text	"    Tsvetan Usunov info@olimex.com",13
->fda5	74 61 6e 20 55 73 75 6e 6f 76 20 69 6e 66 6f 40
->fdb5	6f 6c 69 6d 65 78 2e 63 6f 6d 0d
->fdc0	53 6f 66 74 77 61 72 65				.text 	"Software:",13
->fdc8	3a 0d
->fdca	20 20 20 20 50 61 75 6c				.text 	"    Paul Robson paul@robsons.org.uk",13
->fdd2	20 52 6f 62 73 6f 6e 20 70 61 75 6c 40 72 6f 62
->fde2	73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->fdee	0d 00						.byte 	13,0
+.fd74					MainPrompt:
+>fd74	2a 2a 2a 20 4f 4c 49 4d				.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
+>fd7c	45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72 6f
+>fd8c	43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
+>fd9a	48 61 72 64 77 61 72 65				.text 	"Hardware:",13
+>fda2	3a 0d
+>fda4	20 20 20 20 54 73 76 65				.text	"    Tsvetan Usunov info@olimex.com",13
+>fdac	74 61 6e 20 55 73 75 6e 6f 76 20 69 6e 66 6f 40
+>fdbc	6f 6c 69 6d 65 78 2e 63 6f 6d 0d
+>fdc7	53 6f 66 74 77 61 72 65				.text 	"Software:",13
+>fdcf	3a 0d
+>fdd1	20 20 20 20 50 61 75 6c				.text 	"    Paul Robson paul@robsons.org.uk",13
+>fdd9	20 52 6f 62 73 6f 6e 20 70 61 75 6c 40 72 6f 62
+>fde9	73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>fdf5	0d 00						.byte 	13,0
 
 ;******  Processing file: src/generated/vectors.asmx
 
-.ffd9	4c 87 f9	jmp $f987		jmp		OSEditLine               ; Edit line, return completion in A, line in YX
-.ffdc	4c 84 f9	jmp $f984		jmp		OSEditNewLine            ; Edit line, start clear.
-.ffdf	4c 36 fd	jmp $fd36		jmp		OSWriteString            ; Write length prefixed string YX to screen
-.ffe2	4c 29 fd	jmp $fd29		jmp		OSWriteStringZ           ; Write ASCIIZ string YX to screen
-.ffe5	4c 66 fd	jmp $fd66		jmp		OSGetScreenSize          ; Get size of screen to XY
+.ffd6	4c 87 f9	jmp $f987		jmp		OSEditLine               ; Edit line, return completion in A, line in YX
+.ffd9	4c 84 f9	jmp $f984		jmp		OSEditNewLine            ; Edit line, start clear.
+.ffdc	4c 39 fd	jmp $fd39		jmp		OSWriteString            ; Write length prefixed string YX to screen
+.ffdf	4c 2c fd	jmp $fd2c		jmp		OSWriteStringZ           ; Write ASCIIZ string YX to screen
+.ffe2	4c 69 fd	jmp $fd69		jmp		OSGetScreenSize          ; Get size of screen to XY
+.ffe5	4c 70 fd	jmp $fd70		jmp		OSCheckBreak             ; NZ if ESC pressed.
 .ffe8	4c 2f fc	jmp $fc2f		jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
 .ffeb	4c 41 fc	jmp $fc41		jmp		OSReadKeystroke          ; Read A from keyboard, showing cursor while waiting.
 .ffee	4c 39 fc	jmp $fc39		jmp		OSReadKeyboard           ; Read A from keyboard (device 1), CC = success
-.fff1	4c 81 fc	jmp $fc81		jmp		OSWriteScreen            ; Write A to screen (device 0), CC = success
+.fff1	4c 84 fc	jmp $fc84		jmp		OSWriteScreen            ; Write A to screen (device 0), CC = success
 .fff4	4c 62 fc	jmp $fc62		jmp		OSReadDevice             ; Read device X to A, CC = success
-.fff7	4c 89 fc	jmp $fc89		jmp		OSWriteDevice            ; Write A to device X, CC = success
+.fff7	4c 8c fc	jmp $fc8c		jmp		OSWriteDevice            ; Write A to device X, CC = success
 
 ;******  Return to file: osrom.asm
 

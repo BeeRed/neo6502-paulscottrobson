@@ -74,6 +74,7 @@ _OSWaitKey:
 ; ************************************************************************************************
 
 OSReadDevice:
+		jsr 	OSKeyboardDataProcess 		; this scans the keyboard.
 		jsr 	OSIsKeyAvailable 			; key available ?
 		bcs 	_OSRDExit
 		lda 	OSKeyboardQueue 			; push char on stack
