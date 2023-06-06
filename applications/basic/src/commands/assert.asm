@@ -32,7 +32,7 @@ _CAFail:
 ;:[ASSERT(expr)]\
 ; Assert asserts a contract and is useful for parameter validation and testing. It evaluates the
 ; provided expression, and providing it is non zero. If it is zero, an error occurs.\
-; An example use might be assert {name$<>""} to check that a name has been provided to a routine.
+; An example use might be {assert name$<>""} to check that a name has been provided to a routine.
 
 ; ************************************************************************************************
 ;

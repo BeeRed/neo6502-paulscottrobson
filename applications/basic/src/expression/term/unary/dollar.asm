@@ -24,7 +24,7 @@ EXPUnaryNull: ;; [$]
 
 		.send code
 
-;: $\
+;: [$]
 ; $ is used as a hexadecimal marker, so if you have $7FFE in your code it is the same as the
 ; constant 32766. This can improve readability.\
 ; { print $2a } prints 42

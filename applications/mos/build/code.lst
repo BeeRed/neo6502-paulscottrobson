@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Tue Jun  6 04:24:42 2023
+; Tue Jun  6 08:13:36 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -1086,16 +1086,12 @@
 >fd9d	20 20 20 20 54 73 76 65				.text	"    Tsvetan Usunov info@olimex.com",13
 >fda5	74 61 6e 20 55 73 75 6e 6f 76 20 69 6e 66 6f 40
 >fdb5	6f 6c 69 6d 65 78 2e 63 6f 6d 0d
->fdc0	20 09 20 28 61 6e 64 29				.text 	" 	 (and)",13
->fdc8	0d
->fdc9	53 6f 66 74 77 61 72 65				.text 	"Software:",13
->fdd1	3a 0d
->fdd3	20 20 20 20 50 61 75 6c				.text 	"    Paul Robson paul@robsons.org.uk",13
->fddb	20 52 6f 62 73 6f 6e 20 70 61 75 6c 40 72 6f 62
->fdeb	73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->fdf7	20 09 20 28 61 6e 64 29				.text 	" 	 (and)",13
->fdff	0d
->fe00	0d 00						.byte 	13,0
+>fdc0	53 6f 66 74 77 61 72 65				.text 	"Software:",13
+>fdc8	3a 0d
+>fdca	20 20 20 20 50 61 75 6c				.text 	"    Paul Robson paul@robsons.org.uk",13
+>fdd2	20 52 6f 62 73 6f 6e 20 70 61 75 6c 40 72 6f 62
+>fde2	73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>fdee	0d 00						.byte 	13,0
 
 ;******  Processing file: src/generated/vectors.asmx
 

@@ -1,8 +1,8 @@
 TODO:
 	Break Check
 	INPUT
-	LIST
 	INKEY$
+	[Showable]
 	EVENT/TIME (when timer available)
 	LOAD/SAVE
 	MOS Redirection.

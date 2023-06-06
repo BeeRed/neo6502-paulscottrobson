@@ -39,7 +39,7 @@ VectorTable:
 	.word	Command_STOP             ; $a2 STOP
 	.word	Command_END              ; $a3 END
 	.word	Command_ASSERT           ; $a4 ASSERT
-	.word	NotImplemented           ; $a5 LIST
+	.word	Command_LIST             ; $a5 LIST
 	.word	NotImplemented           ; $a6 SAVE
 	.word	NotImplemented           ; $a7 LOAD
 	.word	Command_Poke             ; $a8 POKE
