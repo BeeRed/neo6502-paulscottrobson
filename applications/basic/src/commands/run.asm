@@ -72,6 +72,14 @@ RUNNewLine:
 
 RUNNewCommand:		
 		stz 	stringInitialised 			; reset string system.
+		dec 	checkCounter
+		bne 	_RNCNoCheck
+		phy 								; keyboard check.
+		jsr 	OSKeyboardDataProcess
+		ply
+		jsr 	OSCheckBreak 				; check escape.
+		bne 	_RUNBreak
+_RNCNoCheck:		
 		lda 	(codePtr),y 				; get next token
 		bpl		_RUNNotToken 				; probably an identifier
 		iny 								; consume token
@@ -93,6 +101,8 @@ _RUNDispatchMain:
 	
 _RUNSyntax:
 		.error_syntax
+_RUNBreak:
+		.error_break
 
 		; ----------------------------------------------------------------------------------------
 		;
@@ -129,7 +139,11 @@ Command_END: ;; [end]
 
 		.send code
 
-				
+		.section storage
+checkCounter:
+		.fill 	1
+		.send storage
+
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

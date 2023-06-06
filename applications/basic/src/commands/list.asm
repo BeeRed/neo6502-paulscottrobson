@@ -70,7 +70,7 @@ _CLLoop:
 		beq 	_CLExit
 		jsr 	OSKeyboardDataProcess
 		jsr 	OSCheckBreak 				; check escape.
-		bne 	_CLExit
+		bne 	_CLBreak
 		ldx 	#CLFrom-CLFrom 				; compare line number vs from
 		jsr 	_CLCompareLine
 		cmp 	#255 						; < from then skip
@@ -111,7 +111,9 @@ _CLNoCarry:
 		bra 	_CLLoop		
 _CLExit:
 		jmp 	WarmStart		
-
+_CLBreak:
+		.error_break
+		
 _CLCompareLine:
 		ldy 	#1
 		sec

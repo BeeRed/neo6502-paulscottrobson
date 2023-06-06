@@ -62,4 +62,7 @@ ErrorV_dupproc:
 ErrorV_unknown:
 	jsr	ErrorHandler
 	.text	17,"Unknown Procedure",0
+ErrorV_break:
+	jsr	ErrorHandler
+	.text	5,"Break",0
 	.send code
