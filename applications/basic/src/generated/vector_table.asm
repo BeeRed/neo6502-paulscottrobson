@@ -22,7 +22,7 @@ VectorTable:
 	.word	NoExec03                 ; $91 STEP
 	.word	CommandLET               ; $92 LET
 	.word	Command_Print            ; $93 PRINT
-	.word	NotImplemented           ; $94 INPUT
+	.word	Command_Input            ; $94 INPUT
 	.word	Command_CALL             ; $95 CALL
 	.word	Command_Sys              ; $96 SYS
 	.word	Command_REM              ; $97 REM

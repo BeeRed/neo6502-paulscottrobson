@@ -1,0 +1,418 @@
+<html><head></head><body>
+<h1 style="background-color:cyan;"><center>$</center></h1>
+<div>$ is used as a hexadecimal marker, so if you have $7FFE in your code it is the same as the constant 32766. This can improve readability.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print $2a</b></i></center
+<br />
+<div> prints 42</div>
+<h1 style="background-color:cyan;"><center>*</center></h1>
+<div>Binary operator, multiplies two numbers</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print 3*4</b></i></center
+<br />
+<div> will display 12</div>
+<h1 style="background-color:cyan;"><center>+</center></h1>
+<div>Binary operator, adds two numbers</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print 3+4</b></i></center
+<br />
+<div> will display 7</div>
+<h1 style="background-color:cyan;"><center>-</center></h1>
+<div>Binary operator, subtracts two numbers</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print 3-4</b></i></center
+<br />
+<div> will display -1</div>
+<h1 style="background-color:cyan;"><center>/</center></h1>
+<div>Binary operator, divides two numbers and returns a floating point result.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print 11 / 4</b></i></center
+<br />
+<div> will display 2.75</div>
+<h1 style="background-color:cyan;"><center><</center></h1>
+<div>Compares two strings or numbers. Returns -1 if the first is less than the second, 0 otherwise.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>if a < 1 then print "a is less than 1"</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center><<</center></h1>
+<div>A binary operator, shifts the left side left by the value in the right side. This is the same as multiplying by a power of 2 but it's much quicker</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print 16 << 3</b></i></center
+<br />
+<div> would print 128</div>
+<h1 style="background-color:cyan;"><center><=</center></h1>
+<div>Compares two strings or numbers. Returns -1 if the first is less than or equal to the second, 0 otherwise.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>if a <= 1 then print "a is less than or equal to 1"</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center><></center></h1>
+<div>Compares two strings or numbers. Returns -1 if not equal, 0 if equal</div>
+<br />
+<div></div>
+<br />
+<center><i><b>if a <> 1 then print "a is not equal to 1"</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>=</center></h1>
+<div>Compares two strings or numbers. Returns -1 if equal, 0 if not equal</div>
+<br />
+<div></div>
+<br />
+<center><i><b></b></i></center
+<br />
+<div> if a = 1 then print "a is 1" }</div>
+<h1 style="background-color:cyan;"><center>></center></h1>
+<div>Compares two strings or numbers. Returns -1 if the first is greater than the second, 0 otherwise.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>if a > 1 then print "a is greater than 1"</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>>=</center></h1>
+<div>Compares two strings or numbers. Returns -1 if the first is greater than or equal to the second, 0 otherwise.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>if a >= 1 then print "a is greater than or equal to 1"</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>>></center></h1>
+<div>A binary operator, shifts the left side rightt by the value in the right side. This is the same as divding by a power of 2 but it's much quicker</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print 16 >> 3</b></i></center
+<br />
+<div> would print 2</div>
+<h1 style="background-color:cyan;"><center>abs(n)</center></h1>
+<div>Returns the absolute value of the parameter</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print abs(-4) , abs(5)</b></i></center
+<br />
+<div> prints 4 5</div>
+<h1 style="background-color:cyan;"><center>and</center></h1>
+<div>Bitwise and of two numbers, which must be integers.</div>
+<h1 style="background-color:cyan;"><center>asc(string)</center></h1>
+<div>Returns the ASCII code of the first character of the string or zero if empty.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print asc("!")</b></i></center
+<br />
+<div> prints 33</div>
+<h1 style="background-color:cyan;"><center>assert(expr)</center></h1>
+<div>Assert asserts a contract and is useful for parameter validation and testing. It evaluates the provided expression, and providing it is non zero. If it is zero, an error occurs.</div>
+<br />
+<div>An example use might be </div>
+<br />
+<center><i><b>assert name$<>""</b></i></center
+<br />
+<div> to check that a name has been provided to a routine.</div>
+<h1 style="background-color:cyan;"><center>call</center></h1>
+<div>Call a named procedure </div>
+<br />
+<center><i><b>call draw.everything()</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>chr$(n)</center></h1>
+<div>Returns a one character string containing the character whose ASCII code is n</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print chr$(42)</b></i></center
+<br />
+<div> prints *</div>
+<h1 style="background-color:cyan;"><center>clr</center></h1>
+<div>Clear effectively resets the BASIC interpreter without actually restarting the program. It erases all variables and arrays, resets the stack and memory allocation, and checks for callable procedures. It should not normally be used as the RUN command does this as well.</div>
+<h1 style="background-color:cyan;"><center>dec(string)</center></h1>
+<div>Converts the string to an integer, assuming hexadecimal format</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print dec("7ffe")</b></i></center
+<br />
+<div> prints 32766</div>
+<h1 style="background-color:cyan;"><center>deek(n)</center></h1>
+<div>Returns the word at memory location n</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print deek(32707)</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>dim</center></h1>
+<div>Dimensions an array. Arrays can have 1 or 2 dimensions. Multiply arrays can be declared in the same statement. Array Identifiers and procedures cannot have the same name (and if you think about it it's really not good practice to do so.) </div>
+<br />
+<div></div>
+<br />
+<center><i><b>dim name$(10),age(10): dim grid(8,8)</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>div</center></h1>
+<div>Binary operator, divides two numbers and returns an integer result. This is useful because BASIC is faster with integers.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print 11 div 4</b></i></center
+<br />
+<div> will display 2</div>
+<h1 style="background-color:cyan;"><center>do .. loop .. exit</center></h1>
+<div>Repeats a block of code until you finish the loop by using the EXIT command </div>
+<br />
+<center><i><b>c = 0: do: c = c + 1:if c = 10:exit:endif:print c:loop</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>doke a,n</center></h1>
+<div>Writes the word a at address n </div>
+<br />
+<center><i><b>doke $0FF0,32766</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>end</center></h1>
+<div>Ends the current program and returns to the main prompt.</div>
+<h1 style="background-color:cyan;"><center>for .. next</center></h1>
+<div>Repeats a block of code a given number of times. The index variable (I in the examples) starts at the first value and counts towards the second. The step is 1 by default, but can be any number. </div>
+<br />
+<center><i><b>for i = 1 to 10:print i:next</b></i></center
+<br />
+<div> </div>
+<br />
+<center><i><b>for i = 1 to 20 step 2:print i:next</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>frac(n)</center></h1>
+<div>Returns the fractional part of the number, e.g. without the integer part.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print frac(-4.3) , frac(5.6)</b></i></center
+<br />
+<div> prints 0.3 0.6</div>
+<h1 style="background-color:cyan;"><center>hex$(n)</center></h1>
+<div>Converts the integer to a hexadecimal string equivalent</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print hex$(154)</b></i></center
+<br />
+<div> prints 9A</div>
+<h1 style="background-color:cyan;"><center>inkey$()</center></h1>
+<div>Returns either an empty string if there is no keypress available, or a single character which is the next key in the keyboard queue. </div>
+<br />
+<center><i><b>print asc(inkey$())</b></i></center
+<br />
+<div> prints 0 (or the ASCII code of the key)</div>
+<h1 style="background-color:cyan;"><center>input</center></h1>
+<div>Inputs values into variables. The syntax is the same as print, so semicolons, colons and quoted text works as normal. </div>
+<br />
+<center><i><b>INPUT "Enter your name ";a$</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>int(n)</center></h1>
+<div>Returns the integer part of the number, e.g. without the fractional part.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print int(-4.327) , int(5.61)</b></i></center
+<br />
+<div> prints -4 5</div>
+<h1 style="background-color:cyan;"><center>left$(string,count)</center></h1>
+<div>Returns the leftmost 'count' characters of a string.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print left$("dennis",3)</b></i></center
+<br />
+<div> prints den</div>
+<h1 style="background-color:cyan;"><center>len(string)</center></h1>
+<div>Returns the length of the string</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print len("Hello")</b></i></center
+<br />
+<div> prints 5</div>
+<h1 style="background-color:cyan;"><center>let</center></h1>
+<div>Assignment statement - sets a variable to a value. The LET is optional.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>let count = 42 : name$ = "Agragjag"</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>list start,end</center></h1>
+<div>Program listing. Start and end are optional.</div>
+<h1 style="background-color:cyan;"><center>mid$(string,start<,count>)</center></h1>
+<div>Returns a substring of a string. start is the start position, which is indexed from 1. The count parameter, which is optional is the number of characters to extract.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print mid$("dennis",3)</b></i></center
+<br />
+<div> prints nnis</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print mid$("dennis",4,2)</b></i></center
+<br />
+<div> prints ni</div>
+<h1 style="background-color:cyan;"><center>mod</center></h1>
+<div>Binary operator, returns the remainder of the integer division of two numbers.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print 11 mod 4</b></i></center
+<br />
+<div> will display 3</div>
+<h1 style="background-color:cyan;"><center>new</center></h1>
+<div>Erase current program and variables and then return to command line.</div>
+<h1 style="background-color:cyan;"><center>or</center></h1>
+<div>Bitwise or of two numbers, which must be integers.</div>
+<h1 style="background-color:cyan;"><center>peek(n)</center></h1>
+<div>Returns the byte at memory location n</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print peek(32707)</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>poke a,n</center></h1>
+<div>Writes the byte a at address n </div>
+<br />
+<center><i><b>poke $0FF4,42</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>print</center></h1>
+<div>Prints the following items on the display, can be a mixture of strings and numbers. A semicolon can be used to seperate elements, and a comma to move to the next tab position. If the last character is not a semicolon or comma, a new line is printed after this.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>PRINT "Hello";name$,"tabbed" for example.</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>proc <name> ... endproc</center></h1>
+<div>Defines a procedure. A procedure definition must be the first thing on the line. </div>
+<br />
+<center><i><b>proc bump.me:a = a+1:endproc</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>rand(number)</center></h1>
+<div>Returns a random integer between 0 and number-1. </div>
+<br />
+<div></div>
+<br />
+<center><i><b>print rand(4)</b></i></center
+<br />
+<div> prints one of 0,1,2 or 3.</div>
+<h1 style="background-color:cyan;"><center>rem</center></h1>
+<div>REM inserts comments in code. It is slightly different from most basics in that it requires the text of the REM statement to be in quotes, though later tokenisers will do this automatically</div>
+<br />
+<div>It is purely informative ; there are two forms, </div>
+<br />
+<center><i><b>REM</b></i></center
+<br />
+<div> without a comment and </div>
+<br />
+<center><i><b>REM "<description>"</b></i></center
+<br />
+<div> with a comment.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>REM "Calculate the players initial positions"</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>repeat .. until</center></h1>
+<div>Repeats a block of code until a condition is true. </div>
+<br />
+<center><i><b>c = 5:repeat:c = c-1:print c:until c = 0</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>right$(string,count)</center></h1>
+<div>Returns the rightmost 'count' characters of a string.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print right$("dennis",3)</b></i></center
+<br />
+<div> prints nis</div>
+<h1 style="background-color:cyan;"><center>rnd(1)</center></h1>
+<div>Returns a random number between 0 and 1. Always use the parameter 1 at present.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print rnd(1)</b></i></center
+<br />
+<div> prints , say 0.6307</div>
+<h1 style="background-color:cyan;"><center>run</center></h1>
+<div>Runs the current program, clearing all variables and arrays first.</div>
+<h1 style="background-color:cyan;"><center>sgn(n)</center></h1>
+<div>Returns the sign of the number n ; 0 if zero, -1 if negative, 1 if positive and not zero</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print sgn(-13)</b></i></center
+<br />
+<div> prints -1</div>
+<h1 style="background-color:cyan;"><center>sqr(n)</center></h1>
+<div>Returns the square root of the given number </div>
+<br />
+<div></div>
+<br />
+<center><i><b>print sqr(144)</b></i></center
+<br />
+<div> prints 12.0</div>
+<h1 style="background-color:cyan;"><center>stop</center></h1>
+<div>Stop the current program running and display an error message.</div>
+<h1 style="background-color:cyan;"><center>str$(n)</center></h1>
+<div>Converts the number to a string equivalent</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print str$(154.9)</b></i></center
+<br />
+<div> prints 154.9</div>
+<h1 style="background-color:cyan;"><center>sys a</center></h1>
+<div>Call machine code routine at a ; loads the A X and Y variables into the same named 6502 registers </div>
+<br />
+<center><i><b>sys $C008</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>val(string)</center></h1>
+<div>Converts string to a number. Errors if not possible.</div>
+<br />
+<div></div>
+<br />
+<center><i><b>print val("146")</b></i></center
+<br />
+<div> prints 146</div>
+<h1 style="background-color:cyan;"><center>while .. wend</center></h1>
+<div>Repeats a block of code while a condition is true. The main difference between WHILE and REPEAT is that WHILE may never be executed, if the test is initially false. </div>
+<br />
+<center><i><b>x = 0:while x < 10:print x:x = x+1:wend</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>xor</center></h1>
+<div>Bitwise xor of two numbers, which must be integers.</div>
+</body></html>

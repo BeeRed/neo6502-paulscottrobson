@@ -41,7 +41,8 @@ prelim:
 	$(PYTHON) $(SCRIPTDIR)makebuild.py >include.files
 
 doc:
-	python scripts$(S)makedoc.py > $(BINDIR)..$(S)documents$(S)basic.html
+	python scripts$(S)makedoc.py > $(BINDIR)basic.html
+	$(CCOPY) $(BINDIR)basic.html documents
 
 run: emulator assemble test
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)

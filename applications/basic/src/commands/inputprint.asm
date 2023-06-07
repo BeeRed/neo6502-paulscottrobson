@@ -14,16 +14,28 @@
 
 ; ************************************************************************************************
 ;
+;									INPUT statement
+;
+; ************************************************************************************************
+
+Command_Input: ;; [input]
+		lda 	#$FF
+		sta 	InputFlag
+		bra 	Command_IP_Main
+
+; ************************************************************************************************
+;
 ;									PRINT statement
 ;
 ; ************************************************************************************************
 
 Command_Print:	;; [print]
+		stz 	InputFlag
 		;
 Command_IP_Main:		
 		clc 								; carry being clear means last print wasn't comma/semicolon
 		;
-		;		Print Loop
+		;		Input/Print Loop
 		;
 _CPLoop:
 		php 								; save last action flag
@@ -91,6 +103,12 @@ _CPExit:
 _CPExit2:		
 		rts
 
+; ************************************************************************************************
+;
+;							Print A characters from YX on output device
+;
+; ************************************************************************************************
+
 CPPrintAYX:
 		stx 	zTemp0
 		sty 	zTemp0+1
@@ -106,15 +124,33 @@ _CPPrintAYXLoop:
 _CPPrintExit:	
 		rts		
 
+; ************************************************************************************************
+;
+;								Input/Print vectors (potentially !)
+;
+; ************************************************************************************************
+
+CPInputA:
+		jmp 	OSEditNewLine
 CPPrintA:
 		jmp 	OSWriteScreen
 		.send code
+
+;:[INPUT]
+; Inputs values into variables. The syntax is the same as print, so semicolons, colons and quoted
+; text works as normal.
+; { INPUT "Enter your name ";a$ }
 
 ;:[PRINT]\
 ; Prints the following items on the display, can be a mixture of strings and numbers. A semicolon
 ; can be used to seperate elements, and a comma to move to the next tab position. If the last 
 ; character is not a semicolon or comma, a new line is printed after this.\
 ; { PRINT "Hello";name$,"tabbed" for example.}
+
+		.section storage
+InputFlag:
+		.fill 	1
+		.send storage
 
 ; ************************************************************************************************
 ;
