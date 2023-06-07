@@ -55,7 +55,18 @@ _CPLoop:
 		cmp 	#PR_COMMA 					; comma
 		beq 	_CPTab
 		dey 								; undo the get.
+		;
+		;		check for INPUT state and identifier
+		;
+		bit 	InputFlag 					; check for Input
+		bpl	 	_CPNotInput
+		and 	#$C0 						; check 40-7F e.g. an identifier.
+		cmp 	#$40
+		bne 	_CPNotInput 				
+		jsr 	_CPInputCode 				; input code
+		bra 	Command_IP_Main 			; and go round again.
 
+_CPNotInput:		
 		jsr 	EXPEvaluateExpression 		; evaluate expression.
 		bit 	IFR0+IExp 					; is it a number ?
 		bpl 	_CPNumber
@@ -101,6 +112,50 @@ _CPExit:
 		lda 	#13 						; print new line
 		jsr 	CPPrintA
 _CPExit2:		
+		rts
+		;
+		;		Input code
+		;
+_CPInputCode:
+		jsr 	EXPTermR0 					; get the term.
+		phy 								; save position
+		jsr 	CPInputA					; input a line to YX
+
+		lda 	IFR0+IExp 					; string ?
+		bmi 	_CPInputString
+		;
+		;		Number Input Code
+		;
+		lda 	IFR0+IM0 					; push target address on stack
+		pha
+		lda 	IFR0+IM1
+		pha
+		;
+		stx 	zTemp0 						; use VAL Code to convert.
+		sty 	zTemp0+1
+		jsr 	VALConversionZTemp0
+
+		pla 								; do the assign.
+		sta 	zTemp0+1
+		pla
+		sta 	zTemp0
+		jsr 	AssignNumber
+
+		ply
+		rts
+		;
+		;		String Input Code
+		;
+_CPInputString:
+		lda 	IFR0+IM0 					; copy target address to zTemp0
+		sta 	zTemp0
+		lda 	IFR0+IM1
+		sta 	zTemp0+1
+		;
+		stx 	IFR0+IM0 					; string YX in result register
+		sty 	IFR0+IM1
+		jsr 	AssignString 				; assign the string
+		ply 								; exit
 		rts
 
 ; ************************************************************************************************

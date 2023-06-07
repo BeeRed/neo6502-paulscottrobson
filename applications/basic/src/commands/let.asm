@@ -49,7 +49,7 @@ CommandLET:	;; [let]
 
 AssignData:		
 		lda 	IFR0+IExp 					; string assignment
-		bmi 	_CLStringAssign
+		bmi 	AssignString
 
 		; ---------------------------------------------------------------------------------------
 		;
@@ -57,8 +57,10 @@ AssignData:
 		;
 		; ---------------------------------------------------------------------------------------
 
+AssignNumber:
 		phy 						
 		ldy 	#3
+		lda 	IFR0+IExp 					
 		sta 	(zTemp0),y
 		dey
 		lda 	IFR0+IM2
@@ -77,7 +79,7 @@ AssignData:
 		;
 		; ---------------------------------------------------------------------------------------
 
-_CLStringAssign:
+AssignString:
 		phy
 		;
 		;		If space doesn't contain a concreted string, go to concrete and store.

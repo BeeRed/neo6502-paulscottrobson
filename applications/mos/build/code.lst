@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Tue Jun  6 18:31:11 2023
+; Wed Jun  7 02:15:28 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -12,20 +12,22 @@
 
 =$08					ZeroPageBase = $08 							; zero page usage
 =$200					StorageBase = $200 							; ROM usage
-.0008					rTemp0:
->0008							.fill 	2
-.000a					rTemp1:
->000a							.fill 	2
-.000c					iTemp0:
->000c							.fill 	2
-.000e					IFR0:
->000e							.fill 	4
-.0012					IFR1:
->0012							.fill 	4
-.0016					IFR2:
->0016							.fill 	4
-.001a					IFRTemp:
->001a							.fill 	4
+.0008					IFR0:
+>0008							.fill 	4
+.000c					IFR1:
+>000c							.fill 	4
+.0010					IFR2:
+>0010							.fill 	4
+.0014					IFRTemp:
+>0014							.fill 	4
+.0018					codePtr:
+>0018							.fill 	4
+.001c					rTemp0:
+>001c							.fill 	2
+.001e					rTemp1:
+>001e							.fill 	2
+.0020					iTemp0:
+>0020							.fill 	2
 .0200					OSXPos:
 >0200							.fill 	1
 .0201					OSYPos:
@@ -84,13 +86,13 @@
 
 .f80e					OSReadPhysical:
 .f80e	20 1c f8	jsr $f81c			jsr 	OSGetAddress
-.f811	b2 08		lda ($08)			lda 	(rTemp0)
+.f811	b2 1c		lda ($1c)			lda 	(rTemp0)
 .f813	60		rts				rts
 .f814					OSWritePhysical:
 .f814	48		pha				pha
 .f815	20 1c f8	jsr $f81c			jsr 	OSGetAddress
 .f818	68		pla				pla
-.f819	92 08		sta ($08)			sta 	(rTemp0)
+.f819	92 1c		sta ($1c)			sta 	(rTemp0)
 .f81b	60		rts				rts
 .f81c					OSGetAddress:
 .f81c	ac 01 02	ldy $0201	        ldy     OSYPos
@@ -98,29 +100,29 @@
 .f822					OSGetAddressXY:
 .f822	ad 02 02	lda $0202	        lda     OSXSize
 .f825	4a		lsr a		        lsr     a                           ; prime the carry bit for the loop
-.f826	85 08		sta $08		        sta     rTemp0
-.f828	84 09		sty $09		        sty     rTemp0+1
+.f826	85 1c		sta $1c		        sta     rTemp0
+.f828	84 1d		sty $1d		        sty     rTemp0+1
 .f82a	a9 00		lda #$00	        lda     #0
 .f82c	a0 08		ldy #$08	        ldy     #8
 .f82e					_IFMLoop:
 .f82e	90 03		bcc $f833	        bcc     _IFMNoAdd
 .f830	18		clc		        clc
-.f831	65 09		adc $09		        adc     rTemp0+1
+.f831	65 1d		adc $1d		        adc     rTemp0+1
 .f833					_IFMNoAdd:
 .f833	6a		ror a		        ror     a
-.f834	66 08		ror $08		        ror     rTemp0                    ; pull another bit out for the next iteration
+.f834	66 1c		ror $1c		        ror     rTemp0                    ; pull another bit out for the next iteration
 .f836	88		dey		        dey
 .f837	d0 f5		bne $f82e	        bne     _IFMLoop
 .f839	09 c0		ora #$c0	        ora 	#$C0
 .f83b	a8		tay		        tay
 .f83c	18		clc		        clc
 .f83d	8a		txa		        txa
-.f83e	65 08		adc $08		        adc 	rTemp0
-.f840	85 08		sta $08		        sta 	rTemp0
+.f83e	65 1c		adc $1c		        adc 	rTemp0
+.f840	85 1c		sta $1c		        sta 	rTemp0
 .f842	90 01		bcc $f845	        bcc 	_IFMNoCarry
 .f844	c8		iny		        iny
 .f845					_IFMNoCarry:
-.f845	84 09		sty $09				sty 	rTemp0+1
+.f845	84 1d		sty $1d				sty 	rTemp0+1
 .f847	60		rts		        rts
 
 ;******  Return to file: include.files
@@ -130,17 +132,17 @@
 
 .f848					OSClearScreen:
 .f848	a9 c0		lda #$c0			lda 	#$C0 						; set screen pos.
-.f84a	85 09		sta $09				sta 	rTemp0+1
-.f84c	64 08		stz $08				stz 	rTemp0
+.f84a	85 1d		sta $1d				sta 	rTemp0+1
+.f84c	64 1c		stz $1c				stz 	rTemp0
 .f84e	ac 03 02	ldy $0203			ldy 	OSYSize 					; clear height * width bytes.
 .f851					_OSCSLoop1:
 .f851	ae 02 02	ldx $0202			ldx 	OSXSize
 .f854					_OSCSLoop2:
 .f854	a9 20		lda #$20			lda 	#' '
-.f856	92 08		sta ($08)			sta 	(rTemp0)
-.f858	e6 08		inc $08				inc 	rTemp0
+.f856	92 1c		sta ($1c)			sta 	(rTemp0)
+.f858	e6 1c		inc $1c				inc 	rTemp0
 .f85a	d0 02		bne $f85e			bne 	_OSCSNoCarry
-.f85c	e6 09		inc $09				inc 	rTemp0+1
+.f85c	e6 1d		inc $1d				inc 	rTemp0+1
 .f85e					_OSCSNoCarry:
 .f85e	ca		dex				dex
 .f85f	d0 f3		bne $f854			bne 	_OSCSLoop2
@@ -236,8 +238,8 @@
 
 .f8e7					OSScrollUp:
 .f8e7	a9 c0		lda #$c0			lda 	#$C0
-.f8e9	64 08		stz $08				stz 	rTemp0
-.f8eb	85 09		sta $09				sta 	rTemp0+1
+.f8e9	64 1c		stz $1c				stz 	rTemp0
+.f8eb	85 1d		sta $1d				sta 	rTemp0+1
 .f8ed	ac 03 02	ldy $0203			ldy 	OSYSize
 .f8f0	88		dey				dey
 .f8f1					_OSSULoop1:
@@ -245,11 +247,11 @@
 .f8f4	5a		phy				phy
 .f8f5	ac 02 02	ldy $0202			ldy 	OSXSize
 .f8f8					_OSSULoop2:
-.f8f8	b1 08		lda ($08),y			lda 	(rTemp0),y
-.f8fa	92 08		sta ($08)			sta 	(rTemp0)
-.f8fc	e6 08		inc $08				inc 	rTemp0
+.f8f8	b1 1c		lda ($1c),y			lda 	(rTemp0),y
+.f8fa	92 1c		sta ($1c)			sta 	(rTemp0)
+.f8fc	e6 1c		inc $1c				inc 	rTemp0
 .f8fe	d0 02		bne $f902			bne 	_OSSUCarry
-.f900	e6 09		inc $09				inc 	rTemp0+1
+.f900	e6 1d		inc $1d				inc 	rTemp0+1
 .f902					_OSSUCarry:
 .f902	ca		dex				dex
 .f903	d0 f3		bne $f8f8			bne 	_OSSULoop2
@@ -260,7 +262,7 @@
 .f90c					_OSSUFill:
 .f90c	a9 20		lda #$20			lda 	#' '
 .f90e	88		dey				dey
-.f90f	91 08		sta ($08),y			sta 	(rTemp0),y
+.f90f	91 1c		sta ($1c),y			sta 	(rTemp0),y
 .f911	d0 f9		bne $f90c			bne 	_OSSUFill
 .f913	60		rts				rts
 .f914					OSScrollDown:
@@ -272,21 +274,21 @@
 .f91d	20 22 f8	jsr $f822			jsr 	OSGetAddressXY
 .f920	ac 02 02	ldy $0202			ldy 	OSXSize
 .f923					_OSSDLoop:
-.f923	b2 08		lda ($08)			lda 	(rTemp0)
-.f925	91 08		sta ($08),y			sta 	(rTemp0),y
-.f927	a5 08		lda $08				lda 	rTemp0
+.f923	b2 1c		lda ($1c)			lda 	(rTemp0)
+.f925	91 1c		sta ($1c),y			sta 	(rTemp0),y
+.f927	a5 1c		lda $1c				lda 	rTemp0
 .f929	d0 08		bne $f933			bne 	_OSSDNoBorrow
-.f92b	a5 09		lda $09				lda 	rTemp0+1
+.f92b	a5 1d		lda $1d				lda 	rTemp0+1
 .f92d	c9 c0		cmp #$c0			cmp 	#$C0
 .f92f	f0 06		beq $f937			beq 	_OSSDExit
-.f931	c6 09		dec $09				dec 	rTemp0+1
+.f931	c6 1d		dec $1d				dec 	rTemp0+1
 .f933					_OSSDNoBorrow:
-.f933	c6 08		dec $08				dec 	rTemp0
+.f933	c6 1c		dec $1c				dec 	rTemp0
 .f935	80 ec		bra $f923			bra 	_OSSDLoop
 .f937					_OSSDExit:
 .f937	a9 20		lda #$20			lda		#' '
 .f939	88		dey				dey
-.f93a	91 08		sta ($08),y			sta 	(rTemp0),y
+.f93a	91 1c		sta ($1c),y			sta 	(rTemp0),y
 .f93c	d0 f9		bne $f937			bne 	_OSSDExit
 .f93e	60		rts				rts
 
@@ -319,19 +321,19 @@
 .f966	aa		tax				tax
 .f967	80 1e		bra $f987			bra 	_OSTTAExit
 .f969					_OSTTANotAlpha:
-.f969	86 08		stx $08				stx 	rTemp0 						; save ASCII code.
+.f969	86 1c		stx $1c				stx 	rTemp0 						; save ASCII code.
 .f96b	a0 00		ldy #$00			ldy 	#0 							; check the shift table
 .f96d					_OSTTACheckShiftTable:
 .f96d	b9 13 fc	lda $fc13,y			lda 	OSShiftFixTable+1,y 		; tax = shifted character
 .f970	aa		tax				tax
 .f971	b9 12 fc	lda $fc12,y			lda 	OSShiftFixTable,y 			; check unshifted match
-.f974	c5 08		cmp $08				cmp 	rTemp0
+.f974	c5 1c		cmp $1c				cmp 	rTemp0
 .f976	f0 0f		beq $f987			beq 	_OSTTAExit
 .f978	c8		iny				iny 								; next pair
 .f979	c8		iny				iny
 .f97a	b9 12 fc	lda $fc12,y			lda 	OSShiftFixTable,y 			; until all checked
 .f97d	10 ee		bpl $f96d			bpl 	_OSTTACheckShiftTable
-.f97f	a6 08		ldx $08				ldx 	rTemp0 						; not shiftable.
+.f97f	a6 1c		ldx $1c				ldx 	rTemp0 						; not shiftable.
 .f981	80 04		bra $f987			bra 	_OSTTAExit
 .f983					_OSTTAControl:
 .f983	8a		txa				txa
@@ -1031,8 +1033,8 @@
 .fd34	48		pha				pha
 .fd35	da		phx				phx
 .fd36	5a		phy				phy
-.fd37	86 0a		stx $0a				stx		rTemp1
-.fd39	84 0b		sty $0b				sty 	rTemp1+1
+.fd37	86 1e		stx $1e				stx		rTemp1
+.fd39	84 1f		sty $1f				sty 	rTemp1+1
 .fd3b	a2 ff		ldx #$ff			ldx 	#255
 .fd3d	a0 ff		ldy #$ff			ldy 	#255
 .fd3f	80 0c		bra $fd4d			bra 	OSWSLoop
@@ -1040,9 +1042,9 @@
 .fd41	48		pha				pha
 .fd42	da		phx				phx
 .fd43	5a		phy				phy
-.fd44	86 0a		stx $0a				stx		rTemp1
-.fd46	84 0b		sty $0b				sty 	rTemp1+1
-.fd48	b2 0a		lda ($0a)			lda 	(rTemp1)
+.fd44	86 1e		stx $1e				stx		rTemp1
+.fd46	84 1f		sty $1f				sty 	rTemp1+1
+.fd48	b2 1e		lda ($1e)			lda 	(rTemp1)
 .fd4a	aa		tax				tax
 .fd4b	a0 00		ldy #$00			ldy 	#0
 .fd4d					OSWSLoop:
@@ -1050,7 +1052,7 @@
 .fd4f	f0 0b		beq $fd5c			beq 	_OSWSExit
 .fd51	ca		dex				dex
 .fd52	c8		iny				iny
-.fd53	b1 0a		lda ($0a),y			lda 	(rTemp1),y
+.fd53	b1 1e		lda ($1e),y			lda 	(rTemp1),y
 .fd55	f0 05		beq $fd5c			beq 	_OSWSExit
 .fd57	20 8c fc	jsr $fc8c			jsr 	OSWriteScreen
 .fd5a	80 f1		bra $fd4d			bra 	OSWSLoop

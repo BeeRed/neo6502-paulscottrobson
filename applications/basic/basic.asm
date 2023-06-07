@@ -16,6 +16,7 @@
 		.weak
 runEdit = 0 								; setting to 1 builds with the program/testing stuff in.
 autoRun = 0 								; setting to 1 autoruns program in memory space.
+STACK_PAGES = 2 							; number of stack pages.
 		.endweak
 
 		* = $1000

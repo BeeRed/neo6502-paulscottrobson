@@ -27,6 +27,7 @@ app:
 	cp -R ../emulator/src ../emulator/include ../emulator/framework ../emulator/6502 ../emulator/storage . -R
 	cp ../bin/osrom.bin storage
 	cp ../applications/basic/build/basic.bin storage
+	cp ../bin/basic.html .
 	emcc $(SOURCES) -D EMSCRIPTEN -D LINUX -D NO_DEBUGGER $(FLAGS)  -o neo.html
 
 server: app

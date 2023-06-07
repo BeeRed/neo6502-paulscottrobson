@@ -21,6 +21,10 @@
 EXPUnaryVal: ;; [val(]
 		jsr 	EXPEvalString 					; string to R0, zTemp0		
 		jsr 	ERRCheckRParen 					; )
+		jsr 	VALConversionZTemp0
+		rts
+		
+VALConversionZTemp0:		
 		phy
 		clc
 		lda		zTemp0 							; point XY to the text

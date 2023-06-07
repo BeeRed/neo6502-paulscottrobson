@@ -20,13 +20,6 @@ StorageBase = $200 							; ROM usage
 ; ************************************************************************************************
 
 		* = ZeroPageBase
-rTemp0: 									; temporary register for OS, zero page
-		.fill 	2
-rTemp1:
-		.fill 	2		
-iTemp0:										; temporary register for maths library, zero page.
-		.fill 	2
-
 IFR0:	 									; work registers
 		.fill 	4
 IFR1:	
@@ -35,6 +28,17 @@ IFR2:
 		.fill 	4
 IFRTemp:
 		.fill 	4
+codePtr: 									; it's more readable if these don't move.
+		.fill 	4
+
+rTemp0: 									; temporary register for OS, zero page
+		.fill 	2
+rTemp1:
+		.fill 	2		
+iTemp0:										; temporary register for maths library, zero page.
+		.fill 	2
+
+
 
 		.dsection zeropage
 
