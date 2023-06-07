@@ -39,11 +39,7 @@ NoInt:
 ; ************************************************************************************************
 
 MainPrompt:
-		.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
-		.text 	"Hardware:",13
-		.text	"    Tsvetan Usunov info@olimex.com",13
-		.text 	"Software:",13
-		.text 	"    Paul Robson paul@robsons.org.uk",13
+		.text 	"*** OLIMEX Neo6502 RetroComputer ***",13
 		.byte 	13,0
 
 ; ************************************************************************************************

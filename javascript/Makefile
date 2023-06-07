@@ -24,6 +24,8 @@ FLAGS = -DINCLUDE_OS_SUPPORT -I. -I framework -I./cpu -I./bin -I include -O2 -s 
 all: app
 
 app:
+	make -B -C ../applications/mos
+	make -B -C ../applications/basic
 	cp -R ../emulator/src ../emulator/include ../emulator/framework ../emulator/6502 ../emulator/storage . -R
 	cp ../bin/osrom.bin storage
 	cp ../applications/basic/build/basic.bin storage
