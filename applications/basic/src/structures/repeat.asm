@@ -38,6 +38,7 @@ Command_UNTIL:	;; [until]
 		lda 	#STK_REPEAT 				
 		jsr 	StackCheckFrame
 		jsr 	EXPEvalNumber 				; work out the test
+		ldx 	#IFR0
 		jsr 	IFloatCheckZero 			; check if zero
 		beq 	_CULoopBack 				; if so keep looping
 		jsr 	StackClose		 			; return

@@ -31,6 +31,7 @@ IfCommand: ;; [if]
 		; ------------------------------------------------------------------------
 
 		iny 								; consume THEN
+		ldx 	#IFR0
 		jsr 	IFloatCheckZero 			; is it zero
 		beq 	_IfFail 					; if fail, go to next line
 		rts 								; if THEN just continue

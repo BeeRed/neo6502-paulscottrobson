@@ -22,6 +22,7 @@ Command_WHILE:	;; [while]
 		phy 								; save position of the test
 		;
 		jsr 	EXPEvalNumber 				; work out the while test.
+		ldx 	#IFR0
 		jsr 	IFloatCheckZero 			; check if zero
 		beq 	_WHExitLoop 				; if so exit the loop, while has failed.
 		;
