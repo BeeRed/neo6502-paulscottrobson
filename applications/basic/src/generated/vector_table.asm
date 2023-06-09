@@ -46,7 +46,7 @@ VectorTable:
 	.word	Command_Doke             ; $a9 DOKE
 	.word	NotImplemented           ; $aa READ
 	.word	NotImplemented           ; $ab DATA
-	.word	NotImplemented           ; $ac RESTORE
+	.word	Command_RESTORE          ; $ac RESTORE
 	.word	NotImplemented           ; $ad 
 	.word	NotImplemented           ; $ae 
 	.word	NotImplemented           ; $af 

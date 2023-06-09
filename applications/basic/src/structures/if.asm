@@ -53,6 +53,17 @@ _IfStructured:
 _IfExit: 
 		rts
 
+;:[if (test) then (code)]
+; Executes the rest of the line if the test is true, otherwise goes to the next line.
+; Same as standard BASIC.
+; { if n % 2 = 0 then print n;" is even" }
+
+;:[if test :(code):else (code):endif]
+; An extended multi line nestable if .. then ... else ... endif structure. The else clause is
+; optional. An example is shown below ; this could be spread out over multiple lines. Note the
+; absence of THEN ; this is the syntactic difference between the two.
+; { if n % 2 = 0:print n;" is even":else:print n;"is odd":endif }
+
 ; ************************************************************************************************
 ;
 ;					ELSE code - should be found when running a successful IF clause

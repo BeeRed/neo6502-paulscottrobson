@@ -121,7 +121,7 @@
 <center><i><b>print asc("!")</b></i></center
 <br />
 <div> prints 33</div>
-<h1 style="background-color:cyan;"><center>assert(expr)</center></h1>
+<h1 style="background-color:cyan;"><center>assert expr</center></h1>
 <div>Assert asserts a contract and is useful for parameter validation and testing. It evaluates the provided expression, and providing it is non zero. If it is zero, an error occurs.</div>
 <br />
 <div>An example use might be </div>
@@ -130,7 +130,7 @@
 <br />
 <div> to check that a name has been provided to a routine.</div>
 <h1 style="background-color:cyan;"><center>call</center></h1>
-<div>Call a named procedure </div>
+<div>Call a named procedure. The brackets are required. </div>
 <br />
 <center><i><b>call draw.everything()</b></i></center
 <br />
@@ -217,6 +217,18 @@
 <center><i><b>print hex$(154)</b></i></center
 <br />
 <div> prints 9A</div>
+<h1 style="background-color:cyan;"><center>if (test) then (code)</center></h1>
+<div>Executes the rest of the line if the test is true, otherwise goes to the next line. Same as standard BASIC. </div>
+<br />
+<center><i><b>if n % 2 = 0 then print n;" is even"</b></i></center
+<br />
+<div></div>
+<h1 style="background-color:cyan;"><center>if test :(code):else (code):endif</center></h1>
+<div>An extended multi line nestable if .. then ... else ... endif structure. The else clause is optional. An example is shown below ; this could be spread out over multiple lines. Note the absence of THEN ; this is the syntactic difference between the two. </div>
+<br />
+<center><i><b>if n % 2 = 0:print n;" is even":else:print n;"is odd":endif</b></i></center
+<br />
+<div></div>
 <h1 style="background-color:cyan;"><center>inkey$()</center></h1>
 <div>Returns either an empty string if there is no keypress available, or a single character which is the next key in the keyboard queue. </div>
 <br />
@@ -311,10 +323,10 @@
 <center><i><b>PRINT "Hello";name$,"tabbed" for example.</b></i></center
 <br />
 <div></div>
-<h1 style="background-color:cyan;"><center>proc <name> ... endproc</center></h1>
+<h1 style="background-color:cyan;"><center>proc (name)() ... endproc</center></h1>
 <div>Defines a procedure. A procedure definition must be the first thing on the line. </div>
 <br />
-<center><i><b>proc bump.me:a = a+1:endproc</b></i></center
+<center><i><b>proc bump.me():a = a+1:endproc</b></i></center
 <br />
 <div></div>
 <h1 style="background-color:cyan;"><center>rand(number)</center></h1>
@@ -349,6 +361,8 @@
 <center><i><b>c = 5:repeat:c = c-1:print c:until c = 0</b></i></center
 <br />
 <div></div>
+<h1 style="background-color:cyan;"><center>restore</center></h1>
+<div>Reset the READ/DATA position to the start.</div>
 <h1 style="background-color:cyan;"><center>right$(string,count)</center></h1>
 <div>Returns the rightmost 'count' characters of a string.</div>
 <br />

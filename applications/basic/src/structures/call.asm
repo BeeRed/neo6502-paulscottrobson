@@ -59,7 +59,7 @@ _CCUnknown:
 		.error_unknown
 
 ;:[call]
-; Call a named procedure
+; Call a named procedure. The brackets are required.
 ; { call draw.everything() }
 
 ; ************************************************************************************************
@@ -75,9 +75,9 @@ Command_ENDPROC:	;; [endproc]
 		jsr 	StackClose		 			
 		rts
 
-;:[proc <name> ... endproc]
+;:[proc (name)() ... endproc]
 ; Defines a procedure. A procedure definition must be the first thing on the line.
-; { proc bump.me:a = a+1:endproc }
+; { proc bump.me():a = a+1:endproc }
 
 		.send code
 

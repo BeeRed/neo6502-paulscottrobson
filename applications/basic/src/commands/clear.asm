@@ -69,6 +69,10 @@ ClearCode:
 		;		Scan for procedures
 		;
 		jsr 	ScanProcedures
+		;
+		;		Reset READ/DATA
+		;
+		jsr 	Command_RESTORE
 		rts
 
 ; ************************************************************************************************
