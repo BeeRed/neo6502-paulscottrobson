@@ -38,6 +38,7 @@ emulator: prebuild $(APPNAME)
 clean:
 	$(CDEL) $(APPNAME) 
 	$(CDEL) src$(S)*.o 
+	$(CDEL) src$(S)core$(S)*.o 
 	$(CDEL) framework$(S)*.o
 
 $(APPNAME): $(SOURCES)
