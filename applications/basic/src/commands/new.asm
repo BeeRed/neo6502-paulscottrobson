@@ -20,7 +20,7 @@
 
 Command_NEW:	;; [new]
 		jsr 	PGMNewProgram
-		jsr 	Command_CLEAR
+		jsr 	ClearCode
 		jmp 	Command_END
 		.send code
 		

@@ -1,4 +1,12 @@
 TODO:
+	REM tokenise fix.
+	READ/DATA/RESTORE add
+	Some versioning system & appropriate notes.
+	Design FlashFS.
+	Code Reading.
+	Definitions in command line bug ?
+
+Outstanding (Implementation specific):
 	EVENT/TIME (when timer available)
 	LOAD/SAVE (when flash r/w available)
 

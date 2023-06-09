@@ -20,7 +20,7 @@
 
 Command_RUN:	;; [run]
 
-		jsr 	Command_CLEAR 				; clear everything out.
+		jsr 	ClearCode					; clear everything out.
 
 		lda 	PGMBaseHigh 				; back to the program start
 		sta 	codePtr+1

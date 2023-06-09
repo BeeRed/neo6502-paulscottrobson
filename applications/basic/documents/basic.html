@@ -143,8 +143,8 @@
 <center><i><b>print chr$(42)</b></i></center
 <br />
 <div> prints *</div>
-<h1 style="background-color:cyan;"><center>clr</center></h1>
-<div>Clear effectively resets the BASIC interpreter without actually restarting the program. It erases all variables and arrays, resets the stack and memory allocation, and checks for callable procedures. It should not normally be used as the RUN command does this as well.</div>
+<h1 style="background-color:cyan;"><center>clear <address></center></h1>
+<div>Clear effectively resets the BASIC interpreter without actually restarting the program. It erases all variables and arrays, resets the stack and memory allocation, and checks for callable procedures. It should not normally be used as the RUN command does this as well. CLEAR takes an optional parameter which sets the high memory address for BASIC to use, so CLEAR $7E00 will mean any memory above $7E00 will not be used ; the stack and string will be placed there.</div>
 <h1 style="background-color:cyan;"><center>dec(string)</center></h1>
 <div>Converts the string to an integer, assuming hexadecimal format</div>
 <br />

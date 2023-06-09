@@ -38,7 +38,6 @@ boot:
 
 		.if  	runEdit==1 					; run edit check code (checks line editing)
 		jmp 	TestCode
-		.include "src/program/testing/testing.asmx"
 		.endif
 
 		.if 	autoRun==1 					; run program in memory.
@@ -51,6 +50,11 @@ boot:
 
 		.include "include.files"
 		.include "build/libmathslib.asmlib"
+
+		.if runEdit == 1 					; include test data for line edit test.
+		* = BASICCODE + $3000
+		.include "src/program/testing/testing.asmx"
+		.endif
 
 		.send code
 

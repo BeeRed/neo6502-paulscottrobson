@@ -12,13 +12,14 @@
 
 		.section code
 
+		.include "testdat.incx"
+
 TestCode:
 		jsr 	PGMNewProgram
 		stz 	$FFFF
 		.include "testrun.incx"
 		jmp 	$FFFF
 
-		.include "testdat.incx"
 
 ; ************************************************************************************************
 ;

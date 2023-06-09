@@ -31,7 +31,7 @@ def checkList(d1,d2,p1,p2):
 
 vpy = [x for x in open("build/vpython.bin","rb").read(-1)]
 
-vas = [x for x in open("memory.dump","rb").read(-1)][0x6000:]
+vas = [x for x in open("memory.dump","rb").read(-1)][0x3400:]
 
 e = checkList(vpy,vas,0,0)
 
