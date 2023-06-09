@@ -1,10 +1,10 @@
 TODO:
-	READ/DATA/RESTORE add
-	Design FlashFS.
-	Code Reading.
+	Debug READ.
+	Design for "FlashFS".
+	Start Code Reading (on return from holiday)
 	Definitions in command line bug ?
 
 Outstanding (Implementation specific):
 	EVENT/TIME (when timer available)
 	LOAD/SAVE (when flash r/w available)
-
+	Graphics stuff ?

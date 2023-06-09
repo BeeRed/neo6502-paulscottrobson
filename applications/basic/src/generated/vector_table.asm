@@ -44,8 +44,8 @@ VectorTable:
 	.word	NotImplemented           ; $a7 LOAD
 	.word	Command_Poke             ; $a8 POKE
 	.word	Command_Doke             ; $a9 DOKE
-	.word	NotImplemented           ; $aa READ
-	.word	NotImplemented           ; $ab DATA
+	.word	Command_READ             ; $aa READ
+	.word	Command_DATA             ; $ab DATA
 	.word	Command_RESTORE          ; $ac RESTORE
 	.word	NotImplemented           ; $ad 
 	.word	NotImplemented           ; $ae 

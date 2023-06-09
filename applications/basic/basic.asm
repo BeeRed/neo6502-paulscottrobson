@@ -52,7 +52,7 @@ boot:
 		.include "build/libmathslib.asmlib"
 
 		.if runEdit == 1 					; include test data for line edit test.
-		* = BASICCODE + $3000
+		* = BASICCODE + $4000
 		.include "src/program/testing/testing.asmx"
 		.endif
 

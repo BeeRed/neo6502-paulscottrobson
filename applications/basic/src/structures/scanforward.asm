@@ -14,7 +14,7 @@
 
 ; ************************************************************************************************
 ;
-;				Scan forward looking for A or X, skipping complete structures
+;		Scan forward looking for A or X, skipping complete structures, A contains match
 ;
 ; ************************************************************************************************
 

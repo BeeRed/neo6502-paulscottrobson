@@ -3,7 +3,10 @@ Changes
 
 9th June 2022
 
-BASIC: 	Fixed WHILE bug reported by Tsetvan.
+BASIC: 	Fixed WHILE bug reported by Tsvetan.
 		Tokeniser now does REM for you (e.g. REM a comment will tokenise as REM "a comment")
 		CLEAR can take a parameter setting the highest memory value.
 		BASIC Code address dropped to $3400 and edtest made to work by pushing test code 4k up.
+		Implemented READ, RESTORE and DATA
+
+		

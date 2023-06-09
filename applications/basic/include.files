@@ -14,6 +14,7 @@
 	.include "src/commands/let.asm"
 	.include "src/commands/list.asm"
 	.include "src/commands/new.asm"
+	.include "src/commands/readdata.asm"
 	.include "src/commands/rem.asm"
 	.include "src/commands/restore.asm"
 	.include "src/commands/run.asm"

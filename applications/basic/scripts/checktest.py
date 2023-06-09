@@ -10,13 +10,14 @@
 # *******************************************************************************************
 
 import sys
+from showreg import *
 
 def checkList(d1,d2,p1,p2):
 	errors = 0
 	print("Scanning from ${0:04x} ${0:04x}".format(p1,p2))
 	eCount = 0
 	while d1[p1] != 0:
-		#print("{0:04x} {1:04x} {2} {3}".format(p1,p2,d1[p1],d2[p2]))
+		#	print("{0:04x} {1:04x} {2} {3}".format(p1,p2,d1[p1],d2[p2]))
 		assert d1[p1] == d2[p2]
 		eCount += 1
 		for i in range(0,d1[p1]):
@@ -31,7 +32,9 @@ def checkList(d1,d2,p1,p2):
 
 vpy = [x for x in open("build/vpython.bin","rb").read(-1)]
 
-vas = [x for x in open("memory.dump","rb").read(-1)][0x3400:]
+bc = Labels().get("basiccode")
+
+vas = [x for x in open("memory.dump","rb").read(-1)][bc:]
 
 e = checkList(vpy,vas,0,0)
 
