@@ -82,7 +82,7 @@ class ProgramTest(object):
 			while self.tokens.getToken(n) is None:
 				n = random.randint(0x80,0xFF)
 			t = self.tokens.getToken(n)
-			return self.createElement() if t.startswith("[") or t == "'" else t
+			return self.createElement() if t.startswith("[") or t == "'" or t == "rem" else t
 		elif n == 5:
 			return self.identifiers[random.randint(0,len(self.identifiers))-1]
 		else:

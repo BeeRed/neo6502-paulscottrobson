@@ -44,9 +44,9 @@ StandardTokens:
 	.byte	$04,$4c,$4f,$41,$44                     	; $a7 load
 	.byte	$04,$50,$4f,$4b,$45                     	; $a8 poke
 	.byte	$04,$44,$4f,$4b,$45                     	; $a9 doke
-	.byte	0											; $aa
-	.byte	0											; $ab
-	.byte	0											; $ac
+	.byte	$04,$52,$45,$41,$44                     	; $aa read
+	.byte	$04,$44,$41,$54,$41                     	; $ab data
+	.byte	$07,$52,$45,$53,$54,$4f,$52,$45         	; $ac restore
 	.byte	0											; $ad
 	.byte	0											; $ae
 	.byte	0											; $af

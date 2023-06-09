@@ -60,10 +60,11 @@ enctest: test
 	make -C scripts
 	$(PYTHON) $(BINDIR)listpgm.zip build$(S)program.bin
 
-parts:
+other:
 	make -C ../mos
 	make -C ../mathslib
-
+	make doc
+	
 reg:
 	$(PYTHON) scripts$(S)showreg.py	
 

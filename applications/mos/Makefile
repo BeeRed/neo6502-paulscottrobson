@@ -20,6 +20,7 @@ all: assemble
 assemble:
 	make -C keyboard
 	$(PYTHON) $(SCRIPTDIR)makebuild.py >include.files
+	$(PYTHON) $(SCRIPTDIR)timestamp.py >src$(S)generated$(S)time.incx
 	$(PYTHON) scripts$(S)vectors.py >$(BINDIR)osvectors.inc
 	$(ASM) osrom.asm -o build$(S)osrom.bin
 	$(CCOPY) build$(S)osrom.bin $(BINDIR)

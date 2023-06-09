@@ -43,9 +43,16 @@ _TOKNotString:
 _TOKNoArray:
 		jsr 	TOKFindToken 				; find it
 		bcc		_TOKIsVariable 				; it must be a variable or proc name if not found
+		cmp 	#PR_REM 					; is it REM ?
+		beq 	_TOKComment 				; yes, do comment code.
 		jsr 	TOKWriteA
 		clc
 		rts
+
+_TOKComment:
+		jsr 	TOKDoComment
+		clc
+		rts		
 
 _TOKIsVariable:
 		ldx 	#0 							; output element buffer
@@ -98,6 +105,46 @@ _TTIExit:
 _TTI64:	lda 	#$64		
 		rts
 _TTI65:	lda 	#$65
+		rts
+
+; ************************************************************************************************
+;
+;											Do a comment
+;
+; ************************************************************************************************
+
+TOKDoComment:
+		jsr 	TOKGet 						; skip over spaces
+		cmp 	#' '
+		bne 	_TOKEndSpaces
+		jsr 	TOKGetNext
+		bra 	TOKDoComment
+		;
+_TOKEndSpaces:
+		pha 								; save it
+		lda 	#PR_REM 					; output the comment token.
+		jsr 	TOKWriteA		
+		pla
+		beq 	_TOKDCExit 					; end of line.
+		cmp 	#'"'						; does it have a speech mark ?
+		bne 	_TOKDCDoLine 				; otherwise the comment is the whole line.
+_TOKDCExit:
+		rts
+
+_TOKDCDoLine:				
+		jsr 	TOKResetElement 			; start getting the string
+_TOKDCLoop:
+		jsr 	TOKGet 						; check EOL
+		cmp 	#0 					
+		beq 	_TOKDCEndComment
+		jsr 	TOKGetNext 					; get and consume
+		jsr 	TOKWriteElement
+		bra 	_TOKDCLoop
+
+_TOKDCEndComment:
+		lda 	#PR_LSQLSQSTRINGRSQRSQ
+		jsr 	TOKWriteA
+		jsr 	TOKOutputElementBuffer
 		rts
 
 		.send code
