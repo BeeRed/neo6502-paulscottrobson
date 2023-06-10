@@ -26,6 +26,7 @@ Command_READ: ;; [read]
 		lda 	IFR0+IM1
 		pha
 		lda 	IFR0+IExp 					; push type on the stack
+		pha
 		;
 		;		Now find something to be DATA
 		;
@@ -47,6 +48,7 @@ _CRKeepSearching:
 		cmp 	#PR_DATA 					; found data ?
 		beq 	_CRHaveData 				; found it
 
+		ldy 	#3 							; position in next line.
 		clc 								; try the next line, keep going.
 		lda 	(codePtr)
 		adc 	codePtr
@@ -92,6 +94,10 @@ _CRSwapBack:
 		dey 								; unpick get.
 		rts
 
+;:[READ (variables)]\
+; Read data from data statements into variables. The types must match
+; { read name$,age,salary }
+
 ; ************************************************************************************************
 ;
 ;									DATA command - effectively NOP
@@ -102,7 +108,15 @@ Command_DATA: ;; [data]
 		lda 	#PR_COLON 					; scan forward to : or EOL
 		ldx 	#PR_LSQLSQENDRSQRSQ
 		jsr 	ScanForward
+		cmp 	#PR_LSQLSQENDRSQRSQ 		; unconsume the EOL
+		bne 	_CDNotEOL
+		dey
+_CDNotEOL:		
 		rts
+
+;:[data (data)]\
+; Data for read statements. Note the string data must be enclosed in quotes.
+; { data "Fred Smith",42,123456 }
 
 		.send code
 				

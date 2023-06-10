@@ -37,8 +37,9 @@ _CRExit:
 		.send code
 ;:[REM]\
 ; REM inserts comments in code. It is slightly different from most basics in that it requires the
-; text of the REM statement to be in quotes, though later tokenisers will do this automatically\
-; It is purely informative ; there are two forms, {REM} without a comment and {REM "<description>"} with
+; text of the REM statement to be in quotes. The tokeniser will do this for you, so if you type
+; REM this is a comment it will convert it to REM "this is a comment"\
+; It is purely informative ; there are two forms, {REM} without a comment and {REM "comment text"} with
 ; a comment.\
 ; {REM "Calculate the players initial positions"}
 				

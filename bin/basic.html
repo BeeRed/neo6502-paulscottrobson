@@ -145,6 +145,12 @@
 <div> prints *</div>
 <h1 style="background-color:cyan;"><center>clear <address></center></h1>
 <div>Clear effectively resets the BASIC interpreter without actually restarting the program. It erases all variables and arrays, resets the stack and memory allocation, and checks for callable procedures. It should not normally be used as the RUN command does this as well. CLEAR takes an optional parameter which sets the high memory address for BASIC to use, so CLEAR $7E00 will mean any memory above $7E00 will not be used ; the stack and string will be placed there.</div>
+<h1 style="background-color:cyan;"><center>data (data)</center></h1>
+<div>Data for read statements. Note the string data must be enclosed in quotes. </div>
+<br />
+<center><i><b>data "Fred Smith",42,123456</b></i></center
+<br />
+<div></div>
 <h1 style="background-color:cyan;"><center>dec(string)</center></h1>
 <div>Converts the string to an integer, assuming hexadecimal format</div>
 <br />
@@ -337,8 +343,14 @@
 <center><i><b>print rand(4)</b></i></center
 <br />
 <div> prints one of 0,1,2 or 3.</div>
+<h1 style="background-color:cyan;"><center>read (variables)</center></h1>
+<div>Read data from data statements into variables. The types must match </div>
+<br />
+<center><i><b>read name$,age,salary</b></i></center
+<br />
+<div></div>
 <h1 style="background-color:cyan;"><center>rem</center></h1>
-<div>REM inserts comments in code. It is slightly different from most basics in that it requires the text of the REM statement to be in quotes, though later tokenisers will do this automatically</div>
+<div>REM inserts comments in code. It is slightly different from most basics in that it requires the text of the REM statement to be in quotes. The tokeniser will do this for you, so if you type REM this is a comment it will convert it to REM "this is a comment"</div>
 <br />
 <div>It is purely informative ; there are two forms, </div>
 <br />
@@ -346,7 +358,7 @@
 <br />
 <div> without a comment and </div>
 <br />
-<center><i><b>REM "<description>"</b></i></center
+<center><i><b>REM "comment text"</b></i></center
 <br />
 <div> with a comment.</div>
 <br />
