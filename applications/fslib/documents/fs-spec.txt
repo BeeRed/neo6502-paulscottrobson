@@ -1,0 +1,15 @@
+FSLib
+=====
+
+A file system suitable for a few MB of storage in flash memory. As such we want more reading than writing, and for writes to be
+spread out so the same sectors aren't repeatedly written. 
+
+The Neo6502 has , or is planned to have, an EN25QH16B 16MBit (e.g. 2 Megabyte). These are arranged in 8192 2048 bit (256 byte) pages.
+
+It can read at 100Mhz. Page programming time is 0.6ms, or 1.67Mhz equivalent. So we can read and waste time reading 60-70 pages for 
+every write page.
+
+This likely means no directory. 
+
+- Hashing to place first page ?
+- Header from the front, Data from the back ?
