@@ -9,7 +9,75 @@ The Neo6502 has , or is planned to have, an EN25QH16B 16MBit (e.g. 2 Megabyte). 
 It can read at 100Mhz. Page programming time is 0.6ms, or 1.67Mhz equivalent. So we can read and waste time reading 60-70 pages for 
 every write page.
 
-This likely means no directory. 
+Header for each page
 
-- Hashing to place first page ?
-- Header from the front, Data from the back ?
+Type: 	Free, Deleted, Header, Next
+Name: 	Name of file
+Size: 	Count of Bytes of data on this page
+Total:	Total Bytes in file.
+Link: 	Index of next page.
+Data: 	Byte data
+
+First are allocated from the front ; Next from the end , end half, end quarter ?
+Page size maybe 4096 : This gives 1 Mb = 256 pages.
+
+Model on this assumption.
+Method requires no buffer.
+File system is useable on SDCard with Basic FAT access to data file, or done by RP2040
+(whole FS could be RP2040 ?)
+Sequential files are theoretically possible.
+
+Write File (data.address,count.bytes)
+=====================================
+
+	1) 	If it already exists
+			- the header page is the current header page
+			- delete all next pages by following links and setting Type to "Deleted"
+
+		Else
+			- find the first either deleted of free page from the front, this is the
+			  new header page.
+
+		Current Page := Header Page
+
+	2) 	While count of bytes is non-zero.
+
+			Set the type of the current page to "First" or "Next" accordingly.
+			Set the name
+
+			If count of bytes left > size of data on page after header :
+
+				nextPage := first unused page from the back (random in back half, work backwards till free found ?)
+				Set the link to this page
+				Set the size to size of page after header.
+				Set the total bytes to the count.bytes (e.g. all of them)
+
+			else:
+
+				nextPage := nil
+				Set the link to nil
+				Set the size to count of bytes
+				Set the total bytes to 0.
+
+			Copy the number of bytes set above into the page (e.g. the number left or the max on page)
+			adjusting the count left and the data address accordingly.
+
+			Current Page := Next Page
+
+Erase File
+==========
+
+	As above but also set the header page to deleted.
+
+
+Read File
+=========
+
+	Find file, scan forward through links loading.
+
+Find File / Exists / Size file
+==============================
+
+	- Scan forward until Header type with correct filename found
+	- Ignore deleted (represent deleted files)
+	- Fail find when an unused record found, or end of whole file.
