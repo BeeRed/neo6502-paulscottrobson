@@ -48,6 +48,10 @@ Write File (data.address,count.bytes)
 			If count of bytes left > size of data on page after header :
 
 				nextPage := first unused page from the back (random in back half, work backwards till free found ?)
+				if not found:
+					erase page forward until current page erased.
+					error.report
+
 				Set the link to this page
 				Set the size to size of page after header.
 				Set the total bytes to the count.bytes (e.g. all of them)
@@ -68,7 +72,6 @@ Erase File
 ==========
 
 	As above but also set the header page to deleted.
-
 
 Read File
 =========

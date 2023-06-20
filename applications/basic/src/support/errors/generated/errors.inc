@@ -64,3 +64,6 @@ error_unknown .macro
 error_break .macro
 	jmp	ErrorV_break
 	.endm
+error_line .macro
+	jmp	ErrorV_line
+	.endm

@@ -10,6 +10,7 @@
 	.include "src/commands/clear.asm"
 	.include "src/commands/dim.asm"
 	.include "src/commands/dokepoke.asm"
+	.include "src/commands/goto.asm"
 	.include "src/commands/inputprint.asm"
 	.include "src/commands/let.asm"
 	.include "src/commands/list.asm"

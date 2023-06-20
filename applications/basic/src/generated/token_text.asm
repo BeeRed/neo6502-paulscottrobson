@@ -47,9 +47,9 @@ StandardTokens:
 	.byte	$04,$52,$45,$41,$44                     	; $aa read
 	.byte	$04,$44,$41,$54,$41                     	; $ab data
 	.byte	$07,$52,$45,$53,$54,$4f,$52,$45         	; $ac restore
-	.byte	0											; $ad
-	.byte	0											; $ae
-	.byte	0											; $af
+	.byte	$04,$47,$4f,$54,$4f                     	; $ad goto
+	.byte	$05,$47,$4f,$53,$55,$42                 	; $ae gosub
+	.byte	$06,$52,$45,$54,$55,$52,$4e             	; $af return
 	.byte	0											; $b0
 	.byte	0											; $b1
 	.byte	0											; $b2

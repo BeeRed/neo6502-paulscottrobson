@@ -30,3 +30,4 @@
 	dupproc		  : procedure identifier used
 	unknown		  : unknown procedure
 	break 		  : break
+	line		  : unknown line number

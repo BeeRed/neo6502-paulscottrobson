@@ -60,6 +60,7 @@ class RawTokenClass(object):
 			[[END]] [[SHIFT]] 	ELSE	THEN	TO 		STEP	LET 	PRINT	INPUT	CALL 	SYS 	
 			REM 	EXIT		, 		; 		: 		' 		)		DIM 	CLEAR	NEW 	RUN 	
 			STOP 	END 		ASSERT 	LIST 	SAVE	LOAD	POKE 	DOKE	READ 	DATA 	RESTORE
+			GOTO 	GOSUB 		RETURN
 		"""
 
 	def append(self,tokenData,topDown,descr):

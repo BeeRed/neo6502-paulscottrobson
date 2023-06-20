@@ -9,4 +9,6 @@ BASIC: 	Fixed WHILE bug reported by Tsvetan.
 		BASIC Code address dropped to $3400 and edtest made to work by pushing test code 4k up.
 		Implemented READ, RESTORE and DATA
 
-		
+20th June 2022
+
+BASIC: 	Added GOTO, GOSUB and RETURN for old code. Will not work with editor.		

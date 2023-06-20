@@ -65,4 +65,7 @@ ErrorV_unknown:
 ErrorV_break:
 	jsr	ErrorHandler
 	.text	5,"Break",0
+ErrorV_line:
+	jsr	ErrorHandler
+	.text	19,"Unknown Line Number",0
 	.send code
