@@ -73,6 +73,7 @@
 	.include "src/structures/call.asm"
 	.include "src/structures/do.asm"
 	.include "src/structures/for.asm"
+	.include "src/structures/gosub.asm"
 	.include "src/structures/if.asm"
 	.include "src/structures/repeat.asm"
 	.include "src/structures/scanforward.asm"

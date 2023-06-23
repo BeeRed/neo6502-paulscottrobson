@@ -42,14 +42,16 @@ Write File (data.address,count.bytes)
 
 	2) 	While count of bytes is non-zero.
 
-			Set the type of the current page to "First" or "Next" accordingly.
+			Set the type of the current page to "Header" or "Next" accordingly.
 			Set the name
 
 			If count of bytes left > size of data on page after header :
 
 				nextPage := first unused page from the back (random in back half, work backwards till free found ?)
+
 				if not found:
-					erase page forward until current page erased.
+					erase current page
+					starting from header page, while not erased erase and follow line.
 					error.report
 
 				Set the link to this page
@@ -84,3 +86,25 @@ Find File / Exists / Size file
 	- Scan forward until Header type with correct filename found
 	- Ignore deleted (represent deleted files)
 	- Fail find when an unused record found, or end of whole file.
+
+
++0..1 		Size of file system (# pages total)
++2 			2^n is the number of blocks/page (e.g. 3 = 8 blocks/page)
++3 			2^n is the size of each block.(e.g. 8 = 256 bytes/block)
+
++4 			Status:
+				00 	Unused
+				01 	Header page
+				02 	Next page
+				80 	Deleted page
++5..6 		Link page or 0 if end of linked sequence				
++7..8 		Number of data bytes on this page
++9..10 		Size of complete file.
+
++11..15 	Reserved (all zero)
+
++16..31 	File Name (ASCIIZ lower case)				
+
++32..63 	Reserved (all zero)
+
++64 		First data Item

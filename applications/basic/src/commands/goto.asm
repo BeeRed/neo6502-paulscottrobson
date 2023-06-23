@@ -54,6 +54,7 @@ _GOError:
 		
 ;:[GOTO line]
 ; Transfer execution to given line number. Not recommended except for old software.
+; Please use the structures provided.
 				
 ; ************************************************************************************************
 ;

@@ -48,8 +48,8 @@ VectorTable:
 	.word	Command_DATA             ; $ab DATA
 	.word	Command_RESTORE          ; $ac RESTORE
 	.word	Command_GOTO             ; $ad GOTO
-	.word	NotImplemented           ; $ae GOSUB
-	.word	NotImplemented           ; $af RETURN
+	.word	Command_GOSUB            ; $ae GOSUB
+	.word	Command_RETURN           ; $af RETURN
 	.word	NotImplemented           ; $b0 
 	.word	NotImplemented           ; $b1 
 	.word	NotImplemented           ; $b2 

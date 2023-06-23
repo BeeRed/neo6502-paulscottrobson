@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		call.asm
-;		Purpose:	Call procedure
-;		Created:	4th June 2023
+;		Name:		gosub.asm
+;		Purpose:	Gosub/Return
+;		Created:	23rd June 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -14,70 +14,32 @@
 
 ; ************************************************************************************************
 ;
-;										CALL command
+;										GOSUB command
 ;
 ; ************************************************************************************************
 
-Command_CALL:	;; [call]
-		lda 	#STK_CALL
+Command_GOSUB:	;; [gosub]
+		jsr 	EXPEvalInteger16 			; get line number
+		lda 	#STK_GOSUB
 		jsr 	StackOpen 
-
-		lda 	(codePtr),y 				; check identifier follows.
-		and 	#$C0
-		cmp 	#$40
-		bne 	_CCSyntax
-		;
-		jsr 	VARGetInfo 					; get the information
-		jsr 	ERRCheckRParen 				; check right bracket follows.
-		jsr 	VARFind 					; exists ?
-		bcc 	_CCUnknown
-
-		stx 	zTemp0+1 					; save target in XA
-		sta 	zTemp0
-
 		jsr 	STKSaveCodePosition 		; save return address on stack.
+		jmp 	GotoR0
 
-		ldy 	#3 							; check $FF marker
-		lda 	(zTemp0),y
-		cmp 	#$FF
-		bne 	_CCUnknown
-
-		dey 								; get Y offset to stack
-		lda 	(zTemp0),y
-		pha
-		dey 								; get address
-		lda 	(zTemp0),y
-		sta 	codePtr+1
-		lda 	(zTemp0)
-		sta 	codePtr
-		ply 								; restore Y
-		rts
-
-_CCSyntax:
-		.error_syntax
-_CCUnknown:
-		.error_unknown
-
-;:[call]
-; Call a named procedure. The brackets are required.
-; { call draw.everything() }
+;:[gosub...return]
+; Subroutine call. Provided for backward compatibility ; please use PROC and CALL.
 
 ; ************************************************************************************************
 ;
-;										ENDPROC command
+;										RETURN command
 ;
 ; ************************************************************************************************
 
-Command_ENDPROC:	;; [endproc]
-		lda 	#STK_CALL
+Command_RETURN:	;; [return]
+		lda 	#STK_GOSUB
 		jsr 	StackCheckFrame
 		jsr 	STKLoadCodePosition 		; return
 		jsr 	StackClose		 			
 		rts
-
-;:[proc (name)() ... endproc]
-; Defines a procedure. A procedure definition must be the first thing on the line.
-; { proc bump.me():a = a+1:endproc }
 
 		.send code
 
