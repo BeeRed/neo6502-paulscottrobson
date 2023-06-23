@@ -103,6 +103,7 @@ TOKWriteA:
 		phx
 		ldx 	TOKLineSize
 		sta 	TOKLineSize,x
+		stz 	TOKLineSize+1,x 			; makes it look like a line on its own for RUN.
 		plx
 		inc 	TOKLineSize
 		rts
