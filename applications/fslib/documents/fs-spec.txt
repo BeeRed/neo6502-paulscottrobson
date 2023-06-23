@@ -4,76 +4,68 @@ FSLib
 A file system suitable for a few MB of storage in flash memory. As such we want more reading than writing, and for writes to be
 spread out so the same sectors aren't repeatedly written. 
 
-The Neo6502 has , or is planned to have, an EN25QH16B 16MBit (e.g. 2 Megabyte). These are arranged in 8192 2048 bit (256 byte) pages.
+The Neo6502 has , or is planned to have, an EN25QH16B 16MBit (e.g. 2 Megabyte). These are arranged in 512 x 4k sectors which can
+be individually erased.
 
-It can read at 100Mhz. Page programming time is 0.6ms, or 1.67Mhz equivalent. So we can read and waste time reading 60-70 pages for 
-every write page.
+It can read at 100Mhz. Page programming time is 0.6ms, or 1.67Mhz equivalent per 256 bytes.
 
-Header for each page
+First are allocated from the front ; Next from random position in back.
 
-Type: 	Free, Deleted, Header, Next
-Name: 	Name of file
-Size: 	Count of Bytes of data on this page
-Total:	Total Bytes in file.
-Link: 	Index of next page.
-Data: 	Byte data
+Sector size is 4k (variable)
+Internal page size is 256 bytes, effectively hidden by interface.
 
-First are allocated from the front ; Next from the end , end half, end quarter ?
-Page size maybe 4096 : This gives 1 Mb = 256 pages.
-
-Model on this assumption.
-Method requires no buffer.
-File system is useable on SDCard with Basic FAT access to data file, or done by RP2040
-(whole FS could be RP2040 ?)
+File system is useable on SDCard with Basic FAT access to data file, or done by RP2040 (whole FS could be RP2040 ?)
 Sequential files are theoretically possible.
 
 Write File (data.address,count.bytes)
 =====================================
 
 	1) 	If it already exists
-			- the header page is the current header page
-			- delete all next pages by following links and setting Type to "Deleted"
+			- the header sector is the current header sector
+			- Erase the file.
 
 		Else
-			- find the first either deleted of free page from the front, this is the
-			  new header page.
+			- find the first either deleted or free sector from the front, this is the
+			  new header sector.
 
-		Current Page := Header Page
+		Current Sector := Header Sector
 
-	2) 	While count of bytes is non-zero.
+	2) 	While count of bytes is non-zero *or* on the header sector.
 
-			Set the type of the current page to "Header" or "Next" accordingly.
-			Set the name
+			Set the type of the current sector to "Header" or "Next" accordingly.
+			Set the name to current file name
+			Set next sector to $0000
+			Set the total bytes to the file size.
 
-			If count of bytes left > size of data on page after header :
+			If count of bytes left > size of data on sector after header (we need another new sector)
 
-				nextPage := first unused page from the back (random in back half, work backwards till free found ?)
+				nextSector := first unused sector from the back (random in back half, work backwards till free found ?)
+ 							  (not $0000)
 
 				if not found:
-					erase current page
-					starting from header page, while not erased erase and follow line.
-					error.report
+					erase current part created file.
+						starting from header sector, while not erased erase and follow line.
+						error.report
 
-				Set the link to this page
-				Set the size to size of page after header.
-				Set the total bytes to the count.bytes (e.g. all of them)
+				Set the link to this new sector
+				Set the size to the number of bytes in the sector.
 
-			else:
+			else: (this is the last sector)
 
-				nextPage := nil
+				nextSector := nil
 				Set the link to nil
-				Set the size to count of bytes
-				Set the total bytes to 0.
+				Set the size to count of bytes remaining.
 
-			Copy the number of bytes set above into the page (e.g. the number left or the max on page)
-			adjusting the count left and the data address accordingly.
+			Copy the header out. 
+			Copy the number of bytes set above into the sector (e.g. the number left or the max on sector)
+			Adjusting the count left and the data address accordingly.
 
-			Current Page := Next Page
+			Current Sectpr := Next Sector
 
 Erase File
 ==========
 
-	As above but also set the header page to deleted.
+	As above but also set the header sector to deleted.
 
 Read File
 =========
@@ -88,23 +80,23 @@ Find File / Exists / Size file
 	- Fail find when an unused record found, or end of whole file.
 
 
-+0..1 		Size of file system (# pages total)
-+2 			2^n is the number of blocks/page (e.g. 3 = 8 blocks/page)
-+3 			2^n is the size of each block.(e.g. 8 = 256 bytes/block)
-
-+4 			Status:
+Structure of one Sector
+=======================
++0 			Status:
 				00 	Unused
-				01 	Header page
-				02 	Next page
-				80 	Deleted page
-+5..6 		Link page or 0 if end of linked sequence				
-+7..8 		Number of data bytes on this page
-+9..10 		Size of complete file.
-
-+11..15 	Reserved (all zero)
-
-+16..31 	File Name (ASCIIZ lower case)				
-
+				01 	Header sector
+				02 	Next sector
+				80 	Deleted sector
++1..2 		Link sector or 0 if end of linked sequence				
++3..4 		Number of data bytes on this sector
++5..6 		Size of complete file.
++7 			Reserved
++8..31	 	File Name (ASCIIZ lower case)				
 +32..63 	Reserved (all zero)
-
 +64 		First data Item
+
+Sector 0 contains FS Information
+================================
++0..7 		FLASH-FS
++8,+9 		Bytes per sector
++10,+11 	Total number of sectors.
