@@ -1,0 +1,81 @@
+WWFS (World's Worst File System)
+================================
+
+Designed for very simple usage , using the sector/page structure of the Flash chip. 
+
+The unused memory in the flash chip is divided into sectors of a fixed size (this is 4k bytes). Each 
+of those sectors is subdivided into 256 byte pages.
+
+There is no real structure. The 4k sectors (estimate 32 on the base machine) each contain some reference
+information and a block of data. Files longer than 4k are represented by multiple sectors in the same format.
+
+There is no serial I/O.
+
+Structure of a 4k sector
+========================
+
++00				Type : 'F' if first block of a file, 'N' if next block in a file, any other is a blank sector.
++01 			More : 'Y' if there is more data after this sector, 'N' if this is the last record.
++02..+03 		Number of bytes of data in this sector. (Maximum = 4096-32 = 4064 bytes)
++04..+05 		Total size of file.
++06 			Sum hash of file name in lower case.
++07..+15 		(Reserved)
++16..+31 		ASCIIZ file name, lower case.
++32..+4095 		Data.
+
+Format
+======
+	Erase each sector - this will set all sectors to blank. This is done with the 'SE' command.
+
+Erase
+=====
+	Scan forward through each sector looking for a match. If found and in use (e.g. F/N) , erase the sector. 
+
+Directory
+=========
+	Scan forward looking for an 'F' record, if found, add the name (+size ?) to the list of files.
+
+Read
+====
+	Reads are done block style - memory is loaded into a 64k segment.
+	Scan forward looking for a match record.
+		when found, 
+			read the bytes of data provided into memory[address]
+			add the bytes of data provided to [address]
+
+
+Write 
+=====
+	Writes are done block style - memory is written from a 64k segment.
+
+	Set FirstFlag := True 
+	Set Complete := False
+
+	Pick a sector at random.
+
+	while not Complete:
+			Find a new unused sector. 
+			 	Scan forward from current sector while it is in use.
+				If no block is available
+					Erase the current named file and report the error
+
+			Write out F or N depending on FirstFlag
+			FirstFlag := False
+
+			if BytesRemainingToSave > 4064 	(e.g. we need another record)
+				Write 'Y' 					(another record required)
+				Write 4064  				(bytes of data to output)
+			else:
+				Write 'N'					(this is the last record)
+				Write BytesRemainingToSave 	(bytes of data to store here)
+				Set Complete := True
+
+			Write the total size of the file and the hash of the file name.
+			Write unused bytes 7..15
+			Write the ASCIIZ filename
+			Write unused bytes to 31.
+
+			Write the bytes of data (4064/BytesRemainingToSave) from Memory[Address]
+			add bytes of data to Address
+
+			Increment current sector.

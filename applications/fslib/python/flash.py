@@ -90,4 +90,4 @@ class FlashMemory(object):
 if __name__ == '__main__':
 	fm = FlashMemory()
 	fm.eraseSector(31)
-	print(fm.flashMemory)
+	print(fm.flashMemory)		
