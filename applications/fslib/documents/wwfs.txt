@@ -18,8 +18,7 @@ Structure of a 4k sector
 +01 			More : 'Y' if there is more data after this sector, 'N' if this is the last record.
 +02..+03 		Number of bytes of data in this sector. (Maximum = 4096-32 = 4064 bytes)
 +04..+05 		Total size of file.
-+06 			Sum hash of file name in lower case.
-+07..+15 		(Reserved)
++06..+15 		(Reserved)
 +16..+31 		ASCIIZ file name, lower case.
 +32..+4095 		Data.
 
@@ -70,8 +69,8 @@ Write
 				Write BytesRemainingToSave 	(bytes of data to store here)
 				Set Complete := True
 
-			Write the total size of the file and the hash of the file name.
-			Write unused bytes 7..15
+			Write the total size of the file 
+			Write unused bytes 6..15
 			Write the ASCIIZ filename
 			Write unused bytes to 31.
 
@@ -79,3 +78,4 @@ Write
 			add bytes of data to Address
 
 			Increment current sector.
+
