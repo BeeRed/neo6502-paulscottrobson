@@ -4,7 +4,7 @@
 ;		Name:		floattostring.asm
 ;		Purpose:	Convert float to string, base 10 only
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -28,35 +28,37 @@ IFloatFloatToStringR0:
 		jsr 	IFloatIntegerToStringR0 	; do the integer part.
 		stz 	IFloatDecimalCount 			; zero the decimal count.
 
-		lda 	IFR2+IExp 					; is integer.
+		lda 	IFR2+IExp 					; if it is integer then exit
 		and 	#IFXMask
 		beq 	_IFFSExit
-
+;
+;		Loop handles the fractional part.
+;
 _IFloatFracLoop:
 		ldx 	#IFR2 						; R0 = fractional part of R2
 		jsr 	IFloatCopyFromRegister
 		jsr 	IFloatFractionalR0
 		jsr 	IFloatNormalise
 		ldx 	#IFR2
-		jsr 	IFloatCopyToRegister 		; copy to R2
+		jsr 	IFloatCopyToRegister 		; copy to back R2
 
 		ldx 	#IFR2 						; set R2 to 10
 		lda 	#10
 		jsr 	IFloatSetByte 		
 
-		ldx 	#IFR2						; R0,R2 = R2 * 10
+		ldx 	#IFR2						; R0 = R2 * 10
 		jsr 	IFloatMultiply
 
-		ldx 	#IFR2
+		ldx 	#IFR2 						; copy back, float part next time.
 		jsr 	IFloatCopyToRegister
 
-		jsr 	IFloatIntegerR0 			; get integer part of R0
+		jsr 	IFloatIntegerR0 			; get integer part of R0 that's just been x 10.
 
-		lda 	IFloatDecimalCount 			; done 5 dp, no more
+		lda 	IFloatDecimalCount 			; done 3 dp, no more
 		cmp 	#3
 		beq 	_IFFSExitStripZero
 
-		lda 	IFloatDecimalCount 			; written the DP yet ?
+		lda 	IFloatDecimalCount 			; written the DP yet , e.g. count of digits is not zero.
 		bne 	_IFloatNotFirst
 		lda 	#"." 						; write decimal point
 		jsr 	IFloatBufferWrite

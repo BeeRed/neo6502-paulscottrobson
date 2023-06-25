@@ -4,7 +4,7 @@
 ;		Name:		osrom.asm
 ;		Purpose:	OSRom wrapper program.
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -12,7 +12,7 @@
 
 		.include "ramdata.inc"
 
-		* = $F800
+		* = $F800 							; very small 2k monitor ROM
 		.dsection code
 
 ; ************************************************************************************************
@@ -23,10 +23,11 @@
 
 		.section code
 Boot:	jsr 	OSInitialise 				; set everything up.
-		ldx 	#MainPrompt & $FF
+		ldx 	#MainPrompt & $FF 			; display the boot prompt
 		ldy 	#MainPrompt >> 8
 		jsr 	OSWriteStringZ
-		jmp 	$1000
+		jmp 	$1000 						; and run from $1000 onwards
+
 NoInt:
 		rti
 
@@ -74,4 +75,3 @@ MainPrompt:
 ;		==== 			=====
 ;
 ; ************************************************************************************************
-

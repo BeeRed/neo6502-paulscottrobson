@@ -4,7 +4,7 @@
 ;		Name:		inttostring.asm
 ;		Purpose:	Convert integer to string, base 2..16
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -23,7 +23,7 @@ IFloatIntegerToStringR0:
 
 		jsr 	IFloatBufferReset			; empty buffer
 
-		lda 	IFR0+IExp					; check integer
+		lda 	IFR0+IExp					; check integer, cant't convert float
 		and 	#IFXMask
 		bne 	_IFIFail
 		;
@@ -37,17 +37,22 @@ IFloatIntegerToStringR0:
 		beq 	_IFINotNegative
 		lda 	#"-"						; output -
 		jsr 	IFloatBufferWrite
-		jsr 	IFloatNegate 				; tidy up !
+		jsr 	IFloatNegate 				; negate the value, e.g. make it +ve.
 _IFINotNegative:
 		jsr 	_IFIRecursiveConvert 		; start converting
-		jsr 	IFloatGetBufferAddress
+		jsr 	IFloatGetBufferAddress 		; get the return address and exit
 		clc
-		bra 	_IFIExit
+		rts
 
 _IFIFail:
 		sec
-_IFIExit:		
 		rts		
+
+; ************************************************************************************************
+;
+;								Classic recursive integer conversion
+;
+; ************************************************************************************************
 
 _IFIRecursiveConvert:
 		ldx 	#IFR1		
@@ -61,19 +66,19 @@ _IFIRecursiveConvert:
 		jsr 	IFloatCheckZero
 		beq 	_IFIOutDigit 				
 		;
-		lda 	IFR1+IM0 					; save remainder
+		lda 	IFR1+IM0 					; save remainder LSB only
 		pha
-		jsr 	_IFIRecursiveConvert 		; convert the divider
+		jsr 	_IFIRecursiveConvert 		; convert the divide result
 		pla
 		sta 	IFR1+IM0 					; restore remainder
 _IFIOutDigit:		
 		lda 	IFR1+IM0 					; get remainder.
-		cmp	 	#10
+		cmp	 	#10 						; convert to hexadecimal.
 		bcc 	_IFINotHex
 		adc 	#6
 _IFINotHex:
 		adc 	#48
-		jsr 	IFloatBufferWrite
+		jsr 	IFloatBufferWrite 			; write character to buffer.
 		rts
 		.send code
 
