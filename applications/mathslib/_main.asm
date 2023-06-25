@@ -4,7 +4,7 @@
 ;		Name:		main.asm
 ;		Purpose:	Run program
 ;		Created:	25th May 2023
-;		Reviewed: 	24th June 2023
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -16,7 +16,7 @@
 ;
 ; ************************************************************************************************
 
-		.include "ramdata.inc"
+		.include "build/ramdata.inc"
 
 		* = $1000
 		.dsection code

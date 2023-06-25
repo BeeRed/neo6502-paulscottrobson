@@ -4,7 +4,7 @@
 ;	Name:		multiply8x8.asm
 ;	Purpose:	Fast 8x8 multiply r0 = r0.rx
 ;	Created:	25th May 2023
-;	Reviewed: 	No
+;	Reviewed: 	25th June 2023
 ;	Author:		Paul Robson (paul@robsons.org.uk)
 ;                       Thwaite (https://www.nesdev.org/wiki/8-bit_Multiply)
 ;

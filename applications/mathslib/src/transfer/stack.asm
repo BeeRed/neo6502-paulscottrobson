@@ -4,7 +4,7 @@
 ;		Name:		stack.asm
 ;		Purpose:	Push/Pull register
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -20,7 +20,7 @@
 
 IFloatPushRx:
 		phy
-		ldy 	IFStackIndex
+		ldy 	IFStackIndex 				; push IM0,1,2,Exp on the stack
 		lda 	IM0,x
 		sta 	IFStack,y
 		lda 	IM1,x
@@ -33,7 +33,7 @@ IFloatPushRx:
 		iny
 		iny
 		iny
-		sty 	IFStackIndex
+		sty 	IFStackIndex 				; update SP
 		ply
 		rts
 
@@ -45,13 +45,13 @@ IFloatPushRx:
 
 IFloatPullRx:
 		phy
-		ldy 	IFStackIndex
+		ldy 	IFStackIndex	 			; decrement SP
 		dey
 		dey
 		dey
 		dey
 
-		lda 	IFStack,y
+		lda 	IFStack,y 					; pop IM0,1,2,Exp off stack
 		sta 	IM0,x
 		lda 	IFStack+1,y
 		sta 	IM1,x
@@ -60,7 +60,7 @@ IFloatPullRx:
 		lda 	IFStack+3,y
 		sta 	IExp,x
 
-		sty 	IFStackIndex
+		sty 	IFStackIndex 				; update SP
 		ply
 		rts
 

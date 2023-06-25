@@ -4,7 +4,7 @@
 ;		Name:		macros.inc
 ;		Purpose:	Macros
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -16,25 +16,25 @@
 ;
 ; ************************************************************************************************
 
-binop 	.macro
-	lda 	IFR0+IM0
-	\1 		IM0,x
-	sta 	IFR0+IM0
-	lda 	IFR0+IM1
-	\1 		IM1,x
-	sta 	IFR0+IM1
-	lda 	IFR0+IM2
-	\1 		IM2,x
-	sta 	IFR0+IM2
+binop 	.macro 								; cascading operations e.g. add/subract/and
+		lda 	IFR0+IM0
+		\1 		IM0,x
+		sta 	IFR0+IM0
+		lda 	IFR0+IM1
+		\1 		IM1,x
+		sta 	IFR0+IM1
+		lda 	IFR0+IM2
+		\1 		IM2,x
+		sta 	IFR0+IM2
 	.endm
 
-IM0 = 0
+IM0 = 0 									; offsets in 4 byte records
 IM1 = 1
 IM2 = 2
 IExp = 3
 
-IFXMask = $3F
-IFSign = $40
+IFXMask = $3F 								; mask out the exponent
+IFSign = $40 								; sign bit.
 
 ; ************************************************************************************************
 ;

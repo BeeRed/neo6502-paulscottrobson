@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -D "BASICLOAD=\$1000" -D "BASICCODE=\$3800" -D "ENDMEMORY=\$C000" -D STACKPAGES=2 -o build/basic.bin basic.asm
-; Sun Jun 25 08:05:30 2023
+; Sun Jun 25 08:22:36 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -4595,14 +4595,14 @@
 
 ;******  Processing file: build/libmathslib.asmlib
 
-=0					IM0 = 0
+=0					IM0 = 0 									; offsets in 4 byte records
 =1					IM1 = 1
 =2					IM2 = 2
 =3					IExp = 3
-=$3f					IFXMask = $3F
-=$40					IFSign = $40
+=$3f					IFXMask = $3F 								; mask out the exponent
+=$40					IFSign = $40 								; sign bit.
 .2ab3					IFInitialise:
-.2ab3	9c de 06	stz $06de			stz 	IFStackIndex
+.2ab3	9c de 06	stz $06de			stz 	IFStackIndex 				; reset the internal stack.
 .2ab6	60		rts				rts
 .2ab7					IFloatSubtract:
 .2ab7	da		phx				phx
@@ -4620,15 +4620,15 @@
 .2aca	29 40		and #$40			and 	#IFSign
 .2acc	d0 21		bne $2aef			bne 	_IFloatSubMantissa
 .2ace	18		clc				clc 								; do the actual addition
-.2acf	a5 08		lda $08			lda 	IFR0+IM0
-.2ad1	75 00		adc $00,x		adc 		IM0,x
-.2ad3	85 08		sta $08			sta 	IFR0+IM0
-.2ad5	a5 09		lda $09			lda 	IFR0+IM1
-.2ad7	75 01		adc $01,x		adc 		IM1,x
-.2ad9	85 09		sta $09			sta 	IFR0+IM1
-.2adb	a5 0a		lda $0a			lda 	IFR0+IM2
-.2add	75 02		adc $02,x		adc 		IM2,x
-.2adf	85 0a		sta $0a			sta 	IFR0+IM2
+.2acf	a5 08		lda $08				lda 	IFR0+IM0
+.2ad1	75 00		adc $00,x			adc 		IM0,x
+.2ad3	85 08		sta $08				sta 	IFR0+IM0
+.2ad5	a5 09		lda $09				lda 	IFR0+IM1
+.2ad7	75 01		adc $01,x			adc 		IM1,x
+.2ad9	85 09		sta $09				sta 	IFR0+IM1
+.2adb	a5 0a		lda $0a				lda 	IFR0+IM2
+.2add	75 02		adc $02,x			adc 		IM2,x
+.2adf	85 0a		sta $0a				sta 	IFR0+IM2
 .2ae1	10 29		bpl $2b0c			bpl 	_IFloatAddExit 				; if no carry through to bit 23, then exit.
 .2ae3	a2 08		ldx #$08			ldx 	#IFR0						; shift R0 right, divide by 2
 .2ae5	20 f7 30	jsr $30f7			jsr 	IFloatShiftRight
@@ -4638,15 +4638,15 @@
 .2aee	60		rts				rts
 .2aef					_IFloatSubMantissa:
 .2aef	38		sec				sec 								; do the subtraction R0-Rx
-.2af0	a5 08		lda $08			lda 	IFR0+IM0
-.2af2	f5 00		sbc $00,x		sbc 		IM0,x
-.2af4	85 08		sta $08			sta 	IFR0+IM0
-.2af6	a5 09		lda $09			lda 	IFR0+IM1
-.2af8	f5 01		sbc $01,x		sbc 		IM1,x
-.2afa	85 09		sta $09			sta 	IFR0+IM1
-.2afc	a5 0a		lda $0a			lda 	IFR0+IM2
-.2afe	f5 02		sbc $02,x		sbc 		IM2,x
-.2b00	85 0a		sta $0a			sta 	IFR0+IM2
+.2af0	a5 08		lda $08				lda 	IFR0+IM0
+.2af2	f5 00		sbc $00,x			sbc 		IM0,x
+.2af4	85 08		sta $08				sta 	IFR0+IM0
+.2af6	a5 09		lda $09				lda 	IFR0+IM1
+.2af8	f5 01		sbc $01,x			sbc 		IM1,x
+.2afa	85 09		sta $09				sta 	IFR0+IM1
+.2afc	a5 0a		lda $0a				lda 	IFR0+IM2
+.2afe	f5 02		sbc $02,x			sbc 		IM2,x
+.2b00	85 0a		sta $0a				sta 	IFR0+IM2
 .2b02	b0 08		bcs $2b0c			bcs 	_IFloatAddExit 				; no borrow so we are done.
 .2b04	a2 08		ldx #$08			ldx 	#IFR0
 .2b06	20 db 30	jsr $30db			jsr 	IFloatMantissaNegate 		; 2's complement negate the mantissa
@@ -4749,15 +4749,15 @@
 .2bbb	f0 16		beq $2bd3			beq 	_IFMNoAdd
 .2bbd	ae d6 06	ldx $06d6			ldx 	IFTarget 					; add adder
 .2bc0	18		clc				clc
-.2bc1	a5 08		lda $08			lda 	IFR0+IM0
-.2bc3	75 00		adc $00,x		adc 		IM0,x
-.2bc5	85 08		sta $08			sta 	IFR0+IM0
-.2bc7	a5 09		lda $09			lda 	IFR0+IM1
-.2bc9	75 01		adc $01,x		adc 		IM1,x
-.2bcb	85 09		sta $09			sta 	IFR0+IM1
-.2bcd	a5 0a		lda $0a			lda 	IFR0+IM2
-.2bcf	75 02		adc $02,x		adc 		IM2,x
-.2bd1	85 0a		sta $0a			sta 	IFR0+IM2
+.2bc1	a5 08		lda $08				lda 	IFR0+IM0
+.2bc3	75 00		adc $00,x			adc 		IM0,x
+.2bc5	85 08		sta $08				sta 	IFR0+IM0
+.2bc7	a5 09		lda $09				lda 	IFR0+IM1
+.2bc9	75 01		adc $01,x			adc 		IM1,x
+.2bcb	85 09		sta $09				sta 	IFR0+IM1
+.2bcd	a5 0a		lda $0a				lda 	IFR0+IM2
+.2bcf	75 02		adc $02,x			adc 		IM2,x
+.2bd1	85 0a		sta $0a				sta 	IFR0+IM2
 .2bd3					_IFMNoAdd:
 .2bd3	a5 0a		lda $0a				lda 	IFR0+IM2
 .2bd5	10 03		bpl $2bda			bpl 	_IFMResultOkay
@@ -5375,7 +5375,7 @@
 >3013	01 00 00 30				.byte	$01,$00,$00,$30 ; 2e-05
 .3017					IFloatPushRx:
 .3017	5a		phy				phy
-.3018	ac de 06	ldy $06de			ldy 	IFStackIndex
+.3018	ac de 06	ldy $06de			ldy 	IFStackIndex 				; push IM0,1,2,Exp on the stack
 .301b	b5 00		lda $00,x			lda 	IM0,x
 .301d	99 df 06	sta $06df,y			sta 	IFStack,y
 .3020	b5 01		lda $01,x			lda 	IM1,x
@@ -5388,17 +5388,17 @@
 .3030	c8		iny				iny
 .3031	c8		iny				iny
 .3032	c8		iny				iny
-.3033	8c de 06	sty $06de			sty 	IFStackIndex
+.3033	8c de 06	sty $06de			sty 	IFStackIndex 				; update SP
 .3036	7a		ply				ply
 .3037	60		rts				rts
 .3038					IFloatPullRx:
 .3038	5a		phy				phy
-.3039	ac de 06	ldy $06de			ldy 	IFStackIndex
+.3039	ac de 06	ldy $06de			ldy 	IFStackIndex	 			; decrement SP
 .303c	88		dey				dey
 .303d	88		dey				dey
 .303e	88		dey				dey
 .303f	88		dey				dey
-.3040	b9 df 06	lda $06df,y			lda 	IFStack,y
+.3040	b9 df 06	lda $06df,y			lda 	IFStack,y 					; pop IM0,1,2,Exp off stack
 .3043	95 00		sta $00,x			sta 	IM0,x
 .3045	b9 e0 06	lda $06e0,y			lda 	IFStack+1,y
 .3048	95 01		sta $01,x			sta 	IM1,x
@@ -5406,7 +5406,7 @@
 .304d	95 02		sta $02,x			sta 	IM2,x
 .304f	b9 e2 06	lda $06e2,y			lda 	IFStack+3,y
 .3052	95 03		sta $03,x			sta 	IExp,x
-.3054	8c de 06	sty $06de			sty 	IFStackIndex
+.3054	8c de 06	sty $06de			sty 	IFStackIndex 				; update SP
 .3057	7a		ply				ply
 .3058	60		rts				rts
 .06de					IFStackIndex:
@@ -5480,26 +5480,26 @@
 .30bf	7a		ply		        ply
 .30c0	60		rts		        rts
 .30c1					IFloatCheckZero:
-.30c1	b5 00		lda $00,x			lda 	IM0,x
+.30c1	b5 00		lda $00,x			lda 	IM0,x 						; or together mantissa bytes.
 .30c3	15 01		ora $01,x			ora 	IM1,x
 .30c5	15 02		ora $02,x			ora 	IM2,x
 .30c7	60		rts				rts
 .30c8					IFloatSetZero:
 .30c8	a9 00		lda #$00			lda 	#0
 .30ca					IFloatSetByte:
-.30ca	95 00		sta $00,x			sta 	IM0,x 						; set mantissa to 00A
+.30ca	95 00		sta $00,x			sta 	IM0,x 						; set mantissa to 00:A
 .30cc	74 01		stz $01,x			stz 	IM1,x
 .30ce	74 02		stz $02,x			stz 	IM2,x
 .30d0	74 03		stz $03,x			stz 	IExp,x 						; zero the exponent.
 .30d2	60		rts				rts
 .30d3					IFloatNegate:
-.30d3	b5 03		lda $03,x			lda 	IExp,x
+.30d3	b5 03		lda $03,x			lda 	IExp,x 						; toggle the sign bit.
 .30d5	49 40		eor #$40			eor 	#IFSign
 .30d7	95 03		sta $03,x			sta 	IExp,x
 .30d9	18		clc				clc
 .30da	60		rts				rts
 .30db					IFloatMantissaNegate:
-.30db	38		sec				sec
+.30db	38		sec				sec 								; when you want a real 2's complement negative value.
 .30dc	a9 00		lda #$00			lda 	#0
 .30de	f5 00		sbc $00,x			sbc 	IM0,x
 .30e0	95 00		sta $00,x			sta 	IM0,x
@@ -5606,31 +5606,32 @@
 >0720							.fill 	1
 .0721					IFBuffer:
 >0721							.fill 	25
-.3181					IFloatCheck:
-.3181	a5 0b		lda $0b				lda 	IFR0+IExp					; force it negative
+.3181					IFloatCheckRange:
+.3181	a5 0b		lda $0b				lda 	IFR0+IExp					; force it negative e.g. -|R0|
 .3183	09 40		ora #$40			ora 	#IFSign
 .3185	85 0b		sta $0b				sta 	IFR0+IExp
-.3187	20 be 2a	jsr $2abe			jsr 	IFloatAdd 					; add allowed to error.
-.318a	a2 08		ldx #$08			ldx 	#IFR0
-.318c	20 c1 30	jsr $30c1			jsr 	IFloatCheckZero 			; error if < 0
-.318f	f0 06		beq $3197			beq 	_IFAOkay
-.3191	a5 0b		lda $0b				lda 	IFR0+IExp
-.3193	29 40		and #$40			and 	#IFSign
-.3195	d0 01		bne $3198			bne 	_IFAFail
-.3197					_IFAOkay:
-.3197	60		rts				rts
-.3198					_IFAFail:
-.3198	38		sec				sec
-.3199	68		pla				pla 								; get address - 2
-.319a	e9 02		sbc #$02			sbc 	#2
-.319c	aa		tax				tax
-.319d	68		pla				pla
-.319e	e9 00		sbc #$00			sbc 	#0
-.31a0	a8		tay				tay
-.31a1	a9 aa		lda #$aa			lda 	#$AA 						; sign assert
-.31a3					_IFAStop:
->31a3	db						.byte 	$DB 						; display an error AA ADR ADR
-.31a4	80 fd		bra $31a3			bra 	_IFAStop
+.3187	a2 0c		ldx #$0c			ldx 	#IFR1 						; add R1.
+.3189	20 be 2a	jsr $2abe			jsr 	IFloatAdd 					; add allowed to error.
+.318c	a2 08		ldx #$08			ldx 	#IFR0
+.318e	20 c1 30	jsr $30c1			jsr 	IFloatCheckZero 			; error if < 0
+.3191	f0 06		beq $3199			beq 	_IFAOkay
+.3193	a5 0b		lda $0b				lda 	IFR0+IExp
+.3195	29 40		and #$40			and 	#IFSign
+.3197	d0 01		bne $319a			bne 	_IFAFail
+.3199					_IFAOkay:
+.3199	60		rts				rts
+.319a					_IFAFail:
+.319a	38		sec				sec
+.319b	68		pla				pla 								; get address - 2
+.319c	e9 02		sbc #$02			sbc 	#2
+.319e	aa		tax				tax
+.319f	68		pla				pla
+.31a0	e9 00		sbc #$00			sbc 	#0
+.31a2	a8		tay				tay
+.31a3	a9 aa		lda #$aa			lda 	#$AA 						; sign assert
+.31a5					_IFAStop:
+>31a5	db						.byte 	$DB 						; display an error AA ADR ADR
+.31a6	80 fd		bra $31a5			bra 	_IFAStop
 
 ;******  Return to file: basic.asm
 

@@ -4,7 +4,7 @@
 ;		Name:		basics.asm
 ;		Purpose:	Very simple functions.
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,7 +19,7 @@
 ; ************************************************************************************************
 
 IFloatCheckZero:
-		lda 	IM0,x
+		lda 	IM0,x 						; or together mantissa bytes.
 		ora 	IM1,x
 		ora 	IM2,x
 		rts
@@ -33,7 +33,7 @@ IFloatCheckZero:
 IFloatSetZero:
 		lda 	#0
 IFloatSetByte:
-		sta 	IM0,x 						; set mantissa to 00A
+		sta 	IM0,x 						; set mantissa to 00:A
 		stz 	IM1,x
 		stz 	IM2,x
 		stz 	IExp,x 						; zero the exponent.
@@ -46,7 +46,7 @@ IFloatSetByte:
 ; ************************************************************************************************
 
 IFloatNegate:		
-		lda 	IExp,x
+		lda 	IExp,x 						; toggle the sign bit.
 		eor 	#IFSign
 		sta 	IExp,x
 		clc
@@ -59,7 +59,7 @@ IFloatNegate:
 ; ************************************************************************************************
 
 IFloatMantissaNegate:
-		sec
+		sec 								; when you want a real 2's complement negative value.
 		lda 	#0
 		sbc 	IM0,x
 		sta 	IM0,x

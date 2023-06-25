@@ -3,8 +3,9 @@
 ;
 ;		Name:		ramdata.inc
 ;		Purpose:	Common setup program, allocate RAM for MOS.
+;					This file is copied about so other apps know where their RAM can start.
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************

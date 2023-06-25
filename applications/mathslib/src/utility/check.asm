@@ -4,8 +4,8 @@
 ;		Name:		check.asm
 ;		Purpose:	Check |R0| is <= R1
 ;		Created:	25th May 2023
-;		Reviewed: 	No
-;		Author:		Paul Robson (paul@robsons.org.uk)
+;		Reviewed: 	25th June 2023
+;		Author:		Paul Robson (psaul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
@@ -14,14 +14,15 @@
 
 ; ************************************************************************************************
 ;
-;							  			Check Abs(R0) < R1
+;							  	Check Abs(R0) < R1 (TESTING ONLY)
 ;
 ; ************************************************************************************************
 
-IFloatCheck:
-		lda 	IFR0+IExp					; force it negative
+IFloatCheckRange:
+		lda 	IFR0+IExp					; force it negative e.g. -|R0|
 		ora 	#IFSign
 		sta 	IFR0+IExp
+		ldx 	#IFR1 						; add R1.
 		jsr 	IFloatAdd 					; add allowed to error.
 		ldx 	#IFR0 					
 		jsr 	IFloatCheckZero 			; error if < 0

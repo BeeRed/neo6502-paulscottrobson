@@ -1,5316 +1,5260 @@
-lci	r1,-4028
-lci	r0,740
+lci	r1,-4894
+lci	r0,119.86
 add	r1
-lci	r1,-3288
+lci	r1,-4774.14
 sub	r1
-lci	r1,0.328800000
+lci	r1,0.477414000
 chk
 
-lci	r1,-4028
-lci	r0,740
+lci	r1,-4894
+lci	r0,119.86
 sub	r1
-lci	r1,-4768
+lci	r1,-5013.86
 sub	r1
-lci	r1,0.476800000
+lci	r1,0.501386000
 chk
 
-lci	r1,-4028
-lci	r0,740
+lci	r1,-4894
+lci	r0,119.86
 mul	r1
-lci	r1,-2980720
+lci	r1,-586594.84
 sub	r1
-lci	r1,0.000000000
+lci	r1,58.659484000
 chk
 
-lci	r1,-4028
-lci	r0,740
+lci	r1,-4894
+lci	r0,119
 idv	r1
-lci	r1,-5
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-4028
-lci	r0,740
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-4028
-int
-lci	r1,-4028
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-4028
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,4028
-lci	r0,740
-and	r1
-lci	r1,676
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,4028
-lci	r0,740
-orr	r1
-lci	r1,4092
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,4028
-lci	r0,740
-xor	r1
-lci	r1,3416
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,4028
-sqr
-lci	r1,63.46652661048972
-sub	r1
-lci	r1,0.006346652661048973
-chk
-
-lci	r1,508.87
-lci	r0,666.23
-add	r1
-lci	r1,1175.1
-sub	r1
-lci	r1,0.117510000
-chk
-
-lci	r1,508.87
-lci	r0,666.23
-sub	r1
-lci	r1,-157.36
-sub	r1
-lci	r1,0.015736000
-chk
-
-lci	r1,508.87
-lci	r0,666.23
-mul	r1
-lci	r1,339024.4601
-sub	r1
-lci	r1,33.902446010
-chk
-
-lci	r1,508
-lci	r0,666
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,508.87
-lci	r0,666.23
-div	r1
-lci	r1,0.7638052924665656
-sub	r1
-lci	r1,0.000076381
-chk
-
-lci	r1,508.87
-lci	r0,508.87
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,508.87
-int
-lci	r1,508
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,508.87
-frc
-lci	r1,0.8700000000000045
-sub	r1
-lci	r1,0.0017400000000000093
-chk
-
-lci	r1,508
-lci	r0,666
-and	r1
-lci	r1,152
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,508
-lci	r0,666
-orr	r1
-lci	r1,1022
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,508
-lci	r0,666
-xor	r1
-lci	r1,870
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,508.87
-sqr
-lci	r1,22.558147087028225
-sub	r1
-lci	r1,0.002255814708702822
-chk
-
-lci	r1,-262.08
-lci	r0,4999
-add	r1
-lci	r1,4736.92
-sub	r1
-lci	r1,0.473692000
-chk
-
-lci	r1,-262.08
-lci	r0,4999
-sub	r1
-lci	r1,-5261.08
-sub	r1
-lci	r1,0.526108000
-chk
-
-lci	r1,-262.08
-lci	r0,4999
-mul	r1
-lci	r1,-1310137.92
-sub	r1
-lci	r1,131.013792000
-chk
-
-lci	r1,-262
-lci	r0,4999
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-262.08
-lci	r0,4999
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-262.08
-int
-lci	r1,-262
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-262.08
-frc
-lci	r1,0.07999999999998408
-sub	r1
-lci	r1,0.0001599999999999682
-chk
-
-lci	r1,262
-lci	r0,4999
-and	r1
-lci	r1,262
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,262
-lci	r0,4999
-orr	r1
-lci	r1,4999
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,262
-lci	r0,4999
-xor	r1
-lci	r1,4737
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,262.08
-sqr
-lci	r1,16.18888507587845
-sub	r1
-lci	r1,0.001618888507587845
-chk
-
-lci	r1,-394.71
-lci	r0,8104
-add	r1
-lci	r1,7709.29
-sub	r1
-lci	r1,0.770929000
-chk
-
-lci	r1,-394.71
-lci	r0,8104
-sub	r1
-lci	r1,-8498.71
-sub	r1
-lci	r1,0.849871000
-chk
-
-lci	r1,-394.71
-lci	r0,8104
-mul	r1
-lci	r1,-3198729.84
-sub	r1
-lci	r1,319.872984000
-chk
-
-lci	r1,-394
-lci	r0,8104
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-394.71
-lci	r0,8104
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-394.71
-int
-lci	r1,-394
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-394.71
-frc
-lci	r1,0.7099999999999795
-sub	r1
-lci	r1,0.001419999999999959
-chk
-
-lci	r1,394
-lci	r0,8104
-and	r1
-lci	r1,392
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,394
-lci	r0,8104
-orr	r1
-lci	r1,8106
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,394
-lci	r0,8104
-xor	r1
-lci	r1,7714
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,394.71
-sqr
-lci	r1,19.867309832989466
-sub	r1
-lci	r1,0.0019867309832989465
-chk
-
-lci	r1,-8653
-lci	r0,525.95
-add	r1
-lci	r1,-8127.05
-sub	r1
-lci	r1,0.812705000
-chk
-
-lci	r1,-8653
-lci	r0,525.95
-sub	r1
-lci	r1,-9178.95
-sub	r1
-lci	r1,0.917895000
-chk
-
-lci	r1,-8653
-lci	r0,525.95
-mul	r1
-lci	r1,-4551045.350000001
-sub	r1
-lci	r1,455.104535000
-chk
-
-lci	r1,-8653
-lci	r0,525
-idv	r1
-lci	r1,-16
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-8653
-lci	r0,-8653
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-8653
-int
-lci	r1,-8653
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-8653
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,8653
-lci	r0,525
-and	r1
-lci	r1,13
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,8653
-lci	r0,525
-orr	r1
-lci	r1,9165
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,8653
-lci	r0,525
-xor	r1
-lci	r1,9152
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,8653
-sqr
-lci	r1,93.02150289046077
-sub	r1
-lci	r1,0.009302150289046077
-chk
-
-lci	r1,-8888
-lci	r0,323
-add	r1
-lci	r1,-8565
-sub	r1
-lci	r1,0.856500000
-chk
-
-lci	r1,-8888
-lci	r0,323
-sub	r1
-lci	r1,-9211
-sub	r1
-lci	r1,0.921100000
-chk
-
-lci	r1,-8888
-lci	r0,323
-mul	r1
-lci	r1,-2870824
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-8888
-lci	r0,323
-idv	r1
-lci	r1,-27
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-8888
-lci	r0,323
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-8888
-int
-lci	r1,-8888
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-8888
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,8888
-lci	r0,323
-and	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,8888
-lci	r0,323
-orr	r1
-lci	r1,9211
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,8888
-lci	r0,323
-xor	r1
-lci	r1,9211
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,8888
-sqr
-lci	r1,94.27618999514141
-sub	r1
-lci	r1,0.009427618999514142
-chk
-
-lci	r1,-34.92
-lci	r0,-889.11
-add	r1
-lci	r1,-924.03
-sub	r1
-lci	r1,0.092403000
-chk
-
-lci	r1,-34.92
-lci	r0,-889.11
-sub	r1
-lci	r1,854.19
-sub	r1
-lci	r1,0.085419000
-chk
-
-lci	r1,-34.92
-lci	r0,-889.11
-mul	r1
-lci	r1,31047.721200000004
-sub	r1
-lci	r1,3.104772120
-chk
-
-lci	r1,-34
-lci	r0,-889
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-34.92
-lci	r0,-34.92
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-34.92
-int
-lci	r1,-34
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-34.92
-frc
-lci	r1,0.9200000000000017
-sub	r1
-lci	r1,0.0018400000000000035
-chk
-
-lci	r1,34
-lci	r0,889
-and	r1
-lci	r1,32
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,34
-lci	r0,889
-orr	r1
-lci	r1,891
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,34
-lci	r0,889
-xor	r1
-lci	r1,859
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,34.92
-sqr
-lci	r1,5.909314681077663
-sub	r1
-lci	r1,0.0005909314681077664
-chk
-
-lci	r1,433.16
-lci	r0,-548.97
-add	r1
-lci	r1,-115.81
-sub	r1
-lci	r1,0.011581000
-chk
-
-lci	r1,433.16
-lci	r0,-548.97
-sub	r1
-lci	r1,982.1300000000001
-sub	r1
-lci	r1,0.098213000
-chk
-
-lci	r1,433.16
-lci	r0,-548.97
-mul	r1
-lci	r1,-237791.84520000004
-sub	r1
-lci	r1,23.779184520
-chk
-
-lci	r1,433
-lci	r0,-548
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,433.16
-lci	r0,-548.97
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,433.16
-int
-lci	r1,433
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,433.16
-frc
-lci	r1,0.160000000000025
-sub	r1
-lci	r1,0.00032000000000005006
-chk
-
-lci	r1,433
-lci	r0,548
-and	r1
-lci	r1,32
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,433
-lci	r0,548
-orr	r1
-lci	r1,949
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,433
-lci	r0,548
-xor	r1
-lci	r1,917
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,433.16
-sqr
-lci	r1,20.812496246245907
-sub	r1
-lci	r1,0.0020812496246245906
-chk
-
-lci	r1,-748.38
-lci	r0,-1732
-add	r1
-lci	r1,-2480.38
-sub	r1
-lci	r1,0.248038000
-chk
-
-lci	r1,-748.38
-lci	r0,-1732
-sub	r1
-lci	r1,983.62
-sub	r1
-lci	r1,0.098362000
-chk
-
-lci	r1,-748.38
-lci	r0,-1732
-mul	r1
-lci	r1,1296194.16
-sub	r1
-lci	r1,129.619416000
-chk
-
-lci	r1,-748
-lci	r0,-1732
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-748.38
-lci	r0,-1732
-div	r1
-lci	r1,0.4320900692840647
-sub	r1
-lci	r1,0.000043209
-chk
-
-lci	r1,-748.38
-lci	r0,-748.38
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-748.38
-int
-lci	r1,-748
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-748.38
-frc
-lci	r1,0.37999999999999545
-sub	r1
-lci	r1,0.0007599999999999909
-chk
-
-lci	r1,748
-lci	r0,1732
-and	r1
-lci	r1,708
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,748
-lci	r0,1732
-orr	r1
-lci	r1,1772
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,748
-lci	r0,1732
-xor	r1
-lci	r1,1064
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,748.38
-sqr
-lci	r1,27.356534868290613
-sub	r1
-lci	r1,0.0027356534868290612
-chk
-
-lci	r1,536.39
-lci	r0,4476
-add	r1
-lci	r1,5012.39
-sub	r1
-lci	r1,0.501239000
-chk
-
-lci	r1,536.39
-lci	r0,4476
-sub	r1
-lci	r1,-3939.61
-sub	r1
-lci	r1,0.393961000
-chk
-
-lci	r1,536.39
-lci	r0,4476
-mul	r1
-lci	r1,2400881.64
-sub	r1
-lci	r1,240.088164000
-chk
-
-lci	r1,536
-lci	r0,4476
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,536.39
-lci	r0,4476
-div	r1
-lci	r1,0.11983690795352993
-sub	r1
-lci	r1,0.000011984
-chk
-
-lci	r1,536.39
-lci	r0,4476
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,536.39
-int
-lci	r1,536
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,536.39
-frc
-lci	r1,0.38999999999998636
-sub	r1
-lci	r1,0.0007799999999999728
-chk
-
-lci	r1,536
-lci	r0,4476
-and	r1
-lci	r1,24
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,536
-lci	r0,4476
-orr	r1
-lci	r1,4988
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,536
-lci	r0,4476
-xor	r1
-lci	r1,4964
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,536.39
-sqr
-lci	r1,23.16009499116962
-sub	r1
-lci	r1,0.002316009499116962
-chk
-
-lci	r1,-8984
-lci	r0,1422
-add	r1
-lci	r1,-7562
-sub	r1
-lci	r1,0.756200000
-chk
-
-lci	r1,-8984
-lci	r0,1422
-sub	r1
-lci	r1,-10406
-sub	r1
-lci	r1,1.040600000
-chk
-
-lci	r1,-8984
-lci	r0,1422
-mul	r1
-lci	r1,-12775248
-sub	r1
-lci	r1,1277.524800000
-chk
-
-lci	r1,-8984
-lci	r0,1422
-idv	r1
-lci	r1,-6
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-8984
-lci	r0,1422
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-8984
-int
-lci	r1,-8984
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-8984
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,8984
-lci	r0,1422
-and	r1
-lci	r1,264
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,8984
-lci	r0,1422
-orr	r1
-lci	r1,10142
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,8984
-lci	r0,1422
-xor	r1
-lci	r1,9878
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,8984
-sqr
-lci	r1,94.78396488858229
-sub	r1
-lci	r1,0.00947839648885823
-chk
-
-lci	r1,580.79
-lci	r0,626.16
-add	r1
-lci	r1,1206.9499999999998
-sub	r1
-lci	r1,0.120695000
-chk
-
-lci	r1,580.79
-lci	r0,626.16
-sub	r1
-lci	r1,-45.370000000000005
-sub	r1
-lci	r1,0.004537000
-chk
-
-lci	r1,580.79
-lci	r0,626.16
-mul	r1
-lci	r1,363667.4664
-sub	r1
-lci	r1,36.366746640
-chk
-
-lci	r1,580
-lci	r0,626
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,580.79
-lci	r0,626.16
-div	r1
-lci	r1,0.9275424811549764
-sub	r1
-lci	r1,0.000092754
-chk
-
-lci	r1,580.79
-lci	r0,626.16
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,580.79
-int
-lci	r1,580
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,580.79
-frc
-lci	r1,0.7899999999999636
-sub	r1
-lci	r1,0.0015799999999999274
-chk
-
-lci	r1,580
-lci	r0,626
-and	r1
-lci	r1,576
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,580
-lci	r0,626
-orr	r1
-lci	r1,630
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,580
-lci	r0,626
-xor	r1
-lci	r1,54
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,580.79
-sqr
-lci	r1,24.09958505866854
-sub	r1
-lci	r1,0.002409958505866854
-chk
-
-lci	r1,197.02
-lci	r0,5822
-add	r1
-lci	r1,6019.02
-sub	r1
-lci	r1,0.601902000
-chk
-
-lci	r1,197.02
-lci	r0,5822
-sub	r1
-lci	r1,-5624.98
-sub	r1
-lci	r1,0.562498000
-chk
-
-lci	r1,197.02
-lci	r0,5822
-mul	r1
-lci	r1,1147050.44
-sub	r1
-lci	r1,114.705044000
-chk
-
-lci	r1,197
-lci	r0,5822
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,197.02
-lci	r0,5822
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,197.02
-int
-lci	r1,197
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,197.02
-frc
-lci	r1,0.020000000000010232
-sub	r1
-lci	r1,4.000000000002046e-05
-chk
-
-lci	r1,197
-lci	r0,5822
-and	r1
-lci	r1,132
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,197
-lci	r0,5822
-orr	r1
-lci	r1,5887
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,197
-lci	r0,5822
-xor	r1
-lci	r1,5755
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,197.02
-sqr
-lci	r1,14.03638130003599
-sub	r1
-lci	r1,0.001403638130003599
-chk
-
-lci	r1,2944
-lci	r0,-2030
-add	r1
-lci	r1,914
-sub	r1
-lci	r1,0.091400000
-chk
-
-lci	r1,2944
-lci	r0,-2030
-sub	r1
-lci	r1,4974
-sub	r1
-lci	r1,0.497400000
-chk
-
-lci	r1,2944
-lci	r0,-2030
-mul	r1
-lci	r1,-5976320
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2944
-lci	r0,-2030
-idv	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2944
-lci	r0,-2030
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2944
-int
-lci	r1,2944
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,2944
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,2944
-lci	r0,2030
-and	r1
-lci	r1,896
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2944
-lci	r0,2030
-orr	r1
-lci	r1,4078
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2944
-lci	r0,2030
-xor	r1
-lci	r1,3182
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2944
-sqr
-lci	r1,54.258639865002145
-sub	r1
-lci	r1,0.005425863986500214
-chk
-
-lci	r1,-3417
-lci	r0,2342
-add	r1
-lci	r1,-1075
-sub	r1
-lci	r1,0.107500000
-chk
-
-lci	r1,-3417
-lci	r0,2342
-sub	r1
-lci	r1,-5759
-sub	r1
-lci	r1,0.575900000
-chk
-
-lci	r1,-3417
-lci	r0,2342
-mul	r1
-lci	r1,-8002614
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-3417
-lci	r0,2342
-idv	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-3417
-lci	r0,2342
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-3417
-int
-lci	r1,-3417
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-3417
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,3417
-lci	r0,2342
-and	r1
-lci	r1,2304
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,3417
-lci	r0,2342
-orr	r1
-lci	r1,3455
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,3417
-lci	r0,2342
-xor	r1
-lci	r1,1151
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,3417
-sqr
-lci	r1,58.45511098270193
-sub	r1
-lci	r1,0.005845511098270193
-chk
-
-lci	r1,-1308
-lci	r0,-371.25
-add	r1
-lci	r1,-1679.25
-sub	r1
-lci	r1,0.167925000
-chk
-
-lci	r1,-1308
-lci	r0,-371.25
-sub	r1
-lci	r1,-936.75
-sub	r1
-lci	r1,0.093675000
-chk
-
-lci	r1,-1308
-lci	r0,-371.25
-mul	r1
-lci	r1,485595.0
-sub	r1
-lci	r1,48.559500000
-chk
-
-lci	r1,-1308
-lci	r0,-371
-idv	r1
-lci	r1,3
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-1308
-lci	r0,-371.25
-div	r1
-lci	r1,3.5232323232323233
-sub	r1
-lci	r1,0.000352323
-chk
-
-lci	r1,-1308
-lci	r0,-371.25
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-1308
-int
-lci	r1,-1308
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-1308
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,1308
-lci	r0,371
-and	r1
-lci	r1,272
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1308
-lci	r0,371
-orr	r1
-lci	r1,1407
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1308
-lci	r0,371
-xor	r1
-lci	r1,1135
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,1308
-sqr
-lci	r1,36.16628264005025
-sub	r1
-lci	r1,0.003616628264005025
-chk
-
-lci	r1,-450.16
-lci	r0,-7057
-add	r1
-lci	r1,-7507.16
-sub	r1
-lci	r1,0.750716000
-chk
-
-lci	r1,-450.16
-lci	r0,-7057
-sub	r1
-lci	r1,6606.84
-sub	r1
-lci	r1,0.660684000
-chk
-
-lci	r1,-450.16
-lci	r0,-7057
-mul	r1
-lci	r1,3176779.12
-sub	r1
-lci	r1,317.677912000
-chk
-
-lci	r1,-450
-lci	r0,-7057
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-450.16
-lci	r0,-450.16
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-450.16
-int
-lci	r1,-450
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-450.16
-frc
-lci	r1,0.160000000000025
-sub	r1
-lci	r1,0.00032000000000005006
-chk
-
-lci	r1,450
-lci	r0,7057
-and	r1
-lci	r1,384
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,450
-lci	r0,7057
-orr	r1
-lci	r1,7123
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,450
-lci	r0,7057
-xor	r1
-lci	r1,6739
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,450.16
-sqr
-lci	r1,21.216974336601343
-sub	r1
-lci	r1,0.0021216974336601344
-chk
-
-lci	r1,-74.74
-lci	r0,525
-add	r1
-lci	r1,450.26
-sub	r1
-lci	r1,0.045026000
-chk
-
-lci	r1,-74.74
-lci	r0,525
-sub	r1
-lci	r1,-599.74
-sub	r1
-lci	r1,0.059974000
-chk
-
-lci	r1,-74.74
-lci	r0,525
-mul	r1
-lci	r1,-39238.5
-sub	r1
-lci	r1,3.923850000
-chk
-
-lci	r1,-74
-lci	r0,525
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-74.74
-lci	r0,525
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-74.74
-int
-lci	r1,-74
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-74.74
-frc
-lci	r1,0.7399999999999949
-sub	r1
-lci	r1,0.00147999999999999
-chk
-
-lci	r1,74
-lci	r0,525
-and	r1
-lci	r1,8
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,74
-lci	r0,525
-orr	r1
-lci	r1,591
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,74
-lci	r0,525
-xor	r1
-lci	r1,583
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,74.74
-sqr
-lci	r1,8.645229898620395
-sub	r1
-lci	r1,0.0008645229898620395
-chk
-
-lci	r1,-940.24
-lci	r0,5819
-add	r1
-lci	r1,4878.76
-sub	r1
-lci	r1,0.487876000
-chk
-
-lci	r1,-940.24
-lci	r0,5819
-sub	r1
-lci	r1,-6759.24
-sub	r1
-lci	r1,0.675924000
-chk
-
-lci	r1,-940.24
-lci	r0,5819
-mul	r1
-lci	r1,-5471256.56
-sub	r1
-lci	r1,547.125656000
-chk
-
-lci	r1,-940
-lci	r0,5819
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-940.24
-lci	r0,5819
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-940.24
-int
-lci	r1,-940
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-940.24
-frc
-lci	r1,0.2400000000000091
-sub	r1
-lci	r1,0.00048000000000001817
-chk
-
-lci	r1,940
-lci	r0,5819
-and	r1
-lci	r1,680
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,940
-lci	r0,5819
-orr	r1
-lci	r1,6079
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,940
-lci	r0,5819
-xor	r1
-lci	r1,5399
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,940.24
-sqr
-lci	r1,30.66333315215422
-sub	r1
-lci	r1,0.003066333315215422
-chk
-
-lci	r1,-21.94
-lci	r0,177.6
-add	r1
-lci	r1,155.66
-sub	r1
-lci	r1,0.015566000
-chk
-
-lci	r1,-21.94
-lci	r0,177.6
-sub	r1
-lci	r1,-199.54
-sub	r1
-lci	r1,0.019954000
-chk
-
-lci	r1,-21.94
-lci	r0,177.6
-mul	r1
-lci	r1,-3896.5440000000003
-sub	r1
-lci	r1,0.389654400
-chk
-
-lci	r1,-21
-lci	r0,177
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-21.94
-lci	r0,-21.94
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-21.94
-int
-lci	r1,-21
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-21.94
-frc
-lci	r1,0.9400000000000013
-sub	r1
-lci	r1,0.0018800000000000028
-chk
-
-lci	r1,21
-lci	r0,177
-and	r1
-lci	r1,17
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,21
-lci	r0,177
-orr	r1
-lci	r1,181
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,21
-lci	r0,177
-xor	r1
-lci	r1,164
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,21.94
-sqr
-lci	r1,4.684015371452148
-sub	r1
-lci	r1,0.00046840153714521477
-chk
-
-lci	r1,2568
-lci	r0,937.61
-add	r1
-lci	r1,3505.61
-sub	r1
-lci	r1,0.350561000
-chk
-
-lci	r1,2568
-lci	r0,937.61
-sub	r1
-lci	r1,1630.3899999999999
-sub	r1
-lci	r1,0.163039000
-chk
-
-lci	r1,2568
-lci	r0,937.61
-mul	r1
-lci	r1,2407782.48
-sub	r1
-lci	r1,240.778248000
-chk
-
-lci	r1,2568
-lci	r0,937
-idv	r1
-lci	r1,2
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2568
-lci	r0,937.61
-div	r1
-lci	r1,2.73887863823978
-sub	r1
-lci	r1,0.000273888
-chk
-
-lci	r1,2568
-lci	r0,937.61
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2568
-int
-lci	r1,2568
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,2568
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,2568
-lci	r0,937
-and	r1
-lci	r1,520
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2568
-lci	r0,937
-orr	r1
-lci	r1,2985
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2568
-lci	r0,937
-xor	r1
-lci	r1,2465
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2568
-sqr
-lci	r1,50.67543783727971
-sub	r1
-lci	r1,0.005067543783727971
-chk
-
-lci	r1,702
-lci	r0,121.14
-add	r1
-lci	r1,823.14
-sub	r1
-lci	r1,0.082314000
-chk
-
-lci	r1,702
-lci	r0,121.14
-sub	r1
-lci	r1,580.86
-sub	r1
-lci	r1,0.058086000
-chk
-
-lci	r1,702
-lci	r0,121.14
-mul	r1
-lci	r1,85040.28
-sub	r1
-lci	r1,8.504028000
-chk
-
-lci	r1,702
-lci	r0,121
-idv	r1
-lci	r1,5
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,702
-lci	r0,121.14
-div	r1
-lci	r1,5.794947994056463
-sub	r1
-lci	r1,0.000579495
-chk
-
-lci	r1,702
-lci	r0,121.14
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,702
-int
-lci	r1,702
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,702
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,702
-lci	r0,121
-and	r1
-lci	r1,56
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,702
-lci	r0,121
-orr	r1
-lci	r1,767
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,702
-lci	r0,121
-xor	r1
-lci	r1,711
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,702
-sqr
-lci	r1,26.49528259898354
-sub	r1
-lci	r1,0.0026495282598983537
-chk
-
-lci	r1,-943.68
-lci	r0,1665
-add	r1
-lci	r1,721.32
-sub	r1
-lci	r1,0.072132000
-chk
-
-lci	r1,-943.68
-lci	r0,1665
-sub	r1
-lci	r1,-2608.68
-sub	r1
-lci	r1,0.260868000
-chk
-
-lci	r1,-943.68
-lci	r0,1665
-mul	r1
-lci	r1,-1571227.2
-sub	r1
-lci	r1,157.122720000
-chk
-
-lci	r1,-943
-lci	r0,1665
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-943.68
-lci	r0,-943.68
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-943.68
-int
-lci	r1,-943
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-943.68
-frc
-lci	r1,0.67999999999995
-sub	r1
-lci	r1,0.0013599999999999
-chk
-
-lci	r1,943
-lci	r0,1665
-and	r1
-lci	r1,641
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,943
-lci	r0,1665
-orr	r1
-lci	r1,1967
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,943
-lci	r0,1665
-xor	r1
-lci	r1,1326
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,943.68
-sqr
-lci	r1,30.71937499364204
-sub	r1
-lci	r1,0.003071937499364204
-chk
-
-lci	r1,-86.41
-lci	r0,993
-add	r1
-lci	r1,906.59
-sub	r1
-lci	r1,0.090659000
-chk
-
-lci	r1,-86.41
-lci	r0,993
-sub	r1
-lci	r1,-1079.41
-sub	r1
-lci	r1,0.107941000
-chk
-
-lci	r1,-86.41
-lci	r0,993
-mul	r1
-lci	r1,-85805.12999999999
-sub	r1
-lci	r1,8.580513000
-chk
-
-lci	r1,-86
-lci	r0,993
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-86.41
-lci	r0,993
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-86.41
-int
-lci	r1,-86
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-86.41
-frc
-lci	r1,0.4099999999999966
-sub	r1
-lci	r1,0.0008199999999999933
-chk
-
-lci	r1,86
-lci	r0,993
-and	r1
-lci	r1,64
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,86
-lci	r0,993
-orr	r1
-lci	r1,1015
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,86
-lci	r0,993
-xor	r1
-lci	r1,951
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,86.41
-sqr
-lci	r1,9.29569792968769
-sub	r1
-lci	r1,0.000929569792968769
-chk
-
-lci	r1,-693.32
-lci	r0,-7929
-add	r1
-lci	r1,-8622.32
-sub	r1
-lci	r1,0.862232000
-chk
-
-lci	r1,-693.32
-lci	r0,-7929
-sub	r1
-lci	r1,7235.68
-sub	r1
-lci	r1,0.723568000
-chk
-
-lci	r1,-693.32
-lci	r0,-7929
-mul	r1
-lci	r1,5497334.28
-sub	r1
-lci	r1,549.733428000
-chk
-
-lci	r1,-693
-lci	r0,-7929
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-693.32
-lci	r0,-693.32
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-693.32
-int
-lci	r1,-693
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-693.32
-frc
-lci	r1,0.32000000000005
-sub	r1
-lci	r1,0.0006400000000001001
-chk
-
-lci	r1,693
-lci	r0,7929
-and	r1
-lci	r1,689
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,693
-lci	r0,7929
-orr	r1
-lci	r1,7933
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,693
-lci	r0,7929
-xor	r1
-lci	r1,7244
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,693.32
-sqr
-lci	r1,26.330970358116314
-sub	r1
-lci	r1,0.002633097035811631
-chk
-
-lci	r1,382.82
-lci	r0,9982
-add	r1
-lci	r1,10364.82
-sub	r1
-lci	r1,1.036482000
-chk
-
-lci	r1,382.82
-lci	r0,9982
-sub	r1
-lci	r1,-9599.18
-sub	r1
-lci	r1,0.959918000
-chk
-
-lci	r1,382.82
-lci	r0,9982
-mul	r1
-lci	r1,3821309.2399999998
-sub	r1
-lci	r1,382.130924000
-chk
-
-lci	r1,382
-lci	r0,9982
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,382.82
-lci	r0,9982
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,382.82
-int
-lci	r1,382
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,382.82
-frc
-lci	r1,0.8199999999999932
-sub	r1
-lci	r1,0.0016399999999999865
-chk
-
-lci	r1,382
-lci	r0,9982
-and	r1
-lci	r1,126
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,382
-lci	r0,9982
-orr	r1
-lci	r1,10238
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,382
-lci	r0,9982
-xor	r1
-lci	r1,10112
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,382.82
-sqr
-lci	r1,19.565786465153913
-sub	r1
-lci	r1,0.0019565786465153916
-chk
-
-lci	r1,-2093
-lci	r0,-123.85
-add	r1
-lci	r1,-2216.85
-sub	r1
-lci	r1,0.221685000
-chk
-
-lci	r1,-2093
-lci	r0,-123.85
-sub	r1
-lci	r1,-1969.15
-sub	r1
-lci	r1,0.196915000
-chk
-
-lci	r1,-2093
-lci	r0,-123.85
-mul	r1
-lci	r1,259218.05
-sub	r1
-lci	r1,25.921805000
-chk
-
-lci	r1,-2093
-lci	r0,-123
-idv	r1
-lci	r1,17
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-2093
-lci	r0,-123.85
-div	r1
-lci	r1,16.899475171578523
-sub	r1
-lci	r1,0.001689948
-chk
-
-lci	r1,-2093
-lci	r0,-123.85
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-2093
-int
-lci	r1,-2093
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-2093
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,2093
-lci	r0,123
-and	r1
-lci	r1,41
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2093
-lci	r0,123
-orr	r1
-lci	r1,2175
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2093
-lci	r0,123
-xor	r1
-lci	r1,2134
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2093
-sqr
-lci	r1,45.749316934791494
-sub	r1
-lci	r1,0.00457493169347915
-chk
-
-lci	r1,-733.88
-lci	r0,-4159
-add	r1
-lci	r1,-4892.88
-sub	r1
-lci	r1,0.489288000
-chk
-
-lci	r1,-733.88
-lci	r0,-4159
-sub	r1
-lci	r1,3425.12
-sub	r1
-lci	r1,0.342512000
-chk
-
-lci	r1,-733.88
-lci	r0,-4159
-mul	r1
-lci	r1,3052206.92
-sub	r1
-lci	r1,305.220692000
-chk
-
-lci	r1,-733
-lci	r0,-4159
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-733.88
-lci	r0,-4159
-div	r1
-lci	r1,0.17645587881702332
-sub	r1
-lci	r1,0.000017646
-chk
-
-lci	r1,-733.88
-lci	r0,-4159
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-733.88
-int
-lci	r1,-733
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-733.88
-frc
-lci	r1,0.8799999999999955
-sub	r1
-lci	r1,0.001759999999999991
-chk
-
-lci	r1,733
-lci	r0,4159
-and	r1
-lci	r1,29
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,733
-lci	r0,4159
-orr	r1
-lci	r1,4863
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,733
-lci	r0,4159
-xor	r1
-lci	r1,4834
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,733.88
-sqr
-lci	r1,27.09021963735252
-sub	r1
-lci	r1,0.002709021963735252
-chk
-
-lci	r1,2557
-lci	r0,660.83
-add	r1
-lci	r1,3217.83
-sub	r1
-lci	r1,0.321783000
-chk
-
-lci	r1,2557
-lci	r0,660.83
-sub	r1
-lci	r1,1896.17
-sub	r1
-lci	r1,0.189617000
-chk
-
-lci	r1,2557
-lci	r0,660.83
-mul	r1
-lci	r1,1689742.31
-sub	r1
-lci	r1,168.974231000
-chk
-
-lci	r1,2557
-lci	r0,660
-idv	r1
-lci	r1,3
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2557
-lci	r0,660.83
-div	r1
-lci	r1,3.8693763902970506
-sub	r1
-lci	r1,0.000386938
-chk
-
-lci	r1,2557
-lci	r0,660.83
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2557
-int
-lci	r1,2557
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,2557
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,2557
-lci	r0,660
-and	r1
-lci	r1,148
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2557
-lci	r0,660
-orr	r1
-lci	r1,3069
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2557
-lci	r0,660
-xor	r1
-lci	r1,2921
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2557
-sqr
-lci	r1,50.566787519082126
-sub	r1
-lci	r1,0.005056678751908212
-chk
-
-lci	r1,-4153
-lci	r0,-669.11
-add	r1
-lci	r1,-4822.11
-sub	r1
-lci	r1,0.482211000
-chk
-
-lci	r1,-4153
-lci	r0,-669.11
-sub	r1
-lci	r1,-3483.89
-sub	r1
-lci	r1,0.348389000
-chk
-
-lci	r1,-4153
-lci	r0,-669.11
-mul	r1
-lci	r1,2778813.83
-sub	r1
-lci	r1,277.881383000
-chk
-
-lci	r1,-4153
-lci	r0,-669
-idv	r1
-lci	r1,6
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-4153
-lci	r0,-669.11
-div	r1
-lci	r1,6.206752252992781
-sub	r1
-lci	r1,0.000620675
-chk
-
-lci	r1,-4153
-lci	r0,-4153
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-4153
-int
-lci	r1,-4153
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-4153
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,4153
-lci	r0,669
-and	r1
-lci	r1,25
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,4153
-lci	r0,669
-orr	r1
-lci	r1,4797
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,4153
-lci	r0,669
-xor	r1
-lci	r1,4772
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,4153
-sqr
-lci	r1,64.4437739428721
-sub	r1
-lci	r1,0.00644437739428721
-chk
-
-lci	r1,-795.09
-lci	r0,330.01
-add	r1
-lci	r1,-465.08000000000004
-sub	r1
-lci	r1,0.046508000
-chk
-
-lci	r1,-795.09
-lci	r0,330.01
-sub	r1
-lci	r1,-1125.1
-sub	r1
-lci	r1,0.112510000
-chk
-
-lci	r1,-795.09
-lci	r0,330.01
-mul	r1
-lci	r1,-262387.6509
-sub	r1
-lci	r1,26.238765090
-chk
-
-lci	r1,-795
-lci	r0,330
-idv	r1
-lci	r1,-2
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-795.09
-lci	r0,330.01
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-795.09
-int
-lci	r1,-795
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-795.09
-frc
-lci	r1,0.09000000000003183
-sub	r1
-lci	r1,0.00018000000000006368
-chk
-
-lci	r1,795
-lci	r0,330
-and	r1
-lci	r1,266
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,795
-lci	r0,330
-orr	r1
-lci	r1,859
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,795
-lci	r0,330
-xor	r1
-lci	r1,593
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,795.09
-sqr
-lci	r1,28.197340300106323
-sub	r1
-lci	r1,0.002819734030010632
-chk
-
-lci	r1,277.38
-lci	r0,511.54
-add	r1
-lci	r1,788.9200000000001
-sub	r1
-lci	r1,0.078892000
-chk
-
-lci	r1,277.38
-lci	r0,511.54
-sub	r1
-lci	r1,-234.16000000000003
-sub	r1
-lci	r1,0.023416000
-chk
-
-lci	r1,277.38
-lci	r0,511.54
-mul	r1
-lci	r1,141890.9652
-sub	r1
-lci	r1,14.189096520
-chk
-
-lci	r1,277
-lci	r0,511
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,277.38
-lci	r0,511.54
-div	r1
-lci	r1,0.5422449857293662
-sub	r1
-lci	r1,0.000054224
-chk
-
-lci	r1,277.38
-lci	r0,277.38
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,277.38
-int
-lci	r1,277
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,277.38
-frc
-lci	r1,0.37999999999999545
-sub	r1
-lci	r1,0.0007599999999999909
-chk
-
-lci	r1,277
-lci	r0,511
-and	r1
-lci	r1,277
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,277
-lci	r0,511
-orr	r1
-lci	r1,511
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,277
-lci	r0,511
-xor	r1
-lci	r1,234
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,277.38
-sqr
-lci	r1,16.65472905813841
-sub	r1
-lci	r1,0.0016654729058138411
-chk
-
-lci	r1,6435
-lci	r0,994.62
-add	r1
-lci	r1,7429.62
-sub	r1
-lci	r1,0.742962000
-chk
-
-lci	r1,6435
-lci	r0,994.62
-sub	r1
-lci	r1,5440.38
-sub	r1
-lci	r1,0.544038000
-chk
-
-lci	r1,6435
-lci	r0,994.62
-mul	r1
-lci	r1,6400379.7
-sub	r1
-lci	r1,640.037970000
-chk
-
-lci	r1,6435
-lci	r0,994
-idv	r1
-lci	r1,6
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,6435
-lci	r0,994.62
-div	r1
-lci	r1,6.469807564698075
-sub	r1
-lci	r1,0.000646981
-chk
-
-lci	r1,6435
-lci	r0,994.62
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,6435
-int
-lci	r1,6435
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,6435
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,6435
-lci	r0,994
-and	r1
-lci	r1,290
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,6435
-lci	r0,994
-orr	r1
-lci	r1,7139
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,6435
-lci	r0,994
-xor	r1
-lci	r1,6849
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,6435
-sqr
-lci	r1,80.21845174272562
-sub	r1
-lci	r1,0.008021845174272561
-chk
-
-lci	r1,1715
-lci	r0,-5575
-add	r1
-lci	r1,-3860
-sub	r1
-lci	r1,0.386000000
-chk
-
-lci	r1,1715
-lci	r0,-5575
-sub	r1
-lci	r1,7290
-sub	r1
-lci	r1,0.729000000
-chk
-
-lci	r1,1715
-lci	r0,-5575
-mul	r1
-lci	r1,-9561125
-sub	r1
-lci	r1,956.112500000
-chk
-
-lci	r1,1715
-lci	r0,-5575
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1715
-lci	r0,-5575
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,1715
-int
-lci	r1,1715
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,1715
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,1715
-lci	r0,5575
-and	r1
-lci	r1,1155
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1715
-lci	r0,5575
-orr	r1
-lci	r1,6135
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1715
-lci	r0,5575
-xor	r1
-lci	r1,4980
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,1715
-sqr
-lci	r1,41.41255848169731
-sub	r1
-lci	r1,0.0041412558481697306
-chk
-
-lci	r1,6654
-lci	r0,9060
-add	r1
-lci	r1,15714
-sub	r1
-lci	r1,1.571400000
-chk
-
-lci	r1,6654
-lci	r0,9060
-sub	r1
-lci	r1,-2406
-sub	r1
-lci	r1,0.240600000
-chk
-
-lci	r1,6654
-lci	r0,9060
-mul	r1
-lci	r1,60285240
-sub	r1
-lci	r1,6028.524000000
-chk
-
-lci	r1,6654
-lci	r0,9060
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,6654
-lci	r0,9060
-div	r1
-lci	r1,0.7344370860927152
-sub	r1
-lci	r1,0.000073444
-chk
-
-lci	r1,6654
-lci	r0,9060
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,6654
-int
-lci	r1,6654
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,6654
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,6654
-lci	r0,9060
-and	r1
-lci	r1,356
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,6654
-lci	r0,9060
-orr	r1
-lci	r1,15358
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,6654
-lci	r0,9060
-xor	r1
-lci	r1,15002
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,6654
-sqr
-lci	r1,81.57205403813245
-sub	r1
-lci	r1,0.008157205403813244
-chk
-
-lci	r1,34.17
-lci	r0,-415
-add	r1
-lci	r1,-380.83
-sub	r1
-lci	r1,0.038083000
-chk
-
-lci	r1,34.17
-lci	r0,-415
-sub	r1
-lci	r1,449.17
-sub	r1
-lci	r1,0.044917000
-chk
-
-lci	r1,34.17
-lci	r0,-415
-mul	r1
-lci	r1,-14180.550000000001
-sub	r1
-lci	r1,1.418055000
-chk
-
-lci	r1,34
-lci	r0,-415
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,34.17
-lci	r0,-415
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,34.17
-int
-lci	r1,34
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,34.17
-frc
-lci	r1,0.1700000000000017
-sub	r1
-lci	r1,0.00034000000000000344
-chk
-
-lci	r1,34
-lci	r0,415
-and	r1
-lci	r1,2
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,34
-lci	r0,415
-orr	r1
-lci	r1,447
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,34
-lci	r0,415
-xor	r1
-lci	r1,445
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,34.17
-sqr
-lci	r1,5.845511098270193
-sub	r1
-lci	r1,0.0005845511098270193
-chk
-
-lci	r1,1603
-lci	r0,-3362
-add	r1
-lci	r1,-1759
-sub	r1
-lci	r1,0.175900000
-chk
-
-lci	r1,1603
-lci	r0,-3362
-sub	r1
-lci	r1,4965
-sub	r1
-lci	r1,0.496500000
-chk
-
-lci	r1,1603
-lci	r0,-3362
-mul	r1
-lci	r1,-5389286
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1603
-lci	r0,-3362
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1603
-lci	r0,1603
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,1603
-int
-lci	r1,1603
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,1603
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,1603
-lci	r0,3362
-and	r1
-lci	r1,1026
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1603
-lci	r0,3362
-orr	r1
-lci	r1,3939
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,1603
-lci	r0,3362
-xor	r1
-lci	r1,2913
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,1603
-sqr
-lci	r1,40.0374824383352
-sub	r1
-lci	r1,0.004003748243833521
-chk
-
-lci	r1,-252
-lci	r0,7614
-add	r1
-lci	r1,7362
-sub	r1
-lci	r1,0.736200000
-chk
-
-lci	r1,-252
-lci	r0,7614
-sub	r1
-lci	r1,-7866
-sub	r1
-lci	r1,0.786600000
-chk
-
-lci	r1,-252
-lci	r0,7614
-mul	r1
-lci	r1,-1918728
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-252
-lci	r0,7614
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-252
-lci	r0,-252
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-252
-int
-lci	r1,-252
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-252
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,252
-lci	r0,7614
-and	r1
-lci	r1,188
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,252
-lci	r0,7614
-orr	r1
-lci	r1,7678
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,252
-lci	r0,7614
-xor	r1
-lci	r1,7490
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,252
-sqr
-lci	r1,15.874507866387544
-sub	r1
-lci	r1,0.0015874507866387544
-chk
-
-lci	r1,-732.26
-lci	r0,-829.56
-add	r1
-lci	r1,-1561.82
-sub	r1
-lci	r1,0.156182000
-chk
-
-lci	r1,-732.26
-lci	r0,-829.56
-sub	r1
-lci	r1,97.29999999999995
-sub	r1
-lci	r1,0.009730000
-chk
-
-lci	r1,-732.26
-lci	r0,-829.56
-mul	r1
-lci	r1,607453.6056
-sub	r1
-lci	r1,60.745360560
-chk
-
-lci	r1,-732
-lci	r0,-829
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-732.26
-lci	r0,-829.56
-div	r1
-lci	r1,0.8827089059260331
-sub	r1
-lci	r1,0.000088271
-chk
-
-lci	r1,-732.26
-lci	r0,-732.26
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-732.26
-int
-lci	r1,-732
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-732.26
-frc
-lci	r1,0.2599999999999909
-sub	r1
-lci	r1,0.0005199999999999818
-chk
-
-lci	r1,732
-lci	r0,829
-and	r1
-lci	r1,540
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,732
-lci	r0,829
-orr	r1
-lci	r1,1021
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,732
-lci	r0,829
-xor	r1
-lci	r1,481
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,732.26
-sqr
-lci	r1,27.060303028606313
-sub	r1
-lci	r1,0.0027060303028606314
-chk
-
-lci	r1,-41
-lci	r0,-360.84
-add	r1
-lci	r1,-401.84
-sub	r1
-lci	r1,0.040184000
-chk
-
-lci	r1,-41
-lci	r0,-360.84
-sub	r1
-lci	r1,319.84
-sub	r1
-lci	r1,0.031984000
-chk
-
-lci	r1,-41
-lci	r0,-360.84
-mul	r1
-lci	r1,14794.439999999999
-sub	r1
-lci	r1,1.479444000
-chk
-
-lci	r1,-41
-lci	r0,-360
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-41
-lci	r0,-360.84
-div	r1
-lci	r1,0.11362376676643389
-sub	r1
-lci	r1,0.000011362
-chk
-
-lci	r1,-41
-lci	r0,-360.84
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-41
-int
 lci	r1,-41
 sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-41
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,41
-lci	r0,360
-and	r1
-lci	r1,40
-sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,41
-lci	r0,360
-orr	r1
-lci	r1,361
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,41
-lci	r0,360
-xor	r1
-lci	r1,321
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,41
-sqr
-lci	r1,6.4031242374328485
-sub	r1
-lci	r1,0.0006403124237432849
-chk
-
-lci	r1,-7121
-lci	r0,-2091
-add	r1
-lci	r1,-9212
-sub	r1
-lci	r1,0.921200000
-chk
-
-lci	r1,-7121
-lci	r0,-2091
-sub	r1
-lci	r1,-5030
-sub	r1
-lci	r1,0.503000000
-chk
-
-lci	r1,-7121
-lci	r0,-2091
-mul	r1
-lci	r1,14890011
-sub	r1
-lci	r1,1489.001100000
-chk
-
-lci	r1,-7121
-lci	r0,-2091
-idv	r1
-lci	r1,3
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-7121
-lci	r0,-2091
-div	r1
-lci	r1,3.4055475848876138
-sub	r1
-lci	r1,0.000340555
-chk
-
-lci	r1,-7121
-lci	r0,-2091
+lci	r1,-4894
+lci	r0,119.86
 cmp	r1
 lci	r1,-1
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,-7121
+lci	r0,-4894
 int
-lci	r1,-7121
+lci	r1,-4894
 sub	r1
 lci	r1,0.0
 chk
 
-lci	r0,-7121
+lci	r0,-4894
 frc
 lci	r1,0
 sub	r1
 lci	r1,0.0
 chk
 
-lci	r1,7121
-lci	r0,2091
+lci	r1,4894
+lci	r0,119
 and	r1
-lci	r1,2049
+lci	r1,22
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,7121
-lci	r0,2091
+lci	r1,4894
+lci	r0,119
 orr	r1
-lci	r1,7163
+lci	r1,4991
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,7121
-lci	r0,2091
+lci	r1,4894
+lci	r0,119
 xor	r1
-lci	r1,5114
+lci	r1,4969
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,7121
+lci	r0,4894
 sqr
-lci	r1,84.38601779915912
+lci	r1,69.95712972957081
 sub	r1
-lci	r1,0.008438601779915912
+lci	r1,0.006995712972957081
 chk
 
-lci	r1,-4667
-lci	r0,7049
+lci	r1,-902.99
+lci	r0,9100
 add	r1
-lci	r1,2382
+lci	r1,8197.01
 sub	r1
-lci	r1,0.238200000
+lci	r1,0.819701000
 chk
 
-lci	r1,-4667
-lci	r0,7049
+lci	r1,-902.99
+lci	r0,9100
 sub	r1
-lci	r1,-11716
+lci	r1,-10002.99
 sub	r1
-lci	r1,1.171600000
+lci	r1,1.000299000
 chk
 
-lci	r1,-4667
-lci	r0,7049
+lci	r1,-902.99
+lci	r0,9100
 mul	r1
-lci	r1,-32897683
+lci	r1,-8217209.0
 sub	r1
-lci	r1,3289.768300000
+lci	r1,821.720900000
 chk
 
-lci	r1,-4667
-lci	r0,7049
+lci	r1,-902
+lci	r0,9100
 idv	r1
 lci	r1,0
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,-4667
-lci	r0,7049
+lci	r1,-902.99
+lci	r0,9100
 cmp	r1
 lci	r1,-1
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,-4667
+lci	r0,-902.99
 int
-lci	r1,-4667
+lci	r1,-902
 sub	r1
 lci	r1,0.0
 chk
 
-lci	r0,-4667
+lci	r0,-902.99
 frc
-lci	r1,0
+lci	r1,0.9900000000000091
 sub	r1
-lci	r1,0.0
+lci	r1,0.001980000000000018
 chk
 
-lci	r1,4667
-lci	r0,7049
+lci	r1,902
+lci	r0,9100
 and	r1
-lci	r1,4617
+lci	r1,900
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,4667
-lci	r0,7049
+lci	r1,902
+lci	r0,9100
 orr	r1
-lci	r1,7099
+lci	r1,9102
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,4667
-lci	r0,7049
+lci	r1,902
+lci	r0,9100
 xor	r1
-lci	r1,2482
+lci	r1,8202
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,4667
+lci	r0,902.99
 sqr
-lci	r1,68.31544481301428
+lci	r1,30.049792012591368
 sub	r1
-lci	r1,0.006831544481301428
+lci	r1,0.003004979201259137
 chk
 
-lci	r1,-5554
-lci	r0,362.74
+lci	r1,-864.66
+lci	r0,675.04
 add	r1
-lci	r1,-5191.26
+lci	r1,-189.62
 sub	r1
-lci	r1,0.519126000
+lci	r1,0.018962000
 chk
 
-lci	r1,-5554
-lci	r0,362.74
+lci	r1,-864.66
+lci	r0,675.04
 sub	r1
-lci	r1,-5916.74
+lci	r1,-1539.6999999999998
 sub	r1
-lci	r1,0.591674000
+lci	r1,0.153970000
 chk
 
-lci	r1,-5554
-lci	r0,362.74
+lci	r1,-864.66
+lci	r0,675.04
 mul	r1
-lci	r1,-2014657.96
+lci	r1,-583680.0863999999
 sub	r1
-lci	r1,201.465796000
+lci	r1,58.368008640
 chk
 
-lci	r1,-5554
-lci	r0,362
+lci	r1,-864
+lci	r0,675
 idv	r1
-lci	r1,-15
+lci	r1,-1
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,-5554
-lci	r0,-5554
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-5554
-int
-lci	r1,-5554
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-5554
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,5554
-lci	r0,362
-and	r1
-lci	r1,290
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,5554
-lci	r0,362
-orr	r1
-lci	r1,5626
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,5554
-lci	r0,362
-xor	r1
-lci	r1,5336
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,5554
-sqr
-lci	r1,74.52516353554684
-sub	r1
-lci	r1,0.007452516353554683
-chk
-
-lci	r1,-494.28
-lci	r0,-716.86
-add	r1
-lci	r1,-1211.1399999999999
-sub	r1
-lci	r1,0.121114000
-chk
-
-lci	r1,-494.28
-lci	r0,-716.86
-sub	r1
-lci	r1,222.58000000000004
-sub	r1
-lci	r1,0.022258000
-chk
-
-lci	r1,-494.28
-lci	r0,-716.86
-mul	r1
-lci	r1,354329.5608
-sub	r1
-lci	r1,35.432956080
-chk
-
-lci	r1,-494
-lci	r0,-716
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-494.28
-lci	r0,-716.86
-div	r1
-lci	r1,0.6895070167117707
-sub	r1
-lci	r1,0.000068951
-chk
-
-lci	r1,-494.28
-lci	r0,-716.86
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-494.28
-int
-lci	r1,-494
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-494.28
-frc
-lci	r1,0.2799999999999727
-sub	r1
-lci	r1,0.0005599999999999455
-chk
-
-lci	r1,494
-lci	r0,716
-and	r1
-lci	r1,204
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,494
-lci	r0,716
-orr	r1
-lci	r1,1006
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,494
-lci	r0,716
-xor	r1
-lci	r1,802
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,494.28
-sqr
-lci	r1,22.232408776378684
-sub	r1
-lci	r1,0.0022232408776378682
-chk
-
-lci	r1,7623
-lci	r0,7464
-add	r1
-lci	r1,15087
-sub	r1
-lci	r1,1.508700000
-chk
-
-lci	r1,7623
-lci	r0,7464
-sub	r1
-lci	r1,159
-sub	r1
-lci	r1,0.015900000
-chk
-
-lci	r1,7623
-lci	r0,7464
-mul	r1
-lci	r1,56898072
-sub	r1
-lci	r1,5689.807200000
-chk
-
-lci	r1,7623
-lci	r0,7464
-idv	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,7623
-lci	r0,7464
-div	r1
-lci	r1,1.0213022508038585
-sub	r1
-lci	r1,0.000102130
-chk
-
-lci	r1,7623
-lci	r0,7623
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,7623
-int
-lci	r1,7623
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,7623
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,7623
-lci	r0,7464
-and	r1
-lci	r1,7424
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,7623
-lci	r0,7464
-orr	r1
-lci	r1,7663
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,7623
-lci	r0,7464
-xor	r1
-lci	r1,239
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,7623
-sqr
-lci	r1,87.30979326513149
-sub	r1
-lci	r1,0.008730979326513148
-chk
-
-lci	r1,435.87
-lci	r0,428
-add	r1
-lci	r1,863.87
-sub	r1
-lci	r1,0.086387000
-chk
-
-lci	r1,435.87
-lci	r0,428
-sub	r1
-lci	r1,7.8700000000000045
-sub	r1
-lci	r1,0.000787000
-chk
-
-lci	r1,435.87
-lci	r0,428
-mul	r1
-lci	r1,186552.36000000002
-sub	r1
-lci	r1,18.655236000
-chk
-
-lci	r1,435
-lci	r0,428
-idv	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,435.87
-lci	r0,428
-div	r1
-lci	r1,1.0183878504672896
-sub	r1
-lci	r1,0.000101839
-chk
-
-lci	r0,435.87
-int
-lci	r1,435
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,435.87
-frc
-lci	r1,0.8700000000000045
-sub	r1
-lci	r1,0.0017400000000000093
-chk
-
-lci	r1,435
-lci	r0,428
-and	r1
-lci	r1,416
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,435
-lci	r0,428
-orr	r1
-lci	r1,447
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,435
-lci	r0,428
-xor	r1
-lci	r1,31
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,435.87
-sqr
-lci	r1,20.877499850317328
-sub	r1
-lci	r1,0.0020877499850317327
-chk
-
-lci	r1,-353.87
-lci	r0,3643
-add	r1
-lci	r1,3289.13
-sub	r1
-lci	r1,0.328913000
-chk
-
-lci	r1,-353.87
-lci	r0,3643
-sub	r1
-lci	r1,-3996.87
-sub	r1
-lci	r1,0.399687000
-chk
-
-lci	r1,-353.87
-lci	r0,3643
-mul	r1
-lci	r1,-1289148.41
-sub	r1
-lci	r1,128.914841000
-chk
-
-lci	r1,-353
-lci	r0,3643
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-353.87
-lci	r0,3643
+lci	r1,-864.66
+lci	r0,675.04
 cmp	r1
 lci	r1,-1
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,-353.87
+lci	r0,-864.66
 int
-lci	r1,-353
+lci	r1,-864
 sub	r1
 lci	r1,0.0
 chk
 
-lci	r0,-353.87
+lci	r0,-864.66
 frc
-lci	r1,0.8700000000000045
+lci	r1,0.6599999999999682
 sub	r1
-lci	r1,0.0017400000000000093
+lci	r1,0.0013199999999999365
 chk
 
-lci	r1,353
-lci	r0,3643
+lci	r1,864
+lci	r0,675
 and	r1
-lci	r1,33
+lci	r1,544
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,353
-lci	r0,3643
+lci	r1,864
+lci	r0,675
 orr	r1
-lci	r1,3963
+lci	r1,995
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,353
-lci	r0,3643
+lci	r1,864
+lci	r0,675
 xor	r1
-lci	r1,3930
+lci	r1,451
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,353.87
+lci	r0,864.66
 sqr
-lci	r1,18.81143269397629
+lci	r1,29.405101598192108
 sub	r1
-lci	r1,0.001881143269397629
+lci	r1,0.0029405101598192107
 chk
 
-lci	r1,803.12
-lci	r0,6935
+lci	r1,-4710
+lci	r0,419
 add	r1
-lci	r1,7738.12
+lci	r1,-4291
 sub	r1
-lci	r1,0.773812000
+lci	r1,0.429100000
 chk
 
-lci	r1,803.12
-lci	r0,6935
+lci	r1,-4710
+lci	r0,419
 sub	r1
-lci	r1,-6131.88
+lci	r1,-5129
 sub	r1
-lci	r1,0.613188000
+lci	r1,0.512900000
 chk
 
-lci	r1,803.12
-lci	r0,6935
+lci	r1,-4710
+lci	r0,419
 mul	r1
-lci	r1,5569637.2
-sub	r1
-lci	r1,556.963720000
-chk
-
-lci	r1,803
-lci	r0,6935
-idv	r1
-lci	r1,0
+lci	r1,-1973490
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,803.12
-lci	r0,6935
-div	r1
-lci	r1,0.11580677721701514
-sub	r1
-lci	r1,0.000011581
-chk
-
-lci	r1,803.12
-lci	r0,6935
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,803.12
-int
-lci	r1,803
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,803.12
-frc
-lci	r1,0.12000000000000455
-sub	r1
-lci	r1,0.00024000000000000909
-chk
-
-lci	r1,803
-lci	r0,6935
-and	r1
-lci	r1,771
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,803
-lci	r0,6935
-orr	r1
-lci	r1,6967
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,803
-lci	r0,6935
-xor	r1
-lci	r1,6196
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,803.12
-sqr
-lci	r1,28.339371905531003
-sub	r1
-lci	r1,0.0028339371905531
-chk
-
-lci	r1,9163
-lci	r0,6837
-add	r1
-lci	r1,16000
-sub	r1
-lci	r1,1.600000000
-chk
-
-lci	r1,9163
-lci	r0,6837
-sub	r1
-lci	r1,2326
-sub	r1
-lci	r1,0.232600000
-chk
-
-lci	r1,9163
-lci	r0,6837
-mul	r1
-lci	r1,62647431
-sub	r1
-lci	r1,6264.743100000
-chk
-
-lci	r1,9163
-lci	r0,6837
-idv	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,9163
-lci	r0,6837
-div	r1
-lci	r1,1.3402076934327922
-sub	r1
-lci	r1,0.000134021
-chk
-
-lci	r1,9163
-lci	r0,9163
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,9163
-int
-lci	r1,9163
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,9163
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,9163
-lci	r0,6837
-and	r1
-lci	r1,641
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,9163
-lci	r0,6837
-orr	r1
-lci	r1,15359
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,9163
-lci	r0,6837
-xor	r1
-lci	r1,14718
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,9163
-sqr
-lci	r1,95.7235603182414
-sub	r1
-lci	r1,0.00957235603182414
-chk
-
-lci	r1,7688
-lci	r0,414.71
-add	r1
-lci	r1,8102.71
-sub	r1
-lci	r1,0.810271000
-chk
-
-lci	r1,7688
-lci	r0,414.71
-sub	r1
-lci	r1,7273.29
-sub	r1
-lci	r1,0.727329000
-chk
-
-lci	r1,7688
-lci	r0,414.71
-mul	r1
-lci	r1,3188290.48
-sub	r1
-lci	r1,318.829048000
-chk
-
-lci	r1,7688
-lci	r0,414
-idv	r1
-lci	r1,18
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,7688
-lci	r0,414.71
-div	r1
-lci	r1,18.538255648525478
-sub	r1
-lci	r1,0.001853826
-chk
-
-lci	r1,7688
-lci	r0,414.71
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,7688
-int
-lci	r1,7688
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,7688
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,7688
-lci	r0,414
-and	r1
-lci	r1,8
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,7688
-lci	r0,414
-orr	r1
-lci	r1,8094
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,7688
-lci	r0,414
-xor	r1
-lci	r1,8086
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,7688
-sqr
-lci	r1,87.68124086713189
-sub	r1
-lci	r1,0.008768124086713189
-chk
-
-lci	r1,-260.48
-lci	r0,5001
-add	r1
-lci	r1,4740.52
-sub	r1
-lci	r1,0.474052000
-chk
-
-lci	r1,-260.48
-lci	r0,5001
-sub	r1
-lci	r1,-5261.48
-sub	r1
-lci	r1,0.526148000
-chk
-
-lci	r1,-260.48
-lci	r0,5001
-mul	r1
-lci	r1,-1302660.48
-sub	r1
-lci	r1,130.266048000
-chk
-
-lci	r1,-260
-lci	r0,5001
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-260.48
-lci	r0,5001
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-260.48
-int
-lci	r1,-260
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-260.48
-frc
-lci	r1,0.4800000000000182
-sub	r1
-lci	r1,0.0009600000000000363
-chk
-
-lci	r1,260
-lci	r0,5001
-and	r1
-lci	r1,256
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,260
-lci	r0,5001
-orr	r1
-lci	r1,5005
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,260
-lci	r0,5001
-xor	r1
-lci	r1,4749
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,260.48
-sqr
-lci	r1,16.13939280146561
-sub	r1
-lci	r1,0.0016139392801465611
-chk
-
-lci	r1,-667.03
-lci	r0,-4525
-add	r1
-lci	r1,-5192.03
-sub	r1
-lci	r1,0.519203000
-chk
-
-lci	r1,-667.03
-lci	r0,-4525
-sub	r1
-lci	r1,3857.9700000000003
-sub	r1
-lci	r1,0.385797000
-chk
-
-lci	r1,-667.03
-lci	r0,-4525
-mul	r1
-lci	r1,3018310.75
-sub	r1
-lci	r1,301.831075000
-chk
-
-lci	r1,-667
-lci	r0,-4525
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-667.03
-lci	r0,-4525
-div	r1
-lci	r1,0.14740994475138122
-sub	r1
-lci	r1,0.000014741
-chk
-
-lci	r1,-667.03
-lci	r0,-4525
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-667.03
-int
-lci	r1,-667
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-667.03
-frc
-lci	r1,0.029999999999972715
-sub	r1
-lci	r1,5.999999999994543e-05
-chk
-
-lci	r1,667
-lci	r0,4525
-and	r1
-lci	r1,137
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,667
-lci	r0,4525
-orr	r1
-lci	r1,5055
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,667
-lci	r0,4525
-xor	r1
-lci	r1,4918
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,667.03
-sqr
-lci	r1,25.8269239360788
-sub	r1
-lci	r1,0.00258269239360788
-chk
-
-lci	r1,-891.58
-lci	r0,-1574
-add	r1
-lci	r1,-2465.58
-sub	r1
-lci	r1,0.246558000
-chk
-
-lci	r1,-891.58
-lci	r0,-1574
-sub	r1
-lci	r1,682.42
-sub	r1
-lci	r1,0.068242000
-chk
-
-lci	r1,-891.58
-lci	r0,-1574
-mul	r1
-lci	r1,1403346.9200000002
-sub	r1
-lci	r1,140.334692000
-chk
-
-lci	r1,-891
-lci	r0,-1574
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-891.58
-lci	r0,-1574
-div	r1
-lci	r1,0.5664421855146125
-sub	r1
-lci	r1,0.000056644
-chk
-
-lci	r1,-891.58
-lci	r0,-1574
-cmp	r1
-lci	r1,1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-891.58
-int
-lci	r1,-891
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-891.58
-frc
-lci	r1,0.5800000000000409
-sub	r1
-lci	r1,0.001160000000000082
-chk
-
-lci	r1,891
-lci	r0,1574
-and	r1
-lci	r1,546
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,891
-lci	r0,1574
-orr	r1
-lci	r1,1919
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,891
-lci	r0,1574
-xor	r1
-lci	r1,1373
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,891.58
-sqr
-lci	r1,29.859336898196517
-sub	r1
-lci	r1,0.002985933689819652
-chk
-
-lci	r1,6675
-lci	r0,-580.26
-add	r1
-lci	r1,6094.74
-sub	r1
-lci	r1,0.609474000
-chk
-
-lci	r1,6675
-lci	r0,-580.26
-sub	r1
-lci	r1,7255.26
-sub	r1
-lci	r1,0.725526000
-chk
-
-lci	r1,6675
-lci	r0,-580.26
-mul	r1
-lci	r1,-3873235.5
-sub	r1
-lci	r1,387.323550000
-chk
-
-lci	r1,6675
-lci	r0,-580
+lci	r1,-4710
+lci	r0,419
 idv	r1
 lci	r1,-11
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,6675
-lci	r0,-580.26
+lci	r1,-4710
+lci	r0,419
 cmp	r1
-lci	r1,1
+lci	r1,-1
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,6675
+lci	r0,-4710
 int
-lci	r1,6675
+lci	r1,-4710
 sub	r1
 lci	r1,0.0
 chk
 
-lci	r0,6675
+lci	r0,-4710
 frc
 lci	r1,0
 sub	r1
 lci	r1,0.0
 chk
 
-lci	r1,6675
-lci	r0,580
+lci	r1,4710
+lci	r0,419
+and	r1
+lci	r1,34
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4710
+lci	r0,419
+orr	r1
+lci	r1,5095
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4710
+lci	r0,419
+xor	r1
+lci	r1,5061
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,4710
+sqr
+lci	r1,68.62943974709395
+sub	r1
+lci	r1,0.0068629439747093955
+chk
+
+lci	r1,-91.15
+lci	r0,-9403
+add	r1
+lci	r1,-9494.15
+sub	r1
+lci	r1,0.949415000
+chk
+
+lci	r1,-91.15
+lci	r0,-9403
+sub	r1
+lci	r1,9311.85
+sub	r1
+lci	r1,0.931185000
+chk
+
+lci	r1,-91.15
+lci	r0,-9403
+mul	r1
+lci	r1,857083.4500000001
+sub	r1
+lci	r1,85.708345000
+chk
+
+lci	r1,-91
+lci	r0,-9403
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-91.15
+lci	r0,-9403
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-91.15
+int
+lci	r1,-91
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-91.15
+frc
+lci	r1,0.15000000000000568
+sub	r1
+lci	r1,0.00030000000000001136
+chk
+
+lci	r1,91
+lci	r0,9403
+and	r1
+lci	r1,27
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,91
+lci	r0,9403
+orr	r1
+lci	r1,9467
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,91
+lci	r0,9403
+xor	r1
+lci	r1,9440
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,91.15
+sqr
+lci	r1,9.547250913221042
+sub	r1
+lci	r1,0.0009547250913221042
+chk
+
+lci	r1,-5344
+lci	r0,-855
+add	r1
+lci	r1,-6199
+sub	r1
+lci	r1,0.619900000
+chk
+
+lci	r1,-5344
+lci	r0,-855
+sub	r1
+lci	r1,-4489
+sub	r1
+lci	r1,0.448900000
+chk
+
+lci	r1,-5344
+lci	r0,-855
+mul	r1
+lci	r1,4569120
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-5344
+lci	r0,-855
+idv	r1
+lci	r1,6
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-5344
+lci	r0,-855
+div	r1
+lci	r1,6.250292397660819
+sub	r1
+lci	r1,0.000625029
+chk
+
+lci	r1,-5344
+lci	r0,-855
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-5344
+int
+lci	r1,-5344
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-5344
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,5344
+lci	r0,855
+and	r1
+lci	r1,64
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,5344
+lci	r0,855
+orr	r1
+lci	r1,6135
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,5344
+lci	r0,855
+xor	r1
+lci	r1,6071
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,5344
+sqr
+lci	r1,73.10266752998827
+sub	r1
+lci	r1,0.007310266752998827
+chk
+
+lci	r1,-818.31
+lci	r0,957.5
+add	r1
+lci	r1,139.19000000000005
+sub	r1
+lci	r1,0.013919000
+chk
+
+lci	r1,-818.31
+lci	r0,957.5
+sub	r1
+lci	r1,-1775.81
+sub	r1
+lci	r1,0.177581000
+chk
+
+lci	r1,-818.31
+lci	r0,957.5
+mul	r1
+lci	r1,-783531.825
+sub	r1
+lci	r1,78.353182500
+chk
+
+lci	r1,-818
+lci	r0,957
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-818.31
+lci	r0,957.5
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-818.31
+int
+lci	r1,-818
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-818.31
+frc
+lci	r1,0.30999999999994543
+sub	r1
+lci	r1,0.0006199999999998909
+chk
+
+lci	r1,818
+lci	r0,957
+and	r1
+lci	r1,816
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,818
+lci	r0,957
+orr	r1
+lci	r1,959
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,818
+lci	r0,957
+xor	r1
+lci	r1,143
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,818.31
+sqr
+lci	r1,28.606118226701085
+sub	r1
+lci	r1,0.002860611822670109
+chk
+
+lci	r1,-365.49
+lci	r0,816.67
+add	r1
+lci	r1,451.17999999999995
+sub	r1
+lci	r1,0.045118000
+chk
+
+lci	r1,-365.49
+lci	r0,816.67
+sub	r1
+lci	r1,-1182.1599999999999
+sub	r1
+lci	r1,0.118216000
+chk
+
+lci	r1,-365.49
+lci	r0,816.67
+mul	r1
+lci	r1,-298484.7183
+sub	r1
+lci	r1,29.848471830
+chk
+
+lci	r1,-365
+lci	r0,816
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-365.49
+lci	r0,816.67
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-365.49
+int
+lci	r1,-365
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-365.49
+frc
+lci	r1,0.4900000000000091
+sub	r1
+lci	r1,0.0009800000000000182
+chk
+
+lci	r1,365
+lci	r0,816
+and	r1
+lci	r1,288
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,365
+lci	r0,816
+orr	r1
+lci	r1,893
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,365
+lci	r0,816
+xor	r1
+lci	r1,605
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,365.49
+sqr
+lci	r1,19.117792759625782
+sub	r1
+lci	r1,0.0019117792759625783
+chk
+
+lci	r1,-4562
+lci	r0,-7342
+add	r1
+lci	r1,-11904
+sub	r1
+lci	r1,1.190400000
+chk
+
+lci	r1,-4562
+lci	r0,-7342
+sub	r1
+lci	r1,2780
+sub	r1
+lci	r1,0.278000000
+chk
+
+lci	r1,-4562
+lci	r0,-7342
+mul	r1
+lci	r1,33494204
+sub	r1
+lci	r1,3349.420400000
+chk
+
+lci	r1,-4562
+lci	r0,-7342
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-4562
+lci	r0,-7342
+div	r1
+lci	r1,0.6213565785889403
+sub	r1
+lci	r1,0.000062136
+chk
+
+lci	r1,-4562
+lci	r0,-4562
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-4562
+int
+lci	r1,-4562
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-4562
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,4562
+lci	r0,7342
+and	r1
+lci	r1,4226
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4562
+lci	r0,7342
+orr	r1
+lci	r1,7678
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4562
+lci	r0,7342
+xor	r1
+lci	r1,3452
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,4562
+sqr
+lci	r1,67.54257916307313
+sub	r1
+lci	r1,0.006754257916307313
+chk
+
+lci	r1,726.07
+lci	r0,-8451
+add	r1
+lci	r1,-7724.93
+sub	r1
+lci	r1,0.772493000
+chk
+
+lci	r1,726.07
+lci	r0,-8451
+sub	r1
+lci	r1,9177.07
+sub	r1
+lci	r1,0.917707000
+chk
+
+lci	r1,726.07
+lci	r0,-8451
+mul	r1
+lci	r1,-6136017.57
+sub	r1
+lci	r1,613.601757000
+chk
+
+lci	r1,726
+lci	r0,-8451
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,726.07
+lci	r0,726.07
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,726.07
+int
+lci	r1,726
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,726.07
+frc
+lci	r1,0.07000000000005002
+sub	r1
+lci	r1,0.00014000000000010003
+chk
+
+lci	r1,726
+lci	r0,8451
+and	r1
+lci	r1,2
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,726
+lci	r0,8451
+orr	r1
+lci	r1,9175
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,726
+lci	r0,8451
+xor	r1
+lci	r1,9173
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,726.07
+sqr
+lci	r1,26.94568611113846
+sub	r1
+lci	r1,0.002694568611113846
+chk
+
+lci	r1,859.99
+lci	r0,-751.27
+add	r1
+lci	r1,108.72000000000003
+sub	r1
+lci	r1,0.010872000
+chk
+
+lci	r1,859.99
+lci	r0,-751.27
+sub	r1
+lci	r1,1611.26
+sub	r1
+lci	r1,0.161126000
+chk
+
+lci	r1,859.99
+lci	r0,-751.27
+mul	r1
+lci	r1,-646084.6873
+sub	r1
+lci	r1,64.608468730
+chk
+
+lci	r1,859
+lci	r0,-751
+idv	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,859.99
+lci	r0,-751.27
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,859.99
+int
+lci	r1,859
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,859.99
+frc
+lci	r1,0.9900000000000091
+sub	r1
+lci	r1,0.001980000000000018
+chk
+
+lci	r1,859
+lci	r0,751
+and	r1
+lci	r1,587
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,859
+lci	r0,751
+orr	r1
+lci	r1,1023
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,859
+lci	r0,751
+xor	r1
+lci	r1,436
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,859.99
+sqr
+lci	r1,29.325586098149856
+sub	r1
+lci	r1,0.002932558609814986
+chk
+
+lci	r1,1822
+lci	r0,-9710
+add	r1
+lci	r1,-7888
+sub	r1
+lci	r1,0.788800000
+chk
+
+lci	r1,1822
+lci	r0,-9710
+sub	r1
+lci	r1,11532
+sub	r1
+lci	r1,1.153200000
+chk
+
+lci	r1,1822
+lci	r0,-9710
+mul	r1
+lci	r1,-17691620
+sub	r1
+lci	r1,1769.162000000
+chk
+
+lci	r1,1822
+lci	r0,-9710
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,1822
+lci	r0,1822
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,1822
+int
+lci	r1,1822
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,1822
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,1822
+lci	r0,9710
+and	r1
+lci	r1,1294
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,1822
+lci	r0,9710
+orr	r1
+lci	r1,10238
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,1822
+lci	r0,9710
+xor	r1
+lci	r1,8944
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,1822
+sqr
+lci	r1,42.68489194082609
+sub	r1
+lci	r1,0.004268489194082609
+chk
+
+lci	r1,-467.09
+lci	r0,8916
+add	r1
+lci	r1,8448.91
+sub	r1
+lci	r1,0.844891000
+chk
+
+lci	r1,-467.09
+lci	r0,8916
+sub	r1
+lci	r1,-9383.09
+sub	r1
+lci	r1,0.938309000
+chk
+
+lci	r1,-467.09
+lci	r0,8916
+mul	r1
+lci	r1,-4164574.44
+sub	r1
+lci	r1,416.457444000
+chk
+
+lci	r1,-467
+lci	r0,8916
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-467.09
+lci	r0,8916
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-467.09
+int
+lci	r1,-467
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-467.09
+frc
+lci	r1,0.08999999999997499
+sub	r1
+lci	r1,0.00017999999999995
+chk
+
+lci	r1,467
+lci	r0,8916
+and	r1
+lci	r1,208
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,467
+lci	r0,8916
+orr	r1
+lci	r1,9175
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,467
+lci	r0,8916
+xor	r1
+lci	r1,8967
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,467.09
+sqr
+lci	r1,21.612265036316764
+sub	r1
+lci	r1,0.0021612265036316763
+chk
+
+lci	r1,6028
+lci	r0,-528.08
+add	r1
+lci	r1,5499.92
+sub	r1
+lci	r1,0.549992000
+chk
+
+lci	r1,6028
+lci	r0,-528.08
+sub	r1
+lci	r1,6556.08
+sub	r1
+lci	r1,0.655608000
+chk
+
+lci	r1,6028
+lci	r0,-528.08
+mul	r1
+lci	r1,-3183266.24
+sub	r1
+lci	r1,318.326624000
+chk
+
+lci	r1,6028
+lci	r0,-528
+idv	r1
+lci	r1,-11
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6028
+lci	r0,-528.08
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,6028
+int
+lci	r1,6028
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,6028
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,6028
+lci	r0,528
 and	r1
 lci	r1,512
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,6675
-lci	r0,580
+lci	r1,6028
+lci	r0,528
 orr	r1
-lci	r1,6743
+lci	r1,6044
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,6675
-lci	r0,580
+lci	r1,6028
+lci	r0,528
 xor	r1
-lci	r1,6231
+lci	r1,5532
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,6675
+lci	r0,6028
 sqr
-lci	r1,81.70067319184096
+lci	r1,77.64019577512668
 sub	r1
-lci	r1,0.008170067319184097
+lci	r1,0.007764019577512668
 chk
 
-lci	r1,2869
-lci	r0,-5531
+lci	r1,385.22
+lci	r0,-988.43
 add	r1
-lci	r1,-2662
+lci	r1,-603.2099999999999
 sub	r1
-lci	r1,0.266200000
+lci	r1,0.060321000
 chk
 
-lci	r1,2869
-lci	r0,-5531
+lci	r1,385.22
+lci	r0,-988.43
 sub	r1
-lci	r1,8400
+lci	r1,1373.65
 sub	r1
-lci	r1,0.840000000
+lci	r1,0.137365000
 chk
 
-lci	r1,2869
-lci	r0,-5531
+lci	r1,385.22
+lci	r0,-988.43
 mul	r1
-lci	r1,-15868439
+lci	r1,-380763.0046
 sub	r1
-lci	r1,1586.843900000
+lci	r1,38.076300460
 chk
 
-lci	r1,2869
-lci	r0,-5531
+lci	r1,385
+lci	r0,-988
 idv	r1
 lci	r1,0
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,2869
-lci	r0,2869
-cmp	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2869
-int
-lci	r1,2869
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,2869
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,2869
-lci	r0,5531
-and	r1
-lci	r1,273
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2869
-lci	r0,5531
-orr	r1
-lci	r1,8127
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,2869
-lci	r0,5531
-xor	r1
-lci	r1,7854
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,2869
-sqr
-lci	r1,53.563046963368315
-sub	r1
-lci	r1,0.005356304696336832
-chk
-
-lci	r1,-7088
-lci	r0,-397.43
-add	r1
-lci	r1,-7485.43
-sub	r1
-lci	r1,0.748543000
-chk
-
-lci	r1,-7088
-lci	r0,-397.43
-sub	r1
-lci	r1,-6690.57
-sub	r1
-lci	r1,0.669057000
-chk
-
-lci	r1,-7088
-lci	r0,-397.43
-mul	r1
-lci	r1,2816983.84
-sub	r1
-lci	r1,281.698384000
-chk
-
-lci	r1,-7088
-lci	r0,-397
-idv	r1
-lci	r1,17
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-7088
-lci	r0,-397.43
-div	r1
-lci	r1,17.834587222907178
-sub	r1
-lci	r1,0.001783459
-chk
-
-lci	r1,-7088
-lci	r0,-397.43
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-7088
-int
-lci	r1,-7088
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-7088
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,7088
-lci	r0,397
-and	r1
-lci	r1,384
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,7088
-lci	r0,397
-orr	r1
-lci	r1,7101
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,7088
-lci	r0,397
-xor	r1
-lci	r1,6717
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,7088
-sqr
-lci	r1,84.19026071939675
-sub	r1
-lci	r1,0.008419026071939674
-chk
-
-lci	r1,-8891
-lci	r0,-161
-add	r1
-lci	r1,-9052
-sub	r1
-lci	r1,0.905200000
-chk
-
-lci	r1,-8891
-lci	r0,-161
-sub	r1
-lci	r1,-8730
-sub	r1
-lci	r1,0.873000000
-chk
-
-lci	r1,-8891
-lci	r0,-161
-mul	r1
-lci	r1,1431451
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-8891
-lci	r0,-161
-idv	r1
-lci	r1,55
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-8891
-lci	r0,-161
-div	r1
-lci	r1,55.22360248447205
-sub	r1
-lci	r1,0.005522360
-chk
-
-lci	r1,-8891
-lci	r0,-161
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-8891
-int
-lci	r1,-8891
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-8891
-frc
-lci	r1,0
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r1,8891
-lci	r0,161
-and	r1
-lci	r1,161
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,8891
-lci	r0,161
-orr	r1
-lci	r1,8891
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,8891
-lci	r0,161
-xor	r1
-lci	r1,8730
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,8891
-sqr
-lci	r1,94.29209935090002
-sub	r1
-lci	r1,0.009429209935090001
-chk
-
-lci	r1,-576.39
-lci	r0,5887
-add	r1
-lci	r1,5310.61
-sub	r1
-lci	r1,0.531061000
-chk
-
-lci	r1,-576.39
-lci	r0,5887
-sub	r1
-lci	r1,-6463.39
-sub	r1
-lci	r1,0.646339000
-chk
-
-lci	r1,-576.39
-lci	r0,5887
-mul	r1
-lci	r1,-3393207.9299999997
-sub	r1
-lci	r1,339.320793000
-chk
-
-lci	r1,-576
-lci	r0,5887
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-576.39
-lci	r0,5887
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-576.39
-int
-lci	r1,-576
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-576.39
-frc
-lci	r1,0.38999999999998636
-sub	r1
-lci	r1,0.0007799999999999728
-chk
-
-lci	r1,576
-lci	r0,5887
-and	r1
-lci	r1,576
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,576
-lci	r0,5887
-orr	r1
-lci	r1,5887
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,576
-lci	r0,5887
-xor	r1
-lci	r1,5311
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,576.39
-sqr
-lci	r1,24.008123625139888
-sub	r1
-lci	r1,0.002400812362513989
-chk
-
-lci	r1,-989.45
-lci	r0,5474
-add	r1
-lci	r1,4484.55
-sub	r1
-lci	r1,0.448455000
-chk
-
-lci	r1,-989.45
-lci	r0,5474
-sub	r1
-lci	r1,-6463.45
-sub	r1
-lci	r1,0.646345000
-chk
-
-lci	r1,-989.45
-lci	r0,5474
-mul	r1
-lci	r1,-5416249.3
-sub	r1
-lci	r1,541.624930000
-chk
-
-lci	r1,-989
-lci	r0,5474
-idv	r1
-lci	r1,0
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,-989.45
-lci	r0,5474
-cmp	r1
-lci	r1,-1
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,-989.45
-int
-lci	r1,-989
-sub	r1
-lci	r1,0.0
-chk
-
-lci	r0,-989.45
-frc
-lci	r1,0.4500000000000455
-sub	r1
-lci	r1,0.000900000000000091
-chk
-
-lci	r1,989
-lci	r0,5474
-and	r1
-lci	r1,320
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,989
-lci	r0,5474
-orr	r1
-lci	r1,6143
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,989
-lci	r0,5474
-xor	r1
-lci	r1,5823
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r0,989.45
-sqr
-lci	r1,31.455524157133354
-sub	r1
-lci	r1,0.003145552415713335
-chk
-
-lci	r1,9591
-lci	r0,2865
-add	r1
-lci	r1,12456
-sub	r1
-lci	r1,1.245600000
-chk
-
-lci	r1,9591
-lci	r0,2865
-sub	r1
-lci	r1,6726
-sub	r1
-lci	r1,0.672600000
-chk
-
-lci	r1,9591
-lci	r0,2865
-mul	r1
-lci	r1,27478215
-sub	r1
-lci	r1,2747.821500000
-chk
-
-lci	r1,9591
-lci	r0,2865
-idv	r1
-lci	r1,3
-sub	r1
-lci	r1,0.000000000
-chk
-
-lci	r1,9591
-lci	r0,2865
-div	r1
-lci	r1,3.3476439790575916
-sub	r1
-lci	r1,0.000334764
-chk
-
-lci	r1,9591
-lci	r0,2865
+lci	r1,385.22
+lci	r0,-988.43
 cmp	r1
 lci	r1,1
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,9591
+lci	r0,385.22
 int
-lci	r1,9591
+lci	r1,385
 sub	r1
 lci	r1,0.0
 chk
 
-lci	r0,9591
+lci	r0,385.22
+frc
+lci	r1,0.22000000000002728
+sub	r1
+lci	r1,0.0004400000000000546
+chk
+
+lci	r1,385
+lci	r0,988
+and	r1
+lci	r1,384
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,385
+lci	r0,988
+orr	r1
+lci	r1,989
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,385
+lci	r0,988
+xor	r1
+lci	r1,605
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,385.22
+sqr
+lci	r1,19.62702218880898
+sub	r1
+lci	r1,0.001962702218880898
+chk
+
+lci	r1,-727.17
+lci	r0,3471
+add	r1
+lci	r1,2743.83
+sub	r1
+lci	r1,0.274383000
+chk
+
+lci	r1,-727.17
+lci	r0,3471
+sub	r1
+lci	r1,-4198.17
+sub	r1
+lci	r1,0.419817000
+chk
+
+lci	r1,-727.17
+lci	r0,3471
+mul	r1
+lci	r1,-2524007.07
+sub	r1
+lci	r1,252.400707000
+chk
+
+lci	r1,-727
+lci	r0,3471
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-727.17
+lci	r0,3471
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-727.17
+int
+lci	r1,-727
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-727.17
+frc
+lci	r1,0.16999999999995907
+sub	r1
+lci	r1,0.00033999999999991817
+chk
+
+lci	r1,727
+lci	r0,3471
+and	r1
+lci	r1,135
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,727
+lci	r0,3471
+orr	r1
+lci	r1,4063
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,727
+lci	r0,3471
+xor	r1
+lci	r1,3928
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,727.17
+sqr
+lci	r1,26.96608981665677
+sub	r1
+lci	r1,0.0026966089816656768
+chk
+
+lci	r1,-341.45
+lci	r0,-6027
+add	r1
+lci	r1,-6368.45
+sub	r1
+lci	r1,0.636845000
+chk
+
+lci	r1,-341.45
+lci	r0,-6027
+sub	r1
+lci	r1,5685.55
+sub	r1
+lci	r1,0.568555000
+chk
+
+lci	r1,-341.45
+lci	r0,-6027
+mul	r1
+lci	r1,2057919.15
+sub	r1
+lci	r1,205.791915000
+chk
+
+lci	r1,-341
+lci	r0,-6027
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-341.45
+lci	r0,-6027
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-341.45
+int
+lci	r1,-341
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-341.45
+frc
+lci	r1,0.44999999999998863
+sub	r1
+lci	r1,0.0008999999999999773
+chk
+
+lci	r1,341
+lci	r0,6027
+and	r1
+lci	r1,257
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,341
+lci	r0,6027
+orr	r1
+lci	r1,6111
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,341
+lci	r0,6027
+xor	r1
+lci	r1,5854
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,341.45
+sqr
+lci	r1,18.478365728602732
+sub	r1
+lci	r1,0.0018478365728602734
+chk
+
+lci	r1,818.59
+lci	r0,-426.03
+add	r1
+lci	r1,392.56000000000006
+sub	r1
+lci	r1,0.039256000
+chk
+
+lci	r1,818.59
+lci	r0,-426.03
+sub	r1
+lci	r1,1244.62
+sub	r1
+lci	r1,0.124462000
+chk
+
+lci	r1,818.59
+lci	r0,-426.03
+mul	r1
+lci	r1,-348743.8977
+sub	r1
+lci	r1,34.874389770
+chk
+
+lci	r1,818
+lci	r0,-426
+idv	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,818.59
+lci	r0,-426.03
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,818.59
+int
+lci	r1,818
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,818.59
+frc
+lci	r1,0.5900000000000318
+sub	r1
+lci	r1,0.0011800000000000638
+chk
+
+lci	r1,818
+lci	r0,426
+and	r1
+lci	r1,290
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,818
+lci	r0,426
+orr	r1
+lci	r1,954
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,818
+lci	r0,426
+xor	r1
+lci	r1,664
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,818.59
+sqr
+lci	r1,28.611011866063038
+sub	r1
+lci	r1,0.002861101186606304
+chk
+
+lci	r1,-4914
+lci	r0,-15.51
+add	r1
+lci	r1,-4929.51
+sub	r1
+lci	r1,0.492951000
+chk
+
+lci	r1,-4914
+lci	r0,-15.51
+sub	r1
+lci	r1,-4898.49
+sub	r1
+lci	r1,0.489849000
+chk
+
+lci	r1,-4914
+lci	r0,-15.51
+mul	r1
+lci	r1,76216.14
+sub	r1
+lci	r1,7.621614000
+chk
+
+lci	r1,-4914
+lci	r0,-15
+idv	r1
+lci	r1,327
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-4914
+lci	r0,-15.51
+div	r1
+lci	r1,316.8278529980658
+sub	r1
+lci	r1,0.031682785
+chk
+
+lci	r1,-4914
+lci	r0,-15.51
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-4914
+int
+lci	r1,-4914
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-4914
 frc
 lci	r1,0
 sub	r1
 lci	r1,0.0
 chk
 
-lci	r1,9591
-lci	r0,2865
+lci	r1,4914
+lci	r0,15
 and	r1
-lci	r1,305
+lci	r1,2
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,9591
-lci	r0,2865
+lci	r1,4914
+lci	r0,15
 orr	r1
-lci	r1,12151
+lci	r1,4927
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r1,9591
-lci	r0,2865
+lci	r1,4914
+lci	r0,15
 xor	r1
-lci	r1,11846
+lci	r1,4925
 sub	r1
 lci	r1,0.000000000
 chk
 
-lci	r0,9591
+lci	r0,4914
 sqr
-lci	r1,97.93365100924197
+lci	r1,70.09992867328754
 sub	r1
-lci	r1,0.009793365100924198
+lci	r1,0.007009992867328754
+chk
+
+lci	r1,-3850
+lci	r0,-6262
+add	r1
+lci	r1,-10112
+sub	r1
+lci	r1,1.011200000
+chk
+
+lci	r1,-3850
+lci	r0,-6262
+sub	r1
+lci	r1,2412
+sub	r1
+lci	r1,0.241200000
+chk
+
+lci	r1,-3850
+lci	r0,-6262
+mul	r1
+lci	r1,24108700
+sub	r1
+lci	r1,2410.870000000
+chk
+
+lci	r1,-3850
+lci	r0,-6262
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-3850
+lci	r0,-6262
+div	r1
+lci	r1,0.6148195464707761
+sub	r1
+lci	r1,0.000061482
+chk
+
+lci	r1,-3850
+lci	r0,-6262
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-3850
+int
+lci	r1,-3850
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-3850
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,3850
+lci	r0,6262
+and	r1
+lci	r1,2050
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,3850
+lci	r0,6262
+orr	r1
+lci	r1,8062
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,3850
+lci	r0,6262
+xor	r1
+lci	r1,6012
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,3850
+sqr
+lci	r1,62.048368229954285
+sub	r1
+lci	r1,0.006204836822995429
+chk
+
+lci	r1,6726
+lci	r0,-396.0
+add	r1
+lci	r1,6330.0
+sub	r1
+lci	r1,0.633000000
+chk
+
+lci	r1,6726
+lci	r0,-396.0
+sub	r1
+lci	r1,7122.0
+sub	r1
+lci	r1,0.712200000
+chk
+
+lci	r1,6726
+lci	r0,-396.0
+mul	r1
+lci	r1,-2663496.0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6726
+lci	r0,-396
+idv	r1
+lci	r1,-16
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6726
+lci	r0,6726
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,6726
+int
+lci	r1,6726
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,6726
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,6726
+lci	r0,396
+and	r1
+lci	r1,4
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6726
+lci	r0,396
+orr	r1
+lci	r1,7118
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6726
+lci	r0,396
+xor	r1
+lci	r1,7114
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,6726
+sqr
+lci	r1,82.0121942152507
+sub	r1
+lci	r1,0.00820121942152507
+chk
+
+lci	r1,835.96
+lci	r0,3034
+add	r1
+lci	r1,3869.96
+sub	r1
+lci	r1,0.386996000
+chk
+
+lci	r1,835.96
+lci	r0,3034
+sub	r1
+lci	r1,-2198.04
+sub	r1
+lci	r1,0.219804000
+chk
+
+lci	r1,835.96
+lci	r0,3034
+mul	r1
+lci	r1,2536302.64
+sub	r1
+lci	r1,253.630264000
+chk
+
+lci	r1,835
+lci	r0,3034
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,835.96
+lci	r0,3034
+div	r1
+lci	r1,0.27553065260382337
+sub	r1
+lci	r1,0.000027553
+chk
+
+lci	r1,835.96
+lci	r0,835.96
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,835.96
+int
+lci	r1,835
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,835.96
+frc
+lci	r1,0.9600000000000364
+sub	r1
+lci	r1,0.0019200000000000727
+chk
+
+lci	r1,835
+lci	r0,3034
+and	r1
+lci	r1,834
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,835
+lci	r0,3034
+orr	r1
+lci	r1,3035
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,835
+lci	r0,3034
+xor	r1
+lci	r1,2201
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,835.96
+sqr
+lci	r1,28.91297286686376
+sub	r1
+lci	r1,0.002891297286686376
+chk
+
+lci	r1,885.82
+lci	r0,9988
+add	r1
+lci	r1,10873.82
+sub	r1
+lci	r1,1.087382000
+chk
+
+lci	r1,885.82
+lci	r0,9988
+sub	r1
+lci	r1,-9102.18
+sub	r1
+lci	r1,0.910218000
+chk
+
+lci	r1,885.82
+lci	r0,9988
+mul	r1
+lci	r1,8847570.16
+sub	r1
+lci	r1,884.757016000
+chk
+
+lci	r1,885
+lci	r0,9988
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,885.82
+lci	r0,9988
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,885.82
+int
+lci	r1,885
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,885.82
+frc
+lci	r1,0.82000000000005
+sub	r1
+lci	r1,0.0016400000000001004
+chk
+
+lci	r1,885
+lci	r0,9988
+and	r1
+lci	r1,772
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,885
+lci	r0,9988
+orr	r1
+lci	r1,10101
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,885
+lci	r0,9988
+xor	r1
+lci	r1,9329
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,885.82
+sqr
+lci	r1,29.762728369556445
+sub	r1
+lci	r1,0.0029762728369556444
+chk
+
+lci	r1,-569.28
+lci	r0,-1.09
+add	r1
+lci	r1,-570.37
+sub	r1
+lci	r1,0.057037000
+chk
+
+lci	r1,-569.28
+lci	r0,-1.09
+sub	r1
+lci	r1,-568.1899999999999
+sub	r1
+lci	r1,0.056819000
+chk
+
+lci	r1,-569.28
+lci	r0,-1.09
+mul	r1
+lci	r1,620.5152
+sub	r1
+lci	r1,0.062051520
+chk
+
+lci	r1,-569
+lci	r0,-1
+idv	r1
+lci	r1,569
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-569.28
+lci	r0,-1.09
+div	r1
+lci	r1,522.2752293577981
+sub	r1
+lci	r1,0.052227523
+chk
+
+lci	r1,-569.28
+lci	r0,-1.09
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-569.28
+int
+lci	r1,-569
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-569.28
+frc
+lci	r1,0.2799999999999727
+sub	r1
+lci	r1,0.0005599999999999455
+chk
+
+lci	r1,569
+lci	r0,1
+and	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,569
+lci	r0,1
+orr	r1
+lci	r1,569
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,569
+lci	r0,1
+xor	r1
+lci	r1,568
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,569.28
+sqr
+lci	r1,23.859589267210783
+sub	r1
+lci	r1,0.0023859589267210784
+chk
+
+lci	r1,-1773
+lci	r0,6739
+add	r1
+lci	r1,4966
+sub	r1
+lci	r1,0.496600000
+chk
+
+lci	r1,-1773
+lci	r0,6739
+sub	r1
+lci	r1,-8512
+sub	r1
+lci	r1,0.851200000
+chk
+
+lci	r1,-1773
+lci	r0,6739
+mul	r1
+lci	r1,-11948247
+sub	r1
+lci	r1,1194.824700000
+chk
+
+lci	r1,-1773
+lci	r0,6739
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-1773
+lci	r0,6739
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-1773
+int
+lci	r1,-1773
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-1773
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,1773
+lci	r0,6739
+and	r1
+lci	r1,577
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,1773
+lci	r0,6739
+orr	r1
+lci	r1,7935
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,1773
+lci	r0,6739
+xor	r1
+lci	r1,7358
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,1773
+sqr
+lci	r1,42.1070065428546
+sub	r1
+lci	r1,0.0042107006542854595
+chk
+
+lci	r1,2488
+lci	r0,-7558
+add	r1
+lci	r1,-5070
+sub	r1
+lci	r1,0.507000000
+chk
+
+lci	r1,2488
+lci	r0,-7558
+sub	r1
+lci	r1,10046
+sub	r1
+lci	r1,1.004600000
+chk
+
+lci	r1,2488
+lci	r0,-7558
+mul	r1
+lci	r1,-18804304
+sub	r1
+lci	r1,1880.430400000
+chk
+
+lci	r1,2488
+lci	r0,-7558
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2488
+lci	r0,-7558
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,2488
+int
+lci	r1,2488
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,2488
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,2488
+lci	r0,7558
+and	r1
+lci	r1,2432
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2488
+lci	r0,7558
+orr	r1
+lci	r1,7614
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2488
+lci	r0,7558
+xor	r1
+lci	r1,5182
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,2488
+sqr
+lci	r1,49.879855653359705
+sub	r1
+lci	r1,0.00498798556533597
+chk
+
+lci	r1,-709.88
+lci	r0,-7598
+add	r1
+lci	r1,-8307.88
+sub	r1
+lci	r1,0.830788000
+chk
+
+lci	r1,-709.88
+lci	r0,-7598
+sub	r1
+lci	r1,6888.12
+sub	r1
+lci	r1,0.688812000
+chk
+
+lci	r1,-709.88
+lci	r0,-7598
+mul	r1
+lci	r1,5393668.24
+sub	r1
+lci	r1,539.366824000
+chk
+
+lci	r1,-709
+lci	r0,-7598
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-709.88
+lci	r0,-709.88
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-709.88
+int
+lci	r1,-709
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-709.88
+frc
+lci	r1,0.8799999999999955
+sub	r1
+lci	r1,0.001759999999999991
+chk
+
+lci	r1,709
+lci	r0,7598
+and	r1
+lci	r1,132
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,709
+lci	r0,7598
+orr	r1
+lci	r1,8175
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,709
+lci	r0,7598
+xor	r1
+lci	r1,8043
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,709.88
+sqr
+lci	r1,26.643573333920507
+sub	r1
+lci	r1,0.0026643573333920505
+chk
+
+lci	r1,452.12
+lci	r0,5444
+add	r1
+lci	r1,5896.12
+sub	r1
+lci	r1,0.589612000
+chk
+
+lci	r1,452.12
+lci	r0,5444
+sub	r1
+lci	r1,-4991.88
+sub	r1
+lci	r1,0.499188000
+chk
+
+lci	r1,452.12
+lci	r0,5444
+mul	r1
+lci	r1,2461341.28
+sub	r1
+lci	r1,246.134128000
+chk
+
+lci	r1,452
+lci	r0,5444
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,452.12
+lci	r0,5444
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,452.12
+int
+lci	r1,452
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,452.12
+frc
+lci	r1,0.12000000000000455
+sub	r1
+lci	r1,0.00024000000000000909
+chk
+
+lci	r1,452
+lci	r0,5444
+and	r1
+lci	r1,324
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,452
+lci	r0,5444
+orr	r1
+lci	r1,5572
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,452
+lci	r0,5444
+xor	r1
+lci	r1,5248
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,452.12
+sqr
+lci	r1,21.263113600787634
+sub	r1
+lci	r1,0.0021263113600787633
+chk
+
+lci	r1,-9074
+lci	r0,-3980
+add	r1
+lci	r1,-13054
+sub	r1
+lci	r1,1.305400000
+chk
+
+lci	r1,-9074
+lci	r0,-3980
+sub	r1
+lci	r1,-5094
+sub	r1
+lci	r1,0.509400000
+chk
+
+lci	r1,-9074
+lci	r0,-3980
+mul	r1
+lci	r1,36114520
+sub	r1
+lci	r1,3611.452000000
+chk
+
+lci	r1,-9074
+lci	r0,-3980
+idv	r1
+lci	r1,2
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-9074
+lci	r0,-3980
+div	r1
+lci	r1,2.2798994974874374
+sub	r1
+lci	r1,0.000227990
+chk
+
+lci	r1,-9074
+lci	r0,-9074
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-9074
+int
+lci	r1,-9074
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-9074
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,9074
+lci	r0,3980
+and	r1
+lci	r1,768
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,9074
+lci	r0,3980
+orr	r1
+lci	r1,12286
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,9074
+lci	r0,3980
+xor	r1
+lci	r1,11518
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,9074
+sqr
+lci	r1,95.25754563287887
+sub	r1
+lci	r1,0.009525754563287888
+chk
+
+lci	r1,135.43
+lci	r0,-3724
+add	r1
+lci	r1,-3588.57
+sub	r1
+lci	r1,0.358857000
+chk
+
+lci	r1,135.43
+lci	r0,-3724
+sub	r1
+lci	r1,3859.43
+sub	r1
+lci	r1,0.385943000
+chk
+
+lci	r1,135.43
+lci	r0,-3724
+mul	r1
+lci	r1,-504341.32
+sub	r1
+lci	r1,50.434132000
+chk
+
+lci	r1,135
+lci	r0,-3724
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,135.43
+lci	r0,-3724
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,135.43
+int
+lci	r1,135
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,135.43
+frc
+lci	r1,0.4300000000000068
+sub	r1
+lci	r1,0.0008600000000000136
+chk
+
+lci	r1,135
+lci	r0,3724
+and	r1
+lci	r1,132
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,135
+lci	r0,3724
+orr	r1
+lci	r1,3727
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,135
+lci	r0,3724
+xor	r1
+lci	r1,3595
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,135.43
+sqr
+lci	r1,11.637439580938755
+sub	r1
+lci	r1,0.0011637439580938756
+chk
+
+lci	r1,-7122
+lci	r0,6013
+add	r1
+lci	r1,-1109
+sub	r1
+lci	r1,0.110900000
+chk
+
+lci	r1,-7122
+lci	r0,6013
+sub	r1
+lci	r1,-13135
+sub	r1
+lci	r1,1.313500000
+chk
+
+lci	r1,-7122
+lci	r0,6013
+mul	r1
+lci	r1,-42824586
+sub	r1
+lci	r1,4282.458600000
+chk
+
+lci	r1,-7122
+lci	r0,6013
+idv	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-7122
+lci	r0,6013
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-7122
+int
+lci	r1,-7122
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-7122
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,7122
+lci	r0,6013
+and	r1
+lci	r1,4944
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7122
+lci	r0,6013
+orr	r1
+lci	r1,8191
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7122
+lci	r0,6013
+xor	r1
+lci	r1,3247
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,7122
+sqr
+lci	r1,84.39194274336857
+sub	r1
+lci	r1,0.008439194274336858
+chk
+
+lci	r1,660.83
+lci	r0,83.67
+add	r1
+lci	r1,744.5
+sub	r1
+lci	r1,0.074450000
+chk
+
+lci	r1,660.83
+lci	r0,83.67
+sub	r1
+lci	r1,577.1600000000001
+sub	r1
+lci	r1,0.057716000
+chk
+
+lci	r1,660.83
+lci	r0,83.67
+mul	r1
+lci	r1,55291.646100000005
+sub	r1
+lci	r1,5.529164610
+chk
+
+lci	r1,660
+lci	r0,83
+idv	r1
+lci	r1,7
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,660.83
+lci	r0,83.67
+div	r1
+lci	r1,7.898051870443409
+sub	r1
+lci	r1,0.000789805
+chk
+
+lci	r1,660.83
+lci	r0,83.67
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,660.83
+int
+lci	r1,660
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,660.83
+frc
+lci	r1,0.8300000000000409
+sub	r1
+lci	r1,0.001660000000000082
+chk
+
+lci	r1,660
+lci	r0,83
+and	r1
+lci	r1,16
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,660
+lci	r0,83
+orr	r1
+lci	r1,727
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,660
+lci	r0,83
+xor	r1
+lci	r1,711
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,660.83
+sqr
+lci	r1,25.706613934939
+sub	r1
+lci	r1,0.0025706613934939
+chk
+
+lci	r1,497.11
+lci	r0,-1971
+add	r1
+lci	r1,-1473.8899999999999
+sub	r1
+lci	r1,0.147389000
+chk
+
+lci	r1,497.11
+lci	r0,-1971
+sub	r1
+lci	r1,2468.11
+sub	r1
+lci	r1,0.246811000
+chk
+
+lci	r1,497.11
+lci	r0,-1971
+mul	r1
+lci	r1,-979803.81
+sub	r1
+lci	r1,97.980381000
+chk
+
+lci	r1,497
+lci	r0,-1971
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,497.11
+lci	r0,-1971
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,497.11
+int
+lci	r1,497
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,497.11
+frc
+lci	r1,0.11000000000001364
+sub	r1
+lci	r1,0.0002200000000000273
+chk
+
+lci	r1,497
+lci	r0,1971
+and	r1
+lci	r1,433
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,497
+lci	r0,1971
+orr	r1
+lci	r1,2035
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,497
+lci	r0,1971
+xor	r1
+lci	r1,1602
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,497.11
+sqr
+lci	r1,22.295963760286302
+sub	r1
+lci	r1,0.0022295963760286305
+chk
+
+lci	r1,7849
+lci	r0,7955
+add	r1
+lci	r1,15804
+sub	r1
+lci	r1,1.580400000
+chk
+
+lci	r1,7849
+lci	r0,7955
+sub	r1
+lci	r1,-106
+sub	r1
+lci	r1,0.010600000
+chk
+
+lci	r1,7849
+lci	r0,7955
+mul	r1
+lci	r1,62438795
+sub	r1
+lci	r1,6243.879500000
+chk
+
+lci	r1,7849
+lci	r0,7955
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7849
+lci	r0,7955
+div	r1
+lci	r1,0.9866750471401634
+sub	r1
+lci	r1,0.000098668
+chk
+
+lci	r1,7849
+lci	r0,7849
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,7849
+int
+lci	r1,7849
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,7849
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,7849
+lci	r0,7955
+and	r1
+lci	r1,7681
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7849
+lci	r0,7955
+orr	r1
+lci	r1,8123
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7849
+lci	r0,7955
+xor	r1
+lci	r1,442
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,7849
+sqr
+lci	r1,88.5945822271317
+sub	r1
+lci	r1,0.00885945822271317
+chk
+
+lci	r1,494.83
+lci	r0,422.25
+add	r1
+lci	r1,917.0799999999999
+sub	r1
+lci	r1,0.091708000
+chk
+
+lci	r1,494.83
+lci	r0,422.25
+sub	r1
+lci	r1,72.57999999999998
+sub	r1
+lci	r1,0.007258000
+chk
+
+lci	r1,494.83
+lci	r0,422.25
+mul	r1
+lci	r1,208941.9675
+sub	r1
+lci	r1,20.894196750
+chk
+
+lci	r1,494
+lci	r0,422
+idv	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,494.83
+lci	r0,422.25
+div	r1
+lci	r1,1.1718886915334517
+sub	r1
+lci	r1,0.000117189
+chk
+
+lci	r1,494.83
+lci	r0,422.25
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,494.83
+int
+lci	r1,494
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,494.83
+frc
+lci	r1,0.8299999999999841
+sub	r1
+lci	r1,0.0016599999999999681
+chk
+
+lci	r1,494
+lci	r0,422
+and	r1
+lci	r1,422
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,494
+lci	r0,422
+orr	r1
+lci	r1,494
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,494
+lci	r0,422
+xor	r1
+lci	r1,72
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,494.83
+sqr
+lci	r1,22.24477466732356
+sub	r1
+lci	r1,0.002224477466732356
+chk
+
+lci	r1,7206
+lci	r0,-8846
+add	r1
+lci	r1,-1640
+sub	r1
+lci	r1,0.164000000
+chk
+
+lci	r1,7206
+lci	r0,-8846
+sub	r1
+lci	r1,16052
+sub	r1
+lci	r1,1.605200000
+chk
+
+lci	r1,7206
+lci	r0,-8846
+mul	r1
+lci	r1,-63744276
+sub	r1
+lci	r1,6374.427600000
+chk
+
+lci	r1,7206
+lci	r0,-8846
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7206
+lci	r0,-8846
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,7206
+int
+lci	r1,7206
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,7206
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,7206
+lci	r0,8846
+and	r1
+lci	r1,6
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7206
+lci	r0,8846
+orr	r1
+lci	r1,16046
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7206
+lci	r0,8846
+xor	r1
+lci	r1,16040
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,7206
+sqr
+lci	r1,84.88816171881683
+sub	r1
+lci	r1,0.008488816171881684
+chk
+
+lci	r1,-111.48
+lci	r0,3895
+add	r1
+lci	r1,3783.52
+sub	r1
+lci	r1,0.378352000
+chk
+
+lci	r1,-111.48
+lci	r0,3895
+sub	r1
+lci	r1,-4006.48
+sub	r1
+lci	r1,0.400648000
+chk
+
+lci	r1,-111.48
+lci	r0,3895
+mul	r1
+lci	r1,-434214.60000000003
+sub	r1
+lci	r1,43.421460000
+chk
+
+lci	r1,-111
+lci	r0,3895
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-111.48
+lci	r0,3895
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-111.48
+int
+lci	r1,-111
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-111.48
+frc
+lci	r1,0.480000000000004
+sub	r1
+lci	r1,0.000960000000000008
+chk
+
+lci	r1,111
+lci	r0,3895
+and	r1
+lci	r1,39
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,111
+lci	r0,3895
+orr	r1
+lci	r1,3967
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,111
+lci	r0,3895
+xor	r1
+lci	r1,3928
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,111.48
+sqr
+lci	r1,10.55840897105241
+sub	r1
+lci	r1,0.001055840897105241
+chk
+
+lci	r1,2876
+lci	r0,2403
+add	r1
+lci	r1,5279
+sub	r1
+lci	r1,0.527900000
+chk
+
+lci	r1,2876
+lci	r0,2403
+sub	r1
+lci	r1,473
+sub	r1
+lci	r1,0.047300000
+chk
+
+lci	r1,2876
+lci	r0,2403
+mul	r1
+lci	r1,6911028
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2876
+lci	r0,2403
+idv	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2876
+lci	r0,2403
+div	r1
+lci	r1,1.1968372867249273
+sub	r1
+lci	r1,0.000119684
+chk
+
+lci	r1,2876
+lci	r0,2876
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,2876
+int
+lci	r1,2876
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,2876
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,2876
+lci	r0,2403
+and	r1
+lci	r1,2336
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2876
+lci	r0,2403
+orr	r1
+lci	r1,2943
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2876
+lci	r0,2403
+xor	r1
+lci	r1,607
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,2876
+sqr
+lci	r1,53.62835071116769
+sub	r1
+lci	r1,0.005362835071116769
+chk
+
+lci	r1,487.98
+lci	r0,296.05
+add	r1
+lci	r1,784.03
+sub	r1
+lci	r1,0.078403000
+chk
+
+lci	r1,487.98
+lci	r0,296.05
+sub	r1
+lci	r1,191.93
+sub	r1
+lci	r1,0.019193000
+chk
+
+lci	r1,487.98
+lci	r0,296.05
+mul	r1
+lci	r1,144466.47900000002
+sub	r1
+lci	r1,14.446647900
+chk
+
+lci	r1,487
+lci	r0,296
+idv	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,487.98
+lci	r0,296.05
+div	r1
+lci	r1,1.6483026515791253
+sub	r1
+lci	r1,0.000164830
+chk
+
+lci	r1,487.98
+lci	r0,296.05
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,487.98
+int
+lci	r1,487
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,487.98
+frc
+lci	r1,0.9800000000000182
+sub	r1
+lci	r1,0.0019600000000000364
+chk
+
+lci	r1,487
+lci	r0,296
+and	r1
+lci	r1,288
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,487
+lci	r0,296
+orr	r1
+lci	r1,495
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,487
+lci	r0,296
+xor	r1
+lci	r1,207
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,487.98
+sqr
+lci	r1,22.090269351006114
+sub	r1
+lci	r1,0.0022090269351006113
+chk
+
+lci	r1,-58.89
+lci	r0,7959
+add	r1
+lci	r1,7900.11
+sub	r1
+lci	r1,0.790011000
+chk
+
+lci	r1,-58.89
+lci	r0,7959
+sub	r1
+lci	r1,-8017.89
+sub	r1
+lci	r1,0.801789000
+chk
+
+lci	r1,-58.89
+lci	r0,7959
+mul	r1
+lci	r1,-468705.51
+sub	r1
+lci	r1,46.870551000
+chk
+
+lci	r1,-58
+lci	r0,7959
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-58.89
+lci	r0,7959
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-58.89
+int
+lci	r1,-58
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-58.89
+frc
+lci	r1,0.8900000000000006
+sub	r1
+lci	r1,0.0017800000000000012
+chk
+
+lci	r1,58
+lci	r0,7959
+and	r1
+lci	r1,18
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,58
+lci	r0,7959
+orr	r1
+lci	r1,7999
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,58
+lci	r0,7959
+xor	r1
+lci	r1,7981
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,58.89
+sqr
+lci	r1,7.673982017179869
+sub	r1
+lci	r1,0.0007673982017179869
+chk
+
+lci	r1,964.18
+lci	r0,1907
+add	r1
+lci	r1,2871.18
+sub	r1
+lci	r1,0.287118000
+chk
+
+lci	r1,964.18
+lci	r0,1907
+sub	r1
+lci	r1,-942.82
+sub	r1
+lci	r1,0.094282000
+chk
+
+lci	r1,964.18
+lci	r0,1907
+mul	r1
+lci	r1,1838691.26
+sub	r1
+lci	r1,183.869126000
+chk
+
+lci	r1,964
+lci	r0,1907
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,964.18
+lci	r0,1907
+div	r1
+lci	r1,0.5056004195070791
+sub	r1
+lci	r1,0.000050560
+chk
+
+lci	r1,964.18
+lci	r0,1907
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,964.18
+int
+lci	r1,964
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,964.18
+frc
+lci	r1,0.17999999999994998
+sub	r1
+lci	r1,0.0003599999999999
+chk
+
+lci	r1,964
+lci	r0,1907
+and	r1
+lci	r1,832
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,964
+lci	r0,1907
+orr	r1
+lci	r1,2039
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,964
+lci	r0,1907
+xor	r1
+lci	r1,1207
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,964.18
+sqr
+lci	r1,31.0512479620385
+sub	r1
+lci	r1,0.0031051247962038497
+chk
+
+lci	r1,-6689
+lci	r0,-370.22
+add	r1
+lci	r1,-7059.22
+sub	r1
+lci	r1,0.705922000
+chk
+
+lci	r1,-6689
+lci	r0,-370.22
+sub	r1
+lci	r1,-6318.78
+sub	r1
+lci	r1,0.631878000
+chk
+
+lci	r1,-6689
+lci	r0,-370.22
+mul	r1
+lci	r1,2476401.58
+sub	r1
+lci	r1,247.640158000
+chk
+
+lci	r1,-6689
+lci	r0,-370
+idv	r1
+lci	r1,18
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-6689
+lci	r0,-370.22
+div	r1
+lci	r1,18.067635459996758
+sub	r1
+lci	r1,0.001806764
+chk
+
+lci	r1,-6689
+lci	r0,-370.22
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-6689
+int
+lci	r1,-6689
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-6689
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,6689
+lci	r0,370
+and	r1
+lci	r1,32
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6689
+lci	r0,370
+orr	r1
+lci	r1,7027
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6689
+lci	r0,370
+xor	r1
+lci	r1,6995
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,6689
+sqr
+lci	r1,81.78630692236935
+sub	r1
+lci	r1,0.008178630692236934
+chk
+
+lci	r1,-176.68
+lci	r0,5599
+add	r1
+lci	r1,5422.32
+sub	r1
+lci	r1,0.542232000
+chk
+
+lci	r1,-176.68
+lci	r0,5599
+sub	r1
+lci	r1,-5775.68
+sub	r1
+lci	r1,0.577568000
+chk
+
+lci	r1,-176.68
+lci	r0,5599
+mul	r1
+lci	r1,-989231.3200000001
+sub	r1
+lci	r1,98.923132000
+chk
+
+lci	r1,-176
+lci	r0,5599
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-176.68
+lci	r0,5599
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-176.68
+int
+lci	r1,-176
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-176.68
+frc
+lci	r1,0.6800000000000068
+sub	r1
+lci	r1,0.0013600000000000138
+chk
+
+lci	r1,176
+lci	r0,5599
+and	r1
+lci	r1,144
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,176
+lci	r0,5599
+orr	r1
+lci	r1,5631
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,176
+lci	r0,5599
+xor	r1
+lci	r1,5487
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,176.68
+sqr
+lci	r1,13.292102918650608
+sub	r1
+lci	r1,0.001329210291865061
+chk
+
+lci	r1,4767
+lci	r0,2465
+add	r1
+lci	r1,7232
+sub	r1
+lci	r1,0.723200000
+chk
+
+lci	r1,4767
+lci	r0,2465
+sub	r1
+lci	r1,2302
+sub	r1
+lci	r1,0.230200000
+chk
+
+lci	r1,4767
+lci	r0,2465
+mul	r1
+lci	r1,11750655
+sub	r1
+lci	r1,1175.065500000
+chk
+
+lci	r1,4767
+lci	r0,2465
+idv	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4767
+lci	r0,2465
+div	r1
+lci	r1,1.9338742393509127
+sub	r1
+lci	r1,0.000193387
+chk
+
+lci	r1,4767
+lci	r0,2465
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,4767
+int
+lci	r1,4767
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,4767
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,4767
+lci	r0,2465
+and	r1
+lci	r1,129
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4767
+lci	r0,2465
+orr	r1
+lci	r1,7103
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4767
+lci	r0,2465
+xor	r1
+lci	r1,6974
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,4767
+sqr
+lci	r1,69.04346457123947
+sub	r1
+lci	r1,0.006904346457123947
+chk
+
+lci	r1,9409
+lci	r0,-273.12
+add	r1
+lci	r1,9135.88
+sub	r1
+lci	r1,0.913588000
+chk
+
+lci	r1,9409
+lci	r0,-273.12
+sub	r1
+lci	r1,9682.12
+sub	r1
+lci	r1,0.968212000
+chk
+
+lci	r1,9409
+lci	r0,-273.12
+mul	r1
+lci	r1,-2569786.08
+sub	r1
+lci	r1,256.978608000
+chk
+
+lci	r1,9409
+lci	r0,-273
+idv	r1
+lci	r1,-34
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,9409
+lci	r0,-273.12
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,9409
+int
+lci	r1,9409
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,9409
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,9409
+lci	r0,273
+and	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,9409
+lci	r0,273
+orr	r1
+lci	r1,9681
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,9409
+lci	r0,273
+xor	r1
+lci	r1,9680
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,9409
+sqr
+lci	r1,97.0
+sub	r1
+lci	r1,0.0097
+chk
+
+lci	r1,-442.09
+lci	r0,894.49
+add	r1
+lci	r1,452.40000000000003
+sub	r1
+lci	r1,0.045240000
+chk
+
+lci	r1,-442.09
+lci	r0,894.49
+sub	r1
+lci	r1,-1336.58
+sub	r1
+lci	r1,0.133658000
+chk
+
+lci	r1,-442.09
+lci	r0,894.49
+mul	r1
+lci	r1,-395445.0841
+sub	r1
+lci	r1,39.544508410
+chk
+
+lci	r1,-442
+lci	r0,894
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-442.09
+lci	r0,894.49
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-442.09
+int
+lci	r1,-442
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-442.09
+frc
+lci	r1,0.08999999999997499
+sub	r1
+lci	r1,0.00017999999999995
+chk
+
+lci	r1,442
+lci	r0,894
+and	r1
+lci	r1,314
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,442
+lci	r0,894
+orr	r1
+lci	r1,1022
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,442
+lci	r0,894
+xor	r1
+lci	r1,708
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,442.09
+sqr
+lci	r1,21.025936364404796
+sub	r1
+lci	r1,0.0021025936364404796
+chk
+
+lci	r1,9608
+lci	r0,3372
+add	r1
+lci	r1,12980
+sub	r1
+lci	r1,1.298000000
+chk
+
+lci	r1,9608
+lci	r0,3372
+sub	r1
+lci	r1,6236
+sub	r1
+lci	r1,0.623600000
+chk
+
+lci	r1,9608
+lci	r0,3372
+mul	r1
+lci	r1,32398176
+sub	r1
+lci	r1,3239.817600000
+chk
+
+lci	r1,9608
+lci	r0,3372
+idv	r1
+lci	r1,2
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,9608
+lci	r0,3372
+div	r1
+lci	r1,2.849347568208778
+sub	r1
+lci	r1,0.000284935
+chk
+
+lci	r1,9608
+lci	r0,3372
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,9608
+int
+lci	r1,9608
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,9608
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,9608
+lci	r0,3372
+and	r1
+lci	r1,1288
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,9608
+lci	r0,3372
+orr	r1
+lci	r1,11692
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,9608
+lci	r0,3372
+xor	r1
+lci	r1,10404
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,9608
+sqr
+lci	r1,98.02040603874276
+sub	r1
+lci	r1,0.009802040603874277
+chk
+
+lci	r1,-6267
+lci	r0,-301
+add	r1
+lci	r1,-6568
+sub	r1
+lci	r1,0.656800000
+chk
+
+lci	r1,-6267
+lci	r0,-301
+sub	r1
+lci	r1,-5966
+sub	r1
+lci	r1,0.596600000
+chk
+
+lci	r1,-6267
+lci	r0,-301
+mul	r1
+lci	r1,1886367
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-6267
+lci	r0,-301
+idv	r1
+lci	r1,20
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-6267
+lci	r0,-301
+div	r1
+lci	r1,20.82059800664452
+sub	r1
+lci	r1,0.002082060
+chk
+
+lci	r1,-6267
+lci	r0,-301
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-6267
+int
+lci	r1,-6267
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-6267
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,6267
+lci	r0,301
+and	r1
+lci	r1,41
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6267
+lci	r0,301
+orr	r1
+lci	r1,6527
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,6267
+lci	r0,301
+xor	r1
+lci	r1,6486
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,6267
+sqr
+lci	r1,79.16438593205912
+sub	r1
+lci	r1,0.007916438593205913
+chk
+
+lci	r1,-2265
+lci	r0,-896.33
+add	r1
+lci	r1,-3161.33
+sub	r1
+lci	r1,0.316133000
+chk
+
+lci	r1,-2265
+lci	r0,-896.33
+sub	r1
+lci	r1,-1368.67
+sub	r1
+lci	r1,0.136867000
+chk
+
+lci	r1,-2265
+lci	r0,-896.33
+mul	r1
+lci	r1,2030187.4500000002
+sub	r1
+lci	r1,203.018745000
+chk
+
+lci	r1,-2265
+lci	r0,-896
+idv	r1
+lci	r1,2
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-2265
+lci	r0,-896.33
+div	r1
+lci	r1,2.5269710932357503
+sub	r1
+lci	r1,0.000252697
+chk
+
+lci	r1,-2265
+lci	r0,-2265
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-2265
+int
+lci	r1,-2265
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-2265
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,2265
+lci	r0,896
+and	r1
+lci	r1,128
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2265
+lci	r0,896
+orr	r1
+lci	r1,3033
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2265
+lci	r0,896
+xor	r1
+lci	r1,2905
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,2265
+sqr
+lci	r1,47.59201613716318
+sub	r1
+lci	r1,0.004759201613716318
+chk
+
+lci	r1,3379
+lci	r0,-4528
+add	r1
+lci	r1,-1149
+sub	r1
+lci	r1,0.114900000
+chk
+
+lci	r1,3379
+lci	r0,-4528
+sub	r1
+lci	r1,7907
+sub	r1
+lci	r1,0.790700000
+chk
+
+lci	r1,3379
+lci	r0,-4528
+mul	r1
+lci	r1,-15300112
+sub	r1
+lci	r1,1530.011200000
+chk
+
+lci	r1,3379
+lci	r0,-4528
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,3379
+lci	r0,-4528
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,3379
+int
+lci	r1,3379
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,3379
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,3379
+lci	r0,4528
+and	r1
+lci	r1,304
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,3379
+lci	r0,4528
+orr	r1
+lci	r1,7603
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,3379
+lci	r0,4528
+xor	r1
+lci	r1,7299
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,3379
+sqr
+lci	r1,58.12916651733448
+sub	r1
+lci	r1,0.005812916651733449
+chk
+
+lci	r1,38.48
+lci	r0,-514.22
+add	r1
+lci	r1,-475.74
+sub	r1
+lci	r1,0.047574000
+chk
+
+lci	r1,38.48
+lci	r0,-514.22
+sub	r1
+lci	r1,552.7
+sub	r1
+lci	r1,0.055270000
+chk
+
+lci	r1,38.48
+lci	r0,-514.22
+mul	r1
+lci	r1,-19787.1856
+sub	r1
+lci	r1,1.978718560
+chk
+
+lci	r1,38
+lci	r0,-514
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,38.48
+lci	r0,-514.22
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,38.48
+int
+lci	r1,38
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,38.48
+frc
+lci	r1,0.4799999999999969
+sub	r1
+lci	r1,0.0009599999999999937
+chk
+
+lci	r1,38
+lci	r0,514
+and	r1
+lci	r1,2
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,38
+lci	r0,514
+orr	r1
+lci	r1,550
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,38
+lci	r0,514
+xor	r1
+lci	r1,548
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,38.48
+sqr
+lci	r1,6.203224967708329
+sub	r1
+lci	r1,0.0006203224967708329
+chk
+
+lci	r1,-63.98
+lci	r0,3619
+add	r1
+lci	r1,3555.02
+sub	r1
+lci	r1,0.355502000
+chk
+
+lci	r1,-63.98
+lci	r0,3619
+sub	r1
+lci	r1,-3682.98
+sub	r1
+lci	r1,0.368298000
+chk
+
+lci	r1,-63.98
+lci	r0,3619
+mul	r1
+lci	r1,-231543.62
+sub	r1
+lci	r1,23.154362000
+chk
+
+lci	r1,-63
+lci	r0,3619
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-63.98
+lci	r0,3619
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-63.98
+int
+lci	r1,-63
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-63.98
+frc
+lci	r1,0.9799999999999969
+sub	r1
+lci	r1,0.001959999999999994
+chk
+
+lci	r1,63
+lci	r0,3619
+and	r1
+lci	r1,35
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,63
+lci	r0,3619
+orr	r1
+lci	r1,3647
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,63
+lci	r0,3619
+xor	r1
+lci	r1,3612
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,63.98
+sqr
+lci	r1,7.998749902328488
+sub	r1
+lci	r1,0.0007998749902328487
+chk
+
+lci	r1,-7579
+lci	r0,160.46
+add	r1
+lci	r1,-7418.54
+sub	r1
+lci	r1,0.741854000
+chk
+
+lci	r1,-7579
+lci	r0,160.46
+sub	r1
+lci	r1,-7739.46
+sub	r1
+lci	r1,0.773946000
+chk
+
+lci	r1,-7579
+lci	r0,160.46
+mul	r1
+lci	r1,-1216126.34
+sub	r1
+lci	r1,121.612634000
+chk
+
+lci	r1,-7579
+lci	r0,160
+idv	r1
+lci	r1,-47
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-7579
+lci	r0,160.46
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-7579
+int
+lci	r1,-7579
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-7579
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,7579
+lci	r0,160
+and	r1
+lci	r1,128
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7579
+lci	r0,160
+orr	r1
+lci	r1,7611
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7579
+lci	r0,160
+xor	r1
+lci	r1,7483
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,7579
+sqr
+lci	r1,87.05745229444749
+sub	r1
+lci	r1,0.008705745229444749
+chk
+
+lci	r1,-5254
+lci	r0,-4486
+add	r1
+lci	r1,-9740
+sub	r1
+lci	r1,0.974000000
+chk
+
+lci	r1,-5254
+lci	r0,-4486
+sub	r1
+lci	r1,-768
+sub	r1
+lci	r1,0.076800000
+chk
+
+lci	r1,-5254
+lci	r0,-4486
+mul	r1
+lci	r1,23569444
+sub	r1
+lci	r1,2356.944400000
+chk
+
+lci	r1,-5254
+lci	r0,-4486
+idv	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-5254
+lci	r0,-4486
+div	r1
+lci	r1,1.1711992866696388
+sub	r1
+lci	r1,0.000117120
+chk
+
+lci	r1,-5254
+lci	r0,-5254
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-5254
+int
+lci	r1,-5254
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-5254
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,5254
+lci	r0,4486
+and	r1
+lci	r1,4230
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,5254
+lci	r0,4486
+orr	r1
+lci	r1,5510
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,5254
+lci	r0,4486
+xor	r1
+lci	r1,1280
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,5254
+sqr
+lci	r1,72.48448109768049
+sub	r1
+lci	r1,0.007248448109768049
+chk
+
+lci	r1,4299
+lci	r0,-9526
+add	r1
+lci	r1,-5227
+sub	r1
+lci	r1,0.522700000
+chk
+
+lci	r1,4299
+lci	r0,-9526
+sub	r1
+lci	r1,13825
+sub	r1
+lci	r1,1.382500000
+chk
+
+lci	r1,4299
+lci	r0,-9526
+mul	r1
+lci	r1,-40952274
+sub	r1
+lci	r1,4095.227400000
+chk
+
+lci	r1,4299
+lci	r0,-9526
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4299
+lci	r0,-9526
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,4299
+int
+lci	r1,4299
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,4299
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,4299
+lci	r0,9526
+and	r1
+lci	r1,2
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4299
+lci	r0,9526
+orr	r1
+lci	r1,13823
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,4299
+lci	r0,9526
+xor	r1
+lci	r1,13821
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,4299
+sqr
+lci	r1,65.56675987114203
+sub	r1
+lci	r1,0.0065566759871142025
+chk
+
+lci	r1,7744
+lci	r0,794.64
+add	r1
+lci	r1,8538.64
+sub	r1
+lci	r1,0.853864000
+chk
+
+lci	r1,7744
+lci	r0,794.64
+sub	r1
+lci	r1,6949.36
+sub	r1
+lci	r1,0.694936000
+chk
+
+lci	r1,7744
+lci	r0,794.64
+mul	r1
+lci	r1,6153692.16
+sub	r1
+lci	r1,615.369216000
+chk
+
+lci	r1,7744
+lci	r0,794
+idv	r1
+lci	r1,9
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7744
+lci	r0,794.64
+div	r1
+lci	r1,9.745293466223698
+sub	r1
+lci	r1,0.000974529
+chk
+
+lci	r1,7744
+lci	r0,794.64
+cmp	r1
+lci	r1,1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,7744
+int
+lci	r1,7744
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,7744
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,7744
+lci	r0,794
+and	r1
+lci	r1,512
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7744
+lci	r0,794
+orr	r1
+lci	r1,8026
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,7744
+lci	r0,794
+xor	r1
+lci	r1,7514
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,7744
+sqr
+lci	r1,88.0
+sub	r1
+lci	r1,0.0088
+chk
+
+lci	r1,-2738
+lci	r0,817
+add	r1
+lci	r1,-1921
+sub	r1
+lci	r1,0.192100000
+chk
+
+lci	r1,-2738
+lci	r0,817
+sub	r1
+lci	r1,-3555
+sub	r1
+lci	r1,0.355500000
+chk
+
+lci	r1,-2738
+lci	r0,817
+mul	r1
+lci	r1,-2236946
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-2738
+lci	r0,817
+idv	r1
+lci	r1,-3
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-2738
+lci	r0,817
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-2738
+int
+lci	r1,-2738
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-2738
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,2738
+lci	r0,817
+and	r1
+lci	r1,560
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2738
+lci	r0,817
+orr	r1
+lci	r1,2995
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,2738
+lci	r0,817
+xor	r1
+lci	r1,2435
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,2738
+sqr
+lci	r1,52.32590180780452
+sub	r1
+lci	r1,0.005232590180780452
+chk
+
+lci	r1,992.95
+lci	r0,-6202
+add	r1
+lci	r1,-5209.05
+sub	r1
+lci	r1,0.520905000
+chk
+
+lci	r1,992.95
+lci	r0,-6202
+sub	r1
+lci	r1,7194.95
+sub	r1
+lci	r1,0.719495000
+chk
+
+lci	r1,992.95
+lci	r0,-6202
+mul	r1
+lci	r1,-6158275.9
+sub	r1
+lci	r1,615.827590000
+chk
+
+lci	r1,992
+lci	r0,-6202
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,992.95
+lci	r0,992.95
+cmp	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,992.95
+int
+lci	r1,992
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,992.95
+frc
+lci	r1,0.9500000000000455
+sub	r1
+lci	r1,0.001900000000000091
+chk
+
+lci	r1,992
+lci	r0,6202
+and	r1
+lci	r1,32
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,992
+lci	r0,6202
+orr	r1
+lci	r1,7162
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,992
+lci	r0,6202
+xor	r1
+lci	r1,7130
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,992.95
+sqr
+lci	r1,31.511109152170445
+sub	r1
+lci	r1,0.003151110915217045
+chk
+
+lci	r1,-5994
+lci	r0,289.46
+add	r1
+lci	r1,-5704.54
+sub	r1
+lci	r1,0.570454000
+chk
+
+lci	r1,-5994
+lci	r0,289.46
+sub	r1
+lci	r1,-6283.46
+sub	r1
+lci	r1,0.628346000
+chk
+
+lci	r1,-5994
+lci	r0,289.46
+mul	r1
+lci	r1,-1735023.24
+sub	r1
+lci	r1,173.502324000
+chk
+
+lci	r1,-5994
+lci	r0,289
+idv	r1
+lci	r1,-20
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-5994
+lci	r0,289.46
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-5994
+int
+lci	r1,-5994
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-5994
+frc
+lci	r1,0
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r1,5994
+lci	r0,289
+and	r1
+lci	r1,288
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,5994
+lci	r0,289
+orr	r1
+lci	r1,5995
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,5994
+lci	r0,289
+xor	r1
+lci	r1,5707
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,5994
+sqr
+lci	r1,77.42092740338364
+sub	r1
+lci	r1,0.007742092740338364
+chk
+
+lci	r1,-543.63
+lci	r0,782.58
+add	r1
+lci	r1,238.95000000000005
+sub	r1
+lci	r1,0.023895000
+chk
+
+lci	r1,-543.63
+lci	r0,782.58
+sub	r1
+lci	r1,-1326.21
+sub	r1
+lci	r1,0.132621000
+chk
+
+lci	r1,-543.63
+lci	r0,782.58
+mul	r1
+lci	r1,-425433.96540000004
+sub	r1
+lci	r1,42.543396540
+chk
+
+lci	r1,-543
+lci	r0,782
+idv	r1
+lci	r1,0
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,-543.63
+lci	r0,782.58
+cmp	r1
+lci	r1,-1
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,-543.63
+int
+lci	r1,-543
+sub	r1
+lci	r1,0.0
+chk
+
+lci	r0,-543.63
+frc
+lci	r1,0.6299999999999955
+sub	r1
+lci	r1,0.001259999999999991
+chk
+
+lci	r1,543
+lci	r0,782
+and	r1
+lci	r1,526
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,543
+lci	r0,782
+orr	r1
+lci	r1,799
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r1,543
+lci	r0,782
+xor	r1
+lci	r1,273
+sub	r1
+lci	r1,0.000000000
+chk
+
+lci	r0,543.63
+sqr
+lci	r1,23.315874420660272
+sub	r1
+lci	r1,0.0023315874420660274
 chk
 

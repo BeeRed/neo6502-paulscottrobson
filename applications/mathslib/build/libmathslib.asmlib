@@ -7,7 +7,7 @@
 ;		Name:		macros.inc
 ;		Purpose:	Macros
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,25 +19,25 @@
 ;
 ; ************************************************************************************************
 
-binop 	.macro
-	lda 	IFR0+IM0
-	\1 		IM0,x
-	sta 	IFR0+IM0
-	lda 	IFR0+IM1
-	\1 		IM1,x
-	sta 	IFR0+IM1
-	lda 	IFR0+IM2
-	\1 		IM2,x
-	sta 	IFR0+IM2
+binop 	.macro 								; cascading operations e.g. add/subract/and
+		lda 	IFR0+IM0
+		\1 		IM0,x
+		sta 	IFR0+IM0
+		lda 	IFR0+IM1
+		\1 		IM1,x
+		sta 	IFR0+IM1
+		lda 	IFR0+IM2
+		\1 		IM2,x
+		sta 	IFR0+IM2
 	.endm
 
-IM0 = 0
+IM0 = 0 									; offsets in 4 byte records
 IM1 = 1
 IM2 = 2
 IExp = 3
 
-IFXMask = $3F
-IFSign = $40
+IFXMask = $3F 								; mask out the exponent
+IFSign = $40 								; sign bit.
 
 ; ************************************************************************************************
 ;
@@ -56,7 +56,7 @@ IFSign = $40
 ;		Name:		initialise.asm
 ;		Purpose:	Initialise the library
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -69,7 +69,7 @@ IFSign = $40
 ; ************************************************************************************************
 
 IFInitialise:
-		stz 	IFStackIndex
+		stz 	IFStackIndex 				; reset the internal stack.
 		rts
 
 ; ************************************************************************************************
@@ -1515,7 +1515,7 @@ TableTen:
 ;		Name:		stack.asm
 ;		Purpose:	Push/Pull register
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -1531,7 +1531,7 @@ TableTen:
 
 IFloatPushRx:
 		phy
-		ldy 	IFStackIndex
+		ldy 	IFStackIndex 				; push IM0,1,2,Exp on the stack
 		lda 	IM0,x
 		sta 	IFStack,y
 		lda 	IM1,x
@@ -1544,7 +1544,7 @@ IFloatPushRx:
 		iny
 		iny
 		iny
-		sty 	IFStackIndex
+		sty 	IFStackIndex 				; update SP
 		ply
 		rts
 
@@ -1556,13 +1556,13 @@ IFloatPushRx:
 
 IFloatPullRx:
 		phy
-		ldy 	IFStackIndex
+		ldy 	IFStackIndex	 			; decrement SP
 		dey
 		dey
 		dey
 		dey
 
-		lda 	IFStack,y
+		lda 	IFStack,y 					; pop IM0,1,2,Exp off stack
 		sta 	IM0,x
 		lda 	IFStack+1,y
 		sta 	IM1,x
@@ -1571,7 +1571,7 @@ IFloatPullRx:
 		lda 	IFStack+3,y
 		sta 	IExp,x
 
-		sty 	IFStackIndex
+		sty 	IFStackIndex 				; update SP
 		ply
 		rts
 
@@ -1601,7 +1601,7 @@ IFStack:
 ;		Name:		copy.asm
 ;		Purpose:	Copy to/from internal registers
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -1663,7 +1663,7 @@ IFloatCopyToRegister:
 ;		Name:		inline.asm
 ;		Purpose:	Load inline constant
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -1726,7 +1726,7 @@ _IFLINoCarry:
 ;	Name:		multiply8x8.asm
 ;	Purpose:	Fast 8x8 multiply r0 = r0.rx
 ;	Created:	25th May 2023
-;	Reviewed: 	No
+;	Reviewed: 	25th June 2023
 ;	Author:		Paul Robson (paul@robsons.org.uk)
 ;                       Thwaite (https://www.nesdev.org/wiki/8-bit_Multiply)
 ;
@@ -1789,7 +1789,7 @@ _IFMNoAdd:
 ;		Name:		basics.asm
 ;		Purpose:	Very simple functions.
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -1804,7 +1804,7 @@ _IFMNoAdd:
 ; ************************************************************************************************
 
 IFloatCheckZero:
-		lda 	IM0,x
+		lda 	IM0,x 						; or together mantissa bytes.
 		ora 	IM1,x
 		ora 	IM2,x
 		rts
@@ -1818,7 +1818,7 @@ IFloatCheckZero:
 IFloatSetZero:
 		lda 	#0
 IFloatSetByte:
-		sta 	IM0,x 						; set mantissa to 00A
+		sta 	IM0,x 						; set mantissa to 00:A
 		stz 	IM1,x
 		stz 	IM2,x
 		stz 	IExp,x 						; zero the exponent.
@@ -1831,7 +1831,7 @@ IFloatSetByte:
 ; ************************************************************************************************
 
 IFloatNegate:
-		lda 	IExp,x
+		lda 	IExp,x 						; toggle the sign bit.
 		eor 	#IFSign
 		sta 	IExp,x
 		clc
@@ -1844,7 +1844,7 @@ IFloatNegate:
 ; ************************************************************************************************
 
 IFloatMantissaNegate:
-		sec
+		sec 								; when you want a real 2's complement negative value.
 		lda 	#0
 		sbc 	IM0,x
 		sta 	IM0,x
@@ -1906,7 +1906,7 @@ IFloatRotateRight:
 ;		Name:		normalise.asm
 ;		Purpose:	Normalise register
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -2005,7 +2005,7 @@ IFXTemp:
 ;		Name:		buffer.asm
 ;		Purpose:	Buffer for String I/O
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -2097,8 +2097,8 @@ IFBuffer:
 ;		Name:		check.asm
 ;		Purpose:	Check |R0| is <= R1
 ;		Created:	25th May 2023
-;		Reviewed: 	No
-;		Author:		Paul Robson (paul@robsons.org.uk)
+;		Reviewed: 	25th June 2023
+;		Author:		Paul Robson (psaul@robsons.org.uk)
 ;
 ; ************************************************************************************************
 ; ************************************************************************************************
@@ -2107,14 +2107,15 @@ IFBuffer:
 
 ; ************************************************************************************************
 ;
-;							  			Check Abs(R0) < R1
+;							  	Check Abs(R0) < R1 (TESTING ONLY)
 ;
 ; ************************************************************************************************
 
-IFloatCheck:
-		lda 	IFR0+IExp					; force it negative
+IFloatCheckRange:
+		lda 	IFR0+IExp					; force it negative e.g. -|R0|
 		ora 	#IFSign
 		sta 	IFR0+IExp
+		ldx 	#IFR1 						; add R1.
 		jsr 	IFloatAdd 					; add allowed to error.
 		ldx 	#IFR0
 		jsr 	IFloatCheckZero 			; error if < 0

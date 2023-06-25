@@ -4,7 +4,7 @@
 ;		Name:		initialise.asm
 ;		Purpose:	Initialise the library
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -17,7 +17,7 @@
 ; ************************************************************************************************
 
 IFInitialise:
-		stz 	IFStackIndex
+		stz 	IFStackIndex 				; reset the internal stack.
 		rts
 		
 ; ************************************************************************************************

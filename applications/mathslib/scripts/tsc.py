@@ -33,7 +33,7 @@ class TSCompiler(object):
 						 "XOR":"IFloatBitwiseXor",
 						 "CMP":"IFloatCompare",
 						 "NEG":"IFloatNegate",
-						 "CHK":"IFloatCheck",
+						 "CHK":"IFloatCheckRange",
 						 "NRM":"IFloatNormalise",
 						 "INT":"IFloatIntegerR0",
 						 "FRC":"IFloatFractionalR0",
