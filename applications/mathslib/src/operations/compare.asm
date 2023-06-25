@@ -4,7 +4,7 @@
 ;		Name:		compare.asm
 ;		Purpose:	Compare two numbers
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -50,8 +50,8 @@ _IFCZero:									; return 0.
 		; 		can vary how many of lower byte we check.
 		;
 _IFCNonInteger:		
-		lda 	IFR0+IM0
-		and		#$00
+		lda 	IFR0+IM0 	 				; can adjust what 'zero' means by changing the
+		and		#$00 						; mask here to include bits from Mantissa.0
 		ora 	IFR0+IM1
 		ora 	IFR0+IM2
 		beq 	_IFCZero 					; near enough !

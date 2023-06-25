@@ -17,6 +17,6 @@ endif
 
 
 all: 
-		make -C mos
-		make -C mathslib
-		make -C basic
+		make -B -C mos
+		make -B -C mathslib
+		make -B -C basic

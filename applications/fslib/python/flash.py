@@ -24,6 +24,13 @@ class FlashMemory(object):
 		self.flashMemory = [ random.randint(0,255) for i in range(0,self.sectorCount * self.sectorSize)]
 		self.inCommand = False
 	#
+	#		Information
+	#
+	def getSectorSize(self):
+		return self.sectorSize
+	def getSectorCount(self):
+		return self.sectorCount
+	#
 	#		Erase a sector. This is the sector erase command (SE) $20
 	#		We cannot use the full erase because it may contain firmware.
 	#		This is slow (50ms typical) so minimise its use.
@@ -92,3 +99,4 @@ if __name__ == '__main__':
 	fm = FlashMemory()
 	#fm.eraseSector(31)
 	#print(fm.flashMemory)		
+	

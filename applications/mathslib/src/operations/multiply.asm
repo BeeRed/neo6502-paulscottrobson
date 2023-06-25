@@ -4,7 +4,7 @@
 ;		Name:		multiply.asm
 ;		Purpose:	Multiply two numbers
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -32,7 +32,7 @@ IFloatMultiply:
 		ora 	IM2,x
 		ora 	IFR0+IM2
 		bne 	_IFMStandard
-		jsr 	IFloatMultiply8BitRx
+		jsr 	IFloatMultiply8BitRx 		; we have a special routine for this.
 		lda 	IFNewSign
 		sta 	IFR0+IExp
 		clc
@@ -127,8 +127,6 @@ _IFMOkay:
 		sta 	IFR0+IExp
 		clc
 		rts		
-
-		jmp 	$FFFF
 
 _IFMError:
 		sec

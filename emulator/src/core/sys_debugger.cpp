@@ -121,8 +121,8 @@ void DBGXRender(int *address,int showDisplay) {
 						rc2.y = r.y + (y*8+ypx) * ys;
 						int b = font8x8_basic[ch*8+ypx];
 						while (b != 0) {
-							if (b & 0x01) GFXRectangle(&rc2,0xF80);
-							b = (b >> 1) & 0xFF;
+							if (b & 0x80) GFXRectangle(&rc2,0xF80);
+							b = (b << 1) & 0xFF;
 							rc2.x += rc2.w;
 						}
 					}

@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/main.bin _main.asm
-; Sun Jun 25 08:27:31 2023
+; Sun Jun 25 09:24:42 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -10943,12 +10943,12 @@
 .8a80	b5 03		lda $03,x			lda 	IExp,x 						; check if both exponents are zero.
 .8a82	05 0b		ora $0b				ora 	IFR0+IExp
 .8a84	29 3f		and #$3f			and 	#IFXMask 					; if not, then we have to do the
-.8a86	d0 4e		bne $8ad6			bne 	_IFloatAddDecimals 			; decimal version.
+.8a86	d0 4e		bne $8ad6			bne 	_IFloatAddDecimals 			; floating point version.
 .8a88					_IFAddSubMantissa:
 .8a88	b5 03		lda $03,x			lda 	IExp,x 						; are the signs different ?
 .8a8a	45 0b		eor $0b				eor 	IFR0+IExp
 .8a8c	29 40		and #$40			and 	#IFSign
-.8a8e	d0 21		bne $8ab1			bne 	_IFloatSubMantissa
+.8a8e	d0 21		bne $8ab1			bne 	_IFloatSubMantissa			; if so, we do a subtract
 .8a90	18		clc				clc 								; do the actual addition
 .8a91	a5 08		lda $08				lda 	IFR0+IM0
 .8a93	75 00		adc $00,x			adc 		IM0,x
@@ -10961,7 +10961,7 @@
 .8aa1	85 0a		sta $0a				sta 	IFR0+IM2
 .8aa3	10 29		bpl $8ace			bpl 	_IFloatAddExit 				; if no carry through to bit 23, then exit.
 .8aa5	a2 08		ldx #$08			ldx 	#IFR0						; shift R0 right, divide by 2
-.8aa7	20 b9 90	jsr $90b9			jsr 	IFloatShiftRight
+.8aa7	20 b9 90	jsr $90b9			jsr 	IFloatShiftRight 			; we are now in decimals mode.
 .8aaa	20 e3 90	jsr $90e3			jsr 	IFloatIncExponent
 .8aad	d0 1f		bne $8ace			bne 	_IFloatAddExit
 .8aaf	38		sec				sec 								; overflowed numerically.
@@ -10980,7 +10980,7 @@
 .8ac4	b0 08		bcs $8ace			bcs 	_IFloatAddExit 				; no borrow so we are done.
 .8ac6	a2 08		ldx #$08			ldx 	#IFR0
 .8ac8	20 9d 90	jsr $909d			jsr 	IFloatMantissaNegate 		; 2's complement negate the mantissa
-.8acb	20 95 90	jsr $9095			jsr 	IFloatNegate 				; negate
+.8acb	20 95 90	jsr $9095			jsr 	IFloatNegate 				; negate the result using sign bit.
 .8ace					_IFloatAddExit:
 .8ace	18		clc				clc
 .8acf	60		rts				rts
@@ -10996,7 +10996,7 @@
 .8ade	da		phx				phx 								; normalise R0
 .8adf	a2 08		ldx #$08			ldx 	#IFR0
 .8ae1	20 83 90	jsr $9083			jsr 	IFloatCheckZero
-.8ae4	f0 ea		beq $8ad0			beq 	_IFloatZeroAdd
+.8ae4	f0 ea		beq $8ad0			beq 	_IFloatZeroAdd 				; normalised R0 is zero, return RX.
 .8ae6	20 c1 90	jsr $90c1			jsr 	IFloatNormalise
 .8ae9	fa		plx				plx
 .8aea	a5 0b		lda $0b				lda 	IFR0+IExp 					; get the exponent of R0
@@ -11382,8 +11382,8 @@
 .8d7c	18		clc				clc
 .8d7d	60		rts				rts
 .8d7e					_IFCNonInteger:
-.8d7e	a5 08		lda $08				lda 	IFR0+IM0
-.8d80	29 00		and #$00			and		#$00
+.8d7e	a5 08		lda $08				lda 	IFR0+IM0 	 				; can adjust what 'zero' means by changing the
+.8d80	29 00		and #$00			and		#$00 						; mask here to include bits from Mantissa.0
 .8d82	05 09		ora $09				ora 	IFR0+IM1
 .8d84	05 0a		ora $0a				ora 	IFR0+IM2
 .8d86	f0 f1		beq $8d79			beq 	_IFCZero 					; near enough !

@@ -4,7 +4,7 @@
 ;		Name:		add.asm
 ;		Purpose:	Add two numbers
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -34,15 +34,16 @@ IFloatAdd:
 		lda 	IExp,x 						; check if both exponents are zero.
 		ora 	IFR0+IExp
 		and 	#IFXMask 					; if not, then we have to do the 
-		bne 	_IFloatAddDecimals 			; decimal version.
+		bne 	_IFloatAddDecimals 			; floating point version.
 ;
 ;		Add or Subtract the mantissae, adjusting the result accordingly.
+;		If both exponents are zero we only do this bit.
 ;
 _IFAddSubMantissa:
 		lda 	IExp,x 						; are the signs different ?
 		eor 	IFR0+IExp
 		and 	#IFSign
-		bne 	_IFloatSubMantissa
+		bne 	_IFloatSubMantissa			; if so, we do a subtract
 		;
 		;		Addition of the mantissae.
 		;
@@ -51,7 +52,7 @@ _IFAddSubMantissa:
 		bpl 	_IFloatAddExit 				; if no carry through to bit 23, then exit.
 		;
 		ldx 	#IFR0						; shift R0 right, divide by 2
-		jsr 	IFloatShiftRight
+		jsr 	IFloatShiftRight 			; we are now in decimals mode.
 		jsr 	IFloatIncExponent
 		bne 	_IFloatAddExit
 		sec 								; overflowed numerically.
@@ -66,7 +67,7 @@ _IFloatSubMantissa:
 		;
 		ldx 	#IFR0
 		jsr 	IFloatMantissaNegate 		; 2's complement negate the mantissa
-		jsr 	IFloatNegate 				; negate
+		jsr 	IFloatNegate 				; negate the result using sign bit.
 _IFloatAddExit:
 		clc
 		rts
@@ -79,15 +80,17 @@ _IFloatZeroAdd:
 
 _IFloatAddDecimals:		
 		jsr		IFloatCheckZero 			; if RX = 0 then exit with R0
-		beq 	_IFloatAddExit
+		beq 	_IFloatAddExit 				
 
 		jsr 	IFloatNormalise 			; normalise RX
 		phx 								; normalise R0
 		ldx 	#IFR0
 		jsr 	IFloatCheckZero
-		beq 	_IFloatZeroAdd
+		beq 	_IFloatZeroAdd 				; normalised R0 is zero, return RX.
 		jsr 	IFloatNormalise
 		plx
+		;
+		;		Get exponents of R0 RX in testable format.
 		;
 		lda 	IFR0+IExp 					; get the exponent of R0
 		and 	#IFXMask
@@ -103,6 +106,9 @@ _IFloatAddDecimals:
 		bcs 	_IFloatHaveLarger
 		lda 	iTemp0
 _IFloatHaveLarger:		
+		;
+		;		Convert back to a real exponent and shift both to it.
+		;
 		clc 								; get the actual one back.
 		adc 	#$20 						; shift both to that.
 		jsr 	_IFShiftXToA
@@ -111,6 +117,12 @@ _IFloatHaveLarger:
 		jsr 	_IFShiftXToA
 		plx
 		jmp 	_IFAddSubMantissa 			; do the adding bit.
+
+; ************************************************************************************************
+;
+;									Shift Rx till the exponent is A
+;
+; ************************************************************************************************
 
 _IFShiftXToA:
 		sta 	IFTarget

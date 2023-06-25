@@ -4,7 +4,7 @@
 ;		Name:		squareroot.asm
 ;		Purpose:	Square Root
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author : 	Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -21,9 +21,12 @@
 IFloatSquareRootR0:
 		ldx 	#IFR0 						; if zero, return zero.
 		jsr 	IFloatCheckZero
+		beq 	_IFSRZero
+
 		lda	 	IFR0+IExp 					; if negative fail.
 		and 	#IFSign
 		bne 	_IFSRFail
+
 		jsr 	IFloatNormalise 			; it will work better !
 		;
 		ldx 	#IFR1 						; R1 contains original throughout

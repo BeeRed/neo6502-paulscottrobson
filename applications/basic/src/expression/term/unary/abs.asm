@@ -3,7 +3,7 @@
 ;
 ;		Name:		abs.asm
 ;		Purpose:	Absolute value of number
-;		Created:	25th May 2023
+;		Created:	26th May 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;

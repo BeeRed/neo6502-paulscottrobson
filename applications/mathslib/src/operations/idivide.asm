@@ -4,7 +4,7 @@
 ;		Name:		idivide.asm
 ;		Purpose:	Divide two integers
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -35,6 +35,12 @@ IFloatModulusInteger:
 		clc
 _IFMIExit:		
 		rts
+
+; ************************************************************************************************
+;
+;										Common integer code.
+;
+; ************************************************************************************************
 
 IFloatDivideIntegerCommon:
 		stx 	IFTarget  					; this is s1, s0 = R0
