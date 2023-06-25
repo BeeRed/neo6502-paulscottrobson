@@ -3,8 +3,8 @@
 ;
 ;		Name:		intfn.asm
 ;		Purpose:	Integer part of number
-;		Created:	22nd May 2023
-;		Reviewed: 	No
+;		Created:	25th May 2023
+;		Reviewed: 	24th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -20,8 +20,8 @@
 
 EXPUnaryInt: ;; [int(]
 		jsr 	EXPEvalNumber 					; number to R0
-		jsr 	ERRCheckRParen 					; )
-		jsr 	IFloatIntegerR0
+		jsr 	ERRCheckRParen 					; check for )
+		jsr 	IFloatIntegerR0 				; force to integer.
 		rts
 
 		.send code
