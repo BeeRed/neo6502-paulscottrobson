@@ -248,7 +248,7 @@ IFTarget:
 ;		Name:		multiply.asm
 ;		Purpose:	Multiply two numbers
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -276,7 +276,7 @@ IFloatMultiply:
 		ora 	IM2,x
 		ora 	IFR0+IM2
 		bne 	_IFMStandard
-		jsr 	IFloatMultiply8BitRx
+		jsr 	IFloatMultiply8BitRx 		; we have a special routine for this.
 		lda 	IFNewSign
 		sta 	IFR0+IExp
 		clc
@@ -372,8 +372,6 @@ _IFMOkay:
 		clc
 		rts
 
-		jmp 	$FFFF
-
 _IFMError:
 		sec
 		rts
@@ -440,7 +438,7 @@ IFNewSign:
 ;		Name:		idivide.asm
 ;		Purpose:	Divide two integers
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -471,6 +469,12 @@ IFloatModulusInteger:
 		clc
 _IFMIExit:
 		rts
+
+; ************************************************************************************************
+;
+;										Common integer code.
+;
+; ************************************************************************************************
 
 IFloatDivideIntegerCommon:
 		stx 	IFTarget  					; this is s1, s0 = R0
@@ -744,7 +748,7 @@ IFloatAbsoluteR0:
 ;		Name:		squareroot.asm
 ;		Purpose:	Square Root
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author : 	Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -761,9 +765,12 @@ IFloatAbsoluteR0:
 IFloatSquareRootR0:
 		ldx 	#IFR0 						; if zero, return zero.
 		jsr 	IFloatCheckZero
+		beq 	_IFSRZero
+
 		lda	 	IFR0+IExp 					; if negative fail.
 		and 	#IFSign
 		bne 	_IFSRFail
+
 		jsr 	IFloatNormalise 			; it will work better !
 		;
 		ldx 	#IFR1 						; R1 contains original throughout
@@ -831,7 +838,7 @@ _IFSRNewton:
 ;		Name:		fractional.asm
 ;		Purpose:	Get Rx Fractional part
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author : 	Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -849,11 +856,10 @@ IFloatFractionalR0:
 		lda 	IFR0+IExp					; is it integer already ?
 		and 	#IFXMask
 		beq 	_FIPZero 					; if so, return with zero as no fractional part.
-		jsr 	IFloatAbsoluteR0 			; absolute value R9
 
+		jsr 	IFloatAbsoluteR0 			; absolute value R0
 		ldx 	#IFR0
 		jsr 	IFloatNormalise 			; normalise R0
-
 		ldx 	#IFRTemp 					; copy to RTemp
 		jsr 	IFloatCopyToRegister
 		jsr 	IFloatIntegerR0 			; take integer part of R0
@@ -958,7 +964,7 @@ _IFCNonInteger:
 ;		Name:		integer.asm
 ;		Purpose:	Make Rx Integer
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author : 	Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -1011,7 +1017,7 @@ _FIPExit:
 ;		Name:		fdivide.asm
 ;		Purpose:	Divide two integers/float result
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
