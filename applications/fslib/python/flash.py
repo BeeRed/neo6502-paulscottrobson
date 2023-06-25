@@ -57,14 +57,14 @@ class FlashMemory(object):
 		assert self.inCommand == 'R',"Not in read command"
 		assert self.address < len(self.flashMemory),"Read sector : past end of memory"
 		data = self.flashMemory[self.address]
-		self.inputAddress += 1
+		self.address += 1
 		return data 
 	#
 	#		Start writing to a sector. Mostly uses $02 (page program) which has to operate in
 	#		256 byte chunks, so we will issue new PP commands when the LSB is $00 and end
 	#		them when the LSB was $FF previously.
 	#
-	def openWrite(self,sector):
+	def openWrite(self,sectorID):
 		assert sectorID >= 0 and sectorID < self.sectorCount,"Write sector : bad sector"
 		assert not self.inCommand,"Command in progress"
 		self.address = self.getSectorAddress(sectorID)
@@ -76,6 +76,9 @@ class FlashMemory(object):
 		assert self.inCommand == 'W',"Write sector : not opened"
 		assert self.address < len(self.flashMemory),"Write sector : past end of memory"
 		self.flashMemory[self.address] = self.flashMemory[self.address] & data 
+		w = self.flashMemory[self.address]
+		#print("{0:06x} {1:02x} {2}".format(self.address,w,chr(w)))
+		self.address += 1
 	#
 	#		Get address of a sector. May be "fixed" so can start from address other than zero
 	#
@@ -86,8 +89,6 @@ class FlashMemory(object):
 	#
 	def endCommand(self):
 		assert self.inCommand is not None,"Not in command"
-		if self.inCommand == 'W':
-			asssert (self.address & 0xFF) == 0,"Closing write not on page boundary."
 		self.inCommand = None
 	#
 	#		*Debugging only* read
