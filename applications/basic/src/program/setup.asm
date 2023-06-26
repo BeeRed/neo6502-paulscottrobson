@@ -4,7 +4,7 @@
 ;		Name:		setup.asm
 ;		Purpose:	Set up Program space
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -20,8 +20,8 @@
 ; ************************************************************************************************
 
 PGMSetBaseAddress:
-		stx 	PGMBaseHigh
-		sty 	PGMEndMemoryHigh
+		stx 	PGMBaseHigh 				; use memory from here
+		sty 	PGMEndMemoryHigh 			; to here.
 		rts
 
 ; ************************************************************************************************
@@ -34,7 +34,7 @@ PGMNewProgram:
 		stz 	zTemp0						; copy base address to zTemp0
 		lda 	PGMBaseHigh
 		sta 	zTemp0+1
-		lda 	#0 							; overwrite the offset
+		lda 	#0 							; overwrite the offset to zero.
 		sta 	(zTemp0)
 		rts
 
@@ -49,9 +49,9 @@ PGMEndProgram:
 		lda 	PGMBaseHigh
 		sta 	zTemp0+1
 _PGMEPLoop:
-		lda 	(zTemp0)
+		lda 	(zTemp0) 					; reached end ?
 		beq 	_PGMEPExit
-		clc
+		clc 								; no, advance to next
 		adc 	zTemp0
 		sta 	zTemp0
 		bcc 	_PGMEPLoop

@@ -4,7 +4,7 @@
 ;		Name:		new.asm
 ;		Purpose:	New program
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,9 +19,9 @@
 		.section code
 
 Command_NEW:	;; [new]
-		jsr 	PGMNewProgram
-		jsr 	ClearCode
-		jmp 	Command_END
+		jsr 	PGMNewProgram 				; Reset current program
+		jsr 	ClearCode 					; Run CLR
+		jmp 	Command_END 				; Run END
 		.send code
 		
 ;:[new]

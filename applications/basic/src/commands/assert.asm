@@ -4,7 +4,7 @@
 ;		Name:		assert.asm
 ;		Purpose:	Asserts an expression
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,10 +19,10 @@
 		.section code
 
 Command_ASSERT:	;; [assert]
-		jsr 	EXPEvalNumber
-		ldx 	#IFR0
+		jsr 	EXPEvalNumber 				; get a number to assert
+		ldx 	#IFR0						; check if it is zero ?
 		jsr 	IFloatCheckZero
-		beq 	_CAFail
+		beq 	_CAFail 					; if so, the assert fails.
 		rts
 _CAFail:		
 		.error_assert

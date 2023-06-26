@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -D "BASICLOAD=\$1000" -D "BASICCODE=\$3800" -D "ENDMEMORY=\$C000" -D STACKPAGES=2 -o build/basic.bin basic.asm
-; Mon Jun 26 15:59:18 2023
+; Mon Jun 26 19:32:51 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -260,10 +260,10 @@
 ;******  Processing file: src/commands/assert.asm
 
 .100d					Command_ASSERT:
-.100d	20 03 17	jsr $1703			jsr 	EXPEvalNumber
-.1010	a2 08		ldx #$08			ldx 	#IFR0
+.100d	20 03 17	jsr $1703			jsr 	EXPEvalNumber 				; get a number to assert
+.1010	a2 08		ldx #$08			ldx 	#IFR0						; check if it is zero ?
 .1012	20 c2 30	jsr $30c2			jsr 	IFloatCheckZero
-.1015	f0 01		beq $1018			beq 	_CAFail
+.1015	f0 01		beq $1018			beq 	_CAFail 					; if so, the assert fails.
 .1017	60		rts				rts
 .1018					_CAFail:
 .1018	4c c1 25	jmp $25c1		jmp	ErrorV_assert
@@ -930,9 +930,9 @@
 ;******  Processing file: src/commands/new.asm
 
 .1405					Command_NEW:
-.1405	20 46 1f	jsr $1f46			jsr 	PGMNewProgram
-.1408	20 3c 10	jsr $103c			jsr 	ClearCode
-.140b	4c 28 15	jmp $1528			jmp 	Command_END
+.1405	20 46 1f	jsr $1f46			jsr 	PGMNewProgram 				; Reset current program
+.1408	20 3c 10	jsr $103c			jsr 	ClearCode 					; Run CLR
+.140b	4c 28 15	jmp $1528			jmp 	Command_END 				; Run END
 
 ;******  Return to file: include.files
 
@@ -2784,14 +2784,14 @@
 ;******  Processing file: src/program/setup.asm
 
 .1f3f					PGMSetBaseAddress:
-.1f3f	8e 1a 05	stx $051a			stx 	PGMBaseHigh
-.1f42	8c 1b 05	sty $051b			sty 	PGMEndMemoryHigh
+.1f3f	8e 1a 05	stx $051a			stx 	PGMBaseHigh 				; use memory from here
+.1f42	8c 1b 05	sty $051b			sty 	PGMEndMemoryHigh 			; to here.
 .1f45	60		rts				rts
 .1f46					PGMNewProgram:
 .1f46	64 22		stz $22				stz 	zTemp0						; copy base address to zTemp0
 .1f48	ad 1a 05	lda $051a			lda 	PGMBaseHigh
 .1f4b	85 23		sta $23				sta 	zTemp0+1
-.1f4d	a9 00		lda #$00			lda 	#0 							; overwrite the offset
+.1f4d	a9 00		lda #$00			lda 	#0 							; overwrite the offset to zero.
 .1f4f	92 22		sta ($22)			sta 	(zTemp0)
 .1f51	60		rts				rts
 .1f52					PGMEndProgram:
@@ -2799,9 +2799,9 @@
 .1f54	ad 1a 05	lda $051a			lda 	PGMBaseHigh
 .1f57	85 23		sta $23				sta 	zTemp0+1
 .1f59					_PGMEPLoop:
-.1f59	b2 22		lda ($22)			lda 	(zTemp0)
+.1f59	b2 22		lda ($22)			lda 	(zTemp0) 					; reached end ?
 .1f5b	f0 0b		beq $1f68			beq 	_PGMEPExit
-.1f5d	18		clc				clc
+.1f5d	18		clc				clc 								; no, advance to next
 .1f5e	65 22		adc $22				adc 	zTemp0
 .1f60	85 22		sta $22				sta 	zTemp0
 .1f62	90 f5		bcc $1f59			bcc 	_PGMEPLoop

@@ -59,9 +59,9 @@ _IFMLoop:
         adc     rTemp0+1
 _IFMNoAdd:
         ror     a
-        ror     rTemp0                    ; pull another bit out for the next iteration
+        ror     rTemp0                      ; pull another bit out for the next iteration
         dey        
-        bne     _IFMLoop
+        bne     _IFMLoop                   
         ora 	#$C0
         tay
 
