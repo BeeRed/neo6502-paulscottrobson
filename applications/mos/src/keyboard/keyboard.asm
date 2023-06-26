@@ -57,7 +57,7 @@ OSReadKeystroke:
 _OSWaitKey:
 		jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
 		jsr 	OSReadKeyboard 				; key available
-		bcs 	_OSWaitKey 					' no keep going
+		bcs 	_OSWaitKey 					; no keep going
 		;
 		pha 								; save key
 		lda 	OSRKOriginal 				; old character back and write to screen.

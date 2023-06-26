@@ -107,7 +107,7 @@ void DBGXRender(int *address,int showDisplay) {
 		r.x = WIN_WIDTH/2-r.w/2;r.y = WIN_HEIGHT/2-r.h/2;
 		SDL_Rect rc2;rc2 = r;
 		rc2.w += 8;rc2.h += 8;rc2.x -=4;rc2.y -= 4;
-		GFXRectangle(&rc2,0x880);
+		GFXRectangle(&rc2,0);
 		GFXRectangle(&r,0);
 		for (int x = 0;x < xc;x++) {
 			for (int y = 0;y < yc;y++) {
