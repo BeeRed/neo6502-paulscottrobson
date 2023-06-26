@@ -19,7 +19,6 @@ import random
 
 class FakeFile(object):
 	def __init__(self,id):
-		random.seed(id)
 		self.name = "{0}.{1:03}".format("".join([chr(random.randint(0,25)+97) for x in range(0,random.randint(4,8))]),id)
 		self.create()
 	#

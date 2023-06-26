@@ -23,6 +23,7 @@ class FlashMemory(object):
 		self.sectorCount = memorySize // sectorSize
 		self.flashMemory = [ random.randint(0,255) for i in range(0,self.sectorCount * self.sectorSize)]
 		self.inCommand = False
+		self.eraseCount = [ 0 ] * self.sectorCount
 	#
 	#		Information
 	#
@@ -41,6 +42,7 @@ class FlashMemory(object):
 		addr = self.getSectorAddress(sectorID)
 		for i in range(0,self.sectorSize):
 			self.flashMemory[addr+i] = 0xFF
+		self.eraseCount[sectorID] += 1
 	#
 	#		Start reading a sector. Equivalent to sending command $03 (READ) to Flash.
 	#		(see page 28)
@@ -95,7 +97,12 @@ class FlashMemory(object):
 	#
 	def readDebug(self,sector,offset):
 		return self.flashMemory[self.getSectorAddress(sector)+offset]
-
+	#
+	#		get erase count information.
+	#
+	def getEraseCount(self,sector):
+		return self.eraseCount[sector]
+		
 if __name__ == '__main__':
 	fm = FlashMemory()
 	#fm.eraseSector(31)

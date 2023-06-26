@@ -27,12 +27,13 @@ class FileSystem(object):
 	#												Display the storage
 	#
 	# ------------------------------------------------------------------------------------------------------------------------------
+
 	def dump(self):
 		for sector in range(0,self.storage.getSectorCount()):
 			sType = self.storage.readDebug(sector,0)
 
 			sDesc = "-----" if sType != ord('F') and sType != ord('N') else self.getSectorInformation(sector)
-			print("Sector {0:3} : {1}".format(sector,sDesc))
+			print("Sector {0:3} E:{2:<4} {1}".format(sector,sDesc,self.storage.getEraseCount(sector)))
 	#
 	def getSectorInformation(self,sector):
 		size = self.storage.readDebug(sector,2) + self.storage.readDebug(sector,3) * 256
@@ -73,9 +74,61 @@ class FileSystem(object):
 	#
 	# ------------------------------------------------------------------------------------------------------------------------------
 
-	def read(self,file):
-		pass	
+	def read(self,file,memory,loadAddress):
+		file = file.lower().strip() 											# lower case.
+		sector = self.readSearch(0,file,'F') 									# search for F record.
+		if sector is None:														# not found.
+			return False
+		#
+		complete = False 
+		while not complete: 													# not read everything.
+			self.readHeader(sector)  											# read sector
 
+			if chr(self.header[1]) == 'N': 										# if found 'N' then this will be the last.
+				complete = True  												# we process.
+
+			dataSize = self.header[2] + self.header[3] * 256 					# the amount of data to read.
+
+			self.storage.openRead(sector) 										# now read the sector
+			for i in range(0,32): 												# skip the header.
+				self.storage.read()
+
+			for i in range(0,dataSize): 										# read the data in.
+				memory[loadAddress] = self.storage.read()
+				loadAddress += 1
+			self.storage.endCommand() 											# finish reading.
+
+			if not complete: 													# still going ?
+				sector = self.readSearch(sector,file,'N')
+
+		return True
+
+	# ------------------------------------------------------------------------------------------------------------------------------
+	#
+	#								Search forward for file and sector type, returns sector or None
+	#												(always pre-increments)
+	#
+	# ------------------------------------------------------------------------------------------------------------------------------
+
+	def readSearch(self,sector,file,sectorType):		
+
+		checkCount = self.storage.getSectorCount() 								# how many to check, maximum.
+
+		while True: 															# search for it.
+
+			sector += 1 														# move forward once.
+			if sector == self.storage.getSectorCount():
+				sector = 0
+
+			if checkCount == 0:													# done a complete sweep.
+				return None
+			checkCount -= 1 													
+
+			if self.readHeader(sector) == file: 								# found the write file
+				if chr(self.header[0]) == sectorType:
+					return sector
+
+		return sector
 	# ------------------------------------------------------------------------------------------------------------------------------
 	#
 	#											Write file to file system
@@ -85,7 +138,7 @@ class FileSystem(object):
 	def write(self,file):
 		firstFlag = True														# is the first record ?
 		complete = False  														# done the lot ?
-		currSector = random.randint(0,self.storage.getSectorCount()) 			# current potential target sector.
+		currSector = random.randint(0,self.storage.getSectorCount()-1) 			# current potential target sector.
 
 		name = file.getName().lower() 											# file name
 
@@ -98,13 +151,14 @@ class FileSystem(object):
 
 			searchStart = currSector 											# find a free sector for the next data.
 			while self.isInUse(currSector): 									# if in use
-				currSector = (currSector + 1) % self.storage,getSectorCount() 	# goto next
+				currSector = (currSector + 1) % self.storage.getSectorCount() 	# goto next
 				if currSector == searchStart: 									# not enough sectors
-					self.erase(file.getName()) 									# erase the file.
+					self.erase(file) 											# erase the file.
 					return False 
 			
 			self.storage.openWrite(currSector) 									# open sector to write.
 			self.storage.write(ord('F' if firstFlag else 'N')) 					# write first or next.
+			firstFlag = False 													# clear first flag
 
 			if dataRemaining > self.storage.getSectorSize()-32: 				# need another page.
 				self.storage.write(ord('Y')) 									# Y (there are more)
@@ -179,4 +233,12 @@ if __name__ == '__main__':
 	f2 = FakeFile(2)
 	fs.write(f2)
 	fs.dump()
-	
+
+	memory = [ 0 ] * 0x10000
+	ok = fs.read(f1.getName(),memory,0x1000)
+	print(ok)
+	print(f1.check(memory,0x1000))
+
+	ok = fs.read(f2.getName(),memory,0x1000)
+	print(ok)
+	print(f2.check(memory,0x1000))
