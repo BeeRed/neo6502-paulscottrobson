@@ -65,6 +65,7 @@ _WSLineEdit:
 		beq 	_WSNoInsert
 		jsr 	PGMInsertLine				; if not, maybe insert
 _WSNoInsert:
+		jsr 	ClearCode 					; clear variables etc.
 		bra 	WarmStartNoPrompt
 
 ; ************************************************************************************************
@@ -93,6 +94,7 @@ _GSNoIncrement:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		26/06/23 		Clear variables etc. after code editing.
 ;
 ; ************************************************************************************************
 

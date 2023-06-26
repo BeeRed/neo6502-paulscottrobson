@@ -12,3 +12,4 @@ BASIC: 	Fixed WHILE bug reported by Tsvetan.
 20th June 2022
 
 BASIC: 	Added GOTO, GOSUB and RETURN for old code. Will not work with editor.		
+		Variables cleared/Stack reset etc. after directly editing code.
