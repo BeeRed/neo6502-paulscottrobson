@@ -4,7 +4,7 @@
 ;		Name:		ps2keyboard.asm
 ;		Purpose:	Process PS/2 scancodes -> keystrokes & status
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th May 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -14,18 +14,20 @@
 
 ; ************************************************************************************************
 ;
-;								Process keyboard input
+;								Process keyboard input queue
 ;
 ; ************************************************************************************************
 
 OSKeyboardDataProcess:
 		lda 	$CF00 						; read keyboard port
 		beq 	_OSKExit 					; no events available.
+
 		cmp 	#$F0 						; check key up ?
 		beq 	_OSKUp
 		cmp 	#$E0 						; check extended scancode ?
 		beq 	_OSKShift
-		ora 	OSIsKeyShift 				; actual key code.
+
+		ora 	OSIsKeyShift 				; actual key code - sets bit 7 if extended scancode.
 
 		pha
 		jsr 	OSKeyboardUpdateBits 		; update the up/down bits
@@ -33,24 +35,27 @@ OSKeyboardDataProcess:
 
 		ldx 	OSIsKeyUp 					; if key up reset up and shift flags.
 		beq 	_OSKInsertQueue 			; if key down insert into queue
-		stz 	OSIsKeyUp
+
+		stz 	OSIsKeyUp 					; reset up/shift
 		stz 	OSIsKeyShift
 		bra 	_OSKExit
 
 _OSKInsertQueue:							; insert keystroke into queue.
 		jsr 	OSTranslateToASCII 			; convert to ASCII
-		bcs 	_OSKExit 					; carry set, exit
-		jsr 	OSInsertKeyboardQueue
+		bcs 	_OSKExit 					; carry set, exit (unknown key)
+		jsr 	OSInsertKeyboardQueue 		; insert into keyboard queue.
 		bra 	_OSKExit
 
 _OSKShift: 									; received $E0 (shift)
-		lda 	#$80
+		lda 	#$80 						; set this so the OR seets bit 7.
 		sta 	OSIsKeyShift
 		bra 	_OSKExit
+
 _OSKUp:
-		dec 	OSIsKeyUp 					; received $F0 (key up)
+		dec 	OSIsKeyUp 					; received $F0 (key up), set that flag
+
 _OSKExit:		
-		lda 	OSKeyStatus+$0E
+		lda 	OSKeyStatus+$0E 			; and on the way out check if ESC was pressed.
 		and 	#$40
 		sta 	OSEscapePressed
 		rts
@@ -99,7 +104,8 @@ _OSKUUp:
 OSInsertKeyboardQueue:		
 		ldx 	OSKeyboardQueueSize 		; check to see if full
 		cpx	 	#OSKeyboardQueueMaxSize
-		bcs 	_OSIKQExit
+		bcs 	_OSIKQExit 					; if so, you will never know.
+
 		sta 	OSKeyboardQueue,x 			; add keyboard entry to queue.
 		inc 	OSKeyboardQueueSize
 _OSIKQExit:		
@@ -117,6 +123,8 @@ _OSKILoop:
 		stz 	OSKeyStatus,x
 		dex
 		bpl 	_OSKILoop
+		stz 	OSIsKeyUp 					; reset up/shift
+		stz 	OSIsKeyShift
 		rts
 
 		.send code
@@ -129,6 +137,7 @@ _OSKILoop:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		26/06/23 		Cleared iskeyup/shift flags on OSKeyboardInitialise
 ;
 ; ************************************************************************************************
 

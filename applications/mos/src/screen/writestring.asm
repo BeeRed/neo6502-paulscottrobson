@@ -4,7 +4,7 @@
 ;		Name:		writestring.asm
 ;		Purpose:	Write string 
 ;		Created:	6th June 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,13 +19,13 @@
 ; ************************************************************************************************
 
 OSWriteStringZ:
-		pha
-		phx
+		pha 								; save AXY
+		phx 							
 		phy
-		stx		rTemp1
+		stx		rTemp1 						
 		sty 	rTemp1+1
-		ldx 	#255
-		ldy 	#255
+		ldx 	#255 						; do this many
+		ldy 	#255 						; preincrement Y
 		bra 	OSWSLoop
 
 ; ************************************************************************************************
@@ -35,25 +35,26 @@ OSWriteStringZ:
 ; ************************************************************************************************
 
 OSWriteString:
-		pha
+		pha 								; save AXY
 		phx
 		phy
-		stx		rTemp1
+		stx		rTemp1 						; address of string in rTemp1
 		sty 	rTemp1+1
 		lda 	(rTemp1)
-		tax
+		tax 								; count in X
 		ldy 	#0
 OSWSLoop:
-		cpx 	#0
+		cpx 	#0 							; done them all, exit
 		beq 	_OSWSExit
-		dex
-		iny
+
+		dex 								; dec count
+		iny 								; get next character
 		lda 	(rTemp1),y
-		beq 	_OSWSExit
-		jsr 	OSWriteScreen
+		beq 	_OSWSExit 					; end if $00
+		jsr 	OSWriteScreen				; otherwise write to screen.
 		bra 	OSWSLoop
 _OSWSExit:
-		ply
+		ply 								; restore AXY and exit
 		plx
 		pla
 		rts		

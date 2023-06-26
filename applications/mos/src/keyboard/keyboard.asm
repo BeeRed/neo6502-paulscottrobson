@@ -4,7 +4,7 @@
 ;		Name:		keyboard.asm
 ;		Purpose:	Keyboard handling
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -20,9 +20,9 @@
 
 OSIsKeyAvailable:
 		pha
-		clc
-		lda 	OSKeyboardQueueSize  		; get entries in queue
-		bne 	_OSIKAHasKey
+		clc 
+		lda 	OSKeyboardQueueSize  		; get count of entries in queue
+		bne 	_OSIKAHasKey 
 		sec
 _OSIKAHasKey:		 	
 		pla
@@ -35,7 +35,7 @@ _OSIKAHasKey:
 ; ************************************************************************************************
 
 OSReadKeyboard:
-		phx
+		phx 								; just a shortcut to read device #1
 		ldx 	#1
 		jsr 	OSReadDevice
 		plx
@@ -50,16 +50,17 @@ OSReadKeyboard:
 OSReadKeystroke:
 		phx 								; save XY
 		phy
-		jsr 	OSReadPhysical 				; save old character
+		jsr 	OSReadPhysical 				; save old character under cursor
 		sta 	OSRKOriginal
 		lda 	#$7F 						; write prompt
 		jsr 	OSWritePhysical
 _OSWaitKey:
 		jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
 		jsr 	OSReadKeyboard 				; key available
-		bcs 	_OSWaitKey
+		bcs 	_OSWaitKey 					' no keep going
+		;
 		pha 								; save key
-		lda 	OSRKOriginal 				; old character back
+		lda 	OSRKOriginal 				; old character back and write to screen.
 		jsr 	OSWritePhysical
 		pla 								; restore
 		ply
@@ -70,16 +71,20 @@ _OSWaitKey:
 ; ************************************************************************************************
 ;
 ;						Read from device X to A, CC if data received.
+;				Currently we only have one device, so it reads they keyboard
 ;
 ; ************************************************************************************************
 
 OSReadDevice:
-		jsr 	OSKeyboardDataProcess 		; this scans the keyboard.
+		jsr 	OSKeyboardDataProcess 		; this scans the keyboard etc.
+		;
 		jsr 	OSIsKeyAvailable 			; key available ?
-		bcs 	_OSRDExit
-		lda 	OSKeyboardQueue 			; push char on stack
+		bcs 	_OSRDExit 					; no exit with CS.
+
+		lda 	OSKeyboardQueue 			; push char from head of queueon stack
 		pha	
-		phx
+
+		phx 								; shift everything else up one.
 		ldx		#0 							; remove from queue array
 _OSRDDequeue:
 		lda 	OSKeyboardQueue+1,x

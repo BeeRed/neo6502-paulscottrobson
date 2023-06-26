@@ -4,7 +4,7 @@
 ;		Name:		charwrite.asm
 ;		Purpose:	Physical character write
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -38,15 +38,16 @@ OSWritePhysical:
 
 ; ************************************************************************************************
 ;
-;								Current cursor address in rTemp0
+;							  Current/Specific cursor address in rTemp0
 ;
 ; ************************************************************************************************	
 
 OSGetAddress:
         ldy     OSYPos        
         ldx 	OSXPos
+
 OSGetAddressXY:        
-        lda     OSXSize
+        lda     OSXSize                     
         lsr     a                           ; prime the carry bit for the loop
         sta     rTemp0
         sty     rTemp0+1

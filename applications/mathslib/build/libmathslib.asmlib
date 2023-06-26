@@ -1137,7 +1137,7 @@ _IFDSLoop:
 ;		Name:		inttostring.asm
 ;		Purpose:	Convert integer to string, base 2..16
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -1156,7 +1156,7 @@ IFloatIntegerToStringR0:
 
 		jsr 	IFloatBufferReset			; empty buffer
 
-		lda 	IFR0+IExp					; check integer
+		lda 	IFR0+IExp					; check integer, cant't convert float
 		and 	#IFXMask
 		bne 	_IFIFail
 		;
@@ -1170,17 +1170,22 @@ IFloatIntegerToStringR0:
 		beq 	_IFINotNegative
 		lda 	#"-"						; output -
 		jsr 	IFloatBufferWrite
-		jsr 	IFloatNegate 				; tidy up !
+		jsr 	IFloatNegate 				; negate the value, e.g. make it +ve.
 _IFINotNegative:
 		jsr 	_IFIRecursiveConvert 		; start converting
-		jsr 	IFloatGetBufferAddress
+		jsr 	IFloatGetBufferAddress 		; get the return address and exit
 		clc
-		bra 	_IFIExit
+		rts
 
 _IFIFail:
 		sec
-_IFIExit:
 		rts
+
+; ************************************************************************************************
+;
+;								Classic recursive integer conversion
+;
+; ************************************************************************************************
 
 _IFIRecursiveConvert:
 		ldx 	#IFR1
@@ -1194,19 +1199,19 @@ _IFIRecursiveConvert:
 		jsr 	IFloatCheckZero
 		beq 	_IFIOutDigit
 		;
-		lda 	IFR1+IM0 					; save remainder
+		lda 	IFR1+IM0 					; save remainder LSB only
 		pha
-		jsr 	_IFIRecursiveConvert 		; convert the divider
+		jsr 	_IFIRecursiveConvert 		; convert the divide result
 		pla
 		sta 	IFR1+IM0 					; restore remainder
 _IFIOutDigit:
 		lda 	IFR1+IM0 					; get remainder.
-		cmp	 	#10
+		cmp	 	#10 						; convert to hexadecimal.
 		bcc 	_IFINotHex
 		adc 	#6
 _IFINotHex:
 		adc 	#48
-		jsr 	IFloatBufferWrite
+		jsr 	IFloatBufferWrite 			; write character to buffer.
 		rts
 		.send code
 
@@ -1232,7 +1237,7 @@ IFBase:
 ;		Name:		floattostring.asm
 ;		Purpose:	Convert float to string, base 10 only
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -1256,35 +1261,37 @@ IFloatFloatToStringR0:
 		jsr 	IFloatIntegerToStringR0 	; do the integer part.
 		stz 	IFloatDecimalCount 			; zero the decimal count.
 
-		lda 	IFR2+IExp 					; is integer.
+		lda 	IFR2+IExp 					; if it is integer then exit
 		and 	#IFXMask
 		beq 	_IFFSExit
-
+;
+;		Loop handles the fractional part.
+;
 _IFloatFracLoop:
 		ldx 	#IFR2 						; R0 = fractional part of R2
 		jsr 	IFloatCopyFromRegister
 		jsr 	IFloatFractionalR0
 		jsr 	IFloatNormalise
 		ldx 	#IFR2
-		jsr 	IFloatCopyToRegister 		; copy to R2
+		jsr 	IFloatCopyToRegister 		; copy to back R2
 
 		ldx 	#IFR2 						; set R2 to 10
 		lda 	#10
 		jsr 	IFloatSetByte
 
-		ldx 	#IFR2						; R0,R2 = R2 * 10
+		ldx 	#IFR2						; R0 = R2 * 10
 		jsr 	IFloatMultiply
 
-		ldx 	#IFR2
+		ldx 	#IFR2 						; copy back, float part next time.
 		jsr 	IFloatCopyToRegister
 
-		jsr 	IFloatIntegerR0 			; get integer part of R0
+		jsr 	IFloatIntegerR0 			; get integer part of R0 that's just been x 10.
 
-		lda 	IFloatDecimalCount 			; done 5 dp, no more
+		lda 	IFloatDecimalCount 			; done 3 dp, no more
 		cmp 	#3
 		beq 	_IFFSExitStripZero
 
-		lda 	IFloatDecimalCount 			; written the DP yet ?
+		lda 	IFloatDecimalCount 			; written the DP yet , e.g. count of digits is not zero.
 		bne 	_IFloatNotFirst
 		lda 	#"." 						; write decimal point
 		jsr 	IFloatBufferWrite
@@ -1331,7 +1338,7 @@ IFloatDecimalCount:
 ;		Name:		floatfromstring.asm
 ;		Purpose:	Convert string to integer/float accordingly.
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -1347,7 +1354,7 @@ IFloatDecimalCount:
 ; ************************************************************************************************
 
 IFloatStringToFloatR0:
-		sta 	IFCount 					; save it out.
+		sta 	IFCount 					; save length and positions out.
 		stx 	iTemp0
 		sty 	iTemp0+1
 
@@ -1355,8 +1362,9 @@ IFloatStringToFloatR0:
 		jsr 	IFloatSetZero
 		stz 	IFSignFlag 					; clear the sign flag
 		jsr 	IFSTFGetNext 				; get first
-		beq 	_IFSTFFail 					; no character
+		beq 	_IFSTFFail 					; no character, fail.
 		bcc 	_IFSTFHaveChar 				; legitimate character, go do it.
+
 		cmp 	#"-" 						; if not -, fail
 		bne 	_IFSTFFail
 		lda 	#IFSign 					; set sign flag
@@ -1365,24 +1373,29 @@ IFloatStringToFloatR0:
 		;		Integer processing loop
 		;
 _IFSTFLoop:
-		jsr 	IFSTFGetNext 				; get next
+		jsr 	IFSTFGetNext 				; get next character
 		bcs 	_IFSTFFail 					; bad character.
 		beq 	_IFSTFExit 					; end of data
 _IFSTFHaveChar:
-		cmp 	#"."						; decimal point ?
+		cmp 	#"."						; decimal point ? if so, do the decimal code.
 		beq 	_IFSTFDecimal
-		jsr 	IFSTFAddR0 					; add number in
+		jsr 	IFSTFAddR0 					; add number in (R0 = R0 x 10 + A)
 		bra 	_IFSTFLoop 					; keep going until . or end.
 		;
-		;		Succeed and fail points.
+		;		Come here on error
 		;
 _IFSTFFail:
 		sec
 		bra 	_IFSTFReturn
-
+		;
+		;		Come here on dp found.
+		;
 _IFSTFDecimal:
 		jsr 	IFSTFDecimal 				; call the decimal places code.
 		bcs 	_IFSTFReturn 				; error
+		;
+		;		Come here if integer.
+		;
 _IFSTFExit:
 		lda 	IFR0+IExp 					; copy sign flag in.
 		ora 	IFSignFlag
@@ -1402,27 +1415,35 @@ IFloatAddDecimalToR0:
 		sta 	IFCount 					; save it out.
 		stx 	iTemp0
 		sty 	iTemp0+1
-		;
-		;		Handle decimals. R0 is the integer total
-		;
+
+; ************************************************************************************************
+;
+;		Handle decimals. R0 is the integer total. Enter here for main conversion
+;
+; ************************************************************************************************
+
 IFSTFDecimal:
 		ldx 	#IFR0 						; push integer part on stack
 		jsr 	IFloatPushRx
-		ldx 	#IFR0 						; R0 is the decimal digits so far.
+		ldx 	#IFR0 						; R0 is the decimal digits so far, zero initially
 		jsr 	IFloatSetZero
-		stz 	IFDecimalPlaces
+		stz 	IFDecimalPlaces 			; zero DP.
 _IFSTDLoop:
 		jsr 	IFSTFGetNext 				; get next
 		bcs 	_IFSTFFail2 				; bad character.
 		beq 	_IFSTFComplete 				; end of data, work out the result.
 		cmp 	#"."						; only one decimal
 		beq 	_IFSTFExit2
-		jsr 	IFSTFAddR0 					; add number in
+		;
+		jsr 	IFSTFAddR0 					; add number in (e.g. R0=R0*10+A)
 		inc 	IFDecimalPlaces 			; count decimals
 		lda 	IFDecimalPlaces 			; no more than 3 DP used.
 		cmp 	#3
 		bcc 	_IFSTDLoop
-
+		;
+		;		Now have an integer and count  ; so 3.25 will have R0 = 25 and count = 2
+		;		multiply R0 by 10^count
+		;
 _IFSTFComplete:
 		lda 	IFDecimalPlaces 			; decimals x 4 as accessing multiplier from a LUT.
 		beq 	_IFSTFExit2					; if none, this is syntactically fine, just ignore
@@ -1440,19 +1461,17 @@ _IFSTFComplete:
 		sta  	IFR1+IExp
 		ldx 	#IFR1 						; multiply into result
 		jsr 	IFloatMultiply
-		ldx 	#IFR1  						; pop and add the decimal.
+		ldx 	#IFR1  						; pop the integer part to R1
 		jsr 	IFloatPullRx
-		ldx 	#IFR1
+		ldx 	#IFR1 						; add R1 to R0
 		jsr 	IFloatAdd
 _IFSTFExit2:
 		clc
 		rts
+
 _IFSTFFail2:
 		sec
 		rts
-
-
-
 
 ; ************************************************************************************************
 ;
@@ -1463,6 +1482,7 @@ _IFSTFFail2:
 IFSTFGetNext:
 		lda 	IFCount  					; if count is zero, return with Z set.
 		beq 	_IFSTFReturnOk
+
 		lda 	(iTemp0) 					; get next character
 		inc 	iTemp0 						; point at next.
 		bne 	_IFSTFGNNoCarry

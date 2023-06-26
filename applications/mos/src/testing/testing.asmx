@@ -2,7 +2,7 @@
 ; ************************************************************************************************
 ;
 ;		Name:		testing.asmx
-;		Purpose:	Testing code
+;		Purpose:	Testing code (usually disabled)
 ;		Created:	5th June 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -39,7 +39,7 @@ _OSTWriteNibble:
 		and 	#15
 		cmp 	#10
 		bcc 	_OSTNotAlpha
-	adc 	#6
+		adc 	#6
 _OSTNotAlpha:
 		adc 	#48
 		jsr 	OSWriteScreen

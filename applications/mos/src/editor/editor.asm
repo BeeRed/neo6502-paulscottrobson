@@ -15,6 +15,7 @@
 ; ************************************************************************************************
 ;
 ;						Edit line from current position / preset width.
+;						  Can use text in edit buffer, or a new line.
 ;
 ; ************************************************************************************************
 
@@ -36,7 +37,7 @@ OSEditLine:
 		sec 								; calculate edit box width.
 		lda 	OSXSize
 		sbc 	OSXPos
-		dec 	a 							; one forr RHS
+		dec 	a 							; one for RHS
 		sta 	OSEditWidth
 		;
 		;		Come here to force redraw

@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Sun Jun 25 19:16:54 2023
+; Mon Jun 26 11:35:18 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -72,10 +72,10 @@
 ;******  Return to file: osrom.asm
 
 .f800	20 60 fd	jsr $fd60	Boot:	jsr 	OSInitialise 				; set everything up.
-.f803	a2 7c		ldx #$7c			ldx 	#MainPrompt & $FF
+.f803	a2 7c		ldx #$7c			ldx 	#MainPrompt & $FF 			; display the boot prompt
 .f805	a0 fd		ldy #$fd			ldy 	#MainPrompt >> 8
 .f807	20 34 fd	jsr $fd34			jsr 	OSWriteStringZ
-.f80a	4c 00 10	jmp $1000			jmp 	$1000
+.f80a	4c 00 10	jmp $1000			jmp 	$1000 						; and run from $1000 onwards
 .f80d					NoInt:
 .f80d	40		rti				rti
 
@@ -1096,7 +1096,7 @@
 
 ;******  Processing file: src/generated/time.incx
 
->fda8	32 35 2d 4a 75 6e 2d 32			.text	"25-Jun-23"
+>fda8	32 36 2d 4a 75 6e 2d 32			.text	"26-Jun-23"
 >fdb0	33
 
 ;******  Return to file: osrom.asm
