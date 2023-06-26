@@ -1,7 +1,8 @@
 TODO:
-	Auto-quote ' comments.
+	Complete Code Reading (down to 66 files).
+
+	Auto-quote ' comments as well as REM.
 	Assembler file system.
-	Complete Code Reading (on return from holiday)
 	Definitions in command line bug ?
 
 Outstanding (Implementation specific):

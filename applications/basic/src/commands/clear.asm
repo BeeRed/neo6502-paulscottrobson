@@ -4,7 +4,7 @@
 ;		Name:		clear.asm
 ;		Purpose:	Clear variables / general reset
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,6 +19,7 @@
 		.section code
 
 Command_CLEAR:	;; [clear]
+
 		lda 	(codePtr),y 				; check for CLEAR <something>
 		cmp 	#PR_COLON
 		beq 	_CLNoParam
@@ -30,7 +31,7 @@ Command_CLEAR:	;; [clear]
 		bcs 	_CLMemory
 		cmp 	#(BASICCODE >> 8)+1 		; too low
 		bcc 	_CLMemory
-		sta 	PGMEndMemoryHigh 			; update end of memory.
+		sta 	PGMEndMemoryHigh 			; update end of memory, reserving bits.
 _CLNoParam:		
 		jsr 	ClearCode
 		rts
@@ -48,8 +49,9 @@ ClearCode:
 		;		Reset variable memory pointer
 		;
 		jsr 	PGMEndProgram 				; end program => zTemp0
+		;
 		stz 	freeMemory 					; start on next free page
-		lda 	zTemp0+1
+		lda 	zTemp0+1 					; for variables.
 		inc 	a
 		sta 	freeMemory+1
 		;
@@ -60,7 +62,7 @@ ClearCode:
 		;		Reset stack
 		;
 		lda 	PGMEndMemoryHigh
-		jsr 	StackReset
+		jsr 	StackReset 					; page passed on in A
 		;
 		;		Initialise string usage.
 		;
@@ -83,11 +85,17 @@ ClearCode:
 
 AllocateMemory:
 		phy 								; save Y
-		ldy 	freeMemory 					; save addr.low
+
+		ldy 	freeMemory 					; save addr.low (of final memory)
 		phy
 		ldy 	freeMemory+1 				; save addr.high
 		phy
+
 		tay 								; count is now in XY
+
+		;
+		;		Allocation loops here.
+		;
 _AllocateLoop:
 		cpx 	#0 							; allocate count is zero ?
 		bne 	_AllocateOne
@@ -101,11 +109,11 @@ _AllocateOne:
 		inc 	freeMemory 					; bump pointer
 		bne 	_AllocateSkipCarry
 		inc 	freeMemory+1
-		jsr 	ClearCheckMemory
+		jsr 	ClearCheckMemory 			; check we haven't hit the string space.
 _AllocateSkipCarry:
 		;
-		cpy 	#0 							; decrement XY
-		bne 	_AllocateSkipBorrow
+		cpy 	#0 							; do this XY times ; decrement XY
+		bne 	_AllocateSkipBorrow 	
 		dex
 _AllocateSkipBorrow:
 		dey
@@ -124,15 +132,16 @@ _AllocateExit:
 ; ************************************************************************************************	
 
 ClearCheckMemory:
-		lda 	freeMemory+1
-		inc 	a
-		inc 	a
-		cmp 	stringMemory+1
+		lda 	freeMemory+1 				; allocatable memory
+		inc 	a 							; spacing 2 pages
+		inc 	a 
+		cmp 	stringMemory+1 				; problems if hit string memory
 		bcs  	_CCMError
 		rts
 
 _CCMError:
 		.error_memory		
+
 		.send code
 
 		.section zeropage
