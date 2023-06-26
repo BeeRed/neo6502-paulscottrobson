@@ -21,6 +21,12 @@ for c in "".join(opcodes):
 		charValues[c] = n 
 
 print(charValues)
+ 
+parts = [x for x in charValues.keys()]
+parts.sort()
+for k in charValues.keys():
+	charValues[k] = ord(k)-ord('A')
+print(charValues)
 
 for attempts in range(0,1000000):
 	multiplier = random.randint(2,31)
