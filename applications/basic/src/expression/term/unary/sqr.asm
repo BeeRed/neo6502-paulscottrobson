@@ -4,7 +4,7 @@
 ;		Name:		sqr.asm
 ;		Purpose:	Square Root unary
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -22,7 +22,7 @@ EXPUnarySqr: ;; [SQR(]
 		jsr 	EXPEvalNumber 					; number to R0
 		jsr 	ERRCheckRParen 					; )
 		jsr 	IFloatSquareRootR0 				; square root.
-		bcs 	_EUSValue
+		bcs 	_EUSValue 						; error check.
 		rts
 _EUSValue:
 		.error_range		

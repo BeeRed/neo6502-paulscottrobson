@@ -4,7 +4,7 @@
 ;		Name:		sgn.asm
 ;		Purpose:	Sign of number
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -26,7 +26,7 @@ EXPUnarySgn: ;; [sgn(]
 		ldx 	#IFR0 							; R0 = 0
 		jsr 	IFloatSetZero
 		ldx 	#IFR1
-		jsr 	IFloatCompare 					; compare R1 vs 0.
+		jsr 	IFloatCompare 					; compare R1 vs 0, this gives -1,0,1.
 		rts
 
 		.send code

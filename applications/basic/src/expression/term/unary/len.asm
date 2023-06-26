@@ -4,7 +4,7 @@
 ;		Name:		len.asm
 ;		Purpose:	String length
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -21,8 +21,8 @@
 EXPUnaryLen: ;; [LEN(]
 		jsr 	EXPEvalString 					; string to R0, zTemp0		
 		jsr 	ERRCheckRParen 					; )
-		lda 	(zTemp0)
-		ldx 	#IFR0
+		lda 	(zTemp0) 						; first byte is the length
+		ldx 	#IFR0 							; write it out.
 		jsr 	IFloatSetByte
 		rts
 

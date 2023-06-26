@@ -4,7 +4,7 @@
 ;		Name:		fractional.asm
 ;		Purpose:	Fractional part of number
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -21,7 +21,7 @@
 EXPUnaryFrac: ;; [frac(]
 		jsr 	EXPEvalNumber 					; number to R0
 		jsr 	ERRCheckRParen 					; )
-		jsr 	IFloatFractionalR0
+		jsr 	IFloatFractionalR0 				; get fractional bit.
 		rts
 
 		.send code

@@ -4,7 +4,7 @@
 ;		Name:		abs.asm
 ;		Purpose:	Absolute value of number
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -21,7 +21,7 @@
 EXPUnaryAbs: ;; [abs(]
 		jsr 	EXPEvalNumber 					; number to R0
 		jsr 	ERRCheckRParen 					; )
-		jsr 	IFloatAbsoluteR0
+		jsr 	IFloatAbsoluteR0 				; take absolute value of it.
 		rts
 
 		.send code
