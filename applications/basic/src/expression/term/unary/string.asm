@@ -4,7 +4,7 @@
 ;		Name:		string.asm
 ;		Purpose:	Unary string 'function' (e.g. [[EXPRING]])
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -20,13 +20,13 @@
 
 EXPUnaryInlineString: ;; [[[STRING]]]
 		clc 								; physical address -> IM0,1
-		tya
+		tya 								; put the actual address in IM0
 		adc 	codePtr
 		sta 	IFR0+IM0
 		lda 	codePtr+1
 		adc 	#0
 		sta 	IFR0+IM1
-		stz 	IFR0+IM2 					; fill in rest
+		stz 	IFR0+IM2 					; fill in the 3rd byte and type.
 		lda 	#$80
 		sta 	IFR0+IExp
 		;

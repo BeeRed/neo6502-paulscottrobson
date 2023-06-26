@@ -4,7 +4,7 @@
 ;		Name:		compare.asm
 ;		Purpose:	Compare operators
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -122,17 +122,22 @@ EXPCompareBaseCode:
 		lda 	#255 						; return $FF if -ve
 _EXCBCExit:		
 		rts
-		
+		;
+		;		String comparison
+		;
 _EXCBCString:
 		phy
 		;
 		lda 	(IFR0) 						; length of smaller of the two in X.
-		cmp 	(IFR1)
+		cmp 	(IFR1) 						; check it matches so far normally.
 		bcc 	_EXCBCSmaller
 		lda 	(IFR1)
 _EXCBCSmaller:
 		tax
 		beq 	_EXCBCMatches 				; if zero common length matches
+		;
+		;		Check the common length parts match.
+		;
 		ldy 	#0 							; match the strings.		
 _EXCBCCheckSmallerMatches:
 		iny 								; compare directly as far as common length
@@ -142,7 +147,9 @@ _EXCBCCheckSmallerMatches:
 		bne 	_EXCBCExit2
 		dex 
 		bne 	_EXCBCCheckSmallerMatches
-
+		;
+		;		The common length parts match, so we compare the lengths.
+		;
 _EXCBCMatches:
 		sec
 		lda 	(IFR1) 						; common length matches. If same length equal
@@ -150,10 +157,10 @@ _EXCBCMatches:
 
 _EXCBCExit2:
 		ply
-		cmp 	#0
+		cmp 	#0 							; 0 equal.
 		beq 	_EXCBCReturn
-		bmi 	_EXCBCFF
-		lda 	#1
+		bmi 	_EXCBCFF 					; return $FF if <
+		lda 	#1 							; return 1 if >
 _EXCBCReturn:
 		rts
 _EXCBCFF:

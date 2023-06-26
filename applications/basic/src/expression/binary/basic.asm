@@ -4,7 +4,7 @@
 ;		Name:		basic.asm
 ;		Purpose:	Basic binary operators - simple links to routines.
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,7 +19,7 @@
 ; ************************************************************************************************
 
 EXPBinAdd:	;; [+]
-		bit 	IFR0+IExp
+		bit 	IFR0+IExp 					; check if both are strings (already checked same type).
 		bmi 	EXPConcatenate
 		ldx 	#IFR1
 		jmp 	IFloatAdd
@@ -29,7 +29,7 @@ EXPBinAdd:	;; [+]
 ; { print 3+4 } will display 7
 
 EXPBinSub:	;; [-]
-		bit 	IFR0+IExp
+		bit 	IFR0+IExp 					; check if string, error if so
 		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jmp 	IFloatSubtract
@@ -39,7 +39,7 @@ EXPBinSub:	;; [-]
 ; { print 3-4 } will display -1
 
 EXPBinMul:	;; [*]
-		bit 	IFR0+IExp
+		bit 	IFR0+IExp					; check if string, error if so
 		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jmp 	IFloatMultiply
@@ -49,7 +49,7 @@ EXPBinMul:	;; [*]
 ; { print 3*4 } will display 12
 
 EXPBinFDiv:	;; [/]
-		bit 	IFR0+IExp
+		bit 	IFR0+IExp 					; check if string, error if so
 		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jsr 	IFloatDivideFloat
@@ -62,7 +62,7 @@ EXPBinFDiv:	;; [/]
 ; { print 11 / 4 } will display 2.75
 
 EXPBinIDiv:	;; [div]
-		bit 	IFR0+IExp
+		bit 	IFR0+IExp 					; check if string, error if so
 		bmi 	EXPTypeError
 		ldx 	#IFR1
 		jsr 	IFloatDivideFloat
@@ -78,7 +78,7 @@ EXPDZero:
 		.error_divzero
 
 EXPBinIMod: ;; [mod]
-		bit 	IFR0+IExp
+		bit 	IFR0+IExp 					; check if string, error if so
 		bmi 	EXPTypeError
 		ldx 	#IFR1
 		phy
@@ -97,6 +97,12 @@ EXPTypeError:
 ; Binary operator, returns the remainder of the integer division 
 ; of two numbers.\
 ; { print 11 mod 4 } will display 3
+
+; ************************************************************************************************
+;
+;								Logical operators - integer only
+;
+; ************************************************************************************************
 
 ;: [and]\
 ; Bitwise and of two numbers, which must be integers.
@@ -141,7 +147,7 @@ EXPConcatenate:
 		clc
 		lda 	(IFR0) 	 					; work out total length
 		adc 	(IFR1)
-		bcs 	_EXPCError
+		bcs 	_EXPCError 					; far too long.
 
 		ldx 	IFR0 						; push R0 string on stack.
 		phx
@@ -154,6 +160,7 @@ EXPConcatenate:
 		ldx 	IFR1+1 						; copy first string.
 		lda 	IFR1
 		jsr 	_EXPCCopyXA
+
 		plx 								; copy second string
 		pla
 		jsr 	_EXPCCopyXA
@@ -162,14 +169,14 @@ EXPConcatenate:
 _EXPCCopyXA:
 		stx 	zTemp0+1 					; save address to zTemp0
 		sta 	zTemp0
-		lda 	(zTemp0)					; length
-		beq 	_EXPCCExit 					; nothing.
+		lda 	(zTemp0)					; length of string
+		beq 	_EXPCCExit 					; nothing in string
 		tax 								; count
-		phy 								; start positioin
+		phy 								; start position
 		ldy 	#1 						
 _EXPCCLoop:
 		lda 	(zTemp0),y 					; write characters one at a time.
-		jsr 	StringTempWrite		
+		jsr 	StringTempWrite				
 		iny
 		dex
 		bne 	_EXPCCLoop

@@ -4,7 +4,7 @@
 ;		Name:		random.asm
 ;		Purpose:	Random number generators
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -21,9 +21,9 @@
 EXPUnaryRnd: ;; [rnd(]
 		jsr 	EXPEvalNumber 				; number to R0
 		jsr 	ERRCheckRParen 				; )
-		ldx 	#IFR0
+		ldx 	#IFR0 						; load random number to R0
 		jsr 	EXPLoadInRandom
-		lda 	#64-23 						; hack the exponent to make it work.
+		lda 	#64-23 						; hack the exponent to make it in the range 0-1.
 		sta 	IFR0+IExp 
 
 		rts
@@ -43,7 +43,7 @@ ExpUnaryRand: ;; [rand(]
 		jsr 	ERRCheckRParen 				; )
 		ldx 	#IFR1 						; random to R1
 		jsr 	EXPLoadInRandom
-		jsr 	IFloatModulusInteger 		; calculate mod r1,r2
+		jsr 	IFloatModulusInteger 		; calculate mod r1,r0
 		rts
 
 ;: [rand(number)]\
@@ -57,8 +57,8 @@ ExpUnaryRand: ;; [rand(]
 ; ************************************************************************************************
 
 EXPLoadInRandom:
-		jsr 	IFloatSetZero
-		jsr 	EXPRandom32
+		jsr 	IFloatSetZero 				; zero it
+		jsr 	EXPRandom32 				; do a 23 bit number.
 		sta 	IM0,x
 		jsr 	EXPRandom32
 		sta 	IM1,x

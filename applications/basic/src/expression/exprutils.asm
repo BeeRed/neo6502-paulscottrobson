@@ -4,7 +4,7 @@
 ;		Name:		exprutils.asm
 ;		Purpose:	Evaluate expression helpers.
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,8 +19,8 @@
 ; ************************************************************************************************
 
 EXPEvalNumber:
-		jsr 	EXPEvaluateExpression
-		bit 	IFR0+IExp
+		jsr 	EXPEvaluateExpression 		; get a value
+		bit 	IFR0+IExp 					; fail if string
 		bmi 	EVUType
 		rts
 
@@ -39,16 +39,16 @@ EXPEvalInteger:
 		rts
 
 EXPEvalInteger16:
-		jsr 	EXPEvalInteger
-		lda 	IFR0+IM2
+		jsr 	EXPEvalInteger 				; get integer
+		lda 	IFR0+IM2 					; range 0000-FFFF
 		bne 	EVURange
 		ldx 	IFR0+IM1
 		lda 	IFR0+IM0
 		rts
 
 EXPEvalInteger8:
-		jsr 	EXPEvalInteger
-		lda 	IFR0+IM2
+		jsr 	EXPEvalInteger 				; get integer
+		lda 	IFR0+IM2 					; range 00-FF
 		ora 	IFR0+IM1
 		bne 	EVURange
 		lda 	IFR0+IM0
@@ -62,10 +62,11 @@ EXPEvalInteger8:
 ; ************************************************************************************************
 
 EXPEvalString:
-		jsr 	EXPEvaluateExpression
-		bit 	IFR0+IExp
+		jsr 	EXPEvaluateExpression 		; get value
+		bit 	IFR0+IExp 					; exit if integer
 		bpl 	EVUType
-		ldx 	IFR0+IM1
+		;
+		ldx 	IFR0+IM1 					; copy address to zTemp0
 		stx 	zTemp0+1
 		lda 	IFR0+IM0
 		sta 	zTemp0

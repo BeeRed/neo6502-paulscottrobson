@@ -4,7 +4,7 @@
 ;		Name:		shift.asm
 ;		Purpose:	Shift binary operators
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -14,7 +14,7 @@
 
 ; ************************************************************************************************
 ;
-;								Shift Left/Right
+;								Shift Left/Right (uses common code)
 ;
 ; ************************************************************************************************
 
@@ -38,7 +38,7 @@ EXPBinRight:	;; [>>]
 
 EXPShiftCommon:		
 		;
-		lda 	IFR0+IExp 					; both integers
+		lda 	IFR0+IExp 					; check both integers
 		ora 	IFR1+IExp
 		and 	#$7F
 		bne 	_EXPSRange
@@ -47,27 +47,28 @@ EXPShiftCommon:
 		and 	#$E0
 		ora 	IFR0+IM1
 		ora 	IFR0+IM2
-		bne 	_EXPSShiftZero 				; if so return zero
+		bne 	_EXPSShiftZero 				; if so return zero as would be shifted out.
+
 		phy
 		lda 	IFR0+IM0 					; get shift
 		and 	#$1F
 		beq 	_EXPSExit 					; exit if zero
 		tay
 _EXPSLoop:
-		ldx 	#IFR1
+		ldx 	#IFR1 						; get direction
 		bit 	EXPShiftLeftFlag
-		bmi 	_EXPSShiftLeft
+		bmi 	_EXPSShiftLeft 				; shift left/right accordingly.
 		jsr 	IFloatShiftRight
 		bra 	_EXPSContinue
 _EXPSShiftLeft:
 		jsr 	IFloatShiftLeft		
-		bit 	IFR0+IM2 					; too many shifts
+		bit 	IFR0+IM2 					; too many shifts (24th bit set)
 		bmi 	_EXPSRange
 _EXPSContinue:
-		dey
+		dey 								; do it Y times
 		bne 	_EXPSLoop				
 _EXPSExit:
-		ldx 	#IFR1
+		ldx 	#IFR1 						; R0 = R1 <shift> R0
 		jsr 	IFloatCopyFromRegister
 		ply
 		rts
@@ -76,7 +77,8 @@ _EXPSShiftZero: 							; come here if shifted too far
 		ldx 	#IFR0
 		jsr 	IFloatSetZero
 		rts
-_EXPSRange:
+
+_EXPSRange: 								; overflow shifting left.
 		.error_range
 		.send code
 

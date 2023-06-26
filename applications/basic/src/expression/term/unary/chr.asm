@@ -4,7 +4,7 @@
 ;		Name:		chr.asm
 ;		Purpose:	Convert integer to string
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -22,10 +22,10 @@ EXPUnaryChr: ;; [CHR$(]
 		jsr 	EXPEvalInteger8 				; expr
 		pha 									; push on stack
 		jsr 	ERRCheckRParen 					; )
-		lda 	#1 								; alloc temp mem for result
+		lda 	#1 								; alloc temp mem for result, 1 byte only.
 		jsr 	StringTempAllocate
-		pla
-		jsr 	StringTempWrite
+		pla 									; get value back
+		jsr 	StringTempWrite 				; write to string.
 		rts
 
 		.send code
