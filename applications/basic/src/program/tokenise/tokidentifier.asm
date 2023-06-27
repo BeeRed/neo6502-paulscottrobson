@@ -109,21 +109,21 @@ _TTI65:	lda 	#$65
 
 ; ************************************************************************************************
 ;
-;											Do a comment
+;									Do a comment. A has token
 ;
 ; ************************************************************************************************
 
 TOKDoComment:
+		jsr 	TOKWriteA					; output the token.
+_TOKSkipSpaces:		
 		jsr 	TOKGet 						; skip over spaces
 		cmp 	#' '
 		bne 	_TOKEndSpaces
 		jsr 	TOKGetNext
-		bra 	TOKDoComment
+		bra 	_TOKSkipSpaces
 		;
 _TOKEndSpaces:
 		pha 								; save it
-		lda 	#PR_REM 					; output the comment token.
-		jsr 	TOKWriteA		
 		pla
 		beq 	_TOKDCExit 					; end of line.
 		cmp 	#'"'						; does it have a speech mark ?
@@ -157,6 +157,7 @@ _TOKDCEndComment:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		27/06/23 		TOKDoComment passes the token to use (' or REM) in in A
 ;
 ; ************************************************************************************************
 

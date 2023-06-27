@@ -43,9 +43,16 @@ _TTPConsumeExit:
 		jsr 	TOKGetNext 					; get the 2nd char out.
 		pla
 _TTPOutputExit:		
+		cmp 	#PR_SQUOTE 					; single quote
+		beq 	_TTPComment
 		jsr  	TOKWriteA 					; write token out
 		clc
 		rts
+
+_TTPComment:		
+		jsr 	TOKDoComment
+		clc
+		rts		
 
 		.send code
 
@@ -57,6 +64,7 @@ _TTPOutputExit:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		26/06/23 		Added code to handle single quote comment auto-string
 ;
 ; ************************************************************************************************
 

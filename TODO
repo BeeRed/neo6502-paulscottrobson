@@ -2,8 +2,6 @@ TODO:
 	Complete Code Reading (down to 56 files).
 
 Fixes:
-	Auto-quote ' comments as well as REM.
-	
 	Assembler file system.
 	Definitions in command line bug ?
 
