@@ -225,6 +225,11 @@ class FileSystem(object):
 		return self.readHeader(sector) is not None
 
 
+	def save(self,fileName):
+		h = open(fileName,"wb")
+		h.write(bytes(self.storage.getData()))
+		h.close()
+		
 if __name__ == '__main__':
 	fs = FileSystem()
 	fs.format()

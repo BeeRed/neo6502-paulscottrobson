@@ -17,6 +17,7 @@ endif
 
 
 all: 
+		make -B -C fslib
 		make -B -C mos
 		make -B -C mathslib
 		make -B -C basic

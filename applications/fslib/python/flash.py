@@ -31,6 +31,8 @@ class FlashMemory(object):
 		return self.sectorSize
 	def getSectorCount(self):
 		return self.sectorCount
+	def getData(self):
+		return self.flashMemory
 	#
 	#		Erase a sector. This is the sector erase command (SE) $20
 	#		We cannot use the full erase because it may contain firmware.
