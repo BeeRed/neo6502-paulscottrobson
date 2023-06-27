@@ -25,5 +25,6 @@ int HWFlashCommand(int command,int data);
 #define HWF_OPENWRITE  		(0x02) 					// Open sector to write
 #define HWF_READ  			(0x03)					// Read one byte
 #define	HWF_WRITE  			(0x04) 					// Write one byte
+#define HWF_ENDCOMMAND 		(0x05) 					// End current command.
 
 #endif

@@ -32,7 +32,14 @@ class FileSystem(object):
 		for sector in range(0,self.storage.getSectorCount()):
 			sType = self.storage.readDebug(sector,0)
 
-			sDesc = "-----" if sType != ord('F') and sType != ord('N') else self.getSectorInformation(sector)
+			sDesc = "-----" 
+			if sType == ord('F') or sType == ord('N'):
+				sDesc = self.getSectorInformation(sector)
+			if sType == ord('I'):
+				sDesc = "Info    Format:{0} Sectors:{1} Size:{2}".format(self.storage.readDebug(sector,1),	\
+					self.storage.readDebug(sector,2)+self.storage.readDebug(sector,3)*256, 					\
+					1 << self.storage.readDebug(sector,4))
+
 			print("Sector {0:3} E:{2:<4} {1}".format(sector,sDesc,self.storage.getEraseCount(sector)))
 	#
 	def getSectorInformation(self,sector):
@@ -55,6 +62,18 @@ class FileSystem(object):
 	def format(self):
 		for sector in range(0,self.storage.getSectorCount()):
 			self.storage.eraseSector(sector)
+		self.storage.openWrite(0) 												# Info sector
+		self.storage.write(ord('I')) 											# I
+		self.storage.write(1)													# Format 1
+		self.storage.write(self.storage.getSectorCount() & 0xFF) 				# Sector count
+		self.storage.write(self.storage.getSectorCount() >> 8)
+		size = self.storage.getSectorSize() 									# 2^n sector size.
+		power = 0
+		while size != 1:
+			size = size >> 1
+			power += 1
+		self.storage.write(power)
+		self.storage.endCommand()
 
 	# ------------------------------------------------------------------------------------------------------------------------------
 	#
@@ -63,7 +82,7 @@ class FileSystem(object):
 	# ------------------------------------------------------------------------------------------------------------------------------
 
 	def erase(self,file):
-		for sector in range(0,self.storage.getSectorCount()): 					# scan through sectors
+		for sector in range(1,self.storage.getSectorCount()): 					# scan through sectors
 			s = self.readHeader(sector) 										# read each header
 			if s == file.getName(): 											# if match
 				self.storage.eraseSector(sector) 								# erase that sector.
@@ -118,7 +137,7 @@ class FileSystem(object):
 
 			sector += 1 														# move forward once.
 			if sector == self.storage.getSectorCount():
-				sector = 0
+				sector = 1
 
 			if checkCount == 0:													# done a complete sweep.
 				return None
@@ -206,6 +225,8 @@ class FileSystem(object):
 			self.header.append(self.storage.read())
 		self.storage.endCommand()
 		self.hasData = self.header[0] == ord('F') or self.header[0] == ord('N')	# has data flag.
+		if self.header[0] == ord('I'):
+			return ""
 		if not self.hasData:
 			return None
 		p = 16

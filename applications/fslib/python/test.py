@@ -29,7 +29,7 @@ if __name__ == '__main__':
 		fSaved.append(False)
 
 	halt = False
-	while not halt:																		# several tests
+	for test in range(0,50):															# several tests
 
 		sel = random.randint(0,len(fObj)-1) 											# check one to work with
 
@@ -51,11 +51,11 @@ if __name__ == '__main__':
 			if fSaved[i]:
 				err1 = fObj[i].check(memory,0x1000)
 				if not (ok1 and err1 == 0):
-					print(t,"*** Verify failed",ok1,err1,fObj[i].getName())
+					print(i,"*** Verify failed",ok1,err1,fObj[i].getName())
 					halt = True
 			else:
 				if ok1:
-					print(t,"*** Erase failed",f.obj[i].getName())
+					print(i,"*** Erase failed",f.obj[i].getName())
 					halt = True
 
 print("")

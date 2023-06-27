@@ -77,7 +77,6 @@ static inline void _Write(WORD16 address,BYTE8 data) {
 		ramMemory[0xCF12] = HWFlashCommand(data,ramMemory[0xCF11]);					// Data in $CF11 (write only)		
 	}  																				// Return value in $CF12 (read only)
 
-
 	ramMemory[address] = data;														// Write $C000-$C4B0 : 40x30 simple text display.
 	if (address == 0xFFFF) inFastMode = 1;
 }

@@ -22,9 +22,17 @@ Structure of a 4k sector
 +16..+31 		ASCIIZ file name, lower case.
 +32..+4095 		Data.
 
+First sector (0)
+================
++00 			Type : 'I' information
++01				Format version (1)
++02..+03 		Number of sectors
++04 			Size of sector (2 ^ n)
+
 Format
 ======
 	Erase each sector - this will set all sectors to blank. This is done with the 'SE' command.
+	Write sector zero.
 
 Erase
 =====
