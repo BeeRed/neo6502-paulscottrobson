@@ -32,24 +32,24 @@ StandardTokens:
 	.byte	$01,$3a                                 	; $9b :
 	.byte	$01,$27                                 	; $9c '
 	.byte	$01,$29                                 	; $9d )
-	.byte	$03,$44,$49,$4d                         	; $9e dim
-	.byte	$05,$43,$4c,$45,$41,$52                 	; $9f clear
-	.byte	$03,$4e,$45,$57                         	; $a0 new
-	.byte	$03,$52,$55,$4e                         	; $a1 run
-	.byte	$04,$53,$54,$4f,$50                     	; $a2 stop
-	.byte	$03,$45,$4e,$44                         	; $a3 end
-	.byte	$06,$41,$53,$53,$45,$52,$54             	; $a4 assert
-	.byte	$04,$4c,$49,$53,$54                     	; $a5 list
-	.byte	$04,$53,$41,$56,$45                     	; $a6 save
-	.byte	$04,$4c,$4f,$41,$44                     	; $a7 load
-	.byte	$04,$50,$4f,$4b,$45                     	; $a8 poke
-	.byte	$04,$44,$4f,$4b,$45                     	; $a9 doke
-	.byte	$04,$52,$45,$41,$44                     	; $aa read
-	.byte	$04,$44,$41,$54,$41                     	; $ab data
-	.byte	$07,$52,$45,$53,$54,$4f,$52,$45         	; $ac restore
-	.byte	$04,$47,$4f,$54,$4f                     	; $ad goto
-	.byte	$05,$47,$4f,$53,$55,$42                 	; $ae gosub
-	.byte	$06,$52,$45,$54,$55,$52,$4e             	; $af return
+	.byte	$04,$50,$4f,$4b,$45                     	; $9e poke
+	.byte	$04,$44,$4f,$4b,$45                     	; $9f doke
+	.byte	$04,$52,$45,$41,$44                     	; $a0 read
+	.byte	$04,$44,$41,$54,$41                     	; $a1 data
+	.byte	0											; $a2
+	.byte	0											; $a3
+	.byte	0											; $a4
+	.byte	0											; $a5
+	.byte	0											; $a6
+	.byte	0											; $a7
+	.byte	0											; $a8
+	.byte	0											; $a9
+	.byte	0											; $aa
+	.byte	0											; $ab
+	.byte	0											; $ac
+	.byte	0											; $ad
+	.byte	0											; $ae
+	.byte	0											; $af
 	.byte	0											; $b0
 	.byte	0											; $b1
 	.byte	0											; $b2
@@ -130,4 +130,18 @@ StandardTokens:
 	.byte	$01,$2a                                 	; $fd *
 	.byte	$01,$2d                                 	; $fe -
 	.byte	$01,$2b                                 	; $ff +
+AlternateTokens:
+	.byte	$05,$43,$4c,$45,$41,$52                 	; $8d80 clear
+	.byte	$03,$4e,$45,$57                         	; $8d81 new
+	.byte	$03,$52,$55,$4e                         	; $8d82 run
+	.byte	$04,$53,$54,$4f,$50                     	; $8d83 stop
+	.byte	$03,$45,$4e,$44                         	; $8d84 end
+	.byte	$06,$41,$53,$53,$45,$52,$54             	; $8d85 assert
+	.byte	$04,$4c,$49,$53,$54                     	; $8d86 list
+	.byte	$04,$53,$41,$56,$45                     	; $8d87 save
+	.byte	$04,$4c,$4f,$41,$44                     	; $8d88 load
+	.byte	$05,$47,$4f,$53,$55,$42                 	; $8d89 gosub
+	.byte	$04,$47,$4f,$54,$4f                     	; $8d8a goto
+	.byte	$06,$52,$45,$54,$55,$52,$4e             	; $8d8b return
+	.byte	$07,$52,$45,$53,$54,$4f,$52,$45         	; $8d8c restore
 	.byte	$FF

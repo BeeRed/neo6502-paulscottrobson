@@ -1,4 +1,6 @@
 TODO:
+	Shift-Tokens, write tokenising/detokenising and execution code.
+	Scanforward needs fixing for [[SHIFT]] ?
 	Complete Code Reading (down to 56 files).
 
 Fixes:
@@ -9,3 +11,4 @@ Outstanding (Implementation specific):
 	EVENT/TIME (when timer available)
 	LOAD/SAVE (when flash r/w available)
 	Graphics stuff ?
+	Assembler stuff ?

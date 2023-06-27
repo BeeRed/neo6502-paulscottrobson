@@ -32,24 +32,24 @@ VectorTable:
 	.word	NoExec06                 ; $9b :
 	.word	Command_REM2             ; $9c '
 	.word	NoExec07                 ; $9d )
-	.word	CommandDIM               ; $9e DIM
-	.word	Command_CLEAR            ; $9f CLEAR
-	.word	Command_NEW              ; $a0 NEW
-	.word	Command_RUN              ; $a1 RUN
-	.word	Command_STOP             ; $a2 STOP
-	.word	Command_END              ; $a3 END
-	.word	Command_ASSERT           ; $a4 ASSERT
-	.word	Command_LIST             ; $a5 LIST
-	.word	NotImplemented           ; $a6 SAVE
-	.word	NotImplemented           ; $a7 LOAD
-	.word	Command_Poke             ; $a8 POKE
-	.word	Command_Doke             ; $a9 DOKE
-	.word	Command_READ             ; $aa READ
-	.word	Command_DATA             ; $ab DATA
-	.word	Command_RESTORE          ; $ac RESTORE
-	.word	Command_GOTO             ; $ad GOTO
-	.word	Command_GOSUB            ; $ae GOSUB
-	.word	Command_RETURN           ; $af RETURN
+	.word	Command_Poke             ; $9e POKE
+	.word	Command_Doke             ; $9f DOKE
+	.word	Command_READ             ; $a0 READ
+	.word	Command_DATA             ; $a1 DATA
+	.word	NotImplemented           ; $a2 
+	.word	NotImplemented           ; $a3 
+	.word	NotImplemented           ; $a4 
+	.word	NotImplemented           ; $a5 
+	.word	NotImplemented           ; $a6 
+	.word	NotImplemented           ; $a7 
+	.word	NotImplemented           ; $a8 
+	.word	NotImplemented           ; $a9 
+	.word	NotImplemented           ; $aa 
+	.word	NotImplemented           ; $ab 
+	.word	NotImplemented           ; $ac 
+	.word	NotImplemented           ; $ad 
+	.word	NotImplemented           ; $ae 
+	.word	NotImplemented           ; $af 
 	.word	NotImplemented           ; $b0 
 	.word	NotImplemented           ; $b1 
 	.word	NotImplemented           ; $b2 
@@ -130,3 +130,17 @@ VectorTable:
 	.word	EXPBinMul                ; $fd *
 	.word	EXPBinSub                ; $fe -
 	.word	EXPBinAdd                ; $ff +
+AlternateVectorTable:
+	.word	Command_CLEAR            ; $8d80 CLEAR
+	.word	Command_NEW              ; $8d81 NEW
+	.word	Command_RUN              ; $8d82 RUN
+	.word	Command_STOP             ; $8d83 STOP
+	.word	Command_END              ; $8d84 END
+	.word	Command_ASSERT           ; $8d85 ASSERT
+	.word	Command_LIST             ; $8d86 LIST
+	.word	NotImplemented           ; $8d87 SAVE
+	.word	NotImplemented           ; $8d88 LOAD
+	.word	Command_GOSUB            ; $8d89 GOSUB
+	.word	Command_GOTO             ; $8d8a GOTO
+	.word	Command_RETURN           ; $8d8b RETURN
+	.word	Command_RESTORE          ; $8d8c RESTORE

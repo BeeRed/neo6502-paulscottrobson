@@ -104,6 +104,8 @@ class TokeniserWorker(object):
 	#
 	def appendToken(self,t):
 		id = self.tokenSet.find(t)
+		if id >= 0x100:
+			self.tokens.append(id >> 8	)
 		self.tokens.append(id & 0xFF)
 	#
 	#		Append tokens for constant
