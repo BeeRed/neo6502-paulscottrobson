@@ -45,11 +45,7 @@ class FileSystem(object):
 	def getSectorInformation(self,sector):
 		size = self.storage.readDebug(sector,2) + self.storage.readDebug(sector,3) * 256
 		total = self.storage.readDebug(sector,4) + self.storage.readDebug(sector,5) * 256
-		name = ""
-		p = 16
-		while self.storage.readDebug(sector,p) != 0:
-			name += chr(self.storage.readDebug(sector,p))
-			p += 1
+		name = "".join([chr(self.storage.readDebug(sector,17+n)) for n in range(0,self.storage.readDebug(sector,16))])
 		return "{0:5} {2:3} {1:16} Data: {3:5} Total: {4:5}".format("First" if chr(self.storage.readDebug(sector,0)) == 'F' else "Next",
 				'"'+name+'"',"Yes" if chr(self.storage.readDebug(sector,1)) == 'Y' else "No",size,total)
 
@@ -196,10 +192,11 @@ class FileSystem(object):
 			for a in range(6,16):												# filler to filename.
 				self.storage.write(0)
 
+			self.storage.write(len(name)) 										# output name length
 			for c in name:														# output name
 				self.storage.write(ord(c))
 
-			for a in range(16+len(name),32):									# filler to 32
+			for a in range(16+1+len(name),32):									# filler to 32
 				self.storage.write(0)
 
 			for i in range(0,dataToWrite):										# write data out
@@ -228,12 +225,8 @@ class FileSystem(object):
 		if self.header[0] == ord('I'):
 			return ""
 		if not self.hasData:
-			return None
-		p = 16
-		name = ""
-		while self.header[p] != 0:
-			name += chr(self.header[p])
-			p += 1
+			return None		
+		name = "".join([chr(self.header[17+n]) for n in range(0,self.header[16])])
 		return name 
 
 	# ------------------------------------------------------------------------------------------------------------------------------

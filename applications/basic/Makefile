@@ -61,6 +61,7 @@ enctest: test
 	$(PYTHON) $(BINDIR)listpgm.zip build$(S)program.bin
 
 other:
+	make -C ../fslib
 	make -C ../mos
 	make -C ../mathslib
 	make doc

@@ -19,7 +19,7 @@ Structure of a 4k sector
 +02..+03 		Number of bytes of data in this sector. (Maximum = 4096-32 = 4064 bytes)
 +04..+05 		Total size of file.
 +06..+15 		(Reserved)
-+16..+31 		ASCIIZ file name, lower case.
++16..+31 		Length prefixed file name, lower case.
 +32..+4095 		Data.
 
 First sector (0)

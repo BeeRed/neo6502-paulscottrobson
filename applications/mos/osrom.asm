@@ -41,7 +41,7 @@ NoInt:
 
 MainPrompt:
 		.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
-		.text 	"Build "
+		.text 	"Built "
 		.include "src/generated/time.incx"
 		.byte 	13,13,0
 
