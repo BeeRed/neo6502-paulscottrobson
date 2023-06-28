@@ -212,7 +212,7 @@ _CNIncrement: 								; for ever because maxint is $7FFFF
 		sta 	zTemp0+1
 		;
 		ldy 	#1 							; compare value to terminal.
-		clc
+		clc 								; borrow 1, we want > not >=
 		lda 	(zTemp2) 		
 		sbc 	(zTemp0)
 		lda 	(zTemp2),y
@@ -287,5 +287,6 @@ _CNSaveValue:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		28/06/23 		Fixed NEXT bug one short :( how did I miss that ?
 ;
 ; ************************************************************************************************

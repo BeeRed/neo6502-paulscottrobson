@@ -15,8 +15,11 @@ else
 include ../documents/common.make
 endif
 
-SOURCES = 	framework/main.cpp framework/gfx.cpp framework/debugger.cpp src/core/sys_processor.cpp src/core/sys_debugger.cpp src/core/hardware.cpp
-FLAGS = -DINCLUDE_OS_SUPPORT -I. -I framework -I./cpu -I./bin -I include -O2 -s USE_SDL=2 -s WASM=1 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' --preload-file storage
+SOURCES = 	framework/main.cpp framework/gfx.cpp framework/debugger.cpp src/core/sys_processor.cpp \
+			src/core/sys_debugger.cpp src/core/hardware.cpp src/core/flash.cpp
+
+FLAGS = -DINCLUDE_OS_SUPPORT -I. -I framework -I./cpu -I./bin -I include -O2 \
+		-s USE_SDL=2 -s WASM=1 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' --preload-file storage
 
 
 .PHONY: all clean emulator prebuild release run

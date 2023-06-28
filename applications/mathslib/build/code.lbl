@@ -1,4 +1,5 @@
 IFloatBufferReset= $9109
+OSYPos		= $201
 IFloatDivideFloat= $8dac
 IFloatBitwiseXor= $8ca8
 IFloatCheckZero	= $9081
@@ -63,7 +64,6 @@ TableTen	= $8fc3
 StorageBase	= $200
 IFloatRotateRight= $90b8
 IFloatMantissaNegate= $909b
-OSYPos		= $201
 IFR1		= $0c
 IFloatSetZero	= $9088
 OSXPos		= $200
