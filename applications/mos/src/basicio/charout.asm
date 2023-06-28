@@ -4,7 +4,7 @@
 ;		Name:		charout.asm
 ;		Purpose:	Write character / control to device
 ;		Created:	25th May 2023
-;		Reviewed: 	26th June 2024
+;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -39,7 +39,7 @@ OSWriteDevice:
 		cmp 	#32 						; standard character $20,$FF (we allow for cyrillic possibility here)
 		bcs 	_OSWriteDirect 
 		;
-		cmp 	#16 						; 16-32 for set colours, reserved.
+		cmp 	#16 						; 16-32 for set colours, reserved - this copies fgr -> bgr, updates fgr.
 		bcs 	_OSWriteDeviceExit
 		;
 		asl 	a 							; make to an offset in vector table
@@ -70,11 +70,11 @@ _OSWDVector:
 		.word 	OSHomeCursor 				; $02 	Home Cursor (Ctrl-B)
 		.word 	_OSCursorDown 				; $03 	Down 		(Ctrl-C)
 		.word 	_OSCursorRight 				; $04 	Right 		(Ctrl-D)
-		.word 	_OSCursorAdvance			; $05 	Advance 
+		.word 	_OSWNoFunction				; $05 	
 		.word 	_OSCursorUp 				; $06	Up 			(Ctrl-F)
 		.word 	_OSWNoFunction 				; $07 	Delete 		(Del)
 		.word 	_OSBackspace				; $08 	Backspace 	(Backspace)
-		.word 	_OSWHTab 					; $09	Tab
+		.word 	_OSWHTab 					; $09	Tab 		(Tab stop)
 		.word 	_OSWNoFunction 				; $0A
 		.word 	_OSWNoFunction 				; $0B
 		.word 	OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
@@ -196,4 +196,3 @@ OSHomeCursor: 								; home cursor.
 ;		==== 			=====
 ;
 ; ************************************************************************************************
-

@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Wed Jun 28 17:52:13 2023
+; Wed Jun 28 18:13:14 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -116,11 +116,11 @@
 >f83c	ce f8						.word 	OSHomeCursor 				; $02 	Home Cursor (Ctrl-B)
 >f83e	92 f8						.word 	_OSCursorDown 				; $03 	Down 		(Ctrl-C)
 >f840	83 f8						.word 	_OSCursorRight 				; $04 	Right 		(Ctrl-D)
->f842	ae f8						.word 	_OSCursorAdvance			; $05 	Advance
+>f842	37 f8						.word 	_OSWNoFunction				; $05
 >f844	a1 f8						.word 	_OSCursorUp 				; $06	Up 			(Ctrl-F)
 >f846	37 f8						.word 	_OSWNoFunction 				; $07 	Delete 		(Del)
 >f848	63 f8						.word 	_OSBackspace				; $08 	Backspace 	(Backspace)
->f84a	58 f8						.word 	_OSWHTab 					; $09	Tab
+>f84a	58 f8						.word 	_OSWHTab 					; $09	Tab 		(Tab stop)
 >f84c	37 f8						.word 	_OSWNoFunction 				; $0A
 >f84e	37 f8						.word 	_OSWNoFunction 				; $0B
 >f850	7b f9						.word 	OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
