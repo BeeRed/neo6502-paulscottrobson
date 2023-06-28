@@ -109,8 +109,8 @@ void DBGXRender(int *address,int showDisplay) {
 		rc2.w += 8;rc2.h += 8;rc2.x -=4;rc2.y -= 4;
 		GFXRectangle(&rc2,0);
 		GFXRectangle(&r,0);
-		for (int x = 0;x < xc;x++) {
-			for (int y = 0;y < yc;y++) {
+		for (int y = 0;y < yc;y++) {
+			for (int x = 0;x < xc;x++) {
 				int ch = CPUReadMemory(0xC000+x + y * xc);
 				// ch = y * xc + x;
 				ch &= 0x7F;
@@ -126,8 +126,12 @@ void DBGXRender(int *address,int showDisplay) {
 							rc2.x += rc2.w;
 						}
 					}
-				}
-			}
+				}			
+			}			
+			rc2.w = rc2.h = 8;
+			rc2.y = r.y + y * 8 * ys + 4 * ys - rc2.h/2;
+			rc2.x = r.x - rc2.w*2;
+			GFXRectangle(&rc2,CPUReadMemory(0x200+y) ? 0x0FF : 0xF00);
 		}
 	}
 }
