@@ -99,3 +99,4 @@ PR_GOSUB = $8d89
 PR_GOTO = $8d8a
 PR_RETURN = $8d8b
 PR_RESTORE = $8d8c
+PR_DIM = $8d8d

@@ -145,4 +145,5 @@ AlternateTokens:
 	.byte	$04,$47,$4f,$54,$4f                     	; $8d8a goto
 	.byte	$06,$52,$45,$54,$55,$52,$4e             	; $8d8b return
 	.byte	$07,$52,$45,$53,$54,$4f,$52,$45         	; $8d8c restore
+	.byte	$03,$44,$49,$4d                         	; $8d8d dim
 	.byte	$FF

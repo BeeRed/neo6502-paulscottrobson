@@ -74,7 +74,7 @@ class RawTokenClass(object):
 	def getAltKeywordTokens(self):
 		return """
 			CLEAR 	NEW 		RUN 	STOP 	END 	ASSERT 	LIST 	SAVE 	LOAD	GOSUB 	GOTO
-			RETURN 	RESTORE			
+			RETURN 	RESTORE		DIM	
 		"""
 
 	def append(self,tokenData,topDown,descr):
