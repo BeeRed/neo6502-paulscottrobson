@@ -79,16 +79,8 @@ OSRKOriginal: 								; character under cursor (for keystroke)
 
 OSTextBufferSize = 192
 
-OSXEdit: 									; position of start of edit area
-		.fill 	1			
-OSYEdit:
-		.fill 	1		
-OSEditWidth: 								; width in characters of edit area.
+OSEditWidth: 								; max width in characters of edit area.
 		.fill 	1	
-OSEditPos: 									; current cursor position in string.
-		.fill 	1			
-OSEditScroll: 								; offset in characters of the left most character.
-		.fill 	1		
 OSEditLength: 								; number of characters on line
 		.fill 	1
 OSEditBuffer: 								; text buffer.
