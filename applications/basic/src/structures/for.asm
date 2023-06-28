@@ -212,8 +212,9 @@ _CNIncrement: 								; for ever because maxint is $7FFFF
 		sta 	zTemp0+1
 		;
 		ldy 	#1 							; compare value to terminal.
+		clc
 		lda 	(zTemp2) 		
-		cmp 	(zTemp0)
+		sbc 	(zTemp0)
 		lda 	(zTemp2),y
 		sbc 	(zTemp0),y
 		iny
