@@ -86,8 +86,12 @@ _CLLoop:
 		dey
 		lda 	(codePtr),y
 		jsr 	WriteIntXA
+_CLSpacing:		
 		lda 	#32
 		jsr 	OSWriteScreen
+		jsr 	OSGetScreenPosition
+		cpx 	#6
+		bne 	_CLSpacing
 
 		ldy 	codePtr+1 					; point YX to tokenised code/
 		lda 	codePtr
@@ -155,6 +159,7 @@ CLTo:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		28/06/23  		Aligned code listing.
 ;
 ; ************************************************************************************************
 

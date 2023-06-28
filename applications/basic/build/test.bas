@@ -1,4 +1,4 @@
-for i = 1 to 10
-print i
-next
-print "At end",i
+.10 for i = 1 to 10
+.100 print i
+.1000 next
+.10000 list

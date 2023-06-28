@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Wed Jun 28 18:13:14 2023
+; Wed Jun 28 19:44:57 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -66,7 +66,7 @@
 ;******  Return to file: osrom.asm
 
 .f800	20 0b fc	jsr $fc0b	Boot:	jsr 	OSInitialise 				; set everything up.
-.f803	a2 27		ldx #$27			ldx 	#MainPrompt & $FF 			; display the boot prompt
+.f803	a2 2e		ldx #$2e			ldx 	#MainPrompt & $FF 			; display the boot prompt
 .f805	a0 fc		ldy #$fc			ldy 	#MainPrompt >> 8
 .f807	20 22 f9	jsr $f922			jsr 	OSWriteString
 .f80a	4c 00 10	jmp $1000			jmp 	$1000 						; and run from $1000 onwards
@@ -90,7 +90,7 @@
 .f818	5a		phy				phy
 .f819	c9 20		cmp #$20			cmp 	#32 						; standard character $20,$FF (we allow for cyrillic possibility here)
 .f81b	b0 0c		bcs $f829			bcs 	_OSWriteDirect
-.f81d	c9 10		cmp #$10			cmp 	#16 						; 16-32 for set colours, reserved.
+.f81d	c9 10		cmp #$10			cmp 	#16 						; 16-32 for set colours, reserved - this copies fgr -> bgr, updates fgr.
 .f81f	b0 0e		bcs $f82f			bcs 	_OSWriteDeviceExit
 .f821	0a		asl a				asl 	a 							; make to an offset in vector table
 .f822	aa		tax				tax
@@ -880,46 +880,51 @@
 .fc1c	ae 22 02	ldx $0222			ldx 	OSXSize
 .fc1f	ac 23 02	ldy $0223			ldy 	OSYSize
 .fc22	60		rts				rts
-.fc23					OSCheckBreak:
-.fc23	ad 57 02	lda $0257			lda 	OSEscapePressed
-.fc26	60		rts				rts
+.fc23					OSGetScreenPosition:
+.fc23	ae 20 02	ldx $0220			ldx 	OSXPos
+.fc26	ac 21 02	ldy $0221			ldy 	OSYPos
+.fc29	60		rts				rts
+.fc2a					OSCheckBreak:
+.fc2a	ad 57 02	lda $0257			lda 	OSEscapePressed
+.fc2d	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Return to file: osrom.asm
 
-.fc27					MainPrompt:
->fc27	67						.byte 	_MPEnd-MainPrompt-1
->fc28	2a 2a 2a 20 4f 4c 49 4d				.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
->fc30	45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72 6f
->fc40	43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
->fc4e	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
->fc56	42 75 69 6c 74 20
+.fc2e					MainPrompt:
+>fc2e	67						.byte 	_MPEnd-MainPrompt-1
+>fc2f	2a 2a 2a 20 4f 4c 49 4d				.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
+>fc37	45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72 6f
+>fc47	43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
+>fc55	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
+>fc5d	42 75 69 6c 74 20
 
 ;******  Processing file: src/generated/time.incx
 
->fc5c	32 33 2f 30 36 2f 32 38			.text	"23/06/28"
+>fc63	32 33 2f 30 36 2f 32 38			.text	"23/06/28"
 
 ;******  Return to file: osrom.asm
 
->fc64	0d 0d						.byte 	13,13
->fc66	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
->fc6e	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
->fc7e	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->fc8e	0d
-.fc8f					_MPEnd:
+>fc6b	0d 0d						.byte 	13,13
+>fc6d	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
+>fc75	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
+>fc85	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>fc95	0d
+.fc96					_MPEnd:
 
 ;******  Processing file: src/generated/vectors.asmx
 
-.ffdf	4c c0 fb	jmp $fbc0		jmp		OSEnterLine              ; Edit line, return line in YX length prefixed, backspace only editing.
-.ffe2	4c 9b f9	jmp $f99b		jmp		OSKeyboardDataProcess    ; Keyboard update process.
-.ffe5	4c 23 fc	jmp $fc23		jmp		OSCheckBreak             ; NZ if ESC pressed.
-.ffe8	4c d5 f8	jmp $f8d5		jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
-.ffeb	4c df f8	jmp $f8df		jmp		OSReadKeyboard           ; Read A from keyboard, CC = success, CS = no key
-.ffee	4c 01 f9	jmp $f901		jmp		OSReadKeystroke          ; Read A from keyboard, display cursor, wait for key.
-.fff1	4c 0e f8	jmp $f80e		jmp		OSWriteScreen            ; Write A to screen, CC = success
-.fff4	4c 22 f9	jmp $f922		jmp		OSWriteString            ; Write length prefixed string YX to screen
+.ffdc	4c c0 fb	jmp $fbc0		jmp		OSEnterLine              ; Edit line, return line in YX length prefixed, backspace only editing.
+.ffdf	4c 9b f9	jmp $f99b		jmp		OSKeyboardDataProcess    ; Keyboard update process.
+.ffe2	4c 2a fc	jmp $fc2a		jmp		OSCheckBreak             ; NZ if ESC pressed.
+.ffe5	4c d5 f8	jmp $f8d5		jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
+.ffe8	4c df f8	jmp $f8df		jmp		OSReadKeyboard           ; Read A from keyboard, CC = success, CS = no key
+.ffeb	4c 01 f9	jmp $f901		jmp		OSReadKeystroke          ; Read A from keyboard, display cursor, wait for key.
+.ffee	4c 0e f8	jmp $f80e		jmp		OSWriteScreen            ; Write A to screen, CC = success
+.fff1	4c 22 f9	jmp $f922		jmp		OSWriteString            ; Write length prefixed string YX to screen
+.fff4	4c 23 fc	jmp $fc23		jmp		OSGetScreenPosition      ; Screen position to XY
 .fff7	4c 1c fc	jmp $fc1c		jmp		OSGetScreenSize          ; Get size of screen to XY
 
 ;******  Return to file: osrom.asm

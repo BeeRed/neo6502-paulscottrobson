@@ -23,7 +23,7 @@ vectors = """
 
 	OSWriteScreen 					: Write A to screen, CC = success
 	OSWriteString 					: Write length prefixed string YX to screen
-
+	OSGetScreenPosition 			: Screen position to XY
 	OSGetScreenSize 				: Get size of screen to XY
 
 """
