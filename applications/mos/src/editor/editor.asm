@@ -19,9 +19,8 @@
 ;
 ; ************************************************************************************************
 
-OSEditNewLine:
+OSEnterLine:
 		stz 	OSEditLength 				; clear buffer
-OSEditLine:
 		;
 		;		Set everything up
 		;
@@ -61,6 +60,7 @@ _OSEditLoop:
 		cmp 	#27
 		bne 	_OSEditContinue
 _OSEditExit:
+		jsr 	OSWriteScreen
 		ldx 	OSEditLength 				; make it ASCIIZ as well (!)
 		stz 	OSEditBuffer,x
 		ldx 	#OSEditLength & $FF 		; XY = Buffer

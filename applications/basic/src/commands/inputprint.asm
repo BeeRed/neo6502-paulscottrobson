@@ -77,12 +77,7 @@ _CPNotInput:
 		tax
 		lda 	IFR0+IM1
 		tay 	
-		inx 								; point to 1st character
-		bne 	_CPNoCarry
-		iny
-_CPNoCarry:		
-		lda 	(IFR0+IM0)					; length to A
-		jsr 	CPPrintAYX 					; print AYX
+		jsr 	CPPrintYX 					; print YX
 		ply
 		bra 	Command_IP_Main 			; loop round clearing carry so NL if end		
 		;
@@ -90,8 +85,8 @@ _CPNoCarry:
 		;
 _CPNumber:
 		phy
-		jsr 	IFloatFloatToStringR0 		; convert to string at YX length A
-		jsr 	CPPrintAYX 					; print AYX
+		jsr 	IFloatFloatToStringR0 		; convert to string at YX 
+		jsr 	CPPrintYX 					; print string at YX
 		ply		
 		bra 	Command_IP_Main				; loop round clearing carry so NL if end		
 		;
@@ -160,16 +155,17 @@ _CPInputString:
 
 ; ************************************************************************************************
 ;
-;							Print A characters from YX on output device
+;							Print string at YX on output device
 ;
 ; ************************************************************************************************
 
-CPPrintAYX:
+CPPrintYX:
 		stx 	zTemp0
 		sty 	zTemp0+1
+		lda 	(zTemp0)
 		tax
 		beq 	_CPPrintExit
-		ldy 	#0
+		ldy 	#1
 _CPPrintAYXLoop:
 		lda 	(zTemp0),y
 		jsr 	CPPrintA
@@ -186,7 +182,7 @@ _CPPrintExit:
 ; ************************************************************************************************
 
 CPInputA:
-		jmp 	OSEditNewLine
+		jmp 	OSEnterLine
 CPPrintA:
 		jmp 	OSWriteScreen
 		.send code

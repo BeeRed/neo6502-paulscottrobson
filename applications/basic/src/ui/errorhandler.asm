@@ -34,7 +34,7 @@ _EHNoInc:
 		;
 		ldx 	#_EHAtMsg & $FF
 		ldy 	#_EHAtMsg >> 8
-		jsr 	OSWriteStringZ
+		jsr 	OSWriteString
 
 		lda 	ERRLine 					; line number -> XA
 		ldx 	ERRLine+1
@@ -43,7 +43,8 @@ _EHNoNumber:
 		jmp 	WarmStartNewLine
 
 _EHAtMsg:
-		.text 	" at ",0
+		.text 	_EHAtMsg1-_EHAtMsg-1," at "
+_EHAtMsg1:		
 
 ; ************************************************************************************************
 ;
@@ -62,7 +63,7 @@ WriteIntXA:
 		sta 	IFR0+IM1
 		lda 	#10 						; decimal
 		jsr 	IFloatIntegerToStringR0	 	; convert
-		jsr 	OSWriteStringZ 				; print
+		jsr 	OSWriteString 				; print
 		ldx 	#IFR0
 		jsr 	IFloatPullRx
 		rts

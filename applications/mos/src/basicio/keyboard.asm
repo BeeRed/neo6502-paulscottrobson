@@ -30,15 +30,32 @@ _OSIKAHasKey:
 
 ; ************************************************************************************************
 ;
-;						Read from keyboard to A, CS if data received.
+;						  Read from keyboard to A, CS if data received.
 ;
 ; ************************************************************************************************
 
 OSReadKeyboard:
-		phx 								; just a shortcut to read device #1
-		ldx 	#1
-		jsr 	OSReadDevice
+		jsr 	OSKeyboardDataProcess 		; this scans the keyboard etc.
+		;
+		jsr 	OSIsKeyAvailable 			; key available ?
+		bcs 	_OSRDExit 					; no exit with CS.
+
+		lda 	OSKeyboardQueue 			; push char from head of queueon stack
+		pha	
+
+		phx 								; shift everything else up one.
+		ldx		#0 							; remove from queue array
+_OSRDDequeue:
+		lda 	OSKeyboardQueue+1,x
+		sta 	OSKeyboardQueue,x
+		inx
+		cpx 	OSKeyboardQueueSize
+		bne 	_OSRDDequeue		
+		dec 	OSKeyboardQueueSize			; dec queue count
 		plx
+		pla 								; restore key
+		clc
+_OSRDExit:		
 		rts
 
 ; ************************************************************************************************
@@ -66,37 +83,6 @@ _OSWaitKey:
 		ply
 		plx
 		clc 								; success
-		rts
-
-; ************************************************************************************************
-;
-;						Read from device X to A, CC if data received.
-;				Currently we only have one device, so it reads they keyboard
-;
-; ************************************************************************************************
-
-OSReadDevice:
-		jsr 	OSKeyboardDataProcess 		; this scans the keyboard etc.
-		;
-		jsr 	OSIsKeyAvailable 			; key available ?
-		bcs 	_OSRDExit 					; no exit with CS.
-
-		lda 	OSKeyboardQueue 			; push char from head of queueon stack
-		pha	
-
-		phx 								; shift everything else up one.
-		ldx		#0 							; remove from queue array
-_OSRDDequeue:
-		lda 	OSKeyboardQueue+1,x
-		sta 	OSKeyboardQueue,x
-		inx
-		cpx 	OSKeyboardQueueSize
-		bne 	_OSRDDequeue		
-		dec 	OSKeyboardQueueSize			; dec queue count
-		plx
-		pla 								; restore key
-		clc
-_OSRDExit:		
 		rts
 
 		.send code

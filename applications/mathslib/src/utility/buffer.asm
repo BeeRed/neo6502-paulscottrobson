@@ -30,8 +30,8 @@ IFloatBufferReset:
 ; ************************************************************************************************
 
 IFloatGetBufferAddress:
-		ldy 	#(IFBuffer >> 8)
-		ldx 	#(IFBuffer & $FF)
+		ldy 	#(IFBufferCount >> 8)
+		ldx 	#(IFBufferCount & $FF)
 		lda 	IFBufferCount
 		rts
 

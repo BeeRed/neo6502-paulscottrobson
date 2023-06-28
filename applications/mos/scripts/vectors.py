@@ -13,22 +13,18 @@ import sys
 
 vectors = """
 
-	OSEditLine						: Edit line, return completion in A, line in YX
-	OSEditNewLine 					: Edit line, start clear.
-	OSWriteString 					: Write length prefixed string YX to screen
-	OSWriteStringZ 					: Write ASCIIZ string YX to screen
-	OSGetScreenSize 				: Get size of screen to XY
+	OSEnterLine						: Edit line, return line in YX length prefixed, backspace only editing.
 
 	OSKeyboardDataProcess 			: Keyboard update process.
 	OSCheckBreak					: NZ if ESC pressed.
 	OSIsKeyAvailable 				: Check if key available (CS if so)
- 	OSReadKeystroke 		 		: Read A from keyboard, showing cursor while waiting.
+	OSReadKeyboard 					: Read A from keyboard, CC = success, CS = no key
+	OSReadKeystroke 				: Read A from keyboard, display cursor, wait for key.
 
-	OSReadKeyboard 					: Read A from keyboard (device 1), CC = success
-	OSWriteScreen 					: Write A to screen (device 0), CC = success
+	OSWriteScreen 					: Write A to screen, CC = success
+	OSWriteString 					: Write length prefixed string YX to screen
 
-	OSReadDevice 					: Read device X to A, CC = success
-	OSWriteDevice 					: Write A to device X, CC = success
+	OSGetScreenSize 				: Get size of screen to XY
 
 """
 vectors = [x.strip() for x in vectors.split("\n") if x.strip() != ""]

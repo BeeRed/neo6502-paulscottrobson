@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/main.bin _main.asm
-; Wed Jun 28 09:54:49 2023
+; Wed Jun 28 16:08:21 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -11906,8 +11906,8 @@
 .910c	9c 4b 04	stz $044b			stz 	IFBuffer
 .910f	60		rts				rts
 .9110					IFloatGetBufferAddress:
-.9110	a0 04		ldy #$04			ldy 	#(IFBuffer >> 8)
-.9112	a2 4b		ldx #$4b			ldx 	#(IFBuffer & $FF)
+.9110	a0 04		ldy #$04			ldy 	#(IFBufferCount >> 8)
+.9112	a2 4a		ldx #$4a			ldx 	#(IFBufferCount & $FF)
 .9114	ad 4a 04	lda $044a			lda 	IFBufferCount
 .9117	60		rts				rts
 .9118					IFloatBufferWrite:

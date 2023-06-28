@@ -29,13 +29,7 @@ WarmStartNewLine:
 WarmStartNoPrompt:
 		ldx 	#$FF 						; 6502 stack reset.
 		txs
-		jsr 	OSEditNewLine 				; edit
-		cmp 	#27  						; ESC new line/ignore
-		beq 	WarmStartNewLine  		
-		cmp 	#13 						; anything other than CR keep going
-		bne 	WarmStartNoPrompt
-		jsr 	OSWriteScreen 				; echo the CR
-
+		jsr 	OSEnterLine 				; edit
 		inx 								; skip length byte to make it ASCIIZ
 		bne 	_WSSkip
 		iny

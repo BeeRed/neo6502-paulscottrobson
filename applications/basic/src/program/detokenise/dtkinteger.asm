@@ -46,7 +46,7 @@ _TOKDIHaveInteger:							; integer in R0, base in Y
 		sty 	zTemp0+1
 		lda 	(zTemp0)
 		jsr 	TOKDSpacing 				; check spacing okay.
-		ldy 	#0 							; output buffer.
+		ldy 	#1 							; output buffer.
 _TOKDOutput:
 		lda 	(zTemp0),y
 		jsr 	TOKDOutput

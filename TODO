@@ -3,7 +3,7 @@ TODO:
 
 Fixes:
 	Assembler file system.
-	Definitions in command line bug ?
+	Identifier Definitions in command line bug ?
 
 Outstanding (Implementation specific):
 	EVENT/TIME (when timer available)

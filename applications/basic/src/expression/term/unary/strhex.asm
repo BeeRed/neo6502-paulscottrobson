@@ -40,13 +40,13 @@ EUSMain:
 
 		stx 	zTemp0 							; save string address
 		sty 	zTemp0+1
-		pha 									; save count
 
 		lda 	#32 							; allocate space for result.
 		jsr 	StringTempAllocate
 
-		plx 									; count in X
-		ldy 	#0
+		lda 	(zTemp0) 						; get count
+		tax 									; count in X
+		ldy 	#1
 _EUSCopy:
 		lda 	(zTemp0),y
 		iny

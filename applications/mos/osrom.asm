@@ -25,7 +25,10 @@
 Boot:	jsr 	OSInitialise 				; set everything up.
 		ldx 	#MainPrompt & $FF 			; display the boot prompt
 		ldy 	#MainPrompt >> 8
-		jsr 	OSWriteStringZ
+		jsr 	OSWriteString
+
+		;jmp 	KeyEcho
+
 		jmp 	$1000 						; and run from $1000 onwards
 
 NoInt:
@@ -40,10 +43,12 @@ NoInt:
 ; ************************************************************************************************
 
 MainPrompt:
+		.byte 	_MPEnd-MainPrompt-1
 		.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
 		.text 	"Built "
 		.include "src/generated/time.incx"
-		.byte 	13,13,0
+		.byte 	13,13
+_MPEnd:		
 
 ; ************************************************************************************************
 ;

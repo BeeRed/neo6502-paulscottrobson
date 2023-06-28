@@ -12,12 +12,6 @@
 
 		.section code
 		
-TestEdit:
-		jsr 	OSEditNewLine
-		lda 	#13
-		jsr 	OSWriteScreen
-		bra 	TestEdit
-
 KeyEcho:
 		jsr 	OSReadKeystroke
 		jsr 	OSWriteScreen
