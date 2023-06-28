@@ -130,6 +130,7 @@ StandardTokens:
 	.byte	$01,$2a                                 	; $fd *
 	.byte	$01,$2d                                 	; $fe -
 	.byte	$01,$2b                                 	; $ff +
+	.byte	$FF
 AlternateTokens:
 	.byte	$05,$43,$4c,$45,$41,$52                 	; $8d80 clear
 	.byte	$03,$4e,$45,$57                         	; $8d81 new

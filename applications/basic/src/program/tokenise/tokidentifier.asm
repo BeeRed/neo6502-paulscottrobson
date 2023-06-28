@@ -45,7 +45,15 @@ _TOKNoArray:
 		bcc		_TOKIsVariable 				; it must be a variable or proc name if not found
 		cmp 	#PR_REM 					; is it REM ?
 		beq 	_TOKComment 				; yes, do comment code.
+		;
+		cpx 	#PR_LSQLSQSHIFTRSQRSQ 		; shifted token
+		bne 	_TOKNoShift
+		pha 								; write the shift.
+		txa
 		jsr 	TOKWriteA
+		pla
+_TOKNoShift:		
+		jsr 	TOKWriteA 					; write the main token.
 		clc
 		rts
 
@@ -158,6 +166,7 @@ _TOKDCEndComment:
 ;		Date			Notes
 ;		==== 			=====
 ;		27/06/23 		TOKDoComment passes the token to use (' or REM) in in A
+;		28/06/23 		Allows shifted tokens.
 ;
 ; ************************************************************************************************
 

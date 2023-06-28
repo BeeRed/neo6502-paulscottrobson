@@ -19,8 +19,14 @@
 ; ************************************************************************************************
 
 TOKDToken:
-		ldx 	#StandardTokens & $FF
+		ldx 	#StandardTokens & $FF 		; standard table
 		ldy 	#StandardTokens >> 8
+		cmp 	#PR_LSQLSQSHIFTRSQRSQ 		; is it the shift token ?
+		bne 	_TOKDSearch
+		;
+		jsr 	TOKDGet 					; get next
+		ldx 	#AlternateTokens & $FF 		; alt table
+		ldy 	#AlternateTokens >> 8
 		;
 		;		Seach for token A in table YX.
 		;
@@ -81,6 +87,7 @@ _TOKDSExit:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		28/06/23 		Support shifted tokens.
 ;
 ; ************************************************************************************************
 

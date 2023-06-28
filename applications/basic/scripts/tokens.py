@@ -184,6 +184,7 @@ class RawTokenClass(object):
 				h.write("\t.byte\t{0:40}\t; ${1:02x} {2}\n".format(b,i,t.lower()))
 			else:
 				h.write("\t.byte\t0\t\t\t\t\t\t\t\t\t\t\t; ${0:02x}\n".format(i))
+		h.write("\t.byte\t$FF\n")
 
 		h.write("AlternateTokens:\n")
 		for i in range((self.shift << 8)+0x80,(self.shift << 8)+self.nextAltToken):

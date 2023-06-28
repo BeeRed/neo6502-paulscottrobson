@@ -14,7 +14,7 @@
 
 ; ************************************************************************************************
 ;
-;			Find a token in the element buffer, return X:A/CS if found, CC if not found
+;			Find a token in the element buffer, return X:A/CS if found, CC if not found)
 ;
 ; ************************************************************************************************
 
@@ -22,7 +22,18 @@ TOKFindToken:
 		ldx 	#StandardTokens & $FF 		; do this table
 		ldy 	#StandardTokens >> 8
 		jsr 	TOKFindTokenXY 				; find it, or not
-		bcc 	_TOKFTFail
+		bcs 	_TOKFound1
+
+		ldx 	#AlternateTokens & $FF 		; do the alternate table
+		ldy 	#AlternateTokens >> 8
+		jsr 	TOKFindTokenXY 				; find it, or not
+		bcc 	_TOKFTFail 					; not ....
+
+		ldx 	#PR_LSQLSQSHIFTRSQRSQ 		; shifted token
+		sec
+		rts
+
+_TOKFound1:		
 		ldx 	#0
 		sec
 		rts
@@ -87,6 +98,7 @@ TOKCurrent:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		28/03/23 		Supports shifted tokens.
 ;
 ; ************************************************************************************************
 

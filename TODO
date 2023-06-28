@@ -1,6 +1,4 @@
 TODO:
-	Shift-Tokens, write tokenising/detokenising and execution code.
-	Scanforward needs fixing for [[SHIFT]] ?
 	Complete Code Reading (down to 56 files).
 
 Fixes:

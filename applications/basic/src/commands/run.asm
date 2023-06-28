@@ -123,7 +123,11 @@ _RUNNotToken:
 ; ************************************************************************************************
 
 Command_Shift_Handler: ;; [[[shift]]]
-		.error_unimplemented
+		lda 	(codePtr),y 				; get token shifted
+		iny
+		asl 	a 							; double into X
+		tax
+		jmp 	(AlternateVectorTable,x) 	; and go there.
 
 ; ************************************************************************************************
 ;
@@ -152,6 +156,7 @@ checkCounter:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		28/06/23 		Implemented [[shift]].
 ;
 ; ************************************************************************************************
 
