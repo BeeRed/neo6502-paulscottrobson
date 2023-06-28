@@ -2,7 +2,7 @@
 ; ************************************************************************************************
 ;
 ;		Name:		scroll.asm
-;		Purpose:	Scroll screen up/down
+;		Purpose:	Scroll screen up
 ;		Created:	25th May 2023
 ;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -46,40 +46,6 @@ _OSSUFill:
 		dey
 		sta 	(rTemp0),y
 		bne 	_OSSUFill
-		rts
-
-; ************************************************************************************************
-;
-;								Scroll screen down (off the top)
-;
-; ************************************************************************************************
-
-OSScrollDown:
-		ldx 	OSXSize 					; get address of (RHS, Bottom-1). 
-		ldy 	OSYSize
-		dex
-		dey
-		dey
-		jsr 	OSGetAddressXY
-
-		ldy 	OSXSize 					; copy one row.
-_OSSDLoop:		
-		lda 	(rTemp0) 					; copy it down
-		sta 	(rTemp0),y
-		lda 	rTemp0 						; decrement address
-		bne 	_OSSDNoBorrow
-		lda 	rTemp0+1 					; until we've shifted $C000 down.
-		cmp 	#$C0 						 
-		beq 	_OSSDExit
-		dec 	rTemp0+1
-_OSSDNoBorrow:
-		dec 	rTemp0
-		bra 	_OSSDLoop		
-_OSSDExit:
-		lda		#' ' 						; erase the top row.
-		dey
-		sta 	(rTemp0),y
-		bne 	_OSSDExit
 		rts
 
 		.send code

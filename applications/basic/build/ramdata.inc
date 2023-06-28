@@ -50,6 +50,9 @@ iTemp0:										; temporary register for maths library, zero page.
 ; ************************************************************************************************
 
 		* = StorageBase
+		
+OSNewLineFlag: 								; set if new line started on this line
+		.fill 	32		
 OSXPos:	 									; cursor position
 		.fill 	1
 OSYPos:	

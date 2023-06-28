@@ -27,7 +27,11 @@ Boot:	jsr 	OSInitialise 				; set everything up.
 		ldy 	#MainPrompt >> 8
 		jsr 	OSWriteString
 
-		;jmp 	KeyEcho
+
+;_h1:
+;		jsr		OSReadKeystroke
+;		jsr 	OSWriteScreen
+;		bra 	_h1
 
 		jmp 	$1000 						; and run from $1000 onwards
 

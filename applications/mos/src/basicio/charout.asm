@@ -79,8 +79,8 @@ _OSWDVector:
 		.word 	_OSWNoFunction 				; $0B
 		.word 	OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
 		.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
-		.word 	OSScrollUp 					; $0E 	Scroll Up 	(e.g. off bottom)
-		.word 	OSScrollDown 				; $0F 	Scroll Down (e.g. off top)
+		.word 	_OSWNoFunction 				; $0E
+		.word 	_OSWNoFunction 				; $0F
 
 		; these are keys in only.			; $10 	
 											; $11-A Function Keys 1-10
@@ -91,6 +91,15 @@ _OSWDVector:
 ;								Cursor movement functionality
 ;
 ; ************************************************************************************************
+;
+;		Right to next TAB
+;
+_OSWHTab:									; move right.
+		jsr 	_OSCursorRight
+		lda 	OSXPos
+		and 	#7
+		bne 	_OSWHTab
+		rts
 ;
 ;		Backspace (e.g. back one and erase)
 ;
@@ -106,31 +115,24 @@ _OSBackspace:
 ;
 _OSCursorLeft:
 		lda 	OSXPos 						; left side
-		beq 	_OSCLExit 					; yes, exit
 		dec 	OSXPos 						; cursor left		
+		cmp 	#0 							; if at left side
+		bne 	_OSCLExit 					; no, exit
+		lda 	OSXSize 					; yes, shift to right.
+		dec 	a
+		sta 	OSXPos
 _OSCLExit:
 		rts
 ;
-;		Cursor right (limited to RHS)
+;		Cursor right 
 ;
 _OSCursorRight:
+		inc 	OSXPos 						; go right ?
 		lda 	OSXPos 						; reached right side ?
-		inc 	a
 		cmp 	OSXSize
-		beq 	_OSCRExit 					; yes, exit, no, fall through.
-;
-;		Cursor forward on screen.
-;		
-_OSCursorAdvance:
-		inc 	OSXPos 						; advance cursor and position.
-		lda 	OSXPos 						; reached RHS
-		cmp 	OSXSize
-		bcc 	_OSCRExit 					; if not, then exit.
-;
-;		Carriage return, start of next line.
-;		
-_OSNewLine:		
-		stz 	OSXPos 						; start next line.
+		bne 	_OSCLExit 					; no, then exit
+		stz 	OSXPos 						; back to left
+		rts
 ;
 ;		Cursor down
 ;	
@@ -138,29 +140,42 @@ _OSCursorDown:
 		inc 	OSYPos 						; down one line.
 		lda 	OSYPos 						; reached bottom
 		cmp 	OSYSize
-		bcc 	_OSCRExit 					; no, we're done.
-		dec 	OSYPos 						; position back to bottom line.
-		jsr 	OSScrollUp 					; scroll whole screen up.
-_OSCRExit:
+		bcc 	_OSCDExit 					; no, we're done.
+		stz 	OSYPos 						; position back to top line
+_OSCDExit:
 		rts
 ;
 ;		Cursor up
 ;
 _OSCursorUp:
 		dec 	OSYPos 						; up one line ?
-		bpl 	_OSCRExit 					; exit if still on screen
-		inc 	OSYPos 						; fix up position.
-		jsr 	OSScrollDown 				; scroll down.
+		bpl 	_OSCUExit 					; exit if still on screen
+		lda 	OSYSize 					; back to top
+		dec 	a
+		sta 	OSYPos 		
+_OSCUExit:		
 		rts
 ;
-;		Right to next TAB
+;		Cursor forward on screen.
+;		
+_OSCursorAdvance:
+		inc 	OSXPos 						; try moving right
+		lda 	OSXPos						; reached the write.
+		cmp 	OSXSize
+		bne 	_OSLCExit  					; exit if not at the RHS.
 ;
-_OSWHTab:									; move right.
-		jsr 	_OSCursorAdvance
-		lda 	OSXPos
-		and 	#7
-		bne 	_OSWHTab
-		rts
+;		Carriage return, start of next line.
+;		
+_OSNewLine:		
+		stz 	OSXPos 						; left side
+		inc 	OSYPos 						; down one.
+		lda 	OSYPos 						; reached the bottom
+		cmp 	OSYSize
+		bcc 	_OSLCExit 					; no, exit
+		dec 	OSYPos 						; back up one line
+		jsr 	OSScrollUp 					; scroll the whole screen up.
+_OSLCExit:
+		rts		
 ;
 ;		Home position.
 ;

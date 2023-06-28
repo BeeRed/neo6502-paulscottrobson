@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/main.bin _main.asm
-; Wed Jun 28 17:08:18 2023
+; Wed Jun 28 17:52:13 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -28,38 +28,40 @@
 >001e							.fill 	2
 .0020					iTemp0:
 >0020							.fill 	2
-.0200					OSXPos:
->0200							.fill 	1
-.0201					OSYPos:
->0201							.fill 	1
-.0202					OSXSize:
->0202							.fill 	1
-.0203					OSYSize:
->0203							.fill 	1
+.0200					OSNewLineFlag:
+>0200							.fill 	32
+.0220					OSXPos:
+>0220							.fill 	1
+.0221					OSYPos:
+>0221							.fill 	1
+.0222					OSXSize:
+>0222							.fill 	1
+.0223					OSYSize:
+>0223							.fill 	1
 =16					OSKeyboardQueueMaxSize = 16					; keyboard queue max size.
-.0204					OSKeyStatus:
->0204							.fill 	32
-.0224					OSKeyboardQueue:
->0224							.fill 	OSKeyboardQueueMaxSize
-.0234					OSKeyboardQueueSize:
->0234							.fill 	1
-.0235					OSIsKeyUp:
->0235							.fill 	1
-.0236					OSIsKeyShift:
->0236							.fill 	1
-.0237					OSEscapePressed:
->0237							.fill 	1
-.0238					OSRKOriginal:
->0238							.fill 	1
+.0224					OSKeyStatus:
+>0224							.fill 	32
+.0244					OSKeyboardQueue:
+>0244							.fill 	OSKeyboardQueueMaxSize
+.0254					OSKeyboardQueueSize:
+>0254							.fill 	1
+.0255					OSIsKeyUp:
+>0255							.fill 	1
+.0256					OSIsKeyShift:
+>0256							.fill 	1
+.0257					OSEscapePressed:
+>0257							.fill 	1
+.0258					OSRKOriginal:
+>0258							.fill 	1
 =192					OSTextBufferSize = 192
-.0239					OSEditWidth:
->0239							.fill 	1
-.023a					OSEditLength:
->023a							.fill 	1
-.023b					OSEditBuffer:
->023b							.fill 	OSTextBufferSize+1
->02fc							.fill 	32
->031c							.align 	256
+.0259					OSEditWidth:
+>0259							.fill 	1
+.025a					OSEditLength:
+>025a							.fill 	1
+.025b					OSEditBuffer:
+>025b							.fill 	OSTextBufferSize+1
+>031c							.fill 	32
+>033c							.align 	256
 
 ;******  Return to file: _main.asm
 
