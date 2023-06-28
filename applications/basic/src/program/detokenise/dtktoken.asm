@@ -49,7 +49,7 @@ _TOKDFound:
 		beq 	_TOKDExit
 		tax 	
 		ldy 	#1 							; output the token.
-		lda 	(zTemp0),y 					; check spacing
+		lda 	(zTemp0),y 					; check spacing first character,
 		jsr 	TOKDSpacing
 _TOKDOutput:
 		lda 	(zTemp0),y

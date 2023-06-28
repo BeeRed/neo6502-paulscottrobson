@@ -45,8 +45,9 @@ _TOKDIHaveInteger:							; integer in R0, base in Y
 		stx 	zTemp0
 		sty 	zTemp0+1
 		lda 	(zTemp0)
-		jsr 	TOKDSpacing 				; check spacing okay.
 		ldy 	#1 							; output buffer.
+		lda 	(zTemp0),y
+		jsr 	TOKDSpacing 				; check spacing okay.
 _TOKDOutput:
 		lda 	(zTemp0),y
 		jsr 	TOKDOutput
@@ -64,6 +65,7 @@ _TOKDOutput:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		28/06/23 		Fixed spacing "print 22" became print 22
 ;
 ; ************************************************************************************************
 
