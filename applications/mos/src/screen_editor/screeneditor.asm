@@ -61,15 +61,35 @@ _OSSDeleteLoop:
 		bra 	_OSSDeleteLoop
 _OSSDelComplete:
 		jsr 	OSSLeft 					; blank last character
-		lda 	#' '
+_OSSWriteSpace:		
+		lda 	#' ' 						; write space at posiition
 		jsr 	OSDWritePhysical
-		jsr 	OSSLoadPosition
+		jsr 	OSSLoadPosition 			; restore original pos and loop back.
 		bra		_OSScreenLoop
 		;
 		;		Handle Insert
 		;
 _OSSInsert:
-		.debug
+		jsr 	OSSSaveGetFrame 			; save current position and get frame.
+		lda 	OSXSize 					; start insert copy is end
+		dec 	a
+		sta 	OSXPos
+		lda 	OSYFrameBottom
+		sta 	OSYPos
+_OSSInsertLoop:
+		lda 	OSXPos 						; reached insert point ?
+		cmp 	OSXPosSave
+		bne 	_OSSShiftUp
+		lda 	OSYPos
+		cmp 	OSYPosSave
+		beq 	_OSSWriteSpace 				; space there and continue
+_OSSShiftUp:		
+		jsr 	OSSLeft
+		jsr 	OSDReadPhysical
+		jsr 	OSSRight
+		jsr 	OSDWritePhysical
+		jsr 	OSSLeft
+		bra 	_OSSInsertLoop
 		;
 		;		Handle Return
 		;

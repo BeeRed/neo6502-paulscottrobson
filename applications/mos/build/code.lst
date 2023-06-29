@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Thu Jun 29 16:31:30 2023
+; Thu Jun 29 16:39:42 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -73,8 +73,8 @@
 
 ;******  Return to file: osrom.asm
 
-.f800	20 e5 fc	jsr $fce5	Boot:	jsr 	OSInitialise 				; set everything up.
-.f803	a2 08		ldx #$08			ldx 	#MainPrompt & $FF 			; display the boot prompt
+.f800	20 15 fd	jsr $fd15	Boot:	jsr 	OSInitialise 				; set everything up.
+.f803	a2 38		ldx #$38			ldx 	#MainPrompt & $FF 			; display the boot prompt
 .f805	a0 fd		ldy #$fd			ldy 	#MainPrompt >> 8
 .f807	20 41 f9	jsr $f941			jsr 	OSWriteString
 .f80a	4c 00 10	jmp $1000			jmp 	$1000 						; and run from $1000 onwards
@@ -903,7 +903,7 @@
 .fc38	c9 08		cmp #$08			cmp 	#$08
 .fc3a	f0 09		beq $fc45			beq 	_OSSBackspace
 .fc3c	c9 0d		cmp #$0d			cmp 	#$0D 						; Return key ?
-.fc3e	f0 3f		beq $fc7f			beq 	_OSSReturn
+.fc3e	f0 6f		beq $fcaf			beq 	_OSSReturn
 .fc40	20 0e f8	jsr $f80e			jsr 	OSWriteScreen
 .fc43	80 e8		bra $fc2d			bra 	_OSScreenLoop
 .fc45					_OSSBackspace:
@@ -913,143 +913,163 @@
 .fc4d	bd 00 02	lda $0200,x			lda 	OSNewLineFlag,x
 .fc50	d0 db		bne $fc2d			bne 	_OSScreenLoop
 .fc52					_OSSBackspaceOk:
-.fc52	20 bf fc	jsr $fcbf			jsr 	OSSLeft 					; move left.
+.fc52	20 ef fc	jsr $fcef			jsr 	OSSLeft 					; move left.
 .fc55					_OSSDelete:
-.fc55	20 90 fc	jsr $fc90			jsr 	OSSSaveGetFrame 			; save current position and get frame.
+.fc55	20 c0 fc	jsr $fcc0			jsr 	OSSSaveGetFrame 			; save current position and get frame.
 .fc58					_OSSDeleteLoop:
 .fc58	ad 27 02	lda $0227			lda 	OSYFrameBottom 				; reached the end
 .fc5b	cd 21 02	cmp $0221			cmp 	OSYPos
 .fc5e	90 11		bcc $fc71			bcc 	_OSSDelComplete
-.fc60	20 d1 fc	jsr $fcd1			jsr 	OSSRight 					; shuffle everything
+.fc60	20 01 fd	jsr $fd01			jsr 	OSSRight 					; shuffle everything
 .fc63	20 60 f9	jsr $f960			jsr 	OSDReadPhysical
-.fc66	20 bf fc	jsr $fcbf			jsr 	OSSLeft
+.fc66	20 ef fc	jsr $fcef			jsr 	OSSLeft
 .fc69	20 66 f9	jsr $f966			jsr 	OSDWritePhysical
-.fc6c	20 d1 fc	jsr $fcd1			jsr 	OSSRight
+.fc6c	20 01 fd	jsr $fd01			jsr 	OSSRight
 .fc6f	80 e7		bra $fc58			bra 	_OSSDeleteLoop
 .fc71					_OSSDelComplete:
-.fc71	20 bf fc	jsr $fcbf			jsr 	OSSLeft 					; blank last character
-.fc74	a9 20		lda #$20			lda 	#' '
+.fc71	20 ef fc	jsr $fcef			jsr 	OSSLeft 					; blank last character
+.fc74					_OSSWriteSpace:
+.fc74	a9 20		lda #$20			lda 	#' ' 						; write space at posiition
 .fc76	20 66 f9	jsr $f966			jsr 	OSDWritePhysical
-.fc79	20 83 fc	jsr $fc83			jsr 	OSSLoadPosition
+.fc79	20 b3 fc	jsr $fcb3			jsr 	OSSLoadPosition 			; restore original pos and loop back.
 .fc7c	80 af		bra $fc2d			bra		_OSScreenLoop
 .fc7e					_OSSInsert:
->fc7e	db						.byte 	$DB
-.fc7f					_OSSReturn:
->fc7f	db						.byte 	$DB
-.fc80	20 90 fc	jsr $fc90			jsr 	OSSSaveGetFrame 			; save current position and get frame.
-.fc83					OSSLoadPosition:
-.fc83	ae 24 02	ldx $0224			ldx 	OSXPosSave
-.fc86	8e 20 02	stx $0220			stx 	OSXPos
-.fc89	ae 25 02	ldx $0225			ldx 	OSYPosSave
-.fc8c	8e 21 02	stx $0221			stx 	OSYPos
-.fc8f	60		rts				rts
-.fc90					OSSSaveGetFrame:
-.fc90	ae 20 02	ldx $0220			ldx 	OSXPos 						; save current position
-.fc93	8e 24 02	stx $0224			stx 	OSXPosSave
-.fc96	ae 21 02	ldx $0221			ldx 	OSYPos
-.fc99	8e 25 02	stx $0225			stx 	OSYPosSave
-.fc9c					_OSSSFindTop:
-.fc9c	e0 00		cpx #$00			cpx 	#0 							; top of screen
-.fc9e	f0 08		beq $fca8			beq 	_OSSSTFound
-.fca0	bd 00 02	lda $0200,x			lda 	OSNewLineFlag,x  			; start of frame.
-.fca3	d0 03		bne $fca8			bne 	_OSSSTFound
-.fca5	ca		dex				dex
-.fca6	80 f4		bra $fc9c			bra 	_OSSSFindTop
-.fca8					_OSSSTFound:
-.fca8	8e 26 02	stx $0226			stx 	OSYFrameTop
-.fcab	ae 21 02	ldx $0221			ldx 	OSYPos
-.fcae					_OSSSFindBottom:
-.fcae	ec 23 02	cpx $0223			cpx 	OSYSize 					; bottom of screen
-.fcb1	f0 08		beq $fcbb			beq 	_OSSSBFound
-.fcb3	bd 01 02	lda $0201,x			lda 	OSNewLineFlag+1,x
-.fcb6	d0 03		bne $fcbb			bne 	_OSSSBFound
-.fcb8	e8		inx				inx
-.fcb9	80 f3		bra $fcae			bra 	_OSSSFindBottom
-.fcbb					_OSSSBFound:
-.fcbb	8e 27 02	stx $0227			stx 	OSYFrameBottom
-.fcbe	60		rts				rts
-.fcbf					OSSLeft:
-.fcbf	48		pha				pha
-.fcc0	ce 20 02	dec $0220			dec 	OSXPos
-.fcc3	10 0a		bpl $fccf			bpl 	_OSSLExit
-.fcc5	ce 21 02	dec $0221			dec 	OSYPos
-.fcc8	ad 22 02	lda $0222			lda 	OSXSize
-.fccb	3a		dec a				dec 	a
-.fccc	8d 20 02	sta $0220			sta 	OSXPos
-.fccf					_OSSLExit:
-.fccf	68		pla				pla
-.fcd0	60		rts				rts
-.fcd1					OSSRight:
-.fcd1	48		pha				pha
-.fcd2	ee 20 02	inc $0220			inc 	OSXPos
-.fcd5	ad 20 02	lda $0220			lda 	OSXPos
-.fcd8	cd 22 02	cmp $0222			cmp 	OSXSize
-.fcdb	d0 06		bne $fce3			bne 	_OSSRExit
-.fcdd	9c 20 02	stz $0220			stz 	OSXPos
-.fce0	ee 21 02	inc $0221			inc 	OSYPos
-.fce3					_OSSRExit:
-.fce3	68		pla				pla
-.fce4	60		rts				rts
+.fc7e	20 c0 fc	jsr $fcc0			jsr 	OSSSaveGetFrame 			; save current position and get frame.
+.fc81	ad 22 02	lda $0222			lda 	OSXSize 					; start insert copy is end
+.fc84	3a		dec a				dec 	a
+.fc85	8d 20 02	sta $0220			sta 	OSXPos
+.fc88	ad 27 02	lda $0227			lda 	OSYFrameBottom
+.fc8b	8d 21 02	sta $0221			sta 	OSYPos
+.fc8e					_OSSInsertLoop:
+.fc8e	ad 20 02	lda $0220			lda 	OSXPos 						; reached insert point ?
+.fc91	cd 24 02	cmp $0224			cmp 	OSXPosSave
+.fc94	d0 08		bne $fc9e			bne 	_OSSShiftUp
+.fc96	ad 21 02	lda $0221			lda 	OSYPos
+.fc99	cd 25 02	cmp $0225			cmp 	OSYPosSave
+.fc9c	f0 d6		beq $fc74			beq 	_OSSWriteSpace 				; space there and continue
+.fc9e					_OSSShiftUp:
+.fc9e	20 ef fc	jsr $fcef			jsr 	OSSLeft
+.fca1	20 60 f9	jsr $f960			jsr 	OSDReadPhysical
+.fca4	20 01 fd	jsr $fd01			jsr 	OSSRight
+.fca7	20 66 f9	jsr $f966			jsr 	OSDWritePhysical
+.fcaa	20 ef fc	jsr $fcef			jsr 	OSSLeft
+.fcad	80 df		bra $fc8e			bra 	_OSSInsertLoop
+.fcaf					_OSSReturn:
+>fcaf	db						.byte 	$DB
+.fcb0	20 c0 fc	jsr $fcc0			jsr 	OSSSaveGetFrame 			; save current position and get frame.
+.fcb3					OSSLoadPosition:
+.fcb3	ae 24 02	ldx $0224			ldx 	OSXPosSave
+.fcb6	8e 20 02	stx $0220			stx 	OSXPos
+.fcb9	ae 25 02	ldx $0225			ldx 	OSYPosSave
+.fcbc	8e 21 02	stx $0221			stx 	OSYPos
+.fcbf	60		rts				rts
+.fcc0					OSSSaveGetFrame:
+.fcc0	ae 20 02	ldx $0220			ldx 	OSXPos 						; save current position
+.fcc3	8e 24 02	stx $0224			stx 	OSXPosSave
+.fcc6	ae 21 02	ldx $0221			ldx 	OSYPos
+.fcc9	8e 25 02	stx $0225			stx 	OSYPosSave
+.fccc					_OSSSFindTop:
+.fccc	e0 00		cpx #$00			cpx 	#0 							; top of screen
+.fcce	f0 08		beq $fcd8			beq 	_OSSSTFound
+.fcd0	bd 00 02	lda $0200,x			lda 	OSNewLineFlag,x  			; start of frame.
+.fcd3	d0 03		bne $fcd8			bne 	_OSSSTFound
+.fcd5	ca		dex				dex
+.fcd6	80 f4		bra $fccc			bra 	_OSSSFindTop
+.fcd8					_OSSSTFound:
+.fcd8	8e 26 02	stx $0226			stx 	OSYFrameTop
+.fcdb	ae 21 02	ldx $0221			ldx 	OSYPos
+.fcde					_OSSSFindBottom:
+.fcde	ec 23 02	cpx $0223			cpx 	OSYSize 					; bottom of screen
+.fce1	f0 08		beq $fceb			beq 	_OSSSBFound
+.fce3	bd 01 02	lda $0201,x			lda 	OSNewLineFlag+1,x
+.fce6	d0 03		bne $fceb			bne 	_OSSSBFound
+.fce8	e8		inx				inx
+.fce9	80 f3		bra $fcde			bra 	_OSSSFindBottom
+.fceb					_OSSSBFound:
+.fceb	8e 27 02	stx $0227			stx 	OSYFrameBottom
+.fcee	60		rts				rts
+.fcef					OSSLeft:
+.fcef	48		pha				pha
+.fcf0	ce 20 02	dec $0220			dec 	OSXPos
+.fcf3	10 0a		bpl $fcff			bpl 	_OSSLExit
+.fcf5	ce 21 02	dec $0221			dec 	OSYPos
+.fcf8	ad 22 02	lda $0222			lda 	OSXSize
+.fcfb	3a		dec a				dec 	a
+.fcfc	8d 20 02	sta $0220			sta 	OSXPos
+.fcff					_OSSLExit:
+.fcff	68		pla				pla
+.fd00	60		rts				rts
+.fd01					OSSRight:
+.fd01	48		pha				pha
+.fd02	ee 20 02	inc $0220			inc 	OSXPos
+.fd05	ad 20 02	lda $0220			lda 	OSXPos
+.fd08	cd 22 02	cmp $0222			cmp 	OSXSize
+.fd0b	d0 06		bne $fd13			bne 	_OSSRExit
+.fd0d	9c 20 02	stz $0220			stz 	OSXPos
+.fd10	ee 21 02	inc $0221			inc 	OSYPos
+.fd13					_OSSRExit:
+.fd13	68		pla				pla
+.fd14	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/utility/setup.asm
 
-.fce5					OSInitialise:
-.fce5	a9 28		lda #$28			lda 	#40 						; 40 x 30 display
-.fce7	8d 22 02	sta $0222			sta 	OSXSize
-.fcea	a9 1e		lda #$1e			lda 	#30
-.fcec	8d 23 02	sta $0223			sta 	OSYSize
-.fcef	20 9a f9	jsr $f99a			jsr 	OSDClearScreen 				; clear the display
-.fcf2	20 30 fa	jsr $fa30			jsr 	OSDKeyboardInitialise 		; reset the keyboard state.
-.fcf5	60		rts				rts
-.fcf6					OSGetScreenSize:
-.fcf6	ae 22 02	ldx $0222			ldx 	OSXSize
-.fcf9	ac 23 02	ldy $0223			ldy 	OSYSize
-.fcfc	60		rts				rts
-.fcfd					OSGetScreenPosition:
-.fcfd	ae 20 02	ldx $0220			ldx 	OSXPos
-.fd00	ac 21 02	ldy $0221			ldy 	OSYPos
-.fd03	60		rts				rts
-.fd04					OSCheckBreak:
-.fd04	ad 5b 02	lda $025b			lda 	OSEscapePressed
-.fd07	60		rts				rts
+.fd15					OSInitialise:
+.fd15	a9 28		lda #$28			lda 	#40 						; 40 x 30 display
+.fd17	8d 22 02	sta $0222			sta 	OSXSize
+.fd1a	a9 1e		lda #$1e			lda 	#30
+.fd1c	8d 23 02	sta $0223			sta 	OSYSize
+.fd1f	20 9a f9	jsr $f99a			jsr 	OSDClearScreen 				; clear the display
+.fd22	20 30 fa	jsr $fa30			jsr 	OSDKeyboardInitialise 		; reset the keyboard state.
+.fd25	60		rts				rts
+.fd26					OSGetScreenSize:
+.fd26	ae 22 02	ldx $0222			ldx 	OSXSize
+.fd29	ac 23 02	ldy $0223			ldy 	OSYSize
+.fd2c	60		rts				rts
+.fd2d					OSGetScreenPosition:
+.fd2d	ae 20 02	ldx $0220			ldx 	OSXPos
+.fd30	ac 21 02	ldy $0221			ldy 	OSYPos
+.fd33	60		rts				rts
+.fd34					OSCheckBreak:
+.fd34	ad 5b 02	lda $025b			lda 	OSEscapePressed
+.fd37	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Return to file: osrom.asm
 
-.fd08					MainPrompt:
->fd08	67						.byte 	_MPEnd-MainPrompt-1
->fd09	2a 2a 2a 20 4f 4c 49 4d				.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
->fd11	45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72 6f
->fd21	43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
->fd2f	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
->fd37	42 75 69 6c 74 20
+.fd38					MainPrompt:
+>fd38	67						.byte 	_MPEnd-MainPrompt-1
+>fd39	2a 2a 2a 20 4f 4c 49 4d				.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
+>fd41	45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72 6f
+>fd51	43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
+>fd5f	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
+>fd67	42 75 69 6c 74 20
 
 ;******  Processing file: src/generated/time.incx
 
->fd3d	32 33 2f 30 36 2f 32 39			.text	"23/06/29"
+>fd6d	32 33 2f 30 36 2f 32 39			.text	"23/06/29"
 
 ;******  Return to file: osrom.asm
 
->fd45	0d 0d						.byte 	13,13
->fd47	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
->fd4f	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
->fd5f	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->fd6f	0d
-.fd70					_MPEnd:
+>fd75	0d 0d						.byte 	13,13
+>fd77	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
+>fd7f	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
+>fd8f	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>fd9f	0d
+.fda0					_MPEnd:
 
 ;******  Processing file: src/generated/vectors.asmx
 
-.ffd9	4c fd fc	jmp $fcfd		jmp		OSGetScreenPosition      ; Screen position to XY
-.ffdc	4c f6 fc	jmp $fcf6		jmp		OSGetScreenSize          ; Get size of screen to XY
+.ffd9	4c 2d fd	jmp $fd2d		jmp		OSGetScreenPosition      ; Screen position to XY
+.ffdc	4c 26 fd	jmp $fd26		jmp		OSGetScreenSize          ; Get size of screen to XY
 .ffdf	4c df fb	jmp $fbdf		jmp		OSEnterLine              ; Edit line, return line in YX length prefixed, backspace only editing.
 .ffe2	4c 2a fc	jmp $fc2a		jmp		OSScreenLine             ; Edit line, return line in YX length prefixed, full screen editing.
 .ffe5	4c ba f9	jmp $f9ba		jmp		OSKeyboardDataProcess    ; Keyboard update process.
-.ffe8	4c 04 fd	jmp $fd04		jmp		OSCheckBreak             ; NZ if ESC pressed.
+.ffe8	4c 34 fd	jmp $fd34		jmp		OSCheckBreak             ; NZ if ESC pressed.
 .ffeb	4c f4 f8	jmp $f8f4		jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
 .ffee	4c fe f8	jmp $f8fe		jmp		OSReadKeyboard           ; Read A from keyboard, CC = success, CS = no key
 .fff1	4c 20 f9	jmp $f920		jmp		OSReadKeystroke          ; Read A from keyboard, display cursor, wait for key.
