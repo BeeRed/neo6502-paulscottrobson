@@ -62,6 +62,14 @@ OSXSize:									; screen size
 OSYSize:
 		.fill 	1		
 
+OSXPosSave:									; saved position for screen editor
+		.fill 	1
+OSYPosSave:
+		.fill 	1
+OSYFrameTop:								; top and line after frame.
+		.fill 	1
+OSYFrameBottom:						
+		.fill 	1
 
 OSKeyboardQueueMaxSize = 16					; keyboard queue max size.
 
