@@ -30,7 +30,7 @@ OSKeyboardDataProcess:
 		ora 	OSIsKeyShift 				; actual key code - sets bit 7 if extended scancode.
 
 		pha
-		jsr 	OSKeyboardUpdateBits 		; update the up/down bits
+		jsr 	OSDKeyboardUpdateBits 		; update the up/down bits
 		pla
 
 		ldx 	OSIsKeyUp 					; if key up reset up and shift flags.
@@ -41,9 +41,9 @@ OSKeyboardDataProcess:
 		bra 	_OSKExit
 
 _OSKInsertQueue:							; insert keystroke into queue.
-		jsr 	OSTranslateToASCII 			; convert to ASCII
+		jsr 	OSDTranslateToASCII 		; convert to ASCII
 		bcs 	_OSKExit 					; carry set, exit (unknown key)
-		jsr 	OSInsertKeyboardQueue 		; insert into keyboard queue.
+		jsr 	OSDInsertKeyboardQueue 		; insert into keyboard queue.
 		bra 	_OSKExit
 
 _OSKShift: 									; received $E0 (shift)
@@ -66,7 +66,7 @@ _OSKExit:
 ;
 ; ************************************************************************************************
 
-OSKeyboardUpdateBits:
+OSDKeyboardUpdateBits:
 		ldx 	#0 							; offset in table		
 _OSKUCalculate: 								
 		cmp 	#8 							; work out the row
@@ -101,7 +101,7 @@ _OSKUUp:
 ;
 ; ************************************************************************************************
 
-OSInsertKeyboardQueue:		
+OSDInsertKeyboardQueue:		
 		ldx 	OSKeyboardQueueSize 		; check to see if full
 		cpx	 	#OSKeyboardQueueMaxSize
 		bcs 	_OSIKQExit 					; if so, you will never know.
@@ -117,7 +117,7 @@ _OSIKQExit:
 ;
 ; ************************************************************************************************
 		
-OSKeyboardInitialise:
+OSDKeyboardInitialise:
 		ldx 	#OSIsKeyShift-OSKeyStatus
 _OSKILoop:
 		stz 	OSKeyStatus,x

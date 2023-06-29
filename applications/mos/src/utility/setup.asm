@@ -23,8 +23,8 @@ OSInitialise:
 		sta 	OSXSize
 		lda 	#30
 		sta 	OSYSize
-		jsr 	OSClearScreen 				; clear the display
-		jsr 	OSKeyboardInitialise 		; reset the keyboard state.
+		jsr 	OSDClearScreen 				; clear the display
+		jsr 	OSDKeyboardInitialise 		; reset the keyboard state.
 		rts
 
 ; ************************************************************************************************

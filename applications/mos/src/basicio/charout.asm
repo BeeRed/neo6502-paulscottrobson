@@ -19,20 +19,6 @@
 ; ************************************************************************************************
 
 OSWriteScreen:
-		phx
-		ldx 	#0 							; screen is device #0
-		jsr 	OSWriteDevice
-		plx
-		rts
-
-; ************************************************************************************************
-;
-;						Write character A to device X (x = 0 => screen)
-; 				(currently there is only the screen, device 0, to write to !)
-;
-; ************************************************************************************************
-
-OSWriteDevice:
 		pha 								; save AXY
 		phx
 		phy
@@ -49,7 +35,7 @@ OSWriteDevice:
 		bra 	_OSWriteDeviceExit 			; and leave
 		;
 _OSWriteDirect:
-		jsr 	OSWritePhysical 			; $20-$FF write to screen
+		jsr 	OSDWritePhysical 			; $20-$FF write to screen
 		jsr 	_OSCursorAdvance 			; and forwards.
 _OSWriteDeviceExit:		
 		ply
@@ -77,7 +63,7 @@ _OSWDVector:
 		.word 	_OSWHTab 					; $09	Tab 		(Tab stop)
 		.word 	_OSWNoFunction 				; $0A
 		.word 	_OSWNoFunction 				; $0B
-		.word 	OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
+		.word 	_OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
 		.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
 		.word 	_OSWNoFunction 				; $0E
 		.word 	_OSWNoFunction 				; $0F
@@ -108,7 +94,7 @@ _OSBackspace:
 		beq 	_OSCLExit
 		dec 	OSXPos 						; go left one.
 		lda 	#' ' 						; ovewrite the character there.
-		jsr 	OSWritePhysical
+		jsr 	OSDWritePhysical
 		rts
 ;
 ;		Cursor left
@@ -162,26 +148,51 @@ _OSCursorAdvance:
 		inc 	OSXPos 						; try moving right
 		lda 	OSXPos						; reached the write.
 		cmp 	OSXSize
-		bne 	_OSLCExit  					; exit if not at the RHS.
+		bne 	_OSLCExit 	 				; exit if not at the RHS.
+		ldx 	#0 							; we want to zero any consequent CRs.
 ;
 ;		Carriage return, start of next line.
 ;		
 _OSNewLine:		
+		phx 								; save CR/char flag.
 		stz 	OSXPos 						; left side
 		inc 	OSYPos 						; down one.
 		lda 	OSYPos 						; reached the bottom
 		cmp 	OSYSize
-		bcc 	_OSLCExit 					; no, exit
+		bcc 	_OSLCUpdateCR				; no, update CR flag and exit
 		dec 	OSYPos 						; back up one line
-		jsr 	OSScrollUp 					; scroll the whole screen up.
-_OSLCExit:
+		jsr 	OSDScrollUp 				; scroll the whole screen up.
+		ldx 	#0 							; scroll the CR flag table up 
+_OSNLScrollFlag:
+		lda 	OSNewLineFlag+1,x		
+		sta 	OSNewLineFlag,x	
+		inx
+		cpx 	OSYSize
+		bne	 	_OSNLScrollFlag 
+_OSLCUpdateCR:		
+		ldx 	OSYPos 						; set appropriate flag.
+		pla
+		sta 	OSNewLineFlag,x
+_OSLCExit:		
+		rts		
+;
+;		Clear Screen.
+;		
+_OSClearScreen:
+		jsr 	OSDClearScreen 				; physical clear.
+		ldx 	OSYSize 					; set all the CR flags on each row
+_OSCSSetLoop:
+		lda 	#$FF
+		sta 	OSNewLineFlag-1,x
+		dex
+		bne		_OSCSSetLoop
 		rts		
 ;
 ;		Home position.
 ;
 OSHomeCursor: 								; home cursor.
 		stz 	OSXPos
-		stz 	OSYPos
+		stz	 	OSYPos
 		rts
 
 		.send code

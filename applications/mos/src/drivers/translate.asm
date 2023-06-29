@@ -23,7 +23,7 @@ ifkey	.macro
 ;
 ; ************************************************************************************************
 
-OSTranslateToASCII:
+OSDTranslateToASCII:
 		tax
 		lda 	OSASCIIFromScanCode,x 		; get ASCII keystroke from scan code
 		beq 	_OSTTAFail 					; wrong keyboard map/type ?

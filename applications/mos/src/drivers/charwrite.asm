@@ -18,8 +18,8 @@
 ;
 ; ************************************************************************************************
 
-OSReadPhysical:
-		jsr 	OSGetAddress
+OSDReadPhysical:
+		jsr 	OSDGetAddress
 		lda 	(rTemp0)
 		rts
 
@@ -29,9 +29,9 @@ OSReadPhysical:
 ;
 ; ************************************************************************************************
 
-OSWritePhysical:
+OSDWritePhysical:
 		pha		
-		jsr 	OSGetAddress
+		jsr 	OSDGetAddress
 		pla
 		sta 	(rTemp0)
 		rts
@@ -42,38 +42,38 @@ OSWritePhysical:
 ;
 ; ************************************************************************************************	
 
-OSGetAddress:
-        ldy     OSYPos        
-        ldx 	OSXPos
+OSDGetAddress:
+		ldy     OSYPos        
+		ldx 	OSXPos
 
-OSGetAddressXY:        
-        lda     OSXSize                     
-        lsr     a                           ; prime the carry bit for the loop
-        sta     rTemp0
-        sty     rTemp0+1
-        lda     #0
-        ldy     #8
+OSDGetAddressXY:        
+		lda     OSXSize                     
+		lsr     a                           ; prime the carry bit for the loop
+		sta     rTemp0
+		sty     rTemp0+1
+		lda     #0
+		ldy     #8
 _IFMLoop:
-        bcc     _IFMNoAdd
-        clc
-        adc     rTemp0+1
+		bcc     _IFMNoAdd
+		clc
+		adc     rTemp0+1
 _IFMNoAdd:
-        ror     a
-        ror     rTemp0                      ; pull another bit out for the next iteration
-        dey        
-        bne     _IFMLoop                   
-        ora 	#$C0
-        tay
+		ror     a
+		ror     rTemp0                      ; pull another bit out for the next iteration
+		dey        
+		bne     _IFMLoop                   
+		ora 	#$C0
+		tay
 
-        clc
-        txa
-        adc 	rTemp0
-        sta 	rTemp0
-        bcc 	_IFMNoCarry
-        iny
+		clc
+		txa
+		adc 	rTemp0
+		sta 	rTemp0
+		bcc 	_IFMNoCarry
+		iny
 _IFMNoCarry:        
 		sty 	rTemp0+1
-        rts
+		rts
 
 		.send code
 		

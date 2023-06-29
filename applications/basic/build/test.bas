@@ -1,4 +1,5 @@
-.10 for i = 1 to 10
-.100 print i
-.1000 next
-.10000 list
+rem "first line"
+print hello+hello+hello+hello+hello+hello+hello+hello+hello
+print three+three+three+three+three+three+three+three+three+three+three+three
+print goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$+goodbye$
+list

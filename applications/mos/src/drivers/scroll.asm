@@ -18,7 +18,7 @@
 ;
 ; ************************************************************************************************
 
-OSScrollUp:
+OSDScrollUp:
 		lda 	#$C0 						; scroll whole screen up.
 		stz 	rTemp0
 		sta 	rTemp0+1

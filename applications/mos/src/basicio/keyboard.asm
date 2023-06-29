@@ -67,10 +67,10 @@ _OSRDExit:
 OSReadKeystroke:
 		phx 								; save XY
 		phy
-		jsr 	OSReadPhysical 				; save old character under cursor
+		jsr 	OSDReadPhysical 			; save old character under cursor
 		sta 	OSRKOriginal
 		lda 	#$7F 						; write prompt
-		jsr 	OSWritePhysical
+		jsr 	OSDWritePhysical
 _OSWaitKey:
 		jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
 		jsr 	OSReadKeyboard 				; key available
@@ -78,7 +78,7 @@ _OSWaitKey:
 		;
 		pha 								; save key
 		lda 	OSRKOriginal 				; old character back and write to screen.
-		jsr 	OSWritePhysical
+		jsr 	OSDWritePhysical
 		pla 								; restore
 		ply
 		plx

@@ -10,5 +10,5 @@
 	.include "src/drivers/scroll.asm"
 	.include "src/drivers/translate.asm"
 	.include "src/generated/ps2convert.asm"
-	.include "src/line_editor/editor.asm"
+	.include "src/line_editor/lineeditor.asm"
 	.include "src/utility/setup.asm"

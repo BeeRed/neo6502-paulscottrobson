@@ -18,7 +18,7 @@
 ;
 ; ************************************************************************************************
 
-OSClearScreen:		
+OSDClearScreen:		
 		lda 	#$C0 						; set screen pos.
 		sta 	rTemp0+1
 		stz 	rTemp0
