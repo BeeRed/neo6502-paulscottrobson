@@ -1,9 +1,16 @@
 TODO:
 	Screen editor.
+		- backspace specific.
+		- general (copy position, establish extent)
+		- return code
+		- insert code
+		- delete/backspace code.
+
 	Complete Code Reading (down to 56 files).
 	
 Fixes:
 	Assembler file system.
+	No Ok on empty screen line.
 	Identifier Definitions in command line bug ?
 
 Outstanding (Implementation specific):

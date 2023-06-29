@@ -54,7 +54,7 @@
 29::Spacebar:: [32]
 /E0 11::RightAlt::
 /E0 14::RightCtrl::
-/E0 70::Insert:: 
+E0 70::Insert:: [16]
 E0 71::Delete:: [7]
 E0 6B::Left:: [1]
 E0 6C::Home:: [2]

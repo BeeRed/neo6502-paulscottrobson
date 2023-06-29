@@ -65,10 +65,10 @@ _OSWDVector:
 		.word 	_OSWNoFunction 				; $0B
 		.word 	_OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
 		.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
-		.word 	_OSWNoFunction 				; $0E
+		.word 	_OSWNoFunction 				; $0E   
 		.word 	_OSWNoFunction 				; $0F
 
-		; these are keys in only.			; $10 	
+		; these are keys in only.			; $10 	Insert key.
 											; $11-A Function Keys 1-10
 											; $1B 	Escape key.
 

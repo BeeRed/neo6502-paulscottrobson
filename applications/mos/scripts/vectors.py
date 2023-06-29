@@ -13,7 +13,11 @@ import sys
 
 vectors = """
 
+	OSGetScreenPosition 			: Screen position to XY
+	OSGetScreenSize 				: Get size of screen to XY
+
 	OSEnterLine						: Edit line, return line in YX length prefixed, backspace only editing.
+	OSScreenLine 					: Edit line, return line in YX length prefixed, full screen editing.
 
 	OSKeyboardDataProcess 			: Keyboard update process.
 	OSCheckBreak					: NZ if ESC pressed.
@@ -23,8 +27,6 @@ vectors = """
 
 	OSWriteScreen 					: Write A to screen, CC = success
 	OSWriteString 					: Write length prefixed string YX to screen
-	OSGetScreenPosition 			: Screen position to XY
-	OSGetScreenSize 				: Get size of screen to XY
 
 """
 vectors = [x.strip() for x in vectors.split("\n") if x.strip() != ""]

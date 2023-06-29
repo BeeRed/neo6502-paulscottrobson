@@ -11,4 +11,5 @@
 	.include "src/drivers/translate.asm"
 	.include "src/generated/ps2convert.asm"
 	.include "src/line_editor/lineeditor.asm"
+	.include "src/screen_editor/screeneditor.asm"
 	.include "src/utility/setup.asm"

@@ -242,7 +242,7 @@ OSASCIIFromScanCode:
 	.byte	$00 ; $ed 
 	.byte	$00 ; $ee 
 	.byte	$00 ; $ef 
-	.byte	$00 ; $f0 
+	.byte	$10 ; $f0 chr$(16)
 	.byte	$07 ; $f1 chr$(7)
 	.byte	$03 ; $f2 chr$(3)
 	.byte	$00 ; $f3 

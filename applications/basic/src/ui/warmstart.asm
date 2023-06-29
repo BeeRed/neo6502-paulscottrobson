@@ -29,7 +29,7 @@ WarmStartNewLine:
 WarmStartNoPrompt:
 		ldx 	#$FF 						; 6502 stack reset.
 		txs
-		jsr 	OSEnterLine 				; edit
+		jsr 	OSScreenLine 				; edit
 		inx 								; skip length byte to make it ASCIIZ
 		bne 	_WSSkip
 		iny
