@@ -36,6 +36,8 @@ WarmStartNoPrompt:
 _WSSkip:		
 		stx 	zTemp2 						; save address
 		sty 	zTemp2+1
+		lda 	(zTemp2)
+		beq 	WarmStartNoPrompt 			; ignore empty line.
 
 		ldx 	#TOKGetCharacter & $FF 		; tokenise it.
 		ldy 	#TOKGetCharacter >> 8

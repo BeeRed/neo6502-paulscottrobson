@@ -94,8 +94,37 @@ _OSSShiftUp:
 		;		Handle Return
 		;
 _OSSReturn:
-		.debug		
 		jsr 	OSSSaveGetFrame 			; save current position and get frame.
+		stz 	OSXPos
+		lda 	OSYFrameTop					; start position.
+		sta 	OSYPos
+_OSSRCopy:		
+		lda 	OSYFrameBottom 				; reached the end
+		cmp 	OSYPos
+		bcc 	_OSSRCopied
+		jsr 	OSDReadPhysical
+		ldx 	OSEditLength
+		sta 	OSEditBuffer,x
+		inc 	OSEditLength
+		jsr 	OSSRight
+		bra 	_OSSRCopy
+_OSSRCopied:
+		jsr 	OSSLeft 					; do a CR from previous line, scroll if required.
+		lda		#13
+		jsr 	OSWriteScreen
+		ldx 	OSEditLength 				; strip trailing spaces
+_OSSSStripSpaces:		
+		dex
+		lda 	OSEditBuffer,x
+		cmp 	#$20
+		bne 	_OSSSSSEnd
+		stz 	OSEditBuffer,x
+		stx 	OSEditLength
+		bra 	_OSSSStripSpaces
+_OSSSSSEnd:		
+		ldx 	#OSEditLength & $FF
+		ldy 	#OSEditLength >> 8
+		rts
 
 ; ************************************************************************************************
 ;
@@ -139,7 +168,9 @@ _OSSSTFound:
 		;
 		ldx 	OSYPos
 _OSSSFindBottom:
-		cpx 	OSYSize 					; bottom of screen
+		txa
+		inc 	a
+		cmp 	OSYSize 					; bottom of screen
 		beq 	_OSSSBFound
 		lda 	OSNewLineFlag+1,x
 		bne 	_OSSSBFound

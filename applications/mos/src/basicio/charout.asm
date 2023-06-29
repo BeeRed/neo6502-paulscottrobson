@@ -160,7 +160,9 @@ _OSNewLine:
 		lda 	OSYPos 						; reached the bottom
 		cmp 	OSYSize
 		bcc 	_OSLCUpdateCR				; no, update CR flag and exit
-		dec 	OSYPos 						; back up one line
+		lda 	OSYSize 					; bottom of screen
+		dec 	a
+		sta 	OSYPos 						; back up one line
 		jsr 	OSDScrollUp 				; scroll the whole screen up.
 		ldx 	#0 							; scroll the CR flag table up 
 _OSNLScrollFlag:
@@ -168,7 +170,7 @@ _OSNLScrollFlag:
 		sta 	OSNewLineFlag,x	
 		inx
 		cpx 	OSYSize
-		bne	 	_OSNLScrollFlag 
+		bne	 	_OSNLScrollFlag
 _OSLCUpdateCR:		
 		ldx 	OSYPos 						; set appropriate flag.
 		pla

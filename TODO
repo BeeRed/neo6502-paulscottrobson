@@ -1,11 +1,4 @@
 TODO:
-	Screen editor.
-		- backspace specific.
-		- general (copy position, establish extent)
-		- return code
-		- insert code
-		- delete/backspace code.
-
 	Complete Code Reading (down to 56 files).
 	
 Fixes:
