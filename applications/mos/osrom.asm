@@ -48,7 +48,7 @@ NoInt:
 
 MainPrompt:
 		.byte 	_MPEnd-MainPrompt-1
-		.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
+		.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
 		.text 	"Alpha : Built "
 		.include "src/generated/time.incx"
 		.byte 	13,13

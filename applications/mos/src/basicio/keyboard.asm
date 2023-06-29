@@ -69,7 +69,7 @@ OSReadKeystroke:
 		phy
 		jsr 	OSDReadPhysical 			; save old character under cursor
 		sta 	OSRKOriginal
-		lda 	#$7F 						; write prompt
+		eor 	#$80 						; write prompt
 		jsr 	OSDWritePhysical
 _OSWaitKey:
 		jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt

@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Thu Jun 29 16:39:42 2023
+; Thu Jun 29 16:45:48 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -256,7 +256,7 @@
 .f921	5a		phy				phy
 .f922	20 60 f9	jsr $f960			jsr 	OSDReadPhysical 			; save old character under cursor
 .f925	8d 5c 02	sta $025c			sta 	OSRKOriginal
-.f928	a9 7f		lda #$7f			lda 	#$7F 						; write prompt
+.f928	49 80		eor #$80			eor 	#$80 						; write prompt
 .f92a	20 66 f9	jsr $f966			jsr 	OSDWritePhysical
 .f92d					_OSWaitKey:
 .f92d	20 ba f9	jsr $f9ba			jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
@@ -1042,25 +1042,25 @@
 ;******  Return to file: osrom.asm
 
 .fd38					MainPrompt:
->fd38	67						.byte 	_MPEnd-MainPrompt-1
->fd39	2a 2a 2a 20 4f 4c 49 4d				.text 	"*** OLIMEX Neo6502 RetroComputer ***",13,13
->fd41	45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72 6f
->fd51	43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
->fd5f	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
->fd67	42 75 69 6c 74 20
+>fd38	68						.byte 	_MPEnd-MainPrompt-1
+>fd39	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
+>fd41	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
+>fd51	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
+>fd60	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
+>fd68	42 75 69 6c 74 20
 
 ;******  Processing file: src/generated/time.incx
 
->fd6d	32 33 2f 30 36 2f 32 39			.text	"23/06/29"
+>fd6e	32 33 2f 30 36 2f 32 39			.text	"23/06/29"
 
 ;******  Return to file: osrom.asm
 
->fd75	0d 0d						.byte 	13,13
->fd77	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
->fd7f	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
->fd8f	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->fd9f	0d
-.fda0					_MPEnd:
+>fd76	0d 0d						.byte 	13,13
+>fd78	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
+>fd80	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
+>fd90	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>fda0	0d
+.fda1					_MPEnd:
 
 ;******  Processing file: src/generated/vectors.asmx
 

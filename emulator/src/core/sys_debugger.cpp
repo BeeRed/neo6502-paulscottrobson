@@ -112,14 +112,14 @@ void DBGXRender(int *address,int showDisplay) {
 		for (int y = 0;y < yc;y++) {
 			for (int x = 0;x < xc;x++) {
 				int ch = CPUReadMemory(0xC000+x + y * xc);
+				int flip = (ch & 0x80) ? 0xFF:0x00;
 				// ch = y * xc + x;
-				ch &= 0x7F;
 				if (ch != 0x20) {
 					rc2.w = xs;rc2.h = ys;					
 					for (int ypx = 0;ypx < 8;ypx++) {
 						rc2.x = r.x + x * 8 * xs;
 						rc2.y = r.y + (y*8+ypx) * ys;
-						int b = font8x8_basic[ch*8+ypx];
+						int b = font8x8_basic[(ch & 0x7F)*8+ypx] ^ flip;
 						while (b != 0) {
 							if (b & 0x80) GFXRectangle(&rc2,0xF80);
 							b = (b << 1) & 0xFF;
