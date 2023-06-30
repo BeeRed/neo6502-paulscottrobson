@@ -69,12 +69,13 @@ class RawTokenClass(object):
 		return  """
 			[[END]] [[SHIFT]] 	ELSE	THEN	TO 		STEP	LET 	PRINT	INPUT	CALL 	SYS 	
 			REM 	EXIT		, 		; 		: 		' 		)		POKE 	DOKE	READ 	DATA 	
+			[		]
 		"""
 
 	def getAltKeywordTokens(self):
 		return """
 			CLEAR 	NEW 		RUN 	STOP 	END 	ASSERT 	LIST 	SAVE 	LOAD	GOSUB 	GOTO
-			RETURN 	RESTORE		DIM	
+			RETURN 	RESTORE		DIM		
 		"""
 
 	def append(self,tokenData,topDown,descr):
