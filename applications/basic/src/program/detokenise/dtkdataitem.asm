@@ -30,7 +30,8 @@ _TOKDDIsString:
 		tax 
 _TOKDDOutput:
 		dex 								; are we complete
-		bmi 	_TOKDDEnd
+		cpx 	#255
+		beq 	_TOKDDEnd
 		jsr 	TOKDGet 					; get character and output it
 		jsr 	TOKDOutput
 		bra 	_TOKDDOutput
@@ -52,6 +53,7 @@ _TOKDDNotString:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;	 	30/06/23 		Test was using bmi for complete so didn't work for > 127.
 ;
 ; ************************************************************************************************
 
