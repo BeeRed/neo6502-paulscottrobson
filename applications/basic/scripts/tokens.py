@@ -69,7 +69,7 @@ class RawTokenClass(object):
 		return  """
 			[[END]] [[SHIFT]] 	ELSE	THEN	TO 		STEP	LET 	PRINT	INPUT	CALL 	SYS 	
 			REM 	EXIT		, 		; 		: 		' 		)		POKE 	DOKE	READ 	DATA 	
-			[		]
+			[		]			#
 		"""
 
 	def getAltKeywordTokens(self):
@@ -117,7 +117,7 @@ class RawTokenClass(object):
 		k = k.replace("+","PLUS").replace("-","MINUS").replace("*","ASTERISK").replace("/","SLASH").replace("=","EQUAL")
 		k = k.replace(">","GREATER").replace("<","LESS").replace("$","DOLLAR").replace("(","LPAREN").replace(")","RPAREN")
 		k = k.replace("[","LSQ").replace("]","RSQ").replace(",","COMMA").replace(":","COLON").replace(";","SEMICOLON")
-		k = k.replace("'","SQUOTE").replace("","").replace("","").replace("","").replace("","")
+		k = k.replace("'","SQUOTE").replace("#","HASH").replace("","").replace("","").replace("","")
 		#k = k.replace("","").replace("","").replace("","").replace("","").replace("","")
 		return k		
 

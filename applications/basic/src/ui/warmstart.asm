@@ -43,7 +43,8 @@ _WSSkip:
 		ldy 	#TOKGetCharacter >> 8
 		sec
 		jsr 	TOKTokenise		
-
+		bcs 	_WSSyntax
+		
 		lda 	TOKLineNumber 				; if line number zero
 		ora 	TOKLineNumber+1
 		bne 	_WSLineEdit
@@ -63,6 +64,9 @@ _WSLineEdit:
 _WSNoInsert:
 		jsr 	ClearCode 					; clear variables etc.
 		bra 	WarmStartNoPrompt
+		;
+_WSSyntax:
+		.error_syntax
 
 ; ************************************************************************************************
 ;

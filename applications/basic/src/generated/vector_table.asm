@@ -38,7 +38,7 @@ VectorTable:
 	.word	Command_DATA             ; $a1 DATA
 	.word	NotImplemented           ; $a2 [
 	.word	NotImplemented           ; $a3 ]
-	.word	NotImplemented           ; $a4 
+	.word	NotImplemented           ; $a4 #
 	.word	NotImplemented           ; $a5 
 	.word	NotImplemented           ; $a6 
 	.word	NotImplemented           ; $a7 
