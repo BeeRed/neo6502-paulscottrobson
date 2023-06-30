@@ -21,6 +21,7 @@ opcodes = """
 opcodes = opcodes.strip().split()
 
 mapping = [ None ] * 256
+mapping[0] = '???'
 
 multiplier = 5
 additive = 68

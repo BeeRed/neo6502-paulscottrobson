@@ -34,6 +34,7 @@ autoasm:prelim
 prelim:
 	make -C scripts
 	$(PYTHON) scripts$(S)errors.py en
+	$(PYTHON) scripts$(S)assembler.py >src/generated/asmhash.asm
 	$(CCOPY) $(BINDIR)ramdata.inc build
 	$(CCOPY) $(BINDIR)osvectors.inc build
 	$(CCOPY) $(BINDIR)libmathslib.asmlib build
