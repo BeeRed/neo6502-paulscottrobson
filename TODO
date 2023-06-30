@@ -3,7 +3,8 @@ TODO:
 	
 Fixes:
 	Assembler file system.
-	Long REM (>= 128?) doesn't work, double quote ????
+	Long REM example (>= 128?) doesn't work, double quote ????, encodes/decodes with python scripts
+	okay in memory (!)
 	$constant not listing correctly (requires space too)
 	Identifier Definitions in command line bug ?
 
