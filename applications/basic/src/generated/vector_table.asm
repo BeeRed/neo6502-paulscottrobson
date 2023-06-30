@@ -110,7 +110,7 @@ VectorTable:
 	.word	EXPUnaryRnd              ; $e9 RND(
 	.word	ExpUnaryRand             ; $ea RAND(
 	.word	EXPUnaryParenthesis      ; $eb (
-	.word	EXPUnaryNull             ; $ec $
+	.word	EXPUnaryNull             ; $ec &
 	.word	EXPUnaryInlineDec        ; $ed [[DECIMAL]]
 	.word	EXPUnaryInlineString     ; $ee [[STRING]]
 	.word	EXPCompareEqual          ; $ef =

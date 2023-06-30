@@ -48,7 +48,7 @@ class RawTokenClass(object):
 	def getUnaryOperators(self):
 		return """
 			[[STRING]] [[DECIMAL]]
-			$ 		(		RAND(	RND(	HEX$(	DEC(	FRAC(	INT(	TIME	EVENT(	INKEY$(
+			& 		(		RAND(	RND(	HEX$(	DEC(	FRAC(	INT(	TIME	EVENT(	INKEY$(
 			ASC(	CHR$(	SQR( 	LEN(  	ABS(  	SGN( 	VAL( 	STR$( 	MID$(	LEFT$( 	RIGHT$(
 			PEEK( 	DEEK(
 			"""
@@ -117,7 +117,7 @@ class RawTokenClass(object):
 		k = k.replace("+","PLUS").replace("-","MINUS").replace("*","ASTERISK").replace("/","SLASH").replace("=","EQUAL")
 		k = k.replace(">","GREATER").replace("<","LESS").replace("$","DOLLAR").replace("(","LPAREN").replace(")","RPAREN")
 		k = k.replace("[","LSQ").replace("]","RSQ").replace(",","COMMA").replace(":","COLON").replace(";","SEMICOLON")
-		k = k.replace("'","SQUOTE").replace("#","HASH").replace("","").replace("","").replace("","")
+		k = k.replace("'","SQUOTE").replace("#","HASH").replace("&","AMPERSAND").replace("","").replace("","")
 		#k = k.replace("","").replace("","").replace("","").replace("","").replace("","")
 		return k		
 

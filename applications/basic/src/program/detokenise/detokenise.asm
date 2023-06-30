@@ -35,6 +35,8 @@ _TOKDLoop:
 		cmp 	#PR_LSQLSQDECIMALRSQRSQ
 		beq 	_TOKDDataItem
 		;
+		cmp 	#PR_AMPERSAND 				; & is a special case.
+		beq 	_TOKAmpersand
 		cmp 	#0 							; is it a token 80-FF
 		bpl 	_TOKDNotToken
 		jsr 	TOKDToken 					; token to text.		
@@ -48,6 +50,15 @@ _TOKDNotToken:
 		;
 _TOKDNotIdentifier: 						; 00-3F Base 10 Integer
 		ldy 	#10 						
+		jsr 	TOKDInteger
+		bra 	_TOKDLoop
+		;
+_TOKAmpersand:
+		jsr 	TOKDSpaceLastAlpha  		; space if last alpha
+		lda 	#"&" 						; output hex marker
+		jsr 	TOKDOutput
+		jsr 	TOKDGet 					; get first char of integer
+		ldy 	#16 						; expand in base 16
 		jsr 	TOKDInteger
 		bra 	_TOKDLoop
 

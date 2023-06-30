@@ -56,7 +56,7 @@ _TOKElement:
 		bra 	_TOKMainLoop
 _TOKNotDigit:
 		stz 	TOKIsFirstElement 			; clear first element flag
-		cmp 	#"$"						; check for hexadecimal ?
+		cmp 	#"&"						; check for hexadecimal ?
 		bne 	_TOKNotHex
 		jsr 	TOKTokeniseHexadecimal 
 		bcs 	_TOKFail

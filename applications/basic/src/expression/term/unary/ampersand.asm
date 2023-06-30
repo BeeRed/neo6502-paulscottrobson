@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		dollar.asm
-;		Purpose:	Dollar pass through
+;		Name:		ampersand.asm
+;		Purpose:	Ampersand pass through
 ;		Created:	26th May 2023
 ;		Reviewed: 	26th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -12,22 +12,22 @@
 
 ; ************************************************************************************************
 ;
-;								Dollar pass through for hex
+;								Ampersand pass through for hex
 ;
 ; ************************************************************************************************
 
 		.section code	
 
-EXPUnaryNull: ;; [$]
+EXPUnaryNull: ;; [&]
 		jsr 	EXPTermValueR0
 		rts
 
 		.send code
 
-;: [$]
-; $ is used as a hexadecimal marker, so if you have $7FFE in your code it is the same as the
+;: [&]
+; & is used as a hexadecimal marker, so if you have &7FFE in your code it is the same as the
 ; constant 32766. This can improve readability.\
-; { print $2a } prints 42
+; { print &2a } prints 42
 				
 ; ************************************************************************************************
 ;
@@ -37,6 +37,7 @@ EXPUnaryNull: ;; [$]
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		30/06/23 		Changed from $ to ampersand, clarity with string marker.
 ;
 ; ************************************************************************************************
 

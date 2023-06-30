@@ -40,10 +40,10 @@ class TokeniserWorker(object):
 			self.appendConstant(int(m.group(1)))
 			return m.group(2)
 		#
-		if s.startswith("$"):													# hex constant
-			m = re.match("^\\$([0-9A-Fa-f]*)(.*)",s)							
+		if s.startswith("&"):													# hex constant
+			m = re.match("^\\&([0-9A-Fa-f]*)(.*)",s)							
 			assert m is not None
-			self.appendToken("$")
+			self.appendToken("&")
 			self.appendConstant(0 if m.group(1) == "" else int(m.group(1),16))
 			return m.group(2)
 		#
@@ -105,7 +105,7 @@ class TokeniserWorker(object):
 	def appendToken(self,t):
 		id = self.tokenSet.find(t)
 		if id >= 0x100:
-			self.tokens.append(id >> 8	)
+			self.tokens.append(id >> 8)
 		self.tokens.append(id & 0xFF)
 	#
 	#		Append tokens for constant

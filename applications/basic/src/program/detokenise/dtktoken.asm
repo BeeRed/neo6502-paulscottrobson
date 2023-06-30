@@ -69,13 +69,14 @@ _TOKDExit:
 
 TOKDSpacing:
 		jsr 	TOKIsIdentifierElement		; next character alphanumeric
-		bcc 	_TOKDSExit
+		bcc 	TOKDSExit
+TOKDSpaceLastAlpha:		
 		lda 	TOKLastCharacter			; and last character also alphanumeric
 		jsr 	TOKIsIdentifierElement
-		bcc 	_TOKDSExit
+		bcc 	TOKDSExit
 		lda 	#" " 						; we need a space.
 		jsr 	TOKDOutput
-_TOKDSExit:
+TOKDSExit:
 		rts		
 		.send code
 		

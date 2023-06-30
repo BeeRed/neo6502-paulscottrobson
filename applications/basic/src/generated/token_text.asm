@@ -110,7 +110,7 @@ StandardTokens:
 	.byte	$04,$52,$4e,$44,$28                     	; $e9 rnd(
 	.byte	$05,$52,$41,$4e,$44,$28                 	; $ea rand(
 	.byte	$01,$28                                 	; $eb (
-	.byte	$01,$24                                 	; $ec $
+	.byte	$01,$26                                 	; $ec &
 	.byte	$00                                     	; $ed [[decimal]]
 	.byte	$00                                     	; $ee [[string]]
 	.byte	$01,$3d                                 	; $ef =

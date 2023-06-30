@@ -3,7 +3,6 @@ TODO:
 	
 Fixes:
 	Assembler file system.
-	$constant not listing correctly (requires space too)
 
 	.label doesn't work tokenising (is variable ???)
 		- fix in python tokeniser
@@ -11,6 +10,8 @@ Fixes:
 		
 	Identifier Definitions in command line bug ?
 
+	ListPgm doesn't do shift.
+	
 Outstanding (Implementation specific):
 	EVENT/TIME (when timer available)
 	LOAD/SAVE (when flash r/w available)

@@ -42,7 +42,7 @@ _TTHNotAlpha:
 		sta 	IFR0+IM0		
 		bra 	_TTHLoop
 _TTHDone:
-		lda 	#PR_DOLLAR 					; write $ function out
+		lda 	#PR_AMPERSAND 				; write & function out
 		jsr 	TOKWriteA
 		jsr 	TOKTokeniseConstant 		; write integer out.
 		clc
