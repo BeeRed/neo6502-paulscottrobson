@@ -4,7 +4,8 @@ TODO:
 Fixes:
 	Assembler file system.
 
-	.label doesn't work tokenising (is variable ???)
+	.label doesn't work tokenising (is variable ???) 
+		- maybe alternate @label
 		- fix in python tokeniser
 		- fix in source
 		

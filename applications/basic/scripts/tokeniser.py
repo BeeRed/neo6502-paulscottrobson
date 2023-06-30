@@ -117,18 +117,20 @@ class TokeniserWorker(object):
 
 if __name__ == '__main__':
 	tw = TokeniserWorker()
-	s = '42 $10A "hello" .104 < <= + << $'
+	s = '42 &10A "hello" .104 < <= + << &'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	s = 'asc( list chr$( inkey$('
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	s = ' az09._ d$ egg( fred$('
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
-	s = '12 522 $7ffc "Hello"5  <= < <> n1 n1$ na1( let if n1$( n1$ :"Bye'
+	s = '12 522 &7ffc "Hello"5  <= < <> n1 n1$ na1( let if n1$( n1$ :"Bye'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	s = '.522'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))	
 	s = 'print len("Hello")'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	s = 'run print save'
+	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
+	s = '.cat .137'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	
