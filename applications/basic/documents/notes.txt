@@ -3,7 +3,7 @@ Tokens
 
 Constant 00-3F repeat-shifts
 
-Identifier markers [a-z0-9_.] (38 characters)
+Identifier markers [a-z0-9_] (38 characters)
 		40-65
 
 Type markers (default # $ #( $() can be 7C-7F

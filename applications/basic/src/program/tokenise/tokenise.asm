@@ -53,7 +53,13 @@ _TOKElement:
 		jsr 	TOKTokeniseInteger 			; get integer
 		bcs 	_TOKFail 					; did it fail ?
 		stz 	TOKIsFirstElement 			; clear first element flag
+		jsr 	TOKGet 						; what follows ?
+		cmp 	#"."						; is it decimal e.g. .012345 etc.
+		bne 	_TOKMainLoop
+		jsr 	TOKTokeniseDecimals
+		bcs 	_TOKFail
 		bra 	_TOKMainLoop
+
 _TOKNotDigit:
 		stz 	TOKIsFirstElement 			; clear first element flag
 		cmp 	#"&"						; check for hexadecimal ?
@@ -61,13 +67,8 @@ _TOKNotDigit:
 		jsr 	TOKTokeniseHexadecimal 
 		bcs 	_TOKFail
 		bra 	_TOKMainLoop
+
 _TOKNotHex:
-		cmp 	#"."						; is it decimal e.g. .012345 etc.
-		bne 	_TOKNotDecimal
-		jsr 	TOKTokeniseDecimals
-		bcs 	_TOKFail
-		bra 	_TOKMainLoop
-_TOKNotDecimal:
 		cmp 	#'"'						; quoted string ?
 		bne 	_TOKNotString
 		jsr 	TOKTokeniseString
@@ -139,6 +140,7 @@ TOKIsFirstElement:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		01/07/23 		[[DECIMAL]] can only follow a number (label clarification)
 ;
 ; ************************************************************************************************
 

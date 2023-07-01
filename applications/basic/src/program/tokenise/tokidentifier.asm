@@ -98,10 +98,8 @@ _TOKIVExit:
 ; ************************************************************************************************
 
 TOKTranslateIdentifier:
-		cmp 	#"." 						; . is 0x64
+		cmp 	#"_" 						; _ is 0x64
 		beq 	_TTI64
-		cmp 	#"_"						; _ is 0x65
-		beq 	_TTI65
 		sec
 		sbc 	#"A" 						; map A-Z onto 0-25
 		bpl 	_TTIExit
@@ -111,8 +109,6 @@ _TTIExit:
 		ora 	#$40 						; correct range.
 		rts
 _TTI64:	lda 	#$64		
-		rts
-_TTI65:	lda 	#$65
 		rts
 
 ; ************************************************************************************************
@@ -167,6 +163,7 @@ _TOKDCEndComment:
 ;		==== 			=====
 ;		27/06/23 		TOKDoComment passes the token to use (' or REM) in in A
 ;		28/06/23 		Allows shifted tokens.
+; 		01/07/23 		. is no longer part of an identifier, it's a token.
 ;
 ; ************************************************************************************************
 

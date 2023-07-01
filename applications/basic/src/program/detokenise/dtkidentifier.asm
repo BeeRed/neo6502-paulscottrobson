@@ -23,11 +23,8 @@ TOKDIdentifier:
 		sty 	TOKDIFirstChar
 _TOKDLoop:
 		tay 								; token in Y
-		lda 	#'.' 						; handle special cases.
+		lda 	#'_' 						; handle _
 		cpy 	#$64
-		beq 	_TOKDIOutput
-		lda 	#'_'
-		cpy 	#$65
 		beq 	_TOKDIOutput
 		tya 								; handle a-z
 		clc
@@ -79,6 +76,7 @@ TOKDIFirstChar:
 ;
 ;		Date			Notes
 ;		==== 			=====
+; 		01/07/23 		. is no longer part of an identifier, it's a token.
 ;
 ; ************************************************************************************************
 

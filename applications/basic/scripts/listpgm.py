@@ -90,7 +90,7 @@ class ProgramLister(object):
 		s = ""
 		while self.code[p] < 0x7C:
 			c = self.code[p]
-			s += "abcdefghijklmnopqrstuvwxyz0123456789._"[c-0x40]
+			s += "abcdefghijklmnopqrstuvwxyz0123456789_"[c-0x40]
 			p += 1
 		if self.code[p] == 0x7D or self.code[p] == 0x7F:
 			s += "$"

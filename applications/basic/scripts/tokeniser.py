@@ -38,7 +38,14 @@ class TokeniserWorker(object):
 		m = re.match("^(\\d+)(.*)$",s)											# decimal constant.
 		if m is not None:
 			self.appendConstant(int(m.group(1)))
-			return m.group(2)
+			s = m.group(2)
+			if s.startswith('.') and s[1] >= '0' and s[1] <= '9':				# decimal ?
+				m = re.match("^\\.(\\d+)(.*)$",s)
+				self.appendToken("[[DECIMAL]]")
+				self.tokens.append(len(m.group(1)))
+				self.tokens += [ord(x) for x in m.group(1)]
+				return m.group(2)
+			return s
 		#
 		if s.startswith("&"):													# hex constant
 			m = re.match("^\\&([0-9A-Fa-f]*)(.*)",s)							
@@ -54,13 +61,6 @@ class TokeniserWorker(object):
 			self.tokens += [len(txt)] + txt
 			return s[p+2:]
 		#
-		if s.startswith('.') and s[1] >= '0' and s[1] <= '9':					# decimal.
-			m = re.match("^\\.(\\d+)(.*)$",s)
-			self.appendToken("[[DECIMAL]]")
-			self.tokens.append(len(m.group(1)))
-			self.tokens += [ord(x) for x in m.group(1)]
-			return m.group(2)
-		#																		# punctuation
 		c = s[0].upper()
 		if c <= "A" or c >= "Z":												
 			if len(s) > 1:
@@ -73,7 +73,7 @@ class TokeniserWorker(object):
 				self.tokens.append(id)
 				return s[1:]
 		#
-		m = re.match("^([A-Za-z][A-Z\\.\\_a-z0-9]*)(\\$?)(\\(?)(.*)$",s)		# identifier or text token can end in $ or (, not both
+		m = re.match("^([A-Za-z][A-Z\\_a-z0-9]*)(\\$?)(\\(?)(.*)$",s)		# identifier or text token can end in $ or (, not both
 		if m is not None:
 			ident = m.group(1).upper()+m.group(2)+m.group(3)
 			id = self.tokenSet.find(ident) 										# token check
@@ -85,7 +85,7 @@ class TokeniserWorker(object):
 				self.appendIdentifier(m.group(1))
 				self.tokens.append(trailerToken)
 			return m.group(4)
-			
+
 		assert False,"Syntax error "+s
 	#
 	#		Append identifier, mapped on to 40-65 (A-Z 0-9 ._)
@@ -96,10 +96,8 @@ class TokeniserWorker(object):
 				self.tokens.append(ord(c)-ord('A')+0x40)
 			if c >= "0" and c <= "9":
 				self.tokens.append(int(c)+0x5A)
-			if c == ".":
-				self.tokens.append(0x64)
 			if c == "_":
-				self.tokens.append(0x65)
+				self.tokens.append(0x64)
 	#
 	#		Append token for keyword
 	#
@@ -122,7 +120,7 @@ if __name__ == '__main__':
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	s = 'asc( list chr$( inkey$('
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
-	s = ' az09._ d$ egg( fred$('
+	s = ' az09_ d$ egg( fred$('
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	s = '12 522 &7ffc "Hello"5  <= < <> n1 n1$ na1( let if n1$( n1$ :"Bye'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
@@ -132,6 +130,6 @@ if __name__ == '__main__':
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	s = 'run print save'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
-	s = '.cat .137 .hello'
+	s = '.cat .137 .hello a.b'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	

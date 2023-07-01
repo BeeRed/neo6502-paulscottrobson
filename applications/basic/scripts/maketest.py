@@ -31,10 +31,10 @@ class ProgramTest(object):
 		self.tokens = RawTokenClass()
 		base = random.randint(1,300)
 		step = random.randint(1,15)
-		for i in range(0,scalar * 10):
+		for i in range(0,self.scalar * 10):
 			self.lines.append(base + i * step)	
 		self.identifiers = []
-		for i in range(0,scalar * 10):
+		for i in range(0,self.scalar * 10):
 			self.identifiers.append(self.createIdentifier())
 
 	#
@@ -69,6 +69,7 @@ class ProgramTest(object):
 	#
 	def createElement(self):
 		n = random.randint(0,7)
+		n = 4
 		if n == 0:
 			return str(self.getLineNumber())
 		elif n == 1:
@@ -82,7 +83,7 @@ class ProgramTest(object):
 			while self.tokens.getToken(n) is None:
 				n = random.randint(0x80,0xFF)
 			t = self.tokens.getToken(n)
-			return self.createElement() if t.startswith("[") or t == "'" or t == "REM" or t == "'" else t
+			return self.createElement() if t.startswith("[") or t == "'" or t == "REM" or t == "'" or t == "." else t
 		elif n == 5:
 			return self.identifiers[random.randint(0,len(self.identifiers))-1]
 		else:
@@ -123,6 +124,6 @@ class ProgramTest(object):
 		h.close()
 
 if __name__ == '__main__':
-	pt = ProgramTest(12)
+	pt = ProgramTest(1)
 	pt.createLines()
 	pt.export()

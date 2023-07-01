@@ -61,8 +61,6 @@ TOKFail:
 ; ************************************************************************************************
 
 TOKIsIdentifierElement:
-		cmp 	#"." 						; true if . or _
-		beq 	TOKSucceed
 		cmp 	#"_"
 		beq 	TOKSucceed 					; else fall through to alphanumeric
 
@@ -117,6 +115,7 @@ TOKIsHexadecimal:
 ;
 ;		Date			Notes
 ;		==== 			=====
+; 		01/07/23 		. is no longer part of an identifier, it's a token.
 ;
 ; ************************************************************************************************
 

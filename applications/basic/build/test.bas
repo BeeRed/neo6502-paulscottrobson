@@ -1,3 +1,3 @@
-.hello 
-print 5.123
-list
+.abc
+.123
+0.123
