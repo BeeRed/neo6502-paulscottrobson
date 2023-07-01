@@ -39,8 +39,6 @@ rTemp1:
 iTemp0:										; temporary register for maths library, zero page.
 		.fill 	2
 
-
-
 		.dsection zeropage
 
 ; ************************************************************************************************

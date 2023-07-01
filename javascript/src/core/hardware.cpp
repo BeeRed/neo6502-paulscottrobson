@@ -22,6 +22,7 @@ static int scanKeyQueueSize;
 
 void HWReset(void) {
 	scanKeyQueueSize = 0;
+	HWFlashInitialise();
 }
 
 // *******************************************************************************************************************************
