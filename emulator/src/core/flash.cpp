@@ -54,7 +54,7 @@ int HWFlashCommand(int command,int data) {
 			break;
 		case HWF_OPENREAD: 		 						// Open sector to read
 		case HWF_OPENWRITE:  		 					// Open sector to write
-			flashHandler = fopen("storage/flash.image",(command == HWF_OPENWRITE) ? "rb":"rb+");
+			flashHandler = fopen("storage/flash.image",(command == HWF_OPENREAD) ? "rb":"rb+");
 			fseek(flashHandler,data * sectorSize,SEEK_SET);
 			break;
 		case HWF_READ: 				 					// Read one byte

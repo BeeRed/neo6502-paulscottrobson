@@ -49,6 +49,7 @@ _FSICalcSS:
 		bne 	_FSICalcSS
 
 		jsr 	FSHEndCommand		
+
 		rts
 		
 		.send code
