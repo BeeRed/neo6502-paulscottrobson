@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -D "BASICLOAD=\$1000" -D "BASICCODE=\$3800" -D "ENDMEMORY=\$C000" -D STACKPAGES=2 -o build/basic.bin basic.asm
-; Sat Jul  1 12:41:13 2023
+; Sat Jul  1 16:00:20 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -108,6 +108,25 @@
 .100a	4c 08 14	jmp $1408			jmp 	Command_NEW 				; most just start with this
 
 ;******  Processing file: include.files
+
+
+;******  Processing file: src/assembler/assembler.inc
+
+=$80					AM_ZPAGE 		= $80 						; bit 7 set for ZP/8 bit operands only
+="I"					AM_IMPLIED 		= 'I'						; none
+=$a3					AM_IMMEDIATE 	= ('#'|AM_ZPAGE)			; immediate
+="A"					AM_ABSOLUTE 	= 'A' 			 			; lda nnnn
+="X"					AM_ABSOLUTEX 	= 'X' 						; lda nnnn,x
+="Y"					AM_ABSOLUTEY 	= 'Y' 						; lda nnnn.y
+="I"					AM_ABSOLUTEIX	= 'I' 						; jmp (nnnn,x) [only instance !]
+=$c1					AM_ZERO 	= ('A'|AM_ZPAGE) 				; lda nn
+=$d8					AM_ZEROX 	= ('X'|AM_ZPAGE)				; lda nn,x
+=$d9					AM_ZEROY 	= ('Y'|AM_ZPAGE)				; lda nn,y
+=$d0					AM_IND 		= ('P'|AM_ZPAGE) 				; lda (nn)
+=$d1					AM_INDX		= ('Q'|AM_ZPAGE) 				; lda (nn,x)
+=$d2					AM_INDY		= ('R'|AM_ZPAGE) 				; lda (nn,y)
+
+;******  Return to file: include.files
 
 
 ;******  Processing file: src/data.inc

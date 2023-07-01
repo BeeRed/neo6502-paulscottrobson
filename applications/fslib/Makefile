@@ -27,4 +27,4 @@ all: testfs
 
 testfs:
 	cd python ; $(PYTHON) makedemo.py			
-	$(CCOPY) python$(S)flash.image ..$(S)basic
+	$(CCOPY) python$(S)flash.image ..$(S)basic$(S)storage

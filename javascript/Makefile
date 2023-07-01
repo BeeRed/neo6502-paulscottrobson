@@ -27,10 +27,10 @@ FLAGS = -DINCLUDE_OS_SUPPORT -I. -I framework -I./cpu -I./bin -I include -O2 \
 all: app
 
 app:
-	make -B -C ../applications/mos
-	make -B -C ../applications/basic
+	make -B -C ../applications
 	cp -R ../emulator/src ../emulator/include ../emulator/framework ../emulator/6502 ../emulator/storage . -R
 	cp ../bin/osrom.bin storage
+	cp ../applications/basic/storage/flash.image storage
 	cp ../applications/basic/build/basic.bin storage
 	cp ../bin/basic.html .
 	emcc $(SOURCES) -D EMSCRIPTEN -D LINUX -D NO_DEBUGGER $(FLAGS)  -o neo.html
