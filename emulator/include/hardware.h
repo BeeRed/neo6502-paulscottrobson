@@ -18,6 +18,7 @@ void HWQueueKeyboardEvent(int scanCode);
 
 int HWReadScancodeQueue(void);
 
+void HWFlashInitialise(void);
 int HWFlashCommand(int command,int data);
 
 #define HWF_ERASE  			(0x00)		 			// Erase sector.

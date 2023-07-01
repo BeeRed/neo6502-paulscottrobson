@@ -99,8 +99,23 @@ OSEditBuffer: 								; text buffer.
 
 		.fill 	32
 		.align 	256
-		
 		.dsection storage
+
+; ************************************************************************************************
+;
+;											WWFS Usage
+;
+; ************************************************************************************************
+
+		.section storage
+sectorSize:									; sector size bytes, read at initialise.
+		.fill 	2
+sectorCount:								; sector count bytes, read at initialise.
+		.fill 	2
+currentSector: 								; current sector.
+		.fill 	2		
+		.send storage				
+
 
 debug 	.macro
 		.byte 	$DB

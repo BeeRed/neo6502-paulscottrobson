@@ -23,6 +23,7 @@
 
 		.section code
 Boot:	jsr 	OSInitialise 				; set everything up.
+		jsr 	FSInitialise 				; initialise the WWFS
 		ldx 	#MainPrompt & $FF 			; display the boot prompt
 		ldy 	#MainPrompt >> 8
 		jsr 	OSWriteString
@@ -39,7 +40,8 @@ NoInt:
 		rti
 
 		.include "include.files"
-
+		.include "build/libwwfslib.asmlib"
+		
 ; ************************************************************************************************
 ;
 ;										Main prompt

@@ -1,6 +1,11 @@
 TODO:
 	Complete Code Reading (down to 58 files).
 	Assembler file system.
+		Directory
+		Read
+		Write
+	Python script to rip code out of memory.dump		
+	Star Trek
 	Inline assembler
 	
 Fixes:
