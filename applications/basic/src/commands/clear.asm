@@ -25,6 +25,7 @@ Command_CLEAR:	;; [clear]
 		beq 	_CLNoParam
 		cmp 	#PR_LSQLSQENDRSQRSQ 
 		beq 	_CLNoParam
+		
 		jsr 	EXPEvalInteger16 			; address for CLEAR
 		lda 	IFR0+IM1 					; high byte
 		cmp 	#ENDMEMORY >> 8 			; too high
