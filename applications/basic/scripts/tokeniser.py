@@ -54,7 +54,7 @@ class TokeniserWorker(object):
 			self.tokens += [len(txt)] + txt
 			return s[p+2:]
 		#
-		if s.startswith('.'):													# decimal.
+		if s.startswith('.') and s[1] >= '0' and s[1] <= '9':					# decimal.
 			m = re.match("^\\.(\\d+)(.*)$",s)
 			self.appendToken("[[DECIMAL]]")
 			self.tokens.append(len(m.group(1)))
@@ -85,6 +85,7 @@ class TokeniserWorker(object):
 				self.appendIdentifier(m.group(1))
 				self.tokens.append(trailerToken)
 			return m.group(4)
+			
 		assert False,"Syntax error "+s
 	#
 	#		Append identifier, mapped on to 40-65 (A-Z 0-9 ._)
@@ -131,6 +132,6 @@ if __name__ == '__main__':
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	s = 'run print save'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
-	s = '.cat .137'
+	s = '.cat .137 .hello'
 	print(s,"::",",".join(["${0:02x}".format(n) for n in tw.tokeniseLine(s)]))
 	

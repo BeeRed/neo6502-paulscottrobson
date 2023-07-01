@@ -39,7 +39,7 @@ StandardTokens:
 	.byte	$01,$5b                                 	; $a2 [
 	.byte	$01,$5d                                 	; $a3 ]
 	.byte	$01,$23                                 	; $a4 #
-	.byte	0											; $a5
+	.byte	$01,$2e                                 	; $a5 .
 	.byte	0											; $a6
 	.byte	0											; $a7
 	.byte	0											; $a8

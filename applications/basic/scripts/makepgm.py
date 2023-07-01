@@ -64,7 +64,7 @@ class Application(object):
 			else:
 				for s in open(f).readlines():
 					if not s.startswith("#") and s.strip() != "":
-						if s.startswith("."):
+						if s.startswith("%"):
 							m = re.match("^\\.(\\d+)(.*)$",s)
 							assert m is not None,"Can't process "+s
 							lineNumber = int(m.group(1))

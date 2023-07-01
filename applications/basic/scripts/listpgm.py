@@ -68,6 +68,9 @@ class ProgramLister(object):
 				length -= 1
 			self.add(s+'"')
 			return p
+		elif t == self.rawtokens.find("[[SHIFT]]"):
+			self.add(self.rawtokens.getToken((self.code[p] << 8) | self.code[p+1]))
+			return p+2
 		elif t == self.rawtokens.find("[[DECIMAL]]"):
 			s = "".join([chr(self.code[p+2+i]) for i in range(0,self.code[p+1])])
 			self.add("."+s)

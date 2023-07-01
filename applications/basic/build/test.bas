@@ -1,3 +1,3 @@
-print &2a
-print &7ffe
+.hello 
+print 5.123
 list
