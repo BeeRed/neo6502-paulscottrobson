@@ -12,7 +12,7 @@
 
 		.include "ramdata.inc"
 
-		* = $F800 							; very small 2k monitor ROM
+		* = $F000 							; very small 2k monitor ROM
 		.dsection code
 
 ; ************************************************************************************************

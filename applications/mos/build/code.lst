@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Sun Jul  2 20:47:57 2023
+; Sun Jul  2 20:52:07 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -99,768 +99,768 @@
 
 ;******  Return to file: osrom.asm
 
-.f800	20 6f fd	jsr $fd6f	Boot:	jsr 	OSInitialise 				; set everything up.
-.f803	20 b7 fe	jsr $feb7			jsr 	FSInitialise 				; initialise the WWFS
-.f806	a2 1d		ldx #$1d			ldx 	#MainPrompt & $FF 			; display the boot prompt
-.f808	a0 ff		ldy #$ff			ldy 	#MainPrompt >> 8
-.f80a	20 58 f9	jsr $f958			jsr 	OSWriteString
-.f80d	4c 00 10	jmp $1000			jmp 	$1000 						; and run from $1000 onwards
-.f810					NoInt:
-.f810	40		rti				rti
->f811	17 f8				setup:	.word 	name
->f813	00 50						.word 	$5000
->f815	00 00						.word 	0
->f817	09 74 65 78 74 33 2e 62		name:	.text 	9,"text3.bas"
->f81f	61 73
+.f000	20 6f f5	jsr $f56f	Boot:	jsr 	OSInitialise 				; set everything up.
+.f003	20 b7 f6	jsr $f6b7			jsr 	FSInitialise 				; initialise the WWFS
+.f006	a2 1d		ldx #$1d			ldx 	#MainPrompt & $FF 			; display the boot prompt
+.f008	a0 f7		ldy #$f7			ldy 	#MainPrompt >> 8
+.f00a	20 58 f1	jsr $f158			jsr 	OSWriteString
+.f00d	4c 00 10	jmp $1000			jmp 	$1000 						; and run from $1000 onwards
+.f010					NoInt:
+.f010	40		rti				rti
+>f011	17 f0				setup:	.word 	name
+>f013	00 50						.word 	$5000
+>f015	00 00						.word 	0
+>f017	09 74 65 78 74 33 2e 62		name:	.text 	9,"text3.bas"
+>f01f	61 73
 
 ;******  Processing file: include.files
 
 
 ;******  Processing file: src/basicio/charout.asm
 
-.f821					OSWriteScreen:
-.f821	48		pha				pha 								; save AXY
-.f822	da		phx				phx
-.f823	5a		phy				phy
-.f824	c9 20		cmp #$20			cmp 	#32 						; standard character $20,$FF (we allow for cyrillic possibility here)
-.f826	b0 0c		bcs $f834			bcs 	_OSWriteDirect
-.f828	c9 10		cmp #$10			cmp 	#16 						; 16-32 for set colours, reserved - this copies fgr -> bgr, updates fgr.
-.f82a	b0 0e		bcs $f83a			bcs 	_OSWriteDeviceExit
-.f82c	0a		asl a				asl 	a 							; make to an offset in vector table
-.f82d	aa		tax				tax
-.f82e	4a		lsr a				lsr 	a
-.f82f	20 3f f8	jsr $f83f			jsr 	_OSCallVectorCode 			; call that code
-.f832	80 06		bra $f83a			bra 	_OSWriteDeviceExit 			; and leave
-.f834					_OSWriteDirect:
-.f834	20 7d f9	jsr $f97d			jsr 	OSDWritePhysical 			; $20-$FF write to screen
-.f837	20 b9 f8	jsr $f8b9			jsr 	_OSCursorAdvance 			; and forwards.
-.f83a					_OSWriteDeviceExit:
-.f83a	7a		ply				ply
-.f83b	fa		plx				plx
-.f83c	68		pla				pla
-.f83d	18		clc				clc 								; written fine.
-.f83e	60		rts				rts
-.f83f					_OSCallVectorCode:
-.f83f	7c 43 f8	jmp ($f843,x)			jmp 	(_OSWDVector,x)
-.f842					_OSWNoFunction:
-.f842	60		rts				rts
-.f843					_OSWDVector:
->f843	42 f8						.word 	_OSWNoFunction 				; $00 	No operation
->f845	7c f8						.word 	_OSCursorLeft 				; $01 	Left 		(Ctrl-A)
->f847	04 f9						.word 	OSHomeCursor 				; $02 	Home Cursor (Ctrl-B)
->f849	9d f8						.word 	_OSCursorDown 				; $03 	Down 		(Ctrl-C)
->f84b	8e f8						.word 	_OSCursorRight 				; $04 	Right 		(Ctrl-D)
->f84d	42 f8						.word 	_OSWNoFunction				; $05
->f84f	ac f8						.word 	_OSCursorUp 				; $06	Up 			(Ctrl-F)
->f851	42 f8						.word 	_OSWNoFunction 				; $07 	Delete 		(Del)
->f853	6e f8						.word 	_OSBackspace				; $08 	Backspace 	(Backspace)
->f855	63 f8						.word 	_OSWHTab 					; $09	Tab 		(Tab stop)
->f857	42 f8						.word 	_OSWNoFunction 				; $0A
->f859	42 f8						.word 	_OSWNoFunction 				; $0B
->f85b	f5 f8						.word 	_OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
->f85d	c6 f8						.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
->f85f	42 f8						.word 	_OSWNoFunction 				; $0E
->f861	42 f8						.word 	_OSWNoFunction 				; $0F
-.f863					_OSWHTab:
-.f863	20 8e f8	jsr $f88e			jsr 	_OSCursorRight
-.f866	ad 20 02	lda $0220			lda 	OSXPos
-.f869	29 07		and #$07			and 	#7
-.f86b	d0 f6		bne $f863			bne 	_OSWHTab
-.f86d	60		rts				rts
-.f86e					_OSBackspace:
-.f86e	ad 20 02	lda $0220			lda 	OSXPos 						; left side already ?
-.f871	f0 1a		beq $f88d			beq 	_OSCLExit
-.f873	ce 20 02	dec $0220			dec 	OSXPos 						; go left one.
-.f876	a9 20		lda #$20			lda 	#' ' 						; ovewrite the character there.
-.f878	20 7d f9	jsr $f97d			jsr 	OSDWritePhysical
-.f87b	60		rts				rts
-.f87c					_OSCursorLeft:
-.f87c	ad 20 02	lda $0220			lda 	OSXPos 						; left side
-.f87f	ce 20 02	dec $0220			dec 	OSXPos 						; cursor left
-.f882	c9 00		cmp #$00			cmp 	#0 							; if at left side
-.f884	d0 07		bne $f88d			bne 	_OSCLExit 					; no, exit
-.f886	ad 22 02	lda $0222			lda 	OSXSize 					; yes, shift to right.
-.f889	3a		dec a				dec 	a
-.f88a	8d 20 02	sta $0220			sta 	OSXPos
-.f88d					_OSCLExit:
-.f88d	60		rts				rts
-.f88e					_OSCursorRight:
-.f88e	ee 20 02	inc $0220			inc 	OSXPos 						; go right ?
-.f891	ad 20 02	lda $0220			lda 	OSXPos 						; reached right side ?
-.f894	cd 22 02	cmp $0222			cmp 	OSXSize
-.f897	d0 f4		bne $f88d			bne 	_OSCLExit 					; no, then exit
-.f899	9c 20 02	stz $0220			stz 	OSXPos 						; back to left
-.f89c	60		rts				rts
-.f89d					_OSCursorDown:
-.f89d	ee 21 02	inc $0221			inc 	OSYPos 						; down one line.
-.f8a0	ad 21 02	lda $0221			lda 	OSYPos 						; reached bottom
-.f8a3	cd 23 02	cmp $0223			cmp 	OSYSize
-.f8a6	90 03		bcc $f8ab			bcc 	_OSCDExit 					; no, we're done.
-.f8a8	9c 21 02	stz $0221			stz 	OSYPos 						; position back to top line
-.f8ab					_OSCDExit:
-.f8ab	60		rts				rts
-.f8ac					_OSCursorUp:
-.f8ac	ce 21 02	dec $0221			dec 	OSYPos 						; up one line ?
-.f8af	10 07		bpl $f8b8			bpl 	_OSCUExit 					; exit if still on screen
-.f8b1	ad 23 02	lda $0223			lda 	OSYSize 					; back to top
-.f8b4	3a		dec a				dec 	a
-.f8b5	8d 21 02	sta $0221			sta 	OSYPos
-.f8b8					_OSCUExit:
-.f8b8	60		rts				rts
-.f8b9					_OSCursorAdvance:
-.f8b9	ee 20 02	inc $0220			inc 	OSXPos 						; try moving right
-.f8bc	ad 20 02	lda $0220			lda 	OSXPos						; reached the write.
-.f8bf	cd 22 02	cmp $0222			cmp 	OSXSize
-.f8c2	d0 30		bne $f8f4			bne 	_OSLCExit 	 				; exit if not at the RHS.
-.f8c4	a2 00		ldx #$00			ldx 	#0 							; we want to zero any consequent CRs.
-.f8c6					_OSNewLine:
-.f8c6	da		phx				phx 								; save CR/char flag.
-.f8c7	9c 20 02	stz $0220			stz 	OSXPos 						; left side
-.f8ca	ee 21 02	inc $0221			inc 	OSYPos 						; down one.
-.f8cd	ad 21 02	lda $0221			lda 	OSYPos 						; reached the bottom
-.f8d0	cd 23 02	cmp $0223			cmp 	OSYSize
-.f8d3	90 18		bcc $f8ed			bcc 	_OSLCUpdateCR				; no, update CR flag and exit
-.f8d5	ad 23 02	lda $0223			lda 	OSYSize 					; bottom of screen
-.f8d8	3a		dec a				dec 	a
-.f8d9	8d 21 02	sta $0221			sta 	OSYPos 						; back up one line
-.f8dc	20 56 fa	jsr $fa56			jsr 	OSDScrollUp 				; scroll the whole screen up.
-.f8df	a2 00		ldx #$00			ldx 	#0 							; scroll the CR flag table up
-.f8e1					_OSNLScrollFlag:
-.f8e1	bd 01 02	lda $0201,x			lda 	OSNewLineFlag+1,x
-.f8e4	9d 00 02	sta $0200,x			sta 	OSNewLineFlag,x
-.f8e7	e8		inx				inx
-.f8e8	ec 23 02	cpx $0223			cpx 	OSYSize
-.f8eb	d0 f4		bne $f8e1			bne	 	_OSNLScrollFlag
-.f8ed					_OSLCUpdateCR:
-.f8ed	ae 21 02	ldx $0221			ldx 	OSYPos 						; set appropriate flag.
-.f8f0	68		pla				pla
-.f8f1	9d 00 02	sta $0200,x			sta 	OSNewLineFlag,x
-.f8f4					_OSLCExit:
-.f8f4	60		rts				rts
-.f8f5					_OSClearScreen:
-.f8f5	20 b1 f9	jsr $f9b1			jsr 	OSDClearScreen 				; physical clear.
-.f8f8	ae 23 02	ldx $0223			ldx 	OSYSize 					; set all the CR flags on each row
-.f8fb					_OSCSSetLoop:
-.f8fb	a9 ff		lda #$ff			lda 	#$FF
-.f8fd	9d ff 01	sta $01ff,x			sta 	OSNewLineFlag-1,x
-.f900	ca		dex				dex
-.f901	d0 f8		bne $f8fb			bne		_OSCSSetLoop
-.f903	60		rts				rts
-.f904					OSHomeCursor:
-.f904	9c 20 02	stz $0220			stz 	OSXPos
-.f907	9c 21 02	stz $0221			stz	 	OSYPos
-.f90a	60		rts				rts
+.f021					OSWriteScreen:
+.f021	48		pha				pha 								; save AXY
+.f022	da		phx				phx
+.f023	5a		phy				phy
+.f024	c9 20		cmp #$20			cmp 	#32 						; standard character $20,$FF (we allow for cyrillic possibility here)
+.f026	b0 0c		bcs $f034			bcs 	_OSWriteDirect
+.f028	c9 10		cmp #$10			cmp 	#16 						; 16-32 for set colours, reserved - this copies fgr -> bgr, updates fgr.
+.f02a	b0 0e		bcs $f03a			bcs 	_OSWriteDeviceExit
+.f02c	0a		asl a				asl 	a 							; make to an offset in vector table
+.f02d	aa		tax				tax
+.f02e	4a		lsr a				lsr 	a
+.f02f	20 3f f0	jsr $f03f			jsr 	_OSCallVectorCode 			; call that code
+.f032	80 06		bra $f03a			bra 	_OSWriteDeviceExit 			; and leave
+.f034					_OSWriteDirect:
+.f034	20 7d f1	jsr $f17d			jsr 	OSDWritePhysical 			; $20-$FF write to screen
+.f037	20 b9 f0	jsr $f0b9			jsr 	_OSCursorAdvance 			; and forwards.
+.f03a					_OSWriteDeviceExit:
+.f03a	7a		ply				ply
+.f03b	fa		plx				plx
+.f03c	68		pla				pla
+.f03d	18		clc				clc 								; written fine.
+.f03e	60		rts				rts
+.f03f					_OSCallVectorCode:
+.f03f	7c 43 f0	jmp ($f043,x)			jmp 	(_OSWDVector,x)
+.f042					_OSWNoFunction:
+.f042	60		rts				rts
+.f043					_OSWDVector:
+>f043	42 f0						.word 	_OSWNoFunction 				; $00 	No operation
+>f045	7c f0						.word 	_OSCursorLeft 				; $01 	Left 		(Ctrl-A)
+>f047	04 f1						.word 	OSHomeCursor 				; $02 	Home Cursor (Ctrl-B)
+>f049	9d f0						.word 	_OSCursorDown 				; $03 	Down 		(Ctrl-C)
+>f04b	8e f0						.word 	_OSCursorRight 				; $04 	Right 		(Ctrl-D)
+>f04d	42 f0						.word 	_OSWNoFunction				; $05
+>f04f	ac f0						.word 	_OSCursorUp 				; $06	Up 			(Ctrl-F)
+>f051	42 f0						.word 	_OSWNoFunction 				; $07 	Delete 		(Del)
+>f053	6e f0						.word 	_OSBackspace				; $08 	Backspace 	(Backspace)
+>f055	63 f0						.word 	_OSWHTab 					; $09	Tab 		(Tab stop)
+>f057	42 f0						.word 	_OSWNoFunction 				; $0A
+>f059	42 f0						.word 	_OSWNoFunction 				; $0B
+>f05b	f5 f0						.word 	_OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
+>f05d	c6 f0						.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
+>f05f	42 f0						.word 	_OSWNoFunction 				; $0E
+>f061	42 f0						.word 	_OSWNoFunction 				; $0F
+.f063					_OSWHTab:
+.f063	20 8e f0	jsr $f08e			jsr 	_OSCursorRight
+.f066	ad 20 02	lda $0220			lda 	OSXPos
+.f069	29 07		and #$07			and 	#7
+.f06b	d0 f6		bne $f063			bne 	_OSWHTab
+.f06d	60		rts				rts
+.f06e					_OSBackspace:
+.f06e	ad 20 02	lda $0220			lda 	OSXPos 						; left side already ?
+.f071	f0 1a		beq $f08d			beq 	_OSCLExit
+.f073	ce 20 02	dec $0220			dec 	OSXPos 						; go left one.
+.f076	a9 20		lda #$20			lda 	#' ' 						; ovewrite the character there.
+.f078	20 7d f1	jsr $f17d			jsr 	OSDWritePhysical
+.f07b	60		rts				rts
+.f07c					_OSCursorLeft:
+.f07c	ad 20 02	lda $0220			lda 	OSXPos 						; left side
+.f07f	ce 20 02	dec $0220			dec 	OSXPos 						; cursor left
+.f082	c9 00		cmp #$00			cmp 	#0 							; if at left side
+.f084	d0 07		bne $f08d			bne 	_OSCLExit 					; no, exit
+.f086	ad 22 02	lda $0222			lda 	OSXSize 					; yes, shift to right.
+.f089	3a		dec a				dec 	a
+.f08a	8d 20 02	sta $0220			sta 	OSXPos
+.f08d					_OSCLExit:
+.f08d	60		rts				rts
+.f08e					_OSCursorRight:
+.f08e	ee 20 02	inc $0220			inc 	OSXPos 						; go right ?
+.f091	ad 20 02	lda $0220			lda 	OSXPos 						; reached right side ?
+.f094	cd 22 02	cmp $0222			cmp 	OSXSize
+.f097	d0 f4		bne $f08d			bne 	_OSCLExit 					; no, then exit
+.f099	9c 20 02	stz $0220			stz 	OSXPos 						; back to left
+.f09c	60		rts				rts
+.f09d					_OSCursorDown:
+.f09d	ee 21 02	inc $0221			inc 	OSYPos 						; down one line.
+.f0a0	ad 21 02	lda $0221			lda 	OSYPos 						; reached bottom
+.f0a3	cd 23 02	cmp $0223			cmp 	OSYSize
+.f0a6	90 03		bcc $f0ab			bcc 	_OSCDExit 					; no, we're done.
+.f0a8	9c 21 02	stz $0221			stz 	OSYPos 						; position back to top line
+.f0ab					_OSCDExit:
+.f0ab	60		rts				rts
+.f0ac					_OSCursorUp:
+.f0ac	ce 21 02	dec $0221			dec 	OSYPos 						; up one line ?
+.f0af	10 07		bpl $f0b8			bpl 	_OSCUExit 					; exit if still on screen
+.f0b1	ad 23 02	lda $0223			lda 	OSYSize 					; back to top
+.f0b4	3a		dec a				dec 	a
+.f0b5	8d 21 02	sta $0221			sta 	OSYPos
+.f0b8					_OSCUExit:
+.f0b8	60		rts				rts
+.f0b9					_OSCursorAdvance:
+.f0b9	ee 20 02	inc $0220			inc 	OSXPos 						; try moving right
+.f0bc	ad 20 02	lda $0220			lda 	OSXPos						; reached the write.
+.f0bf	cd 22 02	cmp $0222			cmp 	OSXSize
+.f0c2	d0 30		bne $f0f4			bne 	_OSLCExit 	 				; exit if not at the RHS.
+.f0c4	a2 00		ldx #$00			ldx 	#0 							; we want to zero any consequent CRs.
+.f0c6					_OSNewLine:
+.f0c6	da		phx				phx 								; save CR/char flag.
+.f0c7	9c 20 02	stz $0220			stz 	OSXPos 						; left side
+.f0ca	ee 21 02	inc $0221			inc 	OSYPos 						; down one.
+.f0cd	ad 21 02	lda $0221			lda 	OSYPos 						; reached the bottom
+.f0d0	cd 23 02	cmp $0223			cmp 	OSYSize
+.f0d3	90 18		bcc $f0ed			bcc 	_OSLCUpdateCR				; no, update CR flag and exit
+.f0d5	ad 23 02	lda $0223			lda 	OSYSize 					; bottom of screen
+.f0d8	3a		dec a				dec 	a
+.f0d9	8d 21 02	sta $0221			sta 	OSYPos 						; back up one line
+.f0dc	20 56 f2	jsr $f256			jsr 	OSDScrollUp 				; scroll the whole screen up.
+.f0df	a2 00		ldx #$00			ldx 	#0 							; scroll the CR flag table up
+.f0e1					_OSNLScrollFlag:
+.f0e1	bd 01 02	lda $0201,x			lda 	OSNewLineFlag+1,x
+.f0e4	9d 00 02	sta $0200,x			sta 	OSNewLineFlag,x
+.f0e7	e8		inx				inx
+.f0e8	ec 23 02	cpx $0223			cpx 	OSYSize
+.f0eb	d0 f4		bne $f0e1			bne	 	_OSNLScrollFlag
+.f0ed					_OSLCUpdateCR:
+.f0ed	ae 21 02	ldx $0221			ldx 	OSYPos 						; set appropriate flag.
+.f0f0	68		pla				pla
+.f0f1	9d 00 02	sta $0200,x			sta 	OSNewLineFlag,x
+.f0f4					_OSLCExit:
+.f0f4	60		rts				rts
+.f0f5					_OSClearScreen:
+.f0f5	20 b1 f1	jsr $f1b1			jsr 	OSDClearScreen 				; physical clear.
+.f0f8	ae 23 02	ldx $0223			ldx 	OSYSize 					; set all the CR flags on each row
+.f0fb					_OSCSSetLoop:
+.f0fb	a9 ff		lda #$ff			lda 	#$FF
+.f0fd	9d ff 01	sta $01ff,x			sta 	OSNewLineFlag-1,x
+.f100	ca		dex				dex
+.f101	d0 f8		bne $f0fb			bne		_OSCSSetLoop
+.f103	60		rts				rts
+.f104					OSHomeCursor:
+.f104	9c 20 02	stz $0220			stz 	OSXPos
+.f107	9c 21 02	stz $0221			stz	 	OSYPos
+.f10a	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/basicio/keyboard.asm
 
-.f90b					OSIsKeyAvailable:
-.f90b	48		pha				pha
-.f90c	18		clc				clc
-.f90d	ad 58 02	lda $0258			lda 	OSKeyboardQueueSize  		; get count of entries in queue
-.f910	d0 01		bne $f913			bne 	_OSIKAHasKey
-.f912	38		sec				sec
-.f913					_OSIKAHasKey:
-.f913	68		pla				pla
-.f914	60		rts				rts
-.f915					OSReadKeyboard:
-.f915	20 d1 f9	jsr $f9d1			jsr 	OSKeyboardDataProcess 		; this scans the keyboard etc.
-.f918	20 0b f9	jsr $f90b			jsr 	OSIsKeyAvailable 			; key available ?
-.f91b	b0 19		bcs $f936			bcs 	_OSRDExit 					; no exit with CS.
-.f91d	ad 48 02	lda $0248			lda 	OSKeyboardQueue 			; push char from head of queueon stack
-.f920	48		pha				pha
-.f921	da		phx				phx 								; shift everything else up one.
-.f922	a2 00		ldx #$00			ldx		#0 							; remove from queue array
-.f924					_OSRDDequeue:
-.f924	bd 49 02	lda $0249,x			lda 	OSKeyboardQueue+1,x
-.f927	9d 48 02	sta $0248,x			sta 	OSKeyboardQueue,x
-.f92a	e8		inx				inx
-.f92b	ec 58 02	cpx $0258			cpx 	OSKeyboardQueueSize
-.f92e	d0 f4		bne $f924			bne 	_OSRDDequeue
-.f930	ce 58 02	dec $0258			dec 	OSKeyboardQueueSize			; dec queue count
-.f933	fa		plx				plx
-.f934	68		pla				pla 								; restore key
-.f935	18		clc				clc
-.f936					_OSRDExit:
-.f936	60		rts				rts
-.f937					OSReadKeystroke:
-.f937	da		phx				phx 								; save XY
-.f938	5a		phy				phy
-.f939	20 77 f9	jsr $f977			jsr 	OSDReadPhysical 			; save old character under cursor
-.f93c	8d 5c 02	sta $025c			sta 	OSRKOriginal
-.f93f	49 80		eor #$80			eor 	#$80 						; write prompt
-.f941	20 7d f9	jsr $f97d			jsr 	OSDWritePhysical
-.f944					_OSWaitKey:
-.f944	20 d1 f9	jsr $f9d1			jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
-.f947	20 15 f9	jsr $f915			jsr 	OSReadKeyboard 				; key available
-.f94a	b0 f8		bcs $f944			bcs 	_OSWaitKey 					; no keep going
-.f94c	48		pha				pha 								; save key
-.f94d	ad 5c 02	lda $025c			lda 	OSRKOriginal 				; old character back and write to screen.
-.f950	20 7d f9	jsr $f97d			jsr 	OSDWritePhysical
-.f953	68		pla				pla 								; restore
-.f954	7a		ply				ply
-.f955	fa		plx				plx
-.f956	18		clc				clc 								; success
-.f957	60		rts				rts
+.f10b					OSIsKeyAvailable:
+.f10b	48		pha				pha
+.f10c	18		clc				clc
+.f10d	ad 58 02	lda $0258			lda 	OSKeyboardQueueSize  		; get count of entries in queue
+.f110	d0 01		bne $f113			bne 	_OSIKAHasKey
+.f112	38		sec				sec
+.f113					_OSIKAHasKey:
+.f113	68		pla				pla
+.f114	60		rts				rts
+.f115					OSReadKeyboard:
+.f115	20 d1 f1	jsr $f1d1			jsr 	OSKeyboardDataProcess 		; this scans the keyboard etc.
+.f118	20 0b f1	jsr $f10b			jsr 	OSIsKeyAvailable 			; key available ?
+.f11b	b0 19		bcs $f136			bcs 	_OSRDExit 					; no exit with CS.
+.f11d	ad 48 02	lda $0248			lda 	OSKeyboardQueue 			; push char from head of queueon stack
+.f120	48		pha				pha
+.f121	da		phx				phx 								; shift everything else up one.
+.f122	a2 00		ldx #$00			ldx		#0 							; remove from queue array
+.f124					_OSRDDequeue:
+.f124	bd 49 02	lda $0249,x			lda 	OSKeyboardQueue+1,x
+.f127	9d 48 02	sta $0248,x			sta 	OSKeyboardQueue,x
+.f12a	e8		inx				inx
+.f12b	ec 58 02	cpx $0258			cpx 	OSKeyboardQueueSize
+.f12e	d0 f4		bne $f124			bne 	_OSRDDequeue
+.f130	ce 58 02	dec $0258			dec 	OSKeyboardQueueSize			; dec queue count
+.f133	fa		plx				plx
+.f134	68		pla				pla 								; restore key
+.f135	18		clc				clc
+.f136					_OSRDExit:
+.f136	60		rts				rts
+.f137					OSReadKeystroke:
+.f137	da		phx				phx 								; save XY
+.f138	5a		phy				phy
+.f139	20 77 f1	jsr $f177			jsr 	OSDReadPhysical 			; save old character under cursor
+.f13c	8d 5c 02	sta $025c			sta 	OSRKOriginal
+.f13f	49 80		eor #$80			eor 	#$80 						; write prompt
+.f141	20 7d f1	jsr $f17d			jsr 	OSDWritePhysical
+.f144					_OSWaitKey:
+.f144	20 d1 f1	jsr $f1d1			jsr 	OSKeyboardDataProcess 		; this scans the keyboard, could be interrupt
+.f147	20 15 f1	jsr $f115			jsr 	OSReadKeyboard 				; key available
+.f14a	b0 f8		bcs $f144			bcs 	_OSWaitKey 					; no keep going
+.f14c	48		pha				pha 								; save key
+.f14d	ad 5c 02	lda $025c			lda 	OSRKOriginal 				; old character back and write to screen.
+.f150	20 7d f1	jsr $f17d			jsr 	OSDWritePhysical
+.f153	68		pla				pla 								; restore
+.f154	7a		ply				ply
+.f155	fa		plx				plx
+.f156	18		clc				clc 								; success
+.f157	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/basicio/writestring.asm
 
-.f958					OSWriteString:
-.f958	48		pha				pha 								; save AXY
-.f959	da		phx				phx
-.f95a	5a		phy				phy
-.f95b	86 1e		stx $1e				stx		rTemp1 						; address of string in rTemp1
-.f95d	84 1f		sty $1f				sty 	rTemp1+1
-.f95f	b2 1e		lda ($1e)			lda 	(rTemp1)
-.f961	aa		tax				tax 								; count in X
-.f962	a0 00		ldy #$00			ldy 	#0
-.f964					OSWSLoop:
-.f964	e0 00		cpx #$00			cpx 	#0 							; done them all, exit
-.f966	f0 0b		beq $f973			beq 	_OSWSExit
-.f968	ca		dex				dex 								; dec count
-.f969	c8		iny				iny 								; get next character
-.f96a	b1 1e		lda ($1e),y			lda 	(rTemp1),y
-.f96c	f0 05		beq $f973			beq 	_OSWSExit 					; end if $00
-.f96e	20 21 f8	jsr $f821			jsr 	OSWriteScreen				; otherwise write to screen.
-.f971	80 f1		bra $f964			bra 	OSWSLoop
-.f973					_OSWSExit:
-.f973	7a		ply				ply 								; restore AXY and exit
-.f974	fa		plx				plx
-.f975	68		pla				pla
-.f976	60		rts				rts
+.f158					OSWriteString:
+.f158	48		pha				pha 								; save AXY
+.f159	da		phx				phx
+.f15a	5a		phy				phy
+.f15b	86 1e		stx $1e				stx		rTemp1 						; address of string in rTemp1
+.f15d	84 1f		sty $1f				sty 	rTemp1+1
+.f15f	b2 1e		lda ($1e)			lda 	(rTemp1)
+.f161	aa		tax				tax 								; count in X
+.f162	a0 00		ldy #$00			ldy 	#0
+.f164					OSWSLoop:
+.f164	e0 00		cpx #$00			cpx 	#0 							; done them all, exit
+.f166	f0 0b		beq $f173			beq 	_OSWSExit
+.f168	ca		dex				dex 								; dec count
+.f169	c8		iny				iny 								; get next character
+.f16a	b1 1e		lda ($1e),y			lda 	(rTemp1),y
+.f16c	f0 05		beq $f173			beq 	_OSWSExit 					; end if $00
+.f16e	20 21 f0	jsr $f021			jsr 	OSWriteScreen				; otherwise write to screen.
+.f171	80 f1		bra $f164			bra 	OSWSLoop
+.f173					_OSWSExit:
+.f173	7a		ply				ply 								; restore AXY and exit
+.f174	fa		plx				plx
+.f175	68		pla				pla
+.f176	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/drivers/charwrite.asm
 
-.f977					OSDReadPhysical:
-.f977	20 85 f9	jsr $f985			jsr 	OSDGetAddress
-.f97a	b2 1c		lda ($1c)			lda 	(rTemp0)
-.f97c	60		rts				rts
-.f97d					OSDWritePhysical:
-.f97d	48		pha				pha
-.f97e	20 85 f9	jsr $f985			jsr 	OSDGetAddress
-.f981	68		pla				pla
-.f982	92 1c		sta ($1c)			sta 	(rTemp0)
-.f984	60		rts				rts
-.f985					OSDGetAddress:
-.f985	ac 21 02	ldy $0221			ldy     OSYPos
-.f988	ae 20 02	ldx $0220			ldx 	OSXPos
-.f98b					OSDGetAddressXY:
-.f98b	ad 22 02	lda $0222			lda     OSXSize
-.f98e	4a		lsr a				lsr     a                           ; prime the carry bit for the loop
-.f98f	85 1c		sta $1c				sta     rTemp0
-.f991	84 1d		sty $1d				sty     rTemp0+1
-.f993	a9 00		lda #$00			lda     #0
-.f995	a0 08		ldy #$08			ldy     #8
-.f997					_IFMLoop:
-.f997	90 03		bcc $f99c			bcc     _IFMNoAdd
-.f999	18		clc				clc
-.f99a	65 1d		adc $1d				adc     rTemp0+1
-.f99c					_IFMNoAdd:
-.f99c	6a		ror a				ror     a
-.f99d	66 1c		ror $1c				ror     rTemp0                      ; pull another bit out for the next iteration
-.f99f	88		dey				dey
-.f9a0	d0 f5		bne $f997			bne     _IFMLoop
-.f9a2	09 c0		ora #$c0			ora 	#$C0
-.f9a4	a8		tay				tay
-.f9a5	18		clc				clc
-.f9a6	8a		txa				txa
-.f9a7	65 1c		adc $1c				adc 	rTemp0
-.f9a9	85 1c		sta $1c				sta 	rTemp0
-.f9ab	90 01		bcc $f9ae			bcc 	_IFMNoCarry
-.f9ad	c8		iny				iny
-.f9ae					_IFMNoCarry:
-.f9ae	84 1d		sty $1d				sty 	rTemp0+1
-.f9b0	60		rts				rts
+.f177					OSDReadPhysical:
+.f177	20 85 f1	jsr $f185			jsr 	OSDGetAddress
+.f17a	b2 1c		lda ($1c)			lda 	(rTemp0)
+.f17c	60		rts				rts
+.f17d					OSDWritePhysical:
+.f17d	48		pha				pha
+.f17e	20 85 f1	jsr $f185			jsr 	OSDGetAddress
+.f181	68		pla				pla
+.f182	92 1c		sta ($1c)			sta 	(rTemp0)
+.f184	60		rts				rts
+.f185					OSDGetAddress:
+.f185	ac 21 02	ldy $0221			ldy     OSYPos
+.f188	ae 20 02	ldx $0220			ldx 	OSXPos
+.f18b					OSDGetAddressXY:
+.f18b	ad 22 02	lda $0222			lda     OSXSize
+.f18e	4a		lsr a				lsr     a                           ; prime the carry bit for the loop
+.f18f	85 1c		sta $1c				sta     rTemp0
+.f191	84 1d		sty $1d				sty     rTemp0+1
+.f193	a9 00		lda #$00			lda     #0
+.f195	a0 08		ldy #$08			ldy     #8
+.f197					_IFMLoop:
+.f197	90 03		bcc $f19c			bcc     _IFMNoAdd
+.f199	18		clc				clc
+.f19a	65 1d		adc $1d				adc     rTemp0+1
+.f19c					_IFMNoAdd:
+.f19c	6a		ror a				ror     a
+.f19d	66 1c		ror $1c				ror     rTemp0                      ; pull another bit out for the next iteration
+.f19f	88		dey				dey
+.f1a0	d0 f5		bne $f197			bne     _IFMLoop
+.f1a2	09 c0		ora #$c0			ora 	#$C0
+.f1a4	a8		tay				tay
+.f1a5	18		clc				clc
+.f1a6	8a		txa				txa
+.f1a7	65 1c		adc $1c				adc 	rTemp0
+.f1a9	85 1c		sta $1c				sta 	rTemp0
+.f1ab	90 01		bcc $f1ae			bcc 	_IFMNoCarry
+.f1ad	c8		iny				iny
+.f1ae					_IFMNoCarry:
+.f1ae	84 1d		sty $1d				sty 	rTemp0+1
+.f1b0	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/drivers/clear.asm
 
-.f9b1					OSDClearScreen:
-.f9b1	a9 c0		lda #$c0			lda 	#$C0 						; set screen pos.
-.f9b3	85 1d		sta $1d				sta 	rTemp0+1
-.f9b5	64 1c		stz $1c				stz 	rTemp0
-.f9b7	ac 23 02	ldy $0223			ldy 	OSYSize 					; clear height * width bytes.
-.f9ba					_OSCSLoop1:
-.f9ba	ae 22 02	ldx $0222			ldx 	OSXSize
-.f9bd					_OSCSLoop2:
-.f9bd	a9 20		lda #$20			lda 	#' '
-.f9bf	92 1c		sta ($1c)			sta 	(rTemp0)
-.f9c1	e6 1c		inc $1c				inc 	rTemp0
-.f9c3	d0 02		bne $f9c7			bne 	_OSCSNoCarry
-.f9c5	e6 1d		inc $1d				inc 	rTemp0+1
-.f9c7					_OSCSNoCarry:
-.f9c7	ca		dex				dex
-.f9c8	d0 f3		bne $f9bd			bne 	_OSCSLoop2
-.f9ca	88		dey				dey
-.f9cb	d0 ed		bne $f9ba			bne 	_OSCSLoop1
-.f9cd	20 04 f9	jsr $f904			jsr 	OSHomeCursor 				; cursor to (0,0)
-.f9d0	60		rts				rts
+.f1b1					OSDClearScreen:
+.f1b1	a9 c0		lda #$c0			lda 	#$C0 						; set screen pos.
+.f1b3	85 1d		sta $1d				sta 	rTemp0+1
+.f1b5	64 1c		stz $1c				stz 	rTemp0
+.f1b7	ac 23 02	ldy $0223			ldy 	OSYSize 					; clear height * width bytes.
+.f1ba					_OSCSLoop1:
+.f1ba	ae 22 02	ldx $0222			ldx 	OSXSize
+.f1bd					_OSCSLoop2:
+.f1bd	a9 20		lda #$20			lda 	#' '
+.f1bf	92 1c		sta ($1c)			sta 	(rTemp0)
+.f1c1	e6 1c		inc $1c				inc 	rTemp0
+.f1c3	d0 02		bne $f1c7			bne 	_OSCSNoCarry
+.f1c5	e6 1d		inc $1d				inc 	rTemp0+1
+.f1c7					_OSCSNoCarry:
+.f1c7	ca		dex				dex
+.f1c8	d0 f3		bne $f1bd			bne 	_OSCSLoop2
+.f1ca	88		dey				dey
+.f1cb	d0 ed		bne $f1ba			bne 	_OSCSLoop1
+.f1cd	20 04 f1	jsr $f104			jsr 	OSHomeCursor 				; cursor to (0,0)
+.f1d0	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/drivers/ps2keyboard.asm
 
-.f9d1					OSKeyboardDataProcess:
-.f9d1	ad 00 cf	lda $cf00			lda 	$CF00 						; read keyboard port
-.f9d4	f0 31		beq $fa07			beq 	_OSKExit 					; no events available.
-.f9d6	c9 f0		cmp #$f0			cmp 	#$F0 						; check key up ?
-.f9d8	f0 2a		beq $fa04			beq 	_OSKUp
-.f9da	c9 e0		cmp #$e0			cmp 	#$E0 						; check extended scancode ?
-.f9dc	f0 1f		beq $f9fd			beq 	_OSKShift
-.f9de	0d 5a 02	ora $025a			ora 	OSIsKeyShift 				; actual key code - sets bit 7 if extended scancode.
-.f9e1	48		pha				pha
-.f9e2	20 10 fa	jsr $fa10			jsr 	OSDKeyboardUpdateBits 		; update the up/down bits
-.f9e5	68		pla				pla
-.f9e6	ae 59 02	ldx $0259			ldx 	OSIsKeyUp 					; if key up reset up and shift flags.
-.f9e9	f0 08		beq $f9f3			beq 	_OSKInsertQueue 			; if key down insert into queue
-.f9eb	9c 59 02	stz $0259			stz 	OSIsKeyUp 					; reset up/shift
-.f9ee	9c 5a 02	stz $025a			stz 	OSIsKeyShift
-.f9f1	80 14		bra $fa07			bra 	_OSKExit
-.f9f3					_OSKInsertQueue:
-.f9f3	20 83 fa	jsr $fa83			jsr 	OSDTranslateToASCII 		; convert to ASCII
-.f9f6	b0 0f		bcs $fa07			bcs 	_OSKExit 					; carry set, exit (unknown key)
-.f9f8	20 39 fa	jsr $fa39			jsr 	OSDInsertKeyboardQueue 		; insert into keyboard queue.
-.f9fb	80 0a		bra $fa07			bra 	_OSKExit
-.f9fd					_OSKShift:
-.f9fd	a9 80		lda #$80			lda 	#$80 						; set this so the OR seets bit 7.
-.f9ff	8d 5a 02	sta $025a			sta 	OSIsKeyShift
-.fa02	80 03		bra $fa07			bra 	_OSKExit
-.fa04					_OSKUp:
-.fa04	ce 59 02	dec $0259			dec 	OSIsKeyUp 					; received $F0 (key up), set that flag
-.fa07					_OSKExit:
-.fa07	ad 36 02	lda $0236			lda 	OSKeyStatus+$0E 			; and on the way out check if ESC was pressed.
-.fa0a	29 40		and #$40			and 	#$40
-.fa0c	8d 5b 02	sta $025b			sta 	OSEscapePressed
-.fa0f	60		rts				rts
-.fa10					OSDKeyboardUpdateBits:
-.fa10	a2 00		ldx #$00			ldx 	#0 							; offset in table
-.fa12					_OSKUCalculate:
-.fa12	c9 08		cmp #$08			cmp 	#8 							; work out the row
-.fa14	90 06		bcc $fa1c			bcc 	_OSKUHaveRow
-.fa16	e8		inx				inx
-.fa17	38		sec				sec
-.fa18	e9 08		sbc #$08			sbc 	#8
-.fa1a	80 f6		bra $fa12			bra 	_OSKUCalculate
-.fa1c					_OSKUHaveRow:
-.fa1c	a8		tay				tay 								; work out the column
-.fa1d	a9 00		lda #$00			lda 	#0
-.fa1f	38		sec				sec
-.fa20					_OSKUCalculate2:
-.fa20	2a		rol a				rol 	a
-.fa21	88		dey				dey
-.fa22	10 fc		bpl $fa20			bpl 	_OSKUCalculate2  			; at end , A is bitmask, X is row (table entry)
-.fa24	2c 59 02	bit $0259			bit 	OSIsKeyUp 					; check up
-.fa27	30 07		bmi $fa30			bmi 	_OSKUUp
-.fa29	1d 28 02	ora $0228,x			ora 	OSKeyStatus,x 				; down set bit
-.fa2c	9d 28 02	sta $0228,x			sta 	OSKeyStatus,x
-.fa2f	60		rts				rts
-.fa30					_OSKUUp:
-.fa30	49 ff		eor #$ff			eor 	#$FF 						; make maske
-.fa32	3d 28 02	and $0228,x			and 	OSKeyStatus,x 				; up clear bit
-.fa35	9d 28 02	sta $0228,x			sta 	OSKeyStatus,x
-.fa38	60		rts				rts
-.fa39					OSDInsertKeyboardQueue:
-.fa39	ae 58 02	ldx $0258			ldx 	OSKeyboardQueueSize 		; check to see if full
-.fa3c	e0 10		cpx #$10			cpx	 	#OSKeyboardQueueMaxSize
-.fa3e	b0 06		bcs $fa46			bcs 	_OSIKQExit 					; if so, you will never know.
-.fa40	9d 48 02	sta $0248,x			sta 	OSKeyboardQueue,x 			; add keyboard entry to queue.
-.fa43	ee 58 02	inc $0258			inc 	OSKeyboardQueueSize
-.fa46					_OSIKQExit:
-.fa46	60		rts				rts
-.fa47					OSDKeyboardInitialise:
-.fa47	a2 32		ldx #$32			ldx 	#OSIsKeyShift-OSKeyStatus
-.fa49					_OSKILoop:
-.fa49	9e 28 02	stz $0228,x			stz 	OSKeyStatus,x
-.fa4c	ca		dex				dex
-.fa4d	10 fa		bpl $fa49			bpl 	_OSKILoop
-.fa4f	9c 59 02	stz $0259			stz 	OSIsKeyUp 					; reset up/shift
-.fa52	9c 5a 02	stz $025a			stz 	OSIsKeyShift
-.fa55	60		rts				rts
+.f1d1					OSKeyboardDataProcess:
+.f1d1	ad 00 cf	lda $cf00			lda 	$CF00 						; read keyboard port
+.f1d4	f0 31		beq $f207			beq 	_OSKExit 					; no events available.
+.f1d6	c9 f0		cmp #$f0			cmp 	#$F0 						; check key up ?
+.f1d8	f0 2a		beq $f204			beq 	_OSKUp
+.f1da	c9 e0		cmp #$e0			cmp 	#$E0 						; check extended scancode ?
+.f1dc	f0 1f		beq $f1fd			beq 	_OSKShift
+.f1de	0d 5a 02	ora $025a			ora 	OSIsKeyShift 				; actual key code - sets bit 7 if extended scancode.
+.f1e1	48		pha				pha
+.f1e2	20 10 f2	jsr $f210			jsr 	OSDKeyboardUpdateBits 		; update the up/down bits
+.f1e5	68		pla				pla
+.f1e6	ae 59 02	ldx $0259			ldx 	OSIsKeyUp 					; if key up reset up and shift flags.
+.f1e9	f0 08		beq $f1f3			beq 	_OSKInsertQueue 			; if key down insert into queue
+.f1eb	9c 59 02	stz $0259			stz 	OSIsKeyUp 					; reset up/shift
+.f1ee	9c 5a 02	stz $025a			stz 	OSIsKeyShift
+.f1f1	80 14		bra $f207			bra 	_OSKExit
+.f1f3					_OSKInsertQueue:
+.f1f3	20 83 f2	jsr $f283			jsr 	OSDTranslateToASCII 		; convert to ASCII
+.f1f6	b0 0f		bcs $f207			bcs 	_OSKExit 					; carry set, exit (unknown key)
+.f1f8	20 39 f2	jsr $f239			jsr 	OSDInsertKeyboardQueue 		; insert into keyboard queue.
+.f1fb	80 0a		bra $f207			bra 	_OSKExit
+.f1fd					_OSKShift:
+.f1fd	a9 80		lda #$80			lda 	#$80 						; set this so the OR seets bit 7.
+.f1ff	8d 5a 02	sta $025a			sta 	OSIsKeyShift
+.f202	80 03		bra $f207			bra 	_OSKExit
+.f204					_OSKUp:
+.f204	ce 59 02	dec $0259			dec 	OSIsKeyUp 					; received $F0 (key up), set that flag
+.f207					_OSKExit:
+.f207	ad 36 02	lda $0236			lda 	OSKeyStatus+$0E 			; and on the way out check if ESC was pressed.
+.f20a	29 40		and #$40			and 	#$40
+.f20c	8d 5b 02	sta $025b			sta 	OSEscapePressed
+.f20f	60		rts				rts
+.f210					OSDKeyboardUpdateBits:
+.f210	a2 00		ldx #$00			ldx 	#0 							; offset in table
+.f212					_OSKUCalculate:
+.f212	c9 08		cmp #$08			cmp 	#8 							; work out the row
+.f214	90 06		bcc $f21c			bcc 	_OSKUHaveRow
+.f216	e8		inx				inx
+.f217	38		sec				sec
+.f218	e9 08		sbc #$08			sbc 	#8
+.f21a	80 f6		bra $f212			bra 	_OSKUCalculate
+.f21c					_OSKUHaveRow:
+.f21c	a8		tay				tay 								; work out the column
+.f21d	a9 00		lda #$00			lda 	#0
+.f21f	38		sec				sec
+.f220					_OSKUCalculate2:
+.f220	2a		rol a				rol 	a
+.f221	88		dey				dey
+.f222	10 fc		bpl $f220			bpl 	_OSKUCalculate2  			; at end , A is bitmask, X is row (table entry)
+.f224	2c 59 02	bit $0259			bit 	OSIsKeyUp 					; check up
+.f227	30 07		bmi $f230			bmi 	_OSKUUp
+.f229	1d 28 02	ora $0228,x			ora 	OSKeyStatus,x 				; down set bit
+.f22c	9d 28 02	sta $0228,x			sta 	OSKeyStatus,x
+.f22f	60		rts				rts
+.f230					_OSKUUp:
+.f230	49 ff		eor #$ff			eor 	#$FF 						; make maske
+.f232	3d 28 02	and $0228,x			and 	OSKeyStatus,x 				; up clear bit
+.f235	9d 28 02	sta $0228,x			sta 	OSKeyStatus,x
+.f238	60		rts				rts
+.f239					OSDInsertKeyboardQueue:
+.f239	ae 58 02	ldx $0258			ldx 	OSKeyboardQueueSize 		; check to see if full
+.f23c	e0 10		cpx #$10			cpx	 	#OSKeyboardQueueMaxSize
+.f23e	b0 06		bcs $f246			bcs 	_OSIKQExit 					; if so, you will never know.
+.f240	9d 48 02	sta $0248,x			sta 	OSKeyboardQueue,x 			; add keyboard entry to queue.
+.f243	ee 58 02	inc $0258			inc 	OSKeyboardQueueSize
+.f246					_OSIKQExit:
+.f246	60		rts				rts
+.f247					OSDKeyboardInitialise:
+.f247	a2 32		ldx #$32			ldx 	#OSIsKeyShift-OSKeyStatus
+.f249					_OSKILoop:
+.f249	9e 28 02	stz $0228,x			stz 	OSKeyStatus,x
+.f24c	ca		dex				dex
+.f24d	10 fa		bpl $f249			bpl 	_OSKILoop
+.f24f	9c 59 02	stz $0259			stz 	OSIsKeyUp 					; reset up/shift
+.f252	9c 5a 02	stz $025a			stz 	OSIsKeyShift
+.f255	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/drivers/scroll.asm
 
-.fa56					OSDScrollUp:
-.fa56	a9 c0		lda #$c0			lda 	#$C0 						; scroll whole screen up.
-.fa58	64 1c		stz $1c				stz 	rTemp0
-.fa5a	85 1d		sta $1d				sta 	rTemp0+1
-.fa5c	ac 23 02	ldy $0223			ldy 	OSYSize 					; line counts.
-.fa5f	88		dey				dey
-.fa60					_OSSULoop1:
-.fa60	ae 22 02	ldx $0222			ldx 	OSXSize 					; number of bytes to copy
-.fa63	5a		phy				phy
-.fa64	ac 22 02	ldy $0222			ldy 	OSXSize 					; offset
-.fa67					_OSSULoop2:
-.fa67	b1 1c		lda ($1c),y			lda 	(rTemp0),y 					; copy up
-.fa69	92 1c		sta ($1c)			sta 	(rTemp0)
-.fa6b	e6 1c		inc $1c				inc 	rTemp0 						; adjust position.
-.fa6d	d0 02		bne $fa71			bne 	_OSSUCarry
-.fa6f	e6 1d		inc $1d				inc 	rTemp0+1
-.fa71					_OSSUCarry:
-.fa71	ca		dex				dex 								; do the whole row
-.fa72	d0 f3		bne $fa67			bne 	_OSSULoop2
-.fa74	7a		ply				ply
-.fa75	88		dey				dey 								; for n-1 rows
-.fa76	d0 e8		bne $fa60			bne 	_OSSULoop1
-.fa78	ac 22 02	ldy $0222			ldy 	OSXSize 					; fill bottom row with spaces.
-.fa7b					_OSSUFill:
-.fa7b	a9 20		lda #$20			lda 	#' '
-.fa7d	88		dey				dey
-.fa7e	91 1c		sta ($1c),y			sta 	(rTemp0),y
-.fa80	d0 f9		bne $fa7b			bne 	_OSSUFill
-.fa82	60		rts				rts
+.f256					OSDScrollUp:
+.f256	a9 c0		lda #$c0			lda 	#$C0 						; scroll whole screen up.
+.f258	64 1c		stz $1c				stz 	rTemp0
+.f25a	85 1d		sta $1d				sta 	rTemp0+1
+.f25c	ac 23 02	ldy $0223			ldy 	OSYSize 					; line counts.
+.f25f	88		dey				dey
+.f260					_OSSULoop1:
+.f260	ae 22 02	ldx $0222			ldx 	OSXSize 					; number of bytes to copy
+.f263	5a		phy				phy
+.f264	ac 22 02	ldy $0222			ldy 	OSXSize 					; offset
+.f267					_OSSULoop2:
+.f267	b1 1c		lda ($1c),y			lda 	(rTemp0),y 					; copy up
+.f269	92 1c		sta ($1c)			sta 	(rTemp0)
+.f26b	e6 1c		inc $1c				inc 	rTemp0 						; adjust position.
+.f26d	d0 02		bne $f271			bne 	_OSSUCarry
+.f26f	e6 1d		inc $1d				inc 	rTemp0+1
+.f271					_OSSUCarry:
+.f271	ca		dex				dex 								; do the whole row
+.f272	d0 f3		bne $f267			bne 	_OSSULoop2
+.f274	7a		ply				ply
+.f275	88		dey				dey 								; for n-1 rows
+.f276	d0 e8		bne $f260			bne 	_OSSULoop1
+.f278	ac 22 02	ldy $0222			ldy 	OSXSize 					; fill bottom row with spaces.
+.f27b					_OSSUFill:
+.f27b	a9 20		lda #$20			lda 	#' '
+.f27d	88		dey				dey
+.f27e	91 1c		sta ($1c),y			sta 	(rTemp0),y
+.f280	d0 f9		bne $f27b			bne 	_OSSUFill
+.f282	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/drivers/translate.asm
 
-.fa83					OSDTranslateToASCII:
-.fa83	aa		tax				tax
-.fa84	bd d0 fa	lda $fad0,x			lda 	OSASCIIFromScanCode,x 		; get ASCII keystroke from scan code
-.fa87	f0 45		beq $face			beq 	_OSTTAFail 					; wrong keyboard map/type ?
-.fa89	aa		tax				tax 								; save in X
-.fa8a	ad 2a 02	lda $022a			lda 	OSKeyStatus+OS_KP_LEFTCTRL_ROW
-.fa8d	29 10		and #$10			and 	#OS_KP_LEFTCTRL_COL
-.fa8f	d0 36		bne $fac7			bne 	_OSTTAControl 				; check for CTRL + x
-.fa91	ad 2a 02	lda $022a			lda 	OSKeyStatus+OS_KP_LEFTSHIFT_ROW
-.fa94	29 04		and #$04			and 	#OS_KP_LEFTSHIFT_COL
-.fa96	d0 07		bne $fa9f			bne 	_OSTTAShift 				; check for left/right shift
-.fa98	ad 33 02	lda $0233			lda 	OSKeyStatus+OS_KP_RIGHTSHIFT_ROW
-.fa9b	29 02		and #$02			and 	#OS_KP_RIGHTSHIFT_COL
-.fa9d	f0 2c		beq $facb			beq 	_OSTTAExit 					; no, no translate
-.fa9f					_OSTTAShift:
-.fa9f	e0 61		cpx #$61			cpx 	#"a"						; check alpha a-z => A-Z
-.faa1	90 0a		bcc $faad			bcc 	_OSTTANotAlpha
-.faa3	e0 7b		cpx #$7b			cpx 	#"z"+1
-.faa5	b0 06		bcs $faad			bcs 	_OSTTANotAlpha
-.faa7	8a		txa				txa									; capitalise.
-.faa8	49 20		eor #$20			eor 	#$20
-.faaa	aa		tax				tax
-.faab	80 1e		bra $facb			bra 	_OSTTAExit
-.faad					_OSTTANotAlpha:
-.faad	86 1c		stx $1c				stx 	rTemp0 						; save ASCII code.
-.faaf	a0 00		ldy #$00			ldy 	#0 							; check the shift table
-.fab1					_OSTTACheckShiftTable:
-.fab1	b9 d2 fb	lda $fbd2,y			lda 	OSShiftFixTable+1,y 		; tax = shifted character
-.fab4	aa		tax				tax
-.fab5	b9 d1 fb	lda $fbd1,y			lda 	OSShiftFixTable,y 			; check unshifted match
-.fab8	c5 1c		cmp $1c				cmp 	rTemp0
-.faba	f0 0f		beq $facb			beq 	_OSTTAExit
-.fabc	c8		iny				iny 								; next pair
-.fabd	c8		iny				iny
-.fabe	b9 d1 fb	lda $fbd1,y			lda 	OSShiftFixTable,y 			; until all checked
-.fac1	10 ee		bpl $fab1			bpl 	_OSTTACheckShiftTable
-.fac3	a6 1c		ldx $1c				ldx 	rTemp0 						; not shiftable.
-.fac5	80 04		bra $facb			bra 	_OSTTAExit
-.fac7					_OSTTAControl:
-.fac7	8a		txa				txa
-.fac8	29 1f		and #$1f			and 	#31
-.faca	aa		tax				tax
-.facb					_OSTTAExit:
-.facb	8a		txa				txa
-.facc	18		clc				clc
-.facd	60		rts				rts
-.face					_OSTTAFail:
-.face	38		sec				sec
-.facf	60		rts				rts
+.f283					OSDTranslateToASCII:
+.f283	aa		tax				tax
+.f284	bd d0 f2	lda $f2d0,x			lda 	OSASCIIFromScanCode,x 		; get ASCII keystroke from scan code
+.f287	f0 45		beq $f2ce			beq 	_OSTTAFail 					; wrong keyboard map/type ?
+.f289	aa		tax				tax 								; save in X
+.f28a	ad 2a 02	lda $022a			lda 	OSKeyStatus+OS_KP_LEFTCTRL_ROW
+.f28d	29 10		and #$10			and 	#OS_KP_LEFTCTRL_COL
+.f28f	d0 36		bne $f2c7			bne 	_OSTTAControl 				; check for CTRL + x
+.f291	ad 2a 02	lda $022a			lda 	OSKeyStatus+OS_KP_LEFTSHIFT_ROW
+.f294	29 04		and #$04			and 	#OS_KP_LEFTSHIFT_COL
+.f296	d0 07		bne $f29f			bne 	_OSTTAShift 				; check for left/right shift
+.f298	ad 33 02	lda $0233			lda 	OSKeyStatus+OS_KP_RIGHTSHIFT_ROW
+.f29b	29 02		and #$02			and 	#OS_KP_RIGHTSHIFT_COL
+.f29d	f0 2c		beq $f2cb			beq 	_OSTTAExit 					; no, no translate
+.f29f					_OSTTAShift:
+.f29f	e0 61		cpx #$61			cpx 	#"a"						; check alpha a-z => A-Z
+.f2a1	90 0a		bcc $f2ad			bcc 	_OSTTANotAlpha
+.f2a3	e0 7b		cpx #$7b			cpx 	#"z"+1
+.f2a5	b0 06		bcs $f2ad			bcs 	_OSTTANotAlpha
+.f2a7	8a		txa				txa									; capitalise.
+.f2a8	49 20		eor #$20			eor 	#$20
+.f2aa	aa		tax				tax
+.f2ab	80 1e		bra $f2cb			bra 	_OSTTAExit
+.f2ad					_OSTTANotAlpha:
+.f2ad	86 1c		stx $1c				stx 	rTemp0 						; save ASCII code.
+.f2af	a0 00		ldy #$00			ldy 	#0 							; check the shift table
+.f2b1					_OSTTACheckShiftTable:
+.f2b1	b9 d2 f3	lda $f3d2,y			lda 	OSShiftFixTable+1,y 		; tax = shifted character
+.f2b4	aa		tax				tax
+.f2b5	b9 d1 f3	lda $f3d1,y			lda 	OSShiftFixTable,y 			; check unshifted match
+.f2b8	c5 1c		cmp $1c				cmp 	rTemp0
+.f2ba	f0 0f		beq $f2cb			beq 	_OSTTAExit
+.f2bc	c8		iny				iny 								; next pair
+.f2bd	c8		iny				iny
+.f2be	b9 d1 f3	lda $f3d1,y			lda 	OSShiftFixTable,y 			; until all checked
+.f2c1	10 ee		bpl $f2b1			bpl 	_OSTTACheckShiftTable
+.f2c3	a6 1c		ldx $1c				ldx 	rTemp0 						; not shiftable.
+.f2c5	80 04		bra $f2cb			bra 	_OSTTAExit
+.f2c7					_OSTTAControl:
+.f2c7	8a		txa				txa
+.f2c8	29 1f		and #$1f			and 	#31
+.f2ca	aa		tax				tax
+.f2cb					_OSTTAExit:
+.f2cb	8a		txa				txa
+.f2cc	18		clc				clc
+.f2cd	60		rts				rts
+.f2ce					_OSTTAFail:
+.f2ce	38		sec				sec
+.f2cf	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/generated/ps2convert.asm
 
-.fad0					OSASCIIFromScanCode:
->fad0	00					.byte	$00 ; $00
->fad1	19					.byte	$19 ; $01 chr$(25)
->fad2	00					.byte	$00 ; $02
->fad3	15					.byte	$15 ; $03 chr$(21)
->fad4	13					.byte	$13 ; $04 chr$(19)
->fad5	11					.byte	$11 ; $05 chr$(17)
->fad6	12					.byte	$12 ; $06 chr$(18)
->fad7	00					.byte	$00 ; $07
->fad8	00					.byte	$00 ; $08
->fad9	1a					.byte	$1a ; $09 chr$(26)
->fada	18					.byte	$18 ; $0a chr$(24)
->fadb	16					.byte	$16 ; $0b chr$(22)
->fadc	14					.byte	$14 ; $0c chr$(20)
->fadd	09					.byte	$09 ; $0d chr$(9)
->fade	60					.byte	$60 ; $0e '`'
->fadf	00					.byte	$00 ; $0f
->fae0	00					.byte	$00 ; $10
->fae1	00					.byte	$00 ; $11
->fae2	00					.byte	$00 ; $12
->fae3	00					.byte	$00 ; $13
->fae4	00					.byte	$00 ; $14
->fae5	71					.byte	$71 ; $15 'q'
->fae6	31					.byte	$31 ; $16 '1'
->fae7	00					.byte	$00 ; $17
->fae8	00					.byte	$00 ; $18
->fae9	00					.byte	$00 ; $19
->faea	7a					.byte	$7a ; $1a 'z'
->faeb	73					.byte	$73 ; $1b 's'
->faec	61					.byte	$61 ; $1c 'a'
->faed	77					.byte	$77 ; $1d 'w'
->faee	32					.byte	$32 ; $1e '2'
->faef	00					.byte	$00 ; $1f
->faf0	00					.byte	$00 ; $20
->faf1	63					.byte	$63 ; $21 'c'
->faf2	78					.byte	$78 ; $22 'x'
->faf3	64					.byte	$64 ; $23 'd'
->faf4	65					.byte	$65 ; $24 'e'
->faf5	34					.byte	$34 ; $25 '4'
->faf6	33					.byte	$33 ; $26 '3'
->faf7	00					.byte	$00 ; $27
->faf8	00					.byte	$00 ; $28
->faf9	20					.byte	$20 ; $29 ' '
->fafa	76					.byte	$76 ; $2a 'v'
->fafb	66					.byte	$66 ; $2b 'f'
->fafc	74					.byte	$74 ; $2c 't'
->fafd	72					.byte	$72 ; $2d 'r'
->fafe	35					.byte	$35 ; $2e '5'
->faff	00					.byte	$00 ; $2f
->fb00	00					.byte	$00 ; $30
->fb01	6e					.byte	$6e ; $31 'n'
->fb02	62					.byte	$62 ; $32 'b'
->fb03	68					.byte	$68 ; $33 'h'
->fb04	67					.byte	$67 ; $34 'g'
->fb05	79					.byte	$79 ; $35 'y'
->fb06	36					.byte	$36 ; $36 '6'
->fb07	00					.byte	$00 ; $37
->fb08	00					.byte	$00 ; $38
->fb09	00					.byte	$00 ; $39
->fb0a	6d					.byte	$6d ; $3a 'm'
->fb0b	6a					.byte	$6a ; $3b 'j'
->fb0c	75					.byte	$75 ; $3c 'u'
->fb0d	37					.byte	$37 ; $3d '7'
->fb0e	38					.byte	$38 ; $3e '8'
->fb0f	00					.byte	$00 ; $3f
->fb10	00					.byte	$00 ; $40
->fb11	2c					.byte	$2c ; $41 ','
->fb12	6b					.byte	$6b ; $42 'k'
->fb13	69					.byte	$69 ; $43 'i'
->fb14	6f					.byte	$6f ; $44 'o'
->fb15	30					.byte	$30 ; $45 '0'
->fb16	39					.byte	$39 ; $46 '9'
->fb17	00					.byte	$00 ; $47
->fb18	00					.byte	$00 ; $48
->fb19	2e					.byte	$2e ; $49 '.'
->fb1a	2f					.byte	$2f ; $4a '/'
->fb1b	6c					.byte	$6c ; $4b 'l'
->fb1c	3b					.byte	$3b ; $4c ';'
->fb1d	70					.byte	$70 ; $4d 'p'
->fb1e	2d					.byte	$2d ; $4e '-'
->fb1f	00					.byte	$00 ; $4f
->fb20	00					.byte	$00 ; $50
->fb21	00					.byte	$00 ; $51
->fb22	27					.byte	$27 ; $52 '''
->fb23	00					.byte	$00 ; $53
->fb24	5b					.byte	$5b ; $54 '['
->fb25	3d					.byte	$3d ; $55 '='
->fb26	00					.byte	$00 ; $56
->fb27	00					.byte	$00 ; $57
->fb28	00					.byte	$00 ; $58
->fb29	00					.byte	$00 ; $59
->fb2a	0d					.byte	$0d ; $5a chr$(13)
->fb2b	5d					.byte	$5d ; $5b ']'
->fb2c	00					.byte	$00 ; $5c
->fb2d	7c					.byte	$7c ; $5d '|'
->fb2e	00					.byte	$00 ; $5e
->fb2f	00					.byte	$00 ; $5f
->fb30	00					.byte	$00 ; $60
->fb31	00					.byte	$00 ; $61
->fb32	00					.byte	$00 ; $62
->fb33	00					.byte	$00 ; $63
->fb34	00					.byte	$00 ; $64
->fb35	00					.byte	$00 ; $65
->fb36	08					.byte	$08 ; $66 chr$(8)
->fb37	00					.byte	$00 ; $67
->fb38	00					.byte	$00 ; $68
->fb39	00					.byte	$00 ; $69
->fb3a	00					.byte	$00 ; $6a
->fb3b	01					.byte	$01 ; $6b chr$(1)
->fb3c	00					.byte	$00 ; $6c
->fb3d	00					.byte	$00 ; $6d
->fb3e	00					.byte	$00 ; $6e
->fb3f	00					.byte	$00 ; $6f
->fb40	00					.byte	$00 ; $70
->fb41	00					.byte	$00 ; $71
->fb42	03					.byte	$03 ; $72 chr$(3)
->fb43	00					.byte	$00 ; $73
->fb44	04					.byte	$04 ; $74 chr$(4)
->fb45	06					.byte	$06 ; $75 chr$(6)
->fb46	1b					.byte	$1b ; $76 chr$(27)
->fb47	00					.byte	$00 ; $77
->fb48	00					.byte	$00 ; $78
->fb49	00					.byte	$00 ; $79
->fb4a	00					.byte	$00 ; $7a
->fb4b	00					.byte	$00 ; $7b
->fb4c	00					.byte	$00 ; $7c
->fb4d	00					.byte	$00 ; $7d
->fb4e	00					.byte	$00 ; $7e
->fb4f	00					.byte	$00 ; $7f
->fb50	00					.byte	$00 ; $80
->fb51	00					.byte	$00 ; $81
->fb52	00					.byte	$00 ; $82
->fb53	17					.byte	$17 ; $83 chr$(23)
->fb54	00					.byte	$00 ; $84
->fb55	00					.byte	$00 ; $85
->fb56	00					.byte	$00 ; $86
->fb57	00					.byte	$00 ; $87
->fb58	00					.byte	$00 ; $88
->fb59	00					.byte	$00 ; $89
->fb5a	00					.byte	$00 ; $8a
->fb5b	00					.byte	$00 ; $8b
->fb5c	00					.byte	$00 ; $8c
->fb5d	00					.byte	$00 ; $8d
->fb5e	00					.byte	$00 ; $8e
->fb5f	00					.byte	$00 ; $8f
->fb60	00					.byte	$00 ; $90
->fb61	00					.byte	$00 ; $91
->fb62	00					.byte	$00 ; $92
->fb63	00					.byte	$00 ; $93
->fb64	00					.byte	$00 ; $94
->fb65	00					.byte	$00 ; $95
->fb66	00					.byte	$00 ; $96
->fb67	00					.byte	$00 ; $97
->fb68	00					.byte	$00 ; $98
->fb69	00					.byte	$00 ; $99
->fb6a	00					.byte	$00 ; $9a
->fb6b	00					.byte	$00 ; $9b
->fb6c	00					.byte	$00 ; $9c
->fb6d	00					.byte	$00 ; $9d
->fb6e	00					.byte	$00 ; $9e
->fb6f	00					.byte	$00 ; $9f
->fb70	00					.byte	$00 ; $a0
->fb71	00					.byte	$00 ; $a1
->fb72	00					.byte	$00 ; $a2
->fb73	00					.byte	$00 ; $a3
->fb74	00					.byte	$00 ; $a4
->fb75	00					.byte	$00 ; $a5
->fb76	00					.byte	$00 ; $a6
->fb77	00					.byte	$00 ; $a7
->fb78	00					.byte	$00 ; $a8
->fb79	00					.byte	$00 ; $a9
->fb7a	00					.byte	$00 ; $aa
->fb7b	00					.byte	$00 ; $ab
->fb7c	00					.byte	$00 ; $ac
->fb7d	00					.byte	$00 ; $ad
->fb7e	00					.byte	$00 ; $ae
->fb7f	00					.byte	$00 ; $af
->fb80	00					.byte	$00 ; $b0
->fb81	00					.byte	$00 ; $b1
->fb82	00					.byte	$00 ; $b2
->fb83	00					.byte	$00 ; $b3
->fb84	00					.byte	$00 ; $b4
->fb85	00					.byte	$00 ; $b5
->fb86	00					.byte	$00 ; $b6
->fb87	00					.byte	$00 ; $b7
->fb88	00					.byte	$00 ; $b8
->fb89	00					.byte	$00 ; $b9
->fb8a	00					.byte	$00 ; $ba
->fb8b	00					.byte	$00 ; $bb
->fb8c	00					.byte	$00 ; $bc
->fb8d	00					.byte	$00 ; $bd
->fb8e	00					.byte	$00 ; $be
->fb8f	00					.byte	$00 ; $bf
->fb90	00					.byte	$00 ; $c0
->fb91	00					.byte	$00 ; $c1
->fb92	00					.byte	$00 ; $c2
->fb93	00					.byte	$00 ; $c3
->fb94	00					.byte	$00 ; $c4
->fb95	00					.byte	$00 ; $c5
->fb96	00					.byte	$00 ; $c6
->fb97	00					.byte	$00 ; $c7
->fb98	00					.byte	$00 ; $c8
->fb99	00					.byte	$00 ; $c9
->fb9a	00					.byte	$00 ; $ca
->fb9b	00					.byte	$00 ; $cb
->fb9c	00					.byte	$00 ; $cc
->fb9d	00					.byte	$00 ; $cd
->fb9e	00					.byte	$00 ; $ce
->fb9f	00					.byte	$00 ; $cf
->fba0	00					.byte	$00 ; $d0
->fba1	00					.byte	$00 ; $d1
->fba2	00					.byte	$00 ; $d2
->fba3	00					.byte	$00 ; $d3
->fba4	00					.byte	$00 ; $d4
->fba5	00					.byte	$00 ; $d5
->fba6	00					.byte	$00 ; $d6
->fba7	00					.byte	$00 ; $d7
->fba8	00					.byte	$00 ; $d8
->fba9	00					.byte	$00 ; $d9
->fbaa	00					.byte	$00 ; $da
->fbab	00					.byte	$00 ; $db
->fbac	00					.byte	$00 ; $dc
->fbad	00					.byte	$00 ; $dd
->fbae	00					.byte	$00 ; $de
->fbaf	00					.byte	$00 ; $df
->fbb0	00					.byte	$00 ; $e0
->fbb1	00					.byte	$00 ; $e1
->fbb2	00					.byte	$00 ; $e2
->fbb3	00					.byte	$00 ; $e3
->fbb4	00					.byte	$00 ; $e4
->fbb5	00					.byte	$00 ; $e5
->fbb6	00					.byte	$00 ; $e6
->fbb7	00					.byte	$00 ; $e7
->fbb8	00					.byte	$00 ; $e8
->fbb9	45					.byte	$45 ; $e9 'E'
->fbba	00					.byte	$00 ; $ea
->fbbb	01					.byte	$01 ; $eb chr$(1)
->fbbc	02					.byte	$02 ; $ec chr$(2)
->fbbd	00					.byte	$00 ; $ed
->fbbe	00					.byte	$00 ; $ee
->fbbf	00					.byte	$00 ; $ef
->fbc0	10					.byte	$10 ; $f0 chr$(16)
->fbc1	07					.byte	$07 ; $f1 chr$(7)
->fbc2	03					.byte	$03 ; $f2 chr$(3)
->fbc3	00					.byte	$00 ; $f3
->fbc4	04					.byte	$04 ; $f4 chr$(4)
->fbc5	06					.byte	$06 ; $f5 chr$(6)
->fbc6	00					.byte	$00 ; $f6
->fbc7	00					.byte	$00 ; $f7
->fbc8	00					.byte	$00 ; $f8
->fbc9	00					.byte	$00 ; $f9
->fbca	00					.byte	$00 ; $fa
->fbcb	00					.byte	$00 ; $fb
->fbcc	00					.byte	$00 ; $fc
->fbcd	00					.byte	$00 ; $fd
->fbce	00					.byte	$00 ; $fe
->fbcf	00					.byte	$00 ; $ff
->fbd0	ff					.byte	$FF
-.fbd1					OSShiftFixTable:
->fbd1	60 7e					.byte	$60,$7e		; ` => ~
->fbd3	31 21					.byte	$31,$21		; 1 => !
->fbd5	32 40					.byte	$32,$40		; 2 => @
->fbd7	33 23					.byte	$33,$23		; 3 => #
->fbd9	34 24					.byte	$34,$24		; 4 => $
->fbdb	35 25					.byte	$35,$25		; 5 => %
->fbdd	36 5e					.byte	$36,$5e		; 6 => ^
->fbdf	37 26					.byte	$37,$26		; 7 => &
->fbe1	38 2a					.byte	$38,$2a		; 8 => *
->fbe3	39 28					.byte	$39,$28		; 9 => (
->fbe5	30 29					.byte	$30,$29		; 0 => )
->fbe7	2d 5f					.byte	$2d,$5f		; - => _
->fbe9	3d 2b					.byte	$3d,$2b		; = => +
->fbeb	3b 3a					.byte	$3b,$3a		; ; => :
->fbed	27 22					.byte	$27,$22		; ' => "
->fbef	2c 3c					.byte	$2c,$3c		; , => <
->fbf1	2e 3e					.byte	$2e,$3e		; . => >
->fbf3	2f 3f					.byte	$2f,$3f		; / => ?
->fbf5	ff					.byte	$FF
+.f2d0					OSASCIIFromScanCode:
+>f2d0	00					.byte	$00 ; $00
+>f2d1	19					.byte	$19 ; $01 chr$(25)
+>f2d2	00					.byte	$00 ; $02
+>f2d3	15					.byte	$15 ; $03 chr$(21)
+>f2d4	13					.byte	$13 ; $04 chr$(19)
+>f2d5	11					.byte	$11 ; $05 chr$(17)
+>f2d6	12					.byte	$12 ; $06 chr$(18)
+>f2d7	00					.byte	$00 ; $07
+>f2d8	00					.byte	$00 ; $08
+>f2d9	1a					.byte	$1a ; $09 chr$(26)
+>f2da	18					.byte	$18 ; $0a chr$(24)
+>f2db	16					.byte	$16 ; $0b chr$(22)
+>f2dc	14					.byte	$14 ; $0c chr$(20)
+>f2dd	09					.byte	$09 ; $0d chr$(9)
+>f2de	60					.byte	$60 ; $0e '`'
+>f2df	00					.byte	$00 ; $0f
+>f2e0	00					.byte	$00 ; $10
+>f2e1	00					.byte	$00 ; $11
+>f2e2	00					.byte	$00 ; $12
+>f2e3	00					.byte	$00 ; $13
+>f2e4	00					.byte	$00 ; $14
+>f2e5	71					.byte	$71 ; $15 'q'
+>f2e6	31					.byte	$31 ; $16 '1'
+>f2e7	00					.byte	$00 ; $17
+>f2e8	00					.byte	$00 ; $18
+>f2e9	00					.byte	$00 ; $19
+>f2ea	7a					.byte	$7a ; $1a 'z'
+>f2eb	73					.byte	$73 ; $1b 's'
+>f2ec	61					.byte	$61 ; $1c 'a'
+>f2ed	77					.byte	$77 ; $1d 'w'
+>f2ee	32					.byte	$32 ; $1e '2'
+>f2ef	00					.byte	$00 ; $1f
+>f2f0	00					.byte	$00 ; $20
+>f2f1	63					.byte	$63 ; $21 'c'
+>f2f2	78					.byte	$78 ; $22 'x'
+>f2f3	64					.byte	$64 ; $23 'd'
+>f2f4	65					.byte	$65 ; $24 'e'
+>f2f5	34					.byte	$34 ; $25 '4'
+>f2f6	33					.byte	$33 ; $26 '3'
+>f2f7	00					.byte	$00 ; $27
+>f2f8	00					.byte	$00 ; $28
+>f2f9	20					.byte	$20 ; $29 ' '
+>f2fa	76					.byte	$76 ; $2a 'v'
+>f2fb	66					.byte	$66 ; $2b 'f'
+>f2fc	74					.byte	$74 ; $2c 't'
+>f2fd	72					.byte	$72 ; $2d 'r'
+>f2fe	35					.byte	$35 ; $2e '5'
+>f2ff	00					.byte	$00 ; $2f
+>f300	00					.byte	$00 ; $30
+>f301	6e					.byte	$6e ; $31 'n'
+>f302	62					.byte	$62 ; $32 'b'
+>f303	68					.byte	$68 ; $33 'h'
+>f304	67					.byte	$67 ; $34 'g'
+>f305	79					.byte	$79 ; $35 'y'
+>f306	36					.byte	$36 ; $36 '6'
+>f307	00					.byte	$00 ; $37
+>f308	00					.byte	$00 ; $38
+>f309	00					.byte	$00 ; $39
+>f30a	6d					.byte	$6d ; $3a 'm'
+>f30b	6a					.byte	$6a ; $3b 'j'
+>f30c	75					.byte	$75 ; $3c 'u'
+>f30d	37					.byte	$37 ; $3d '7'
+>f30e	38					.byte	$38 ; $3e '8'
+>f30f	00					.byte	$00 ; $3f
+>f310	00					.byte	$00 ; $40
+>f311	2c					.byte	$2c ; $41 ','
+>f312	6b					.byte	$6b ; $42 'k'
+>f313	69					.byte	$69 ; $43 'i'
+>f314	6f					.byte	$6f ; $44 'o'
+>f315	30					.byte	$30 ; $45 '0'
+>f316	39					.byte	$39 ; $46 '9'
+>f317	00					.byte	$00 ; $47
+>f318	00					.byte	$00 ; $48
+>f319	2e					.byte	$2e ; $49 '.'
+>f31a	2f					.byte	$2f ; $4a '/'
+>f31b	6c					.byte	$6c ; $4b 'l'
+>f31c	3b					.byte	$3b ; $4c ';'
+>f31d	70					.byte	$70 ; $4d 'p'
+>f31e	2d					.byte	$2d ; $4e '-'
+>f31f	00					.byte	$00 ; $4f
+>f320	00					.byte	$00 ; $50
+>f321	00					.byte	$00 ; $51
+>f322	27					.byte	$27 ; $52 '''
+>f323	00					.byte	$00 ; $53
+>f324	5b					.byte	$5b ; $54 '['
+>f325	3d					.byte	$3d ; $55 '='
+>f326	00					.byte	$00 ; $56
+>f327	00					.byte	$00 ; $57
+>f328	00					.byte	$00 ; $58
+>f329	00					.byte	$00 ; $59
+>f32a	0d					.byte	$0d ; $5a chr$(13)
+>f32b	5d					.byte	$5d ; $5b ']'
+>f32c	00					.byte	$00 ; $5c
+>f32d	7c					.byte	$7c ; $5d '|'
+>f32e	00					.byte	$00 ; $5e
+>f32f	00					.byte	$00 ; $5f
+>f330	00					.byte	$00 ; $60
+>f331	00					.byte	$00 ; $61
+>f332	00					.byte	$00 ; $62
+>f333	00					.byte	$00 ; $63
+>f334	00					.byte	$00 ; $64
+>f335	00					.byte	$00 ; $65
+>f336	08					.byte	$08 ; $66 chr$(8)
+>f337	00					.byte	$00 ; $67
+>f338	00					.byte	$00 ; $68
+>f339	00					.byte	$00 ; $69
+>f33a	00					.byte	$00 ; $6a
+>f33b	01					.byte	$01 ; $6b chr$(1)
+>f33c	00					.byte	$00 ; $6c
+>f33d	00					.byte	$00 ; $6d
+>f33e	00					.byte	$00 ; $6e
+>f33f	00					.byte	$00 ; $6f
+>f340	00					.byte	$00 ; $70
+>f341	00					.byte	$00 ; $71
+>f342	03					.byte	$03 ; $72 chr$(3)
+>f343	00					.byte	$00 ; $73
+>f344	04					.byte	$04 ; $74 chr$(4)
+>f345	06					.byte	$06 ; $75 chr$(6)
+>f346	1b					.byte	$1b ; $76 chr$(27)
+>f347	00					.byte	$00 ; $77
+>f348	00					.byte	$00 ; $78
+>f349	00					.byte	$00 ; $79
+>f34a	00					.byte	$00 ; $7a
+>f34b	00					.byte	$00 ; $7b
+>f34c	00					.byte	$00 ; $7c
+>f34d	00					.byte	$00 ; $7d
+>f34e	00					.byte	$00 ; $7e
+>f34f	00					.byte	$00 ; $7f
+>f350	00					.byte	$00 ; $80
+>f351	00					.byte	$00 ; $81
+>f352	00					.byte	$00 ; $82
+>f353	17					.byte	$17 ; $83 chr$(23)
+>f354	00					.byte	$00 ; $84
+>f355	00					.byte	$00 ; $85
+>f356	00					.byte	$00 ; $86
+>f357	00					.byte	$00 ; $87
+>f358	00					.byte	$00 ; $88
+>f359	00					.byte	$00 ; $89
+>f35a	00					.byte	$00 ; $8a
+>f35b	00					.byte	$00 ; $8b
+>f35c	00					.byte	$00 ; $8c
+>f35d	00					.byte	$00 ; $8d
+>f35e	00					.byte	$00 ; $8e
+>f35f	00					.byte	$00 ; $8f
+>f360	00					.byte	$00 ; $90
+>f361	00					.byte	$00 ; $91
+>f362	00					.byte	$00 ; $92
+>f363	00					.byte	$00 ; $93
+>f364	00					.byte	$00 ; $94
+>f365	00					.byte	$00 ; $95
+>f366	00					.byte	$00 ; $96
+>f367	00					.byte	$00 ; $97
+>f368	00					.byte	$00 ; $98
+>f369	00					.byte	$00 ; $99
+>f36a	00					.byte	$00 ; $9a
+>f36b	00					.byte	$00 ; $9b
+>f36c	00					.byte	$00 ; $9c
+>f36d	00					.byte	$00 ; $9d
+>f36e	00					.byte	$00 ; $9e
+>f36f	00					.byte	$00 ; $9f
+>f370	00					.byte	$00 ; $a0
+>f371	00					.byte	$00 ; $a1
+>f372	00					.byte	$00 ; $a2
+>f373	00					.byte	$00 ; $a3
+>f374	00					.byte	$00 ; $a4
+>f375	00					.byte	$00 ; $a5
+>f376	00					.byte	$00 ; $a6
+>f377	00					.byte	$00 ; $a7
+>f378	00					.byte	$00 ; $a8
+>f379	00					.byte	$00 ; $a9
+>f37a	00					.byte	$00 ; $aa
+>f37b	00					.byte	$00 ; $ab
+>f37c	00					.byte	$00 ; $ac
+>f37d	00					.byte	$00 ; $ad
+>f37e	00					.byte	$00 ; $ae
+>f37f	00					.byte	$00 ; $af
+>f380	00					.byte	$00 ; $b0
+>f381	00					.byte	$00 ; $b1
+>f382	00					.byte	$00 ; $b2
+>f383	00					.byte	$00 ; $b3
+>f384	00					.byte	$00 ; $b4
+>f385	00					.byte	$00 ; $b5
+>f386	00					.byte	$00 ; $b6
+>f387	00					.byte	$00 ; $b7
+>f388	00					.byte	$00 ; $b8
+>f389	00					.byte	$00 ; $b9
+>f38a	00					.byte	$00 ; $ba
+>f38b	00					.byte	$00 ; $bb
+>f38c	00					.byte	$00 ; $bc
+>f38d	00					.byte	$00 ; $bd
+>f38e	00					.byte	$00 ; $be
+>f38f	00					.byte	$00 ; $bf
+>f390	00					.byte	$00 ; $c0
+>f391	00					.byte	$00 ; $c1
+>f392	00					.byte	$00 ; $c2
+>f393	00					.byte	$00 ; $c3
+>f394	00					.byte	$00 ; $c4
+>f395	00					.byte	$00 ; $c5
+>f396	00					.byte	$00 ; $c6
+>f397	00					.byte	$00 ; $c7
+>f398	00					.byte	$00 ; $c8
+>f399	00					.byte	$00 ; $c9
+>f39a	00					.byte	$00 ; $ca
+>f39b	00					.byte	$00 ; $cb
+>f39c	00					.byte	$00 ; $cc
+>f39d	00					.byte	$00 ; $cd
+>f39e	00					.byte	$00 ; $ce
+>f39f	00					.byte	$00 ; $cf
+>f3a0	00					.byte	$00 ; $d0
+>f3a1	00					.byte	$00 ; $d1
+>f3a2	00					.byte	$00 ; $d2
+>f3a3	00					.byte	$00 ; $d3
+>f3a4	00					.byte	$00 ; $d4
+>f3a5	00					.byte	$00 ; $d5
+>f3a6	00					.byte	$00 ; $d6
+>f3a7	00					.byte	$00 ; $d7
+>f3a8	00					.byte	$00 ; $d8
+>f3a9	00					.byte	$00 ; $d9
+>f3aa	00					.byte	$00 ; $da
+>f3ab	00					.byte	$00 ; $db
+>f3ac	00					.byte	$00 ; $dc
+>f3ad	00					.byte	$00 ; $dd
+>f3ae	00					.byte	$00 ; $de
+>f3af	00					.byte	$00 ; $df
+>f3b0	00					.byte	$00 ; $e0
+>f3b1	00					.byte	$00 ; $e1
+>f3b2	00					.byte	$00 ; $e2
+>f3b3	00					.byte	$00 ; $e3
+>f3b4	00					.byte	$00 ; $e4
+>f3b5	00					.byte	$00 ; $e5
+>f3b6	00					.byte	$00 ; $e6
+>f3b7	00					.byte	$00 ; $e7
+>f3b8	00					.byte	$00 ; $e8
+>f3b9	45					.byte	$45 ; $e9 'E'
+>f3ba	00					.byte	$00 ; $ea
+>f3bb	01					.byte	$01 ; $eb chr$(1)
+>f3bc	02					.byte	$02 ; $ec chr$(2)
+>f3bd	00					.byte	$00 ; $ed
+>f3be	00					.byte	$00 ; $ee
+>f3bf	00					.byte	$00 ; $ef
+>f3c0	10					.byte	$10 ; $f0 chr$(16)
+>f3c1	07					.byte	$07 ; $f1 chr$(7)
+>f3c2	03					.byte	$03 ; $f2 chr$(3)
+>f3c3	00					.byte	$00 ; $f3
+>f3c4	04					.byte	$04 ; $f4 chr$(4)
+>f3c5	06					.byte	$06 ; $f5 chr$(6)
+>f3c6	00					.byte	$00 ; $f6
+>f3c7	00					.byte	$00 ; $f7
+>f3c8	00					.byte	$00 ; $f8
+>f3c9	00					.byte	$00 ; $f9
+>f3ca	00					.byte	$00 ; $fa
+>f3cb	00					.byte	$00 ; $fb
+>f3cc	00					.byte	$00 ; $fc
+>f3cd	00					.byte	$00 ; $fd
+>f3ce	00					.byte	$00 ; $fe
+>f3cf	00					.byte	$00 ; $ff
+>f3d0	ff					.byte	$FF
+.f3d1					OSShiftFixTable:
+>f3d1	60 7e					.byte	$60,$7e		; ` => ~
+>f3d3	31 21					.byte	$31,$21		; 1 => !
+>f3d5	32 40					.byte	$32,$40		; 2 => @
+>f3d7	33 23					.byte	$33,$23		; 3 => #
+>f3d9	34 24					.byte	$34,$24		; 4 => $
+>f3db	35 25					.byte	$35,$25		; 5 => %
+>f3dd	36 5e					.byte	$36,$5e		; 6 => ^
+>f3df	37 26					.byte	$37,$26		; 7 => &
+>f3e1	38 2a					.byte	$38,$2a		; 8 => *
+>f3e3	39 28					.byte	$39,$28		; 9 => (
+>f3e5	30 29					.byte	$30,$29		; 0 => )
+>f3e7	2d 5f					.byte	$2d,$5f		; - => _
+>f3e9	3d 2b					.byte	$3d,$2b		; = => +
+>f3eb	3b 3a					.byte	$3b,$3a		; ; => :
+>f3ed	27 22					.byte	$27,$22		; ' => "
+>f3ef	2c 3c					.byte	$2c,$3c		; , => <
+>f3f1	2e 3e					.byte	$2e,$3e		; . => >
+>f3f3	2f 3f					.byte	$2f,$3f		; / => ?
+>f3f5	ff					.byte	$FF
 =2					OS_KP_LEFTCTRL_ROW = 2
 =$10					OS_KP_LEFTCTRL_COL = $10
 =2					OS_KP_LEFTSHIFT_ROW = 2
@@ -885,221 +885,221 @@
 
 ;******  Processing file: src/line_editor/lineeditor.asm
 
-.fbf6					OSEnterLine:
-.fbf6	9c 5e 02	stz $025e			stz 	OSEditLength 				; clear buffer
-.fbf9	38		sec				sec 								; calculate edit box max width.
-.fbfa	ad 22 02	lda $0222			lda 	OSXSize
-.fbfd	ed 20 02	sbc $0220			sbc 	OSXPos
-.fc00	3a		dec a				dec 	a 							; one for RHS
-.fc01	8d 5d 02	sta $025d			sta 	OSEditWidth
-.fc04					_OSEditLoop:
-.fc04	20 37 f9	jsr $f937			jsr 	OSReadKeystroke 			; get one key.
-.fc07	c9 20		cmp #$20			cmp 	#' '	 					; standard character
-.fc09	b0 23		bcs $fc2e			bcs 	_OSECharacter
-.fc0b	c9 08		cmp #$08			cmp 	#8 							; check for backspace
-.fc0d	f0 12		beq $fc21			beq 	_OSEBackspace
-.fc0f	c9 0d		cmp #$0d			cmp 	#13	 						; check for CR.
-.fc11	d0 f1		bne $fc04			bne 	_OSEditLoop 				; ignore everything else
-.fc13	20 21 f8	jsr $f821			jsr 	OSWriteScreen
-.fc16	ae 5e 02	ldx $025e			ldx 	OSEditLength 				; make it ASCIIZ as well (!)
-.fc19	9e 5f 02	stz $025f,x			stz 	OSEditBuffer,x
-.fc1c	a2 5e		ldx #$5e			ldx 	#OSEditLength & $FF 		; XY = Buffer
-.fc1e	a0 02		ldy #$02			ldy 	#OSEditLength >> 8
-.fc20	60		rts				rts
-.fc21					_OSEBackspace:
-.fc21	ae 5e 02	ldx $025e			ldx 	OSEditLength 				; can't backspace past beginning
-.fc24	f0 de		beq $fc04			beq 	_OSEditLoop
-.fc26	20 21 f8	jsr $f821			jsr 	OSWriteScreen 				; backspace one.
-.fc29	ce 5e 02	dec $025e			dec 	OSEditLength
-.fc2c	80 d6		bra $fc04			bra 	_OSEditLoop
-.fc2e					_OSECharacter:
-.fc2e	ae 5e 02	ldx $025e			ldx 	OSEditLength 				; too many characters ?
-.fc31	ec 5d 02	cpx $025d			cpx 	OSEditWidth
-.fc34	f0 ce		beq $fc04			beq 	_OSEditLoop
-.fc36	9d 5f 02	sta $025f,x			sta 	OSEditBuffer,x 				; write in buffer
-.fc39	ee 5e 02	inc $025e			inc 	OSEditLength 				; bump length
-.fc3c	20 21 f8	jsr $f821			jsr 	OSWriteScreen
-.fc3f	80 c3		bra $fc04			bra 	_OSEditLoop
+.f3f6					OSEnterLine:
+.f3f6	9c 5e 02	stz $025e			stz 	OSEditLength 				; clear buffer
+.f3f9	38		sec				sec 								; calculate edit box max width.
+.f3fa	ad 22 02	lda $0222			lda 	OSXSize
+.f3fd	ed 20 02	sbc $0220			sbc 	OSXPos
+.f400	3a		dec a				dec 	a 							; one for RHS
+.f401	8d 5d 02	sta $025d			sta 	OSEditWidth
+.f404					_OSEditLoop:
+.f404	20 37 f1	jsr $f137			jsr 	OSReadKeystroke 			; get one key.
+.f407	c9 20		cmp #$20			cmp 	#' '	 					; standard character
+.f409	b0 23		bcs $f42e			bcs 	_OSECharacter
+.f40b	c9 08		cmp #$08			cmp 	#8 							; check for backspace
+.f40d	f0 12		beq $f421			beq 	_OSEBackspace
+.f40f	c9 0d		cmp #$0d			cmp 	#13	 						; check for CR.
+.f411	d0 f1		bne $f404			bne 	_OSEditLoop 				; ignore everything else
+.f413	20 21 f0	jsr $f021			jsr 	OSWriteScreen
+.f416	ae 5e 02	ldx $025e			ldx 	OSEditLength 				; make it ASCIIZ as well (!)
+.f419	9e 5f 02	stz $025f,x			stz 	OSEditBuffer,x
+.f41c	a2 5e		ldx #$5e			ldx 	#OSEditLength & $FF 		; XY = Buffer
+.f41e	a0 02		ldy #$02			ldy 	#OSEditLength >> 8
+.f420	60		rts				rts
+.f421					_OSEBackspace:
+.f421	ae 5e 02	ldx $025e			ldx 	OSEditLength 				; can't backspace past beginning
+.f424	f0 de		beq $f404			beq 	_OSEditLoop
+.f426	20 21 f0	jsr $f021			jsr 	OSWriteScreen 				; backspace one.
+.f429	ce 5e 02	dec $025e			dec 	OSEditLength
+.f42c	80 d6		bra $f404			bra 	_OSEditLoop
+.f42e					_OSECharacter:
+.f42e	ae 5e 02	ldx $025e			ldx 	OSEditLength 				; too many characters ?
+.f431	ec 5d 02	cpx $025d			cpx 	OSEditWidth
+.f434	f0 ce		beq $f404			beq 	_OSEditLoop
+.f436	9d 5f 02	sta $025f,x			sta 	OSEditBuffer,x 				; write in buffer
+.f439	ee 5e 02	inc $025e			inc 	OSEditLength 				; bump length
+.f43c	20 21 f0	jsr $f021			jsr 	OSWriteScreen
+.f43f	80 c3		bra $f404			bra 	_OSEditLoop
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/screen_editor/screeneditor.asm
 
-.fc41					OSScreenLine:
-.fc41	9c 5e 02	stz $025e			stz 	OSEditLength 				; clear buffer
-.fc44					_OSScreenLoop:
-.fc44	20 37 f9	jsr $f937			jsr 	OSReadKeystroke	 			; get key.
-.fc47	c9 10		cmp #$10			cmp 	#$10						; insert
-.fc49	f0 4a		beq $fc95			beq 	_OSSInsert
-.fc4b	c9 07		cmp #$07			cmp 	#$07 						; delete / backspace
-.fc4d	f0 1d		beq $fc6c			beq 	_OSSDelete
-.fc4f	c9 08		cmp #$08			cmp 	#$08
-.fc51	f0 09		beq $fc5c			beq 	_OSSBackspace
-.fc53	c9 0d		cmp #$0d			cmp 	#$0D 						; Return key ?
-.fc55	f0 6f		beq $fcc6			beq 	_OSSReturn
-.fc57	20 21 f8	jsr $f821			jsr 	OSWriteScreen
-.fc5a	80 e8		bra $fc44			bra 	_OSScreenLoop
-.fc5c					_OSSBackspace:
-.fc5c	ad 20 02	lda $0220			lda 	OSXPos 						; backspace blocked if first character on line
-.fc5f	d0 08		bne $fc69			bne 	_OSSBackspaceOk
-.fc61	ae 21 02	ldx $0221			ldx 	OSYPos 						; and its the start of a group.
-.fc64	bd 00 02	lda $0200,x			lda 	OSNewLineFlag,x
-.fc67	d0 db		bne $fc44			bne 	_OSScreenLoop
-.fc69					_OSSBackspaceOk:
-.fc69	20 49 fd	jsr $fd49			jsr 	OSSLeft 					; move left.
-.fc6c					_OSSDelete:
-.fc6c	20 18 fd	jsr $fd18			jsr 	OSSSaveGetFrame 			; save current position and get frame.
-.fc6f					_OSSDeleteLoop:
-.fc6f	ad 27 02	lda $0227			lda 	OSYFrameBottom 				; reached the end
-.fc72	cd 21 02	cmp $0221			cmp 	OSYPos
-.fc75	90 11		bcc $fc88			bcc 	_OSSDelComplete
-.fc77	20 5b fd	jsr $fd5b			jsr 	OSSRight 					; shuffle everything
-.fc7a	20 77 f9	jsr $f977			jsr 	OSDReadPhysical
-.fc7d	20 49 fd	jsr $fd49			jsr 	OSSLeft
-.fc80	20 7d f9	jsr $f97d			jsr 	OSDWritePhysical
-.fc83	20 5b fd	jsr $fd5b			jsr 	OSSRight
-.fc86	80 e7		bra $fc6f			bra 	_OSSDeleteLoop
-.fc88					_OSSDelComplete:
-.fc88	20 49 fd	jsr $fd49			jsr 	OSSLeft 					; blank last character
-.fc8b					_OSSWriteSpace:
-.fc8b	a9 20		lda #$20			lda 	#' ' 						; write space at posiition
-.fc8d	20 7d f9	jsr $f97d			jsr 	OSDWritePhysical
-.fc90	20 0b fd	jsr $fd0b			jsr 	OSSLoadPosition 			; restore original pos and loop back.
-.fc93	80 af		bra $fc44			bra		_OSScreenLoop
-.fc95					_OSSInsert:
-.fc95	20 18 fd	jsr $fd18			jsr 	OSSSaveGetFrame 			; save current position and get frame.
-.fc98	ad 22 02	lda $0222			lda 	OSXSize 					; start insert copy is end
-.fc9b	3a		dec a				dec 	a
-.fc9c	8d 20 02	sta $0220			sta 	OSXPos
-.fc9f	ad 27 02	lda $0227			lda 	OSYFrameBottom
-.fca2	8d 21 02	sta $0221			sta 	OSYPos
-.fca5					_OSSInsertLoop:
-.fca5	ad 20 02	lda $0220			lda 	OSXPos 						; reached insert point ?
-.fca8	cd 24 02	cmp $0224			cmp 	OSXPosSave
-.fcab	d0 08		bne $fcb5			bne 	_OSSShiftUp
-.fcad	ad 21 02	lda $0221			lda 	OSYPos
-.fcb0	cd 25 02	cmp $0225			cmp 	OSYPosSave
-.fcb3	f0 d6		beq $fc8b			beq 	_OSSWriteSpace 				; space there and continue
-.fcb5					_OSSShiftUp:
-.fcb5	20 49 fd	jsr $fd49			jsr 	OSSLeft
-.fcb8	20 77 f9	jsr $f977			jsr 	OSDReadPhysical
-.fcbb	20 5b fd	jsr $fd5b			jsr 	OSSRight
-.fcbe	20 7d f9	jsr $f97d			jsr 	OSDWritePhysical
-.fcc1	20 49 fd	jsr $fd49			jsr 	OSSLeft
-.fcc4	80 df		bra $fca5			bra 	_OSSInsertLoop
-.fcc6					_OSSReturn:
-.fcc6	20 18 fd	jsr $fd18			jsr 	OSSSaveGetFrame 			; save current position and get frame.
-.fcc9	9c 20 02	stz $0220			stz 	OSXPos
-.fccc	ad 26 02	lda $0226			lda 	OSYFrameTop					; start position.
-.fccf	8d 21 02	sta $0221			sta 	OSYPos
-.fcd2					_OSSRCopy:
-.fcd2	ad 27 02	lda $0227			lda 	OSYFrameBottom 				; reached the end
-.fcd5	cd 21 02	cmp $0221			cmp 	OSYPos
-.fcd8	90 11		bcc $fceb			bcc 	_OSSRCopied
-.fcda	20 77 f9	jsr $f977			jsr 	OSDReadPhysical
-.fcdd	ae 5e 02	ldx $025e			ldx 	OSEditLength
-.fce0	9d 5f 02	sta $025f,x			sta 	OSEditBuffer,x
-.fce3	ee 5e 02	inc $025e			inc 	OSEditLength
-.fce6	20 5b fd	jsr $fd5b			jsr 	OSSRight
-.fce9	80 e7		bra $fcd2			bra 	_OSSRCopy
-.fceb					_OSSRCopied:
-.fceb	20 49 fd	jsr $fd49			jsr 	OSSLeft 					; do a CR from previous line, scroll if required.
-.fcee	a9 0d		lda #$0d			lda		#13
-.fcf0	20 21 f8	jsr $f821			jsr 	OSWriteScreen
-.fcf3	ae 5e 02	ldx $025e			ldx 	OSEditLength 				; strip trailing spaces
-.fcf6					_OSSSStripSpaces:
-.fcf6	ca		dex				dex
-.fcf7	bd 5f 02	lda $025f,x			lda 	OSEditBuffer,x
-.fcfa	c9 20		cmp #$20			cmp 	#$20
-.fcfc	d0 08		bne $fd06			bne 	_OSSSSSEnd
-.fcfe	9e 5f 02	stz $025f,x			stz 	OSEditBuffer,x
-.fd01	8e 5e 02	stx $025e			stx 	OSEditLength
-.fd04	80 f0		bra $fcf6			bra 	_OSSSStripSpaces
-.fd06					_OSSSSSEnd:
-.fd06	a2 5e		ldx #$5e			ldx 	#OSEditLength & $FF
-.fd08	a0 02		ldy #$02			ldy 	#OSEditLength >> 8
-.fd0a	60		rts				rts
-.fd0b					OSSLoadPosition:
-.fd0b	ae 24 02	ldx $0224			ldx 	OSXPosSave
-.fd0e	8e 20 02	stx $0220			stx 	OSXPos
-.fd11	ae 25 02	ldx $0225			ldx 	OSYPosSave
-.fd14	8e 21 02	stx $0221			stx 	OSYPos
-.fd17	60		rts				rts
-.fd18					OSSSaveGetFrame:
-.fd18	ae 20 02	ldx $0220			ldx 	OSXPos 						; save current position
-.fd1b	8e 24 02	stx $0224			stx 	OSXPosSave
-.fd1e	ae 21 02	ldx $0221			ldx 	OSYPos
-.fd21	8e 25 02	stx $0225			stx 	OSYPosSave
-.fd24					_OSSSFindTop:
-.fd24	e0 00		cpx #$00			cpx 	#0 							; top of screen
-.fd26	f0 08		beq $fd30			beq 	_OSSSTFound
-.fd28	bd 00 02	lda $0200,x			lda 	OSNewLineFlag,x  			; start of frame.
-.fd2b	d0 03		bne $fd30			bne 	_OSSSTFound
-.fd2d	ca		dex				dex
-.fd2e	80 f4		bra $fd24			bra 	_OSSSFindTop
-.fd30					_OSSSTFound:
-.fd30	8e 26 02	stx $0226			stx 	OSYFrameTop
-.fd33	ae 21 02	ldx $0221			ldx 	OSYPos
-.fd36					_OSSSFindBottom:
-.fd36	8a		txa				txa
-.fd37	1a		inc a				inc 	a
-.fd38	cd 23 02	cmp $0223			cmp 	OSYSize 					; bottom of screen
-.fd3b	f0 08		beq $fd45			beq 	_OSSSBFound
-.fd3d	bd 01 02	lda $0201,x			lda 	OSNewLineFlag+1,x
-.fd40	d0 03		bne $fd45			bne 	_OSSSBFound
-.fd42	e8		inx				inx
-.fd43	80 f1		bra $fd36			bra 	_OSSSFindBottom
-.fd45					_OSSSBFound:
-.fd45	8e 27 02	stx $0227			stx 	OSYFrameBottom
-.fd48	60		rts				rts
-.fd49					OSSLeft:
-.fd49	48		pha				pha
-.fd4a	ce 20 02	dec $0220			dec 	OSXPos
-.fd4d	10 0a		bpl $fd59			bpl 	_OSSLExit
-.fd4f	ce 21 02	dec $0221			dec 	OSYPos
-.fd52	ad 22 02	lda $0222			lda 	OSXSize
-.fd55	3a		dec a				dec 	a
-.fd56	8d 20 02	sta $0220			sta 	OSXPos
-.fd59					_OSSLExit:
-.fd59	68		pla				pla
-.fd5a	60		rts				rts
-.fd5b					OSSRight:
-.fd5b	48		pha				pha
-.fd5c	ee 20 02	inc $0220			inc 	OSXPos
-.fd5f	ad 20 02	lda $0220			lda 	OSXPos
-.fd62	cd 22 02	cmp $0222			cmp 	OSXSize
-.fd65	d0 06		bne $fd6d			bne 	_OSSRExit
-.fd67	9c 20 02	stz $0220			stz 	OSXPos
-.fd6a	ee 21 02	inc $0221			inc 	OSYPos
-.fd6d					_OSSRExit:
-.fd6d	68		pla				pla
-.fd6e	60		rts				rts
+.f441					OSScreenLine:
+.f441	9c 5e 02	stz $025e			stz 	OSEditLength 				; clear buffer
+.f444					_OSScreenLoop:
+.f444	20 37 f1	jsr $f137			jsr 	OSReadKeystroke	 			; get key.
+.f447	c9 10		cmp #$10			cmp 	#$10						; insert
+.f449	f0 4a		beq $f495			beq 	_OSSInsert
+.f44b	c9 07		cmp #$07			cmp 	#$07 						; delete / backspace
+.f44d	f0 1d		beq $f46c			beq 	_OSSDelete
+.f44f	c9 08		cmp #$08			cmp 	#$08
+.f451	f0 09		beq $f45c			beq 	_OSSBackspace
+.f453	c9 0d		cmp #$0d			cmp 	#$0D 						; Return key ?
+.f455	f0 6f		beq $f4c6			beq 	_OSSReturn
+.f457	20 21 f0	jsr $f021			jsr 	OSWriteScreen
+.f45a	80 e8		bra $f444			bra 	_OSScreenLoop
+.f45c					_OSSBackspace:
+.f45c	ad 20 02	lda $0220			lda 	OSXPos 						; backspace blocked if first character on line
+.f45f	d0 08		bne $f469			bne 	_OSSBackspaceOk
+.f461	ae 21 02	ldx $0221			ldx 	OSYPos 						; and its the start of a group.
+.f464	bd 00 02	lda $0200,x			lda 	OSNewLineFlag,x
+.f467	d0 db		bne $f444			bne 	_OSScreenLoop
+.f469					_OSSBackspaceOk:
+.f469	20 49 f5	jsr $f549			jsr 	OSSLeft 					; move left.
+.f46c					_OSSDelete:
+.f46c	20 18 f5	jsr $f518			jsr 	OSSSaveGetFrame 			; save current position and get frame.
+.f46f					_OSSDeleteLoop:
+.f46f	ad 27 02	lda $0227			lda 	OSYFrameBottom 				; reached the end
+.f472	cd 21 02	cmp $0221			cmp 	OSYPos
+.f475	90 11		bcc $f488			bcc 	_OSSDelComplete
+.f477	20 5b f5	jsr $f55b			jsr 	OSSRight 					; shuffle everything
+.f47a	20 77 f1	jsr $f177			jsr 	OSDReadPhysical
+.f47d	20 49 f5	jsr $f549			jsr 	OSSLeft
+.f480	20 7d f1	jsr $f17d			jsr 	OSDWritePhysical
+.f483	20 5b f5	jsr $f55b			jsr 	OSSRight
+.f486	80 e7		bra $f46f			bra 	_OSSDeleteLoop
+.f488					_OSSDelComplete:
+.f488	20 49 f5	jsr $f549			jsr 	OSSLeft 					; blank last character
+.f48b					_OSSWriteSpace:
+.f48b	a9 20		lda #$20			lda 	#' ' 						; write space at posiition
+.f48d	20 7d f1	jsr $f17d			jsr 	OSDWritePhysical
+.f490	20 0b f5	jsr $f50b			jsr 	OSSLoadPosition 			; restore original pos and loop back.
+.f493	80 af		bra $f444			bra		_OSScreenLoop
+.f495					_OSSInsert:
+.f495	20 18 f5	jsr $f518			jsr 	OSSSaveGetFrame 			; save current position and get frame.
+.f498	ad 22 02	lda $0222			lda 	OSXSize 					; start insert copy is end
+.f49b	3a		dec a				dec 	a
+.f49c	8d 20 02	sta $0220			sta 	OSXPos
+.f49f	ad 27 02	lda $0227			lda 	OSYFrameBottom
+.f4a2	8d 21 02	sta $0221			sta 	OSYPos
+.f4a5					_OSSInsertLoop:
+.f4a5	ad 20 02	lda $0220			lda 	OSXPos 						; reached insert point ?
+.f4a8	cd 24 02	cmp $0224			cmp 	OSXPosSave
+.f4ab	d0 08		bne $f4b5			bne 	_OSSShiftUp
+.f4ad	ad 21 02	lda $0221			lda 	OSYPos
+.f4b0	cd 25 02	cmp $0225			cmp 	OSYPosSave
+.f4b3	f0 d6		beq $f48b			beq 	_OSSWriteSpace 				; space there and continue
+.f4b5					_OSSShiftUp:
+.f4b5	20 49 f5	jsr $f549			jsr 	OSSLeft
+.f4b8	20 77 f1	jsr $f177			jsr 	OSDReadPhysical
+.f4bb	20 5b f5	jsr $f55b			jsr 	OSSRight
+.f4be	20 7d f1	jsr $f17d			jsr 	OSDWritePhysical
+.f4c1	20 49 f5	jsr $f549			jsr 	OSSLeft
+.f4c4	80 df		bra $f4a5			bra 	_OSSInsertLoop
+.f4c6					_OSSReturn:
+.f4c6	20 18 f5	jsr $f518			jsr 	OSSSaveGetFrame 			; save current position and get frame.
+.f4c9	9c 20 02	stz $0220			stz 	OSXPos
+.f4cc	ad 26 02	lda $0226			lda 	OSYFrameTop					; start position.
+.f4cf	8d 21 02	sta $0221			sta 	OSYPos
+.f4d2					_OSSRCopy:
+.f4d2	ad 27 02	lda $0227			lda 	OSYFrameBottom 				; reached the end
+.f4d5	cd 21 02	cmp $0221			cmp 	OSYPos
+.f4d8	90 11		bcc $f4eb			bcc 	_OSSRCopied
+.f4da	20 77 f1	jsr $f177			jsr 	OSDReadPhysical
+.f4dd	ae 5e 02	ldx $025e			ldx 	OSEditLength
+.f4e0	9d 5f 02	sta $025f,x			sta 	OSEditBuffer,x
+.f4e3	ee 5e 02	inc $025e			inc 	OSEditLength
+.f4e6	20 5b f5	jsr $f55b			jsr 	OSSRight
+.f4e9	80 e7		bra $f4d2			bra 	_OSSRCopy
+.f4eb					_OSSRCopied:
+.f4eb	20 49 f5	jsr $f549			jsr 	OSSLeft 					; do a CR from previous line, scroll if required.
+.f4ee	a9 0d		lda #$0d			lda		#13
+.f4f0	20 21 f0	jsr $f021			jsr 	OSWriteScreen
+.f4f3	ae 5e 02	ldx $025e			ldx 	OSEditLength 				; strip trailing spaces
+.f4f6					_OSSSStripSpaces:
+.f4f6	ca		dex				dex
+.f4f7	bd 5f 02	lda $025f,x			lda 	OSEditBuffer,x
+.f4fa	c9 20		cmp #$20			cmp 	#$20
+.f4fc	d0 08		bne $f506			bne 	_OSSSSSEnd
+.f4fe	9e 5f 02	stz $025f,x			stz 	OSEditBuffer,x
+.f501	8e 5e 02	stx $025e			stx 	OSEditLength
+.f504	80 f0		bra $f4f6			bra 	_OSSSStripSpaces
+.f506					_OSSSSSEnd:
+.f506	a2 5e		ldx #$5e			ldx 	#OSEditLength & $FF
+.f508	a0 02		ldy #$02			ldy 	#OSEditLength >> 8
+.f50a	60		rts				rts
+.f50b					OSSLoadPosition:
+.f50b	ae 24 02	ldx $0224			ldx 	OSXPosSave
+.f50e	8e 20 02	stx $0220			stx 	OSXPos
+.f511	ae 25 02	ldx $0225			ldx 	OSYPosSave
+.f514	8e 21 02	stx $0221			stx 	OSYPos
+.f517	60		rts				rts
+.f518					OSSSaveGetFrame:
+.f518	ae 20 02	ldx $0220			ldx 	OSXPos 						; save current position
+.f51b	8e 24 02	stx $0224			stx 	OSXPosSave
+.f51e	ae 21 02	ldx $0221			ldx 	OSYPos
+.f521	8e 25 02	stx $0225			stx 	OSYPosSave
+.f524					_OSSSFindTop:
+.f524	e0 00		cpx #$00			cpx 	#0 							; top of screen
+.f526	f0 08		beq $f530			beq 	_OSSSTFound
+.f528	bd 00 02	lda $0200,x			lda 	OSNewLineFlag,x  			; start of frame.
+.f52b	d0 03		bne $f530			bne 	_OSSSTFound
+.f52d	ca		dex				dex
+.f52e	80 f4		bra $f524			bra 	_OSSSFindTop
+.f530					_OSSSTFound:
+.f530	8e 26 02	stx $0226			stx 	OSYFrameTop
+.f533	ae 21 02	ldx $0221			ldx 	OSYPos
+.f536					_OSSSFindBottom:
+.f536	8a		txa				txa
+.f537	1a		inc a				inc 	a
+.f538	cd 23 02	cmp $0223			cmp 	OSYSize 					; bottom of screen
+.f53b	f0 08		beq $f545			beq 	_OSSSBFound
+.f53d	bd 01 02	lda $0201,x			lda 	OSNewLineFlag+1,x
+.f540	d0 03		bne $f545			bne 	_OSSSBFound
+.f542	e8		inx				inx
+.f543	80 f1		bra $f536			bra 	_OSSSFindBottom
+.f545					_OSSSBFound:
+.f545	8e 27 02	stx $0227			stx 	OSYFrameBottom
+.f548	60		rts				rts
+.f549					OSSLeft:
+.f549	48		pha				pha
+.f54a	ce 20 02	dec $0220			dec 	OSXPos
+.f54d	10 0a		bpl $f559			bpl 	_OSSLExit
+.f54f	ce 21 02	dec $0221			dec 	OSYPos
+.f552	ad 22 02	lda $0222			lda 	OSXSize
+.f555	3a		dec a				dec 	a
+.f556	8d 20 02	sta $0220			sta 	OSXPos
+.f559					_OSSLExit:
+.f559	68		pla				pla
+.f55a	60		rts				rts
+.f55b					OSSRight:
+.f55b	48		pha				pha
+.f55c	ee 20 02	inc $0220			inc 	OSXPos
+.f55f	ad 20 02	lda $0220			lda 	OSXPos
+.f562	cd 22 02	cmp $0222			cmp 	OSXSize
+.f565	d0 06		bne $f56d			bne 	_OSSRExit
+.f567	9c 20 02	stz $0220			stz 	OSXPos
+.f56a	ee 21 02	inc $0221			inc 	OSYPos
+.f56d					_OSSRExit:
+.f56d	68		pla				pla
+.f56e	60		rts				rts
 
 ;******  Return to file: include.files
 
 
 ;******  Processing file: src/utility/setup.asm
 
-.fd6f					OSInitialise:
-.fd6f	a9 28		lda #$28			lda 	#40 						; 40 x 30 display
-.fd71	8d 22 02	sta $0222			sta 	OSXSize
-.fd74	a9 1e		lda #$1e			lda 	#30
-.fd76	8d 23 02	sta $0223			sta 	OSYSize
-.fd79	20 b1 f9	jsr $f9b1			jsr 	OSDClearScreen 				; clear the display
-.fd7c	20 47 fa	jsr $fa47			jsr 	OSDKeyboardInitialise 		; reset the keyboard state.
-.fd7f	60		rts				rts
-.fd80					OSGetScreenSize:
-.fd80	ae 22 02	ldx $0222			ldx 	OSXSize
-.fd83	ac 23 02	ldy $0223			ldy 	OSYSize
-.fd86	60		rts				rts
-.fd87					OSGetScreenPosition:
-.fd87	ae 20 02	ldx $0220			ldx 	OSXPos
-.fd8a	ac 21 02	ldy $0221			ldy 	OSYPos
-.fd8d	60		rts				rts
-.fd8e					OSCheckBreak:
-.fd8e	ad 5b 02	lda $025b			lda 	OSEscapePressed
-.fd91	60		rts				rts
+.f56f					OSInitialise:
+.f56f	a9 28		lda #$28			lda 	#40 						; 40 x 30 display
+.f571	8d 22 02	sta $0222			sta 	OSXSize
+.f574	a9 1e		lda #$1e			lda 	#30
+.f576	8d 23 02	sta $0223			sta 	OSYSize
+.f579	20 b1 f1	jsr $f1b1			jsr 	OSDClearScreen 				; clear the display
+.f57c	20 47 f2	jsr $f247			jsr 	OSDKeyboardInitialise 		; reset the keyboard state.
+.f57f	60		rts				rts
+.f580					OSGetScreenSize:
+.f580	ae 22 02	ldx $0222			ldx 	OSXSize
+.f583	ac 23 02	ldy $0223			ldy 	OSYSize
+.f586	60		rts				rts
+.f587					OSGetScreenPosition:
+.f587	ae 20 02	ldx $0220			ldx 	OSXPos
+.f58a	ac 21 02	ldy $0221			ldy 	OSYPos
+.f58d	60		rts				rts
+.f58e					OSCheckBreak:
+.f58e	ad 5b 02	lda $025b			lda 	OSEscapePressed
+.f591	60		rts				rts
 
 ;******  Return to file: include.files
 
@@ -1109,261 +1109,261 @@
 
 ;******  Processing file: build/libwwfslib.asmlib
 
-.fd92					FSReadNextHeader:
-.fd92	ee 44 03	inc $0344			inc 	currentSector 				; bump last sector and read next one.
-.fd95	ad 44 03	lda $0344			lda 	currentSector
-.fd98					FSReadHeaderA:
-.fd98	c9 00		cmp #$00			cmp 	#0 							; sector 0 always okay.
-.fd9a	f0 05		beq $fda1			beq 	_FSIsOk
-.fd9c	cd 42 03	cmp $0342			cmp 	sectorCount 				; check legitimate sector
-.fd9f	b0 26		bcs $fdc7			bcs 	_FSReadHFail
-.fda1					_FSIsOk:
-.fda1	da		phx				phx
-.fda2	8d 44 03	sta $0344			sta 	currentSector 				; save as current
-.fda5	20 ed fe	jsr $feed			jsr 	FSHOpenRead 				; open for read
-.fda8	a2 00		ldx #$00			ldx 	#0 							; read in.
-.fdaa					_FSReadHLoop:
-.fdaa	20 ff fe	jsr $feff			jsr 	FSHRead
-.fdad	9d 47 03	sta $0347,x			sta 	sectorHeader,x
-.fdb0	e8		inx				inx
-.fdb1	e0 20		cpx #$20			cpx 	#32
-.fdb3	d0 f5		bne $fdaa			bne 	_FSReadHLoop
-.fdb5	20 14 ff	jsr $ff14			jsr 	FSHEndCommand				; end read.
-.fdb8	fa		plx				plx
-.fdb9	ad 4b 03	lda $034b			lda 	shFileSize 					; copy file size - makes easily accessible
-.fdbc	8d 67 03	sta $0367			sta 	shFileSizeCopy 				; for directory function.
-.fdbf	ad 4c 03	lda $034c			lda 	shFileSize+1
-.fdc2	8d 68 03	sta $0368			sta 	shFileSizeCopy+1
-.fdc5	18		clc				clc
-.fdc6	60		rts				rts
-.fdc7					_FSReadHFail:
-.fdc7	38		sec				sec
-.fdc8	60		rts				rts
-.fdc9					OSReadFile:
-.fdc9	86 22		stx $22				stx 	fsBlock 					; file block.
-.fdcb	84 23		sty $23				sty 	fsBlock+1
-.fdcd	9c 44 03	stz $0344			stz 	currentSector
-.fdd0	a9 ff		lda #$ff			lda 	#$FF 						; set flag to $FF
-.fdd2	8d 46 03	sta $0346			sta 	successFlag
-.fdd5					_OSReadLoop1:
-.fdd5	20 92 fd	jsr $fd92			jsr 	FSReadNextHeader 			; read header ?
-.fdd8	b0 32		bcs $fe0c			bcs 	_OSReadExit 				; end of search.
-.fdda	ad 47 03	lda $0347			lda 	shFirstNext 				; is it the (F)irst record
-.fddd	c9 46		cmp #$46			cmp 	#"F"
-.fddf	d0 f4		bne $fdd5			bne 	_OSReadLoop1
-.fde1	20 91 fe	jsr $fe91			jsr 	FSCompareFileNames 			; is it F/N and matching.
-.fde4	90 ef		bcc $fdd5			bcc 	_OSReadLoop1 				; no, try next sector
-.fde6	9c 46 03	stz $0346			stz 	successFlag 				; zero when found file.
-.fde9					_OSReadBlock:
-.fde9	ad 44 03	lda $0344			lda 	currentSector
-.fdec	20 10 fe	jsr $fe10			jsr 	FSReadData 					; read the data file in.
-.fdef	ad 48 03	lda $0348			lda 	shContinue 					; continuation ?
-.fdf2	c9 4e		cmp #$4e			cmp 	#"N" 						; exit if no.
-.fdf4	f0 16		beq $fe0c			beq 	_OSReadExit
-.fdf6					_OSReadLoop2:
-.fdf6	ad 44 03	lda $0344			lda 	currentSector
-.fdf9	20 92 fd	jsr $fd92			jsr 	FSReadNextHeader 			; read header ?
-.fdfc	b0 0e		bcs $fe0c			bcs 	_OSReadExit 				; end of search.
-.fdfe	ad 47 03	lda $0347			lda 	shFirstNext 				; is it the (F)irst record
-.fe01	c9 4e		cmp #$4e			cmp 	#"N"
-.fe03	d0 f1		bne $fdf6			bne 	_OSReadLoop2
-.fe05	20 91 fe	jsr $fe91			jsr 	FSCompareFileNames 			; is it F/N and matching.
-.fe08	90 ec		bcc $fdf6			bcc 	_OSReadLoop2 				; no, try next sector
-.fe0a	80 dd		bra $fde9			bra 	_OSReadBlock 				; read block in.
-.fe0c					_OSReadExit:
-.fe0c	0e 46 03	asl $0346			asl 	successFlag					; shift success flag (0 if done) into carry
-.fe0f	60		rts				rts
-.fe10					FSReadData:
-.fe10	ad 44 03	lda $0344			lda 	currentSector
-.fe13	20 ed fe	jsr $feed			jsr 	FSHOpenRead 				; open for read
-.fe16	a2 20		ldx #$20			ldx 	#32 						; read past the header
-.fe18					_FSReadHLoop:
-.fe18	20 ff fe	jsr $feff			jsr 	FSHRead
-.fe1b	ca		dex				dex
-.fe1c	d0 fa		bne $fe18			bne 	_FSReadHLoop
-.fe1e					_FSRDCopy:
-.fe1e	ad 49 03	lda $0349			lda 	shDataSize 					; datasize count zero ?
-.fe21	0d 4a 03	ora $034a			ora 	shDataSize+1
-.fe24	f0 15		beq $fe3b			beq 	_OSRDExit
-.fe26	ad 49 03	lda $0349			lda 	shDataSize 					; decrement the data count.
-.fe29	d0 03		bne $fe2e			bne 	_OSRDNoBorrow
-.fe2b	ce 4a 03	dec $034a			dec 	shDataSize+1
-.fe2e					_OSRDNoBorrow:
-.fe2e	ce 49 03	dec $0349			dec 	shDataSize
-.fe31	20 3f fe	jsr $fe3f			jsr 	FSIncrementSetLoad 			; load address to zTemp0 and increment it.
-.fe34	20 ff fe	jsr $feff			jsr 	FSHRead 					; copy byte there
-.fe37	92 20		sta ($20)			sta 	(iTemp0)
-.fe39	80 e3		bra $fe1e			bra 	_FSRDCopy 					; go round again.
-.fe3b					_OSRDExit:
-.fe3b	20 14 ff	jsr $ff14			jsr 	FSHEndCommand
-.fe3e	60		rts				rts
-.fe3f					FSIncrementSetLoad:
-.fe3f	18		clc				clc
-.fe40	a0 02		ldy #$02			ldy 	#2 							; increment load address
-.fe42	b1 22		lda ($22),y			lda 	(fsBlock),y  				; copying previous to zTemp0
-.fe44	85 20		sta $20				sta 	iTemp0
-.fe46	69 01		adc #$01			adc 	#1
-.fe48	91 22		sta ($22),y			sta 	(fsBlock),y
-.fe4a	c8		iny				iny
-.fe4b	b1 22		lda ($22),y			lda 	(fsBlock),y
-.fe4d	85 21		sta $21				sta 	iTemp0+1
-.fe4f	69 00		adc #$00			adc 	#0
-.fe51	91 22		sta ($22),y			sta 	(fsBlock),y
-.fe53	60		rts				rts
-.fe54					OSReadDirectory:
-.fe54	b0 12		bcs $fe68			bcs 	_OSRDReset
-.fe56					_OSRDLoop:
-.fe56	20 92 fd	jsr $fd92			jsr 	FSReadNextHeader 			; read next sector header.
-.fe59	b0 10		bcs $fe6b			bcs 	_OSRDExit 					; exit, end of file space, CS
-.fe5b	ad 47 03	lda $0347			lda 	shFirstNext 				; is it an 'F' record
-.fe5e	c9 46		cmp #$46			cmp 	#'F'
-.fe60	d0 f4		bne $fe56			bne 	_OSRDLoop
-.fe62	a2 57		ldx #$57			ldx 	#shNameLength & $FF 		; return the buffer address
-.fe64	a0 03		ldy #$03			ldy 	#shNameLength >> 8
-.fe66	18		clc				clc 								; return with carry clear.
-.fe67	60		rts				rts
-.fe68					_OSRDReset:
-.fe68	9c 44 03	stz $0344			stz 	currentSector 				; back to the start.
-.fe6b					_OSRDExit:
-.fe6b	60		rts				rts
-.fe6c					OSDeleteFile:
-.fe6c	86 22		stx $22				stx 	fsBlock 					; file block.
-.fe6e	84 23		sty $23				sty 	fsBlock+1
-.fe70	9c 44 03	stz $0344			stz 	currentSector
-.fe73	a9 ff		lda #$ff			lda 	#$FF 						; set flag to $FF
-.fe75	8d 46 03	sta $0346			sta 	successFlag
-.fe78					_OSDeleteLoop:
-.fe78	20 92 fd	jsr $fd92			jsr 	FSReadNextHeader 			; read header ?
-.fe7b	b0 10		bcs $fe8d			bcs 	_OSDeleteExit 				; end of search.
-.fe7d	20 91 fe	jsr $fe91			jsr 	FSCompareFileNames 			; is it F/N and matching.
-.fe80	90 f6		bcc $fe78			bcc 	_OSDeleteLoop 				; no, try next sector
-.fe82	ad 44 03	lda $0344			lda 	currentSector 				; yes, then erase this sector
-.fe85	20 e4 fe	jsr $fee4			jsr 	FSHErase
-.fe88	9c 46 03	stz $0346			stz 	successFlag 				; zero if successful
-.fe8b	80 eb		bra $fe78			bra 	_OSDeleteLoop
-.fe8d					_OSDeleteExit:
-.fe8d	0e 46 03	asl $0346			asl 	successFlag					; shift success flag (0 if done) into carry
-.fe90	60		rts				rts
-.fe91					FSCompareFileNames:
-.fe91	ad 47 03	lda $0347			lda 	shFirstNext 				; is it F/N type ?
-.fe94	c9 46		cmp #$46			cmp 	#"F"
-.fe96	f0 04		beq $fe9c			beq 	_FSDeleteCheckName
-.fe98	c9 4e		cmp #$4e			cmp 	#"N"
-.fe9a	d0 19		bne $feb5			bne 	_FSCompareFail 				; no, then compare fails.
-.fe9c					_FSDeleteCheckName:
-.fe9c	a0 01		ldy #$01			ldy 	#1 							; copy filename to iTemp0
-.fe9e	b2 22		lda ($22)			lda 	(fsBlock)
-.fea0	85 20		sta $20				sta 	iTemp0
-.fea2	b1 22		lda ($22),y			lda 	(fsBlock),y
-.fea4	85 21		sta $21				sta 	iTemp0+1
-.fea6	b2 20		lda ($20)			lda 	(iTemp0) 					; compare n+1
-.fea8	a8		tay				tay
-.fea9					_FSCompareName:
-.fea9	b9 57 03	lda $0357,y			lda 	shNameLength,y
-.feac	d1 20		cmp ($20),y			cmp 	(iTemp0),y
-.feae	d0 05		bne $feb5			bne 	_FSCompareFail
-.feb0	88		dey				dey
-.feb1	10 f6		bpl $fea9			bpl 	_FSCompareName
-.feb3	38		sec				sec
-.feb4	60		rts				rts
-.feb5					_FSCompareFail:
-.feb5	18		clc				clc
-.feb6	60		rts				rts
-.feb7					FSInitialise:
-.feb7	9c 42 03	stz $0342			stz 	sectorCount 				; initial values to read $00
-.feba	9c 43 03	stz $0343			stz 	sectorCount+1
-.febd	9c 40 03	stz $0340			stz 	sectorSize
-.fec0	9c 41 03	stz $0341			stz 	sectorSize+1
-.fec3	a9 00		lda #$00			lda 	#0 							; read header sector 0
-.fec5	20 98 fd	jsr $fd98			jsr 	FSReadHeaderA
-.fec8	ad 49 03	lda $0349			lda 	sectorHeader+2 				; copy sector count
-.fecb	8d 42 03	sta $0342			sta 	sectorCount
-.fece	ad 4a 03	lda $034a			lda 	sectorHeader+3
-.fed1	8d 43 03	sta $0343			sta 	sectorCount+1
-.fed4	ad 4b 03	lda $034b			lda 	sectorHeader+4 				; sector size power
-.fed7	ee 40 03	inc $0340			inc 	sectorSize 					; convert to sector size.
-.feda					_FSICalcSS:
-.feda	0e 40 03	asl $0340			asl 	sectorSize
-.fedd	2e 41 03	rol $0341			rol 	sectorSize+1
-.fee0	3a		dec a				dec 	a
-.fee1	d0 f7		bne $feda			bne 	_FSICalcSS
-.fee3	60		rts				rts
-.fee4					FSHErase:
-.fee4	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fee7	a9 00		lda #$00			lda 	#0 						; activate on command write
-.fee9	8d 10 cf	sta $cf10			sta 	$CF10
-.feec	60		rts				rts
-.feed					FSHOpenRead:
-.feed	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fef0	a9 01		lda #$01			lda 	#1 						; activate on command write
-.fef2	8d 10 cf	sta $cf10			sta 	$CF10
-.fef5	60		rts				rts
-.fef6					FSHOpenWrite:
-.fef6	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fef9	a9 02		lda #$02			lda 	#2 						; activate on command write
-.fefb	8d 10 cf	sta $cf10			sta 	$CF10
-.fefe	60		rts				rts
-.feff					FSHRead:
-.feff	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.ff02	a9 03		lda #$03			lda 	#3 						; activate on command write
-.ff04	8d 10 cf	sta $cf10			sta 	$CF10
-.ff07	ad 12 cf	lda $cf12			lda 	$CF12
-.ff0a	60		rts				rts
-.ff0b					FSHWrite:
-.ff0b	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.ff0e	a9 04		lda #$04			lda 	#4 						; activate on command write
-.ff10	8d 10 cf	sta $cf10			sta 	$CF10
-.ff13	60		rts				rts
-.ff14					FSHEndCommand:
-.ff14	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.ff17	a9 05		lda #$05			lda 	#5 						; activate on command write
-.ff19	8d 10 cf	sta $cf10			sta 	$CF10
-.ff1c	60		rts				rts
+.f592					FSReadNextHeader:
+.f592	ee 44 03	inc $0344			inc 	currentSector 				; bump last sector and read next one.
+.f595	ad 44 03	lda $0344			lda 	currentSector
+.f598					FSReadHeaderA:
+.f598	c9 00		cmp #$00			cmp 	#0 							; sector 0 always okay.
+.f59a	f0 05		beq $f5a1			beq 	_FSIsOk
+.f59c	cd 42 03	cmp $0342			cmp 	sectorCount 				; check legitimate sector
+.f59f	b0 26		bcs $f5c7			bcs 	_FSReadHFail
+.f5a1					_FSIsOk:
+.f5a1	da		phx				phx
+.f5a2	8d 44 03	sta $0344			sta 	currentSector 				; save as current
+.f5a5	20 ed f6	jsr $f6ed			jsr 	FSHOpenRead 				; open for read
+.f5a8	a2 00		ldx #$00			ldx 	#0 							; read in.
+.f5aa					_FSReadHLoop:
+.f5aa	20 ff f6	jsr $f6ff			jsr 	FSHRead
+.f5ad	9d 47 03	sta $0347,x			sta 	sectorHeader,x
+.f5b0	e8		inx				inx
+.f5b1	e0 20		cpx #$20			cpx 	#32
+.f5b3	d0 f5		bne $f5aa			bne 	_FSReadHLoop
+.f5b5	20 14 f7	jsr $f714			jsr 	FSHEndCommand				; end read.
+.f5b8	fa		plx				plx
+.f5b9	ad 4b 03	lda $034b			lda 	shFileSize 					; copy file size - makes easily accessible
+.f5bc	8d 67 03	sta $0367			sta 	shFileSizeCopy 				; for directory function.
+.f5bf	ad 4c 03	lda $034c			lda 	shFileSize+1
+.f5c2	8d 68 03	sta $0368			sta 	shFileSizeCopy+1
+.f5c5	18		clc				clc
+.f5c6	60		rts				rts
+.f5c7					_FSReadHFail:
+.f5c7	38		sec				sec
+.f5c8	60		rts				rts
+.f5c9					OSReadFile:
+.f5c9	86 22		stx $22				stx 	fsBlock 					; file block.
+.f5cb	84 23		sty $23				sty 	fsBlock+1
+.f5cd	9c 44 03	stz $0344			stz 	currentSector
+.f5d0	a9 ff		lda #$ff			lda 	#$FF 						; set flag to $FF
+.f5d2	8d 46 03	sta $0346			sta 	successFlag
+.f5d5					_OSReadLoop1:
+.f5d5	20 92 f5	jsr $f592			jsr 	FSReadNextHeader 			; read header ?
+.f5d8	b0 32		bcs $f60c			bcs 	_OSReadExit 				; end of search.
+.f5da	ad 47 03	lda $0347			lda 	shFirstNext 				; is it the (F)irst record
+.f5dd	c9 46		cmp #$46			cmp 	#"F"
+.f5df	d0 f4		bne $f5d5			bne 	_OSReadLoop1
+.f5e1	20 91 f6	jsr $f691			jsr 	FSCompareFileNames 			; is it F/N and matching.
+.f5e4	90 ef		bcc $f5d5			bcc 	_OSReadLoop1 				; no, try next sector
+.f5e6	9c 46 03	stz $0346			stz 	successFlag 				; zero when found file.
+.f5e9					_OSReadBlock:
+.f5e9	ad 44 03	lda $0344			lda 	currentSector
+.f5ec	20 10 f6	jsr $f610			jsr 	FSReadData 					; read the data file in.
+.f5ef	ad 48 03	lda $0348			lda 	shContinue 					; continuation ?
+.f5f2	c9 4e		cmp #$4e			cmp 	#"N" 						; exit if no.
+.f5f4	f0 16		beq $f60c			beq 	_OSReadExit
+.f5f6					_OSReadLoop2:
+.f5f6	ad 44 03	lda $0344			lda 	currentSector
+.f5f9	20 92 f5	jsr $f592			jsr 	FSReadNextHeader 			; read header ?
+.f5fc	b0 0e		bcs $f60c			bcs 	_OSReadExit 				; end of search.
+.f5fe	ad 47 03	lda $0347			lda 	shFirstNext 				; is it the (F)irst record
+.f601	c9 4e		cmp #$4e			cmp 	#"N"
+.f603	d0 f1		bne $f5f6			bne 	_OSReadLoop2
+.f605	20 91 f6	jsr $f691			jsr 	FSCompareFileNames 			; is it F/N and matching.
+.f608	90 ec		bcc $f5f6			bcc 	_OSReadLoop2 				; no, try next sector
+.f60a	80 dd		bra $f5e9			bra 	_OSReadBlock 				; read block in.
+.f60c					_OSReadExit:
+.f60c	0e 46 03	asl $0346			asl 	successFlag					; shift success flag (0 if done) into carry
+.f60f	60		rts				rts
+.f610					FSReadData:
+.f610	ad 44 03	lda $0344			lda 	currentSector
+.f613	20 ed f6	jsr $f6ed			jsr 	FSHOpenRead 				; open for read
+.f616	a2 20		ldx #$20			ldx 	#32 						; read past the header
+.f618					_FSReadHLoop:
+.f618	20 ff f6	jsr $f6ff			jsr 	FSHRead
+.f61b	ca		dex				dex
+.f61c	d0 fa		bne $f618			bne 	_FSReadHLoop
+.f61e					_FSRDCopy:
+.f61e	ad 49 03	lda $0349			lda 	shDataSize 					; datasize count zero ?
+.f621	0d 4a 03	ora $034a			ora 	shDataSize+1
+.f624	f0 15		beq $f63b			beq 	_OSRDExit
+.f626	ad 49 03	lda $0349			lda 	shDataSize 					; decrement the data count.
+.f629	d0 03		bne $f62e			bne 	_OSRDNoBorrow
+.f62b	ce 4a 03	dec $034a			dec 	shDataSize+1
+.f62e					_OSRDNoBorrow:
+.f62e	ce 49 03	dec $0349			dec 	shDataSize
+.f631	20 3f f6	jsr $f63f			jsr 	FSIncrementSetLoad 			; load address to zTemp0 and increment it.
+.f634	20 ff f6	jsr $f6ff			jsr 	FSHRead 					; copy byte there
+.f637	92 20		sta ($20)			sta 	(iTemp0)
+.f639	80 e3		bra $f61e			bra 	_FSRDCopy 					; go round again.
+.f63b					_OSRDExit:
+.f63b	20 14 f7	jsr $f714			jsr 	FSHEndCommand
+.f63e	60		rts				rts
+.f63f					FSIncrementSetLoad:
+.f63f	18		clc				clc
+.f640	a0 02		ldy #$02			ldy 	#2 							; increment load address
+.f642	b1 22		lda ($22),y			lda 	(fsBlock),y  				; copying previous to zTemp0
+.f644	85 20		sta $20				sta 	iTemp0
+.f646	69 01		adc #$01			adc 	#1
+.f648	91 22		sta ($22),y			sta 	(fsBlock),y
+.f64a	c8		iny				iny
+.f64b	b1 22		lda ($22),y			lda 	(fsBlock),y
+.f64d	85 21		sta $21				sta 	iTemp0+1
+.f64f	69 00		adc #$00			adc 	#0
+.f651	91 22		sta ($22),y			sta 	(fsBlock),y
+.f653	60		rts				rts
+.f654					OSReadDirectory:
+.f654	b0 12		bcs $f668			bcs 	_OSRDReset
+.f656					_OSRDLoop:
+.f656	20 92 f5	jsr $f592			jsr 	FSReadNextHeader 			; read next sector header.
+.f659	b0 10		bcs $f66b			bcs 	_OSRDExit 					; exit, end of file space, CS
+.f65b	ad 47 03	lda $0347			lda 	shFirstNext 				; is it an 'F' record
+.f65e	c9 46		cmp #$46			cmp 	#'F'
+.f660	d0 f4		bne $f656			bne 	_OSRDLoop
+.f662	a2 57		ldx #$57			ldx 	#shNameLength & $FF 		; return the buffer address
+.f664	a0 03		ldy #$03			ldy 	#shNameLength >> 8
+.f666	18		clc				clc 								; return with carry clear.
+.f667	60		rts				rts
+.f668					_OSRDReset:
+.f668	9c 44 03	stz $0344			stz 	currentSector 				; back to the start.
+.f66b					_OSRDExit:
+.f66b	60		rts				rts
+.f66c					OSDeleteFile:
+.f66c	86 22		stx $22				stx 	fsBlock 					; file block.
+.f66e	84 23		sty $23				sty 	fsBlock+1
+.f670	9c 44 03	stz $0344			stz 	currentSector
+.f673	a9 ff		lda #$ff			lda 	#$FF 						; set flag to $FF
+.f675	8d 46 03	sta $0346			sta 	successFlag
+.f678					_OSDeleteLoop:
+.f678	20 92 f5	jsr $f592			jsr 	FSReadNextHeader 			; read header ?
+.f67b	b0 10		bcs $f68d			bcs 	_OSDeleteExit 				; end of search.
+.f67d	20 91 f6	jsr $f691			jsr 	FSCompareFileNames 			; is it F/N and matching.
+.f680	90 f6		bcc $f678			bcc 	_OSDeleteLoop 				; no, try next sector
+.f682	ad 44 03	lda $0344			lda 	currentSector 				; yes, then erase this sector
+.f685	20 e4 f6	jsr $f6e4			jsr 	FSHErase
+.f688	9c 46 03	stz $0346			stz 	successFlag 				; zero if successful
+.f68b	80 eb		bra $f678			bra 	_OSDeleteLoop
+.f68d					_OSDeleteExit:
+.f68d	0e 46 03	asl $0346			asl 	successFlag					; shift success flag (0 if done) into carry
+.f690	60		rts				rts
+.f691					FSCompareFileNames:
+.f691	ad 47 03	lda $0347			lda 	shFirstNext 				; is it F/N type ?
+.f694	c9 46		cmp #$46			cmp 	#"F"
+.f696	f0 04		beq $f69c			beq 	_FSDeleteCheckName
+.f698	c9 4e		cmp #$4e			cmp 	#"N"
+.f69a	d0 19		bne $f6b5			bne 	_FSCompareFail 				; no, then compare fails.
+.f69c					_FSDeleteCheckName:
+.f69c	a0 01		ldy #$01			ldy 	#1 							; copy filename to iTemp0
+.f69e	b2 22		lda ($22)			lda 	(fsBlock)
+.f6a0	85 20		sta $20				sta 	iTemp0
+.f6a2	b1 22		lda ($22),y			lda 	(fsBlock),y
+.f6a4	85 21		sta $21				sta 	iTemp0+1
+.f6a6	b2 20		lda ($20)			lda 	(iTemp0) 					; compare n+1
+.f6a8	a8		tay				tay
+.f6a9					_FSCompareName:
+.f6a9	b9 57 03	lda $0357,y			lda 	shNameLength,y
+.f6ac	d1 20		cmp ($20),y			cmp 	(iTemp0),y
+.f6ae	d0 05		bne $f6b5			bne 	_FSCompareFail
+.f6b0	88		dey				dey
+.f6b1	10 f6		bpl $f6a9			bpl 	_FSCompareName
+.f6b3	38		sec				sec
+.f6b4	60		rts				rts
+.f6b5					_FSCompareFail:
+.f6b5	18		clc				clc
+.f6b6	60		rts				rts
+.f6b7					FSInitialise:
+.f6b7	9c 42 03	stz $0342			stz 	sectorCount 				; initial values to read $00
+.f6ba	9c 43 03	stz $0343			stz 	sectorCount+1
+.f6bd	9c 40 03	stz $0340			stz 	sectorSize
+.f6c0	9c 41 03	stz $0341			stz 	sectorSize+1
+.f6c3	a9 00		lda #$00			lda 	#0 							; read header sector 0
+.f6c5	20 98 f5	jsr $f598			jsr 	FSReadHeaderA
+.f6c8	ad 49 03	lda $0349			lda 	sectorHeader+2 				; copy sector count
+.f6cb	8d 42 03	sta $0342			sta 	sectorCount
+.f6ce	ad 4a 03	lda $034a			lda 	sectorHeader+3
+.f6d1	8d 43 03	sta $0343			sta 	sectorCount+1
+.f6d4	ad 4b 03	lda $034b			lda 	sectorHeader+4 				; sector size power
+.f6d7	ee 40 03	inc $0340			inc 	sectorSize 					; convert to sector size.
+.f6da					_FSICalcSS:
+.f6da	0e 40 03	asl $0340			asl 	sectorSize
+.f6dd	2e 41 03	rol $0341			rol 	sectorSize+1
+.f6e0	3a		dec a				dec 	a
+.f6e1	d0 f7		bne $f6da			bne 	_FSICalcSS
+.f6e3	60		rts				rts
+.f6e4					FSHErase:
+.f6e4	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.f6e7	a9 00		lda #$00			lda 	#0 						; activate on command write
+.f6e9	8d 10 cf	sta $cf10			sta 	$CF10
+.f6ec	60		rts				rts
+.f6ed					FSHOpenRead:
+.f6ed	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.f6f0	a9 01		lda #$01			lda 	#1 						; activate on command write
+.f6f2	8d 10 cf	sta $cf10			sta 	$CF10
+.f6f5	60		rts				rts
+.f6f6					FSHOpenWrite:
+.f6f6	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.f6f9	a9 02		lda #$02			lda 	#2 						; activate on command write
+.f6fb	8d 10 cf	sta $cf10			sta 	$CF10
+.f6fe	60		rts				rts
+.f6ff					FSHRead:
+.f6ff	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.f702	a9 03		lda #$03			lda 	#3 						; activate on command write
+.f704	8d 10 cf	sta $cf10			sta 	$CF10
+.f707	ad 12 cf	lda $cf12			lda 	$CF12
+.f70a	60		rts				rts
+.f70b					FSHWrite:
+.f70b	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.f70e	a9 04		lda #$04			lda 	#4 						; activate on command write
+.f710	8d 10 cf	sta $cf10			sta 	$CF10
+.f713	60		rts				rts
+.f714					FSHEndCommand:
+.f714	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.f717	a9 05		lda #$05			lda 	#5 						; activate on command write
+.f719	8d 10 cf	sta $cf10			sta 	$CF10
+.f71c	60		rts				rts
 
 ;******  Return to file: osrom.asm
 
-.ff1d					MainPrompt:
->ff1d	68						.byte 	_MPEnd-MainPrompt-1
->ff1e	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
->ff26	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
->ff36	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
->ff45	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
->ff4d	42 75 69 6c 74 20
+.f71d					MainPrompt:
+>f71d	68						.byte 	_MPEnd-MainPrompt-1
+>f71e	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
+>f726	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
+>f736	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
+>f745	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
+>f74d	42 75 69 6c 74 20
 
 ;******  Processing file: src/generated/time.incx
 
->ff53	32 33 2f 30 37 2f 30 32			.text	"23/07/02"
+>f753	32 33 2f 30 37 2f 30 32			.text	"23/07/02"
 
 ;******  Return to file: osrom.asm
 
->ff5b	0d 0d						.byte 	13,13
->ff5d	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
->ff65	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
->ff75	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->ff85	0d
-.ff86					_MPEnd:
+>f75b	0d 0d						.byte 	13,13
+>f75d	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
+>f765	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
+>f775	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>f785	0d
+.f786					_MPEnd:
 
 ;******  Processing file: src/generated/vectors.asmx
 
-.ffd0	4c 54 fe	jmp $fe54		jmp		OSReadDirectory          ; Read file directory.
-.ffd3	4c 6c fe	jmp $fe6c		jmp		OSDeleteFile             ; Delete file
-.ffd6	4c c9 fd	jmp $fdc9		jmp		OSReadFile               ; Read file into memory
-.ffd9	4c 87 fd	jmp $fd87		jmp		OSGetScreenPosition      ; Screen position to XY
-.ffdc	4c 80 fd	jmp $fd80		jmp		OSGetScreenSize          ; Get size of screen to XY
-.ffdf	4c 58 f9	jmp $f958		jmp		OSWriteString            ; Write length prefixed string YX to screen
-.ffe2	4c f6 fb	jmp $fbf6		jmp		OSEnterLine              ; Edit line, return line in YX length prefixed, backspace only editing.
-.ffe5	4c 41 fc	jmp $fc41		jmp		OSScreenLine             ; Edit line, return line in YX length prefixed, full screen editing.
-.ffe8	4c d1 f9	jmp $f9d1		jmp		OSKeyboardDataProcess    ; Keyboard update process.
-.ffeb	4c 8e fd	jmp $fd8e		jmp		OSCheckBreak             ; NZ if ESC pressed.
-.ffee	4c 0b f9	jmp $f90b		jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
-.fff1	4c 37 f9	jmp $f937		jmp		OSReadKeystroke          ; Read A from keyboard, display cursor, wait for key.
-.fff4	4c 15 f9	jmp $f915		jmp		OSReadKeyboard           ; Read A from keyboard, CC = success, CS = no key
-.fff7	4c 21 f8	jmp $f821		jmp		OSWriteScreen            ; Write A to screen, CC = success
+.ffd0	4c 54 f6	jmp $f654		jmp		OSReadDirectory          ; Read file directory.
+.ffd3	4c 6c f6	jmp $f66c		jmp		OSDeleteFile             ; Delete file
+.ffd6	4c c9 f5	jmp $f5c9		jmp		OSReadFile               ; Read file into memory
+.ffd9	4c 87 f5	jmp $f587		jmp		OSGetScreenPosition      ; Screen position to XY
+.ffdc	4c 80 f5	jmp $f580		jmp		OSGetScreenSize          ; Get size of screen to XY
+.ffdf	4c 58 f1	jmp $f158		jmp		OSWriteString            ; Write length prefixed string YX to screen
+.ffe2	4c f6 f3	jmp $f3f6		jmp		OSEnterLine              ; Edit line, return line in YX length prefixed, backspace only editing.
+.ffe5	4c 41 f4	jmp $f441		jmp		OSScreenLine             ; Edit line, return line in YX length prefixed, full screen editing.
+.ffe8	4c d1 f1	jmp $f1d1		jmp		OSKeyboardDataProcess    ; Keyboard update process.
+.ffeb	4c 8e f5	jmp $f58e		jmp		OSCheckBreak             ; NZ if ESC pressed.
+.ffee	4c 0b f1	jmp $f10b		jmp		OSIsKeyAvailable         ; Check if key available (CS if so)
+.fff1	4c 37 f1	jmp $f137		jmp		OSReadKeystroke          ; Read A from keyboard, display cursor, wait for key.
+.fff4	4c 15 f1	jmp $f115		jmp		OSReadKeyboard           ; Read A from keyboard, CC = success, CS = no key
+.fff7	4c 21 f0	jmp $f021		jmp		OSWriteScreen            ; Write A to screen, CC = success
 
 ;******  Return to file: osrom.asm
 
->fffa	10 f8						.word 	NoInt 						; NMI
->fffc	00 f8						.word 	Boot 						; Reset
->fffe	10 f8						.word 	NoInt						; IRQ
+>fffa	10 f0						.word 	NoInt 						; NMI
+>fffc	00 f0						.word 	Boot 						; Reset
+>fffe	10 f0						.word 	NoInt						; IRQ
 
 ;******  End of listing

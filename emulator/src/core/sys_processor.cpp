@@ -100,7 +100,7 @@ void CPUReset(void) {
 	Write(0xFFFC,0);Write(0xFFFD,0x10);												// Boot to $1000 if no
 
 	#ifdef EMSCRIPTEN
-	#define OSROMSIZE (2048)
+	#define OSROMSIZE (4096)
 	FILE *f = fopen("storage/osrom.bin","rb");
 	fread(ramMemory+0x10000-OSROMSIZE,1,OSROMSIZE,f);
 	fclose(f);
