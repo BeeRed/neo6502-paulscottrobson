@@ -98,7 +98,7 @@ OSEditBuffer: 								; text buffer.
 		.fill 	OSTextBufferSize+1
 
 		.fill 	32
-		.align 	256
+
 		.dsection storage
 
 ; ************************************************************************************************
@@ -106,6 +106,11 @@ OSEditBuffer: 								; text buffer.
 ;											WWFS Usage
 ;
 ; ************************************************************************************************
+
+		.section zeropage
+fsBlock:	 								; pointer to fs block
+		.fill 	2		
+		.send zeropage
 
 		.section storage
 

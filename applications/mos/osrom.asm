@@ -32,11 +32,20 @@ Boot:	jsr 	OSInitialise 				; set everything up.
 ;		jsr		OSReadKeystroke
 ;		jsr 	OSWriteScreen
 ;		bra 	_h1
+		
+		ldx 	#setup & $FF
+		ldy 	#setup >> 8
+		jsr 	OSDeleteFile
 
 		jmp 	$1000 						; and run from $1000 onwards
 
 NoInt:
 		rti
+
+setup:	.word 	name
+		.word 	0
+		.word 	0
+name:	.text 	8,"text1.bas"		
 
 		.include "include.files"
 		.include "build/libwwfslib.asmlib"

@@ -13,9 +13,11 @@ import sys
 
 vectors = """
 	OSReadDirectory 				: Read file directory.
-
+	OSDeleteFile 					: Delete file
+	
 	OSGetScreenPosition 			: Screen position to XY
 	OSGetScreenSize 				: Get size of screen to XY
+	OSWriteString 					: Write length prefixed string YX to screen
 
 	OSEnterLine						: Edit line, return line in YX length prefixed, backspace only editing.
 	OSScreenLine 					: Edit line, return line in YX length prefixed, full screen editing.
@@ -23,11 +25,10 @@ vectors = """
 	OSKeyboardDataProcess 			: Keyboard update process.
 	OSCheckBreak					: NZ if ESC pressed.
 	OSIsKeyAvailable 				: Check if key available (CS if so)
-	OSReadKeyboard 					: Read A from keyboard, CC = success, CS = no key
 	OSReadKeystroke 				: Read A from keyboard, display cursor, wait for key.
 
+	OSReadKeyboard 					: Read A from keyboard, CC = success, CS = no key
 	OSWriteScreen 					: Write A to screen, CC = success
-	OSWriteString 					: Write length prefixed string YX to screen
 
 """
 vectors = [x.strip() for x in vectors.split("\n") if x.strip() != ""]
