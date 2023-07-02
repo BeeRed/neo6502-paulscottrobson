@@ -1,6 +1,4 @@
 TODO:
-	Fix &1a &1A bug
-	
 	Expand MOS ($F000) and fix load address
 		- emulator
 		- makefiles

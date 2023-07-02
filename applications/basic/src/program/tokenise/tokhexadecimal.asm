@@ -32,6 +32,7 @@ _TTHLoop:
 		jsr 	IFloatShiftLeft		
 		jsr 	IFloatShiftLeft		
 		jsr 	TOKGetNext
+		jsr 	TOKToUpper 					; make U/C
 		sec 								; convert to decimal.
 		sbc 	#48
 		cmp 	#10
@@ -59,6 +60,7 @@ _TTHDone:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		01/07/23 		&1A and &1a different - no upper case conversion.
 ;
 ; ************************************************************************************************
 
