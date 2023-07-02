@@ -1,14 +1,12 @@
 TODO:
+	Fix &1a &1A bug
+	
 	Expand MOS ($F000) and fix load address
 		- emulator
 		- makefiles
 		- javascript
 
 	Complete Code Reading (down to 58 files).
-
-	BASIC LOAD <file>[,<addr>] using generated files.
-	
-	Loading real programs / JS test.
 
 	Assembler file system.
 		Write
