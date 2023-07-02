@@ -2,12 +2,13 @@ TODO:
 	Complete Code Reading (down to 58 files).
 
 	Assembler file system.
-		Directory
-		Erase
 		Read
 		Write
 
-	Python script to rip code out of memory.dump		
+	BASIC link.
+		Loading/Saving real programs.
+
+	Python script to rip code out of memory.dump in case it doesn't work :)
 
 	Star Trek
 	

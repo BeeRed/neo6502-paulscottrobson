@@ -35,7 +35,7 @@ Boot:	jsr 	OSInitialise 				; set everything up.
 		
 		ldx 	#setup & $FF
 		ldy 	#setup >> 8
-		jsr 	OSDeleteFile
+		jsr 	OSReadFile
 
 		jmp 	$1000 						; and run from $1000 onwards
 
@@ -43,9 +43,9 @@ NoInt:
 		rti
 
 setup:	.word 	name
+		.word 	$5000
 		.word 	0
-		.word 	0
-name:	.text 	8,"text1.bas"		
+name:	.text 	9,"text3.bas"		
 
 		.include "include.files"
 		.include "build/libwwfslib.asmlib"

@@ -29,7 +29,7 @@ StackOpen:
 		adc 	basicStack 	 				; basicStack
 		sta 	basicStack
 		bcs 	_SONoBorrow
-		.debug
+
 		dec 	basicStack+1
 		lda 	basicStack+1 				; reached the bottom ?
 		cmp 	basicStackEnd

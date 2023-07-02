@@ -43,7 +43,7 @@ void HWFlashInitialise(void) {
 
 int HWFlashCommand(int command,int data) {
 	int retVal = 0;
-	printf("Flash cmd:%d data:%d $%x ",command,data,data);
+	//printf("Flash cmd:%d data:%d $%x ",command,data,data);
 
 	switch(command) {
 		case HWF_ERASE:  					 			// Erase sector.
@@ -59,7 +59,7 @@ int HWFlashCommand(int command,int data) {
 			break;
 		case HWF_READ: 				 					// Read one byte
 			retVal = fgetc(flashHandler);
-			printf("\t=> %d $%x",retVal,retVal);
+			//printf("\t=> %d $%x",retVal,retVal);
 			break;
 		case HWF_WRITE:  			 					// Write one byte
 			fputc(data,flashHandler);
@@ -69,7 +69,7 @@ int HWFlashCommand(int command,int data) {
 			flashHandler = NULL;
 			break;			
 	}
-	printf("\n");
+	//printf("\n");
 	return retVal;
 }
 
