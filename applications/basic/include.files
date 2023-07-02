@@ -89,6 +89,7 @@
 	.include "src/support/strings/concrete.asm"
 	.include "src/support/strings/stringalloc.asm"
 	.include "src/system/dir.asm"
+	.include "src/system/erase.asm"
 	.include "src/ui/errorhandler.asm"
 	.include "src/ui/warmstart.asm"
 	.include "src/variables/array.asm"

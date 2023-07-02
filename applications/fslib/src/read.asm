@@ -43,7 +43,7 @@ _OSReadLoop1:
 
 _OSReadBlock:
 		lda 	currentSector
-		jsr 	OSReadData 					; read the data file in.
+		jsr 	FSReadData 					; read the data file in.
 		lda 	shContinue 					; continuation ?
 		cmp 	#"N" 						; exit if no.
 		beq 	_OSReadExit
@@ -69,8 +69,55 @@ _OSReadExit:
 ;
 ; ************************************************************************************************
 
-OSReadData:
+FSReadData:
+		lda 	currentSector
+		jsr 	FSHOpenRead 				; open for read
+		ldx 	#32 						; read past the header
+_FSReadHLoop:
+		jsr 	FSHRead
+		dex
+		bne 	_FSReadHLoop		
+		;
+_FSRDCopy:
+		lda 	shDataSize 					; datasize count zero ?
+		ora 	shDataSize+1
+		beq 	_OSRDExit
+		;
+		lda 	shDataSize 					; decrement the data count.
+		bne 	_OSRDNoBorrow
+		dec 	shDataSize+1
+_OSRDNoBorrow:
+		dec 	shDataSize		
+		;
+		jsr 	FSIncrementSetLoad 			; load address to zTemp0 and increment it.
+		jsr 	FSHRead 					; copy byte there
+		sta 	(iTemp0)
+		bra 	_FSRDCopy 					; go round again.
+
+_OSRDExit:				
+		jsr 	FSHEndCommand
 		rts
+
+; ************************************************************************************************
+;
+;						Copy load/save address to zTemp0, increment it.
+;
+; ************************************************************************************************
+
+FSIncrementSetLoad:		
+		clc
+		ldy 	#2 							; increment load address
+		lda 	(fsBlock),y  				; copying previous to zTemp0
+		sta 	iTemp0
+		adc 	#1
+		sta 	(fsBlock),y
+		iny
+		lda 	(fsBlock),y  				
+		sta 	iTemp0+1
+		adc 	#0
+		sta 	(fsBlock),y
+		rts
+
 
 		.send code
 		

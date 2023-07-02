@@ -1,12 +1,12 @@
 TODO:
 	Complete Code Reading (down to 58 files).
 
-	Assembler file system.
-		Read
-		Write
+	BASIC LOAD <file>,<addr>
+	Loading real programs / JS test.
 
-	BASIC link.
-		Loading/Saving real programs.
+	Assembler file system.
+		Write
+		Basic save.
 
 	Python script to rip code out of memory.dump in case it doesn't work :)
 

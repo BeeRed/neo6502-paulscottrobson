@@ -68,4 +68,7 @@ ErrorV_break:
 ErrorV_line:
 	jsr	ErrorHandler
 	.text	19,"Unknown Line Number",0
+ErrorV_fnf:
+	jsr	ErrorHandler
+	.text	14,"File Not Found",0
 	.send code

@@ -67,3 +67,6 @@ error_break .macro
 error_line .macro
 	jmp	ErrorV_line
 	.endm
+error_fnf .macro
+	jmp	ErrorV_fnf
+	.endm
