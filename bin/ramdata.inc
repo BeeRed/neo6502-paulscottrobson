@@ -39,6 +39,8 @@ rTemp1:
 iTemp0:										; temporary register for maths library, zero page.
 		.fill 	2
 
+
+
 		.dsection zeropage
 
 ; ************************************************************************************************
@@ -112,6 +114,22 @@ sectorCount:								; sector count bytes, read at initialise.
 		.fill 	2
 currentSector: 								; current sector.
 		.fill 	2		
+
+sectorHeader: 								; header
+shFirstNext: 								; (F)irst (N)ext (I)nformation or free
+		.fill 	1
+shContinue:									; (Y)es (N)o (more of this file)		
+		.fill 	1
+shDataSize:									; bytes of data in this sector		
+		.fill 	2
+shFileSize:									; size of file.		
+		.fill 	2
+		.fill 	10
+shNameLength:								; # characters in name.		
+		.fill 	1
+shNameText:									; file name (lower case)	
+		.fill 	15
+
 		.send storage				
 
 

@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/main.bin _main.asm
-; Sat Jul  1 17:54:35 2023
+; Sun Jul  2 10:06:00 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -76,6 +76,20 @@
 >0402							.fill 	2
 .0404					currentSector:
 >0404							.fill 	2
+.0406					sectorHeader:
+.0406					shFirstNext:
+>0406							.fill 	1
+.0407					shContinue:
+>0407							.fill 	1
+.0408					shDataSize:
+>0408							.fill 	2
+.040a					shFileSize:
+>040a							.fill 	2
+>040c							.fill 	10
+.0416					shNameLength:
+>0416							.fill 	1
+.0417					shNameText:
+>0417							.fill 	15
 
 ;******  Return to file: _main.asm
 
@@ -10940,7 +10954,7 @@
 =$3f					IFXMask = $3F 								; mask out the exponent
 =$40					IFSign = $40 								; sign bit.
 .8a75					IFInitialise:
-.8a75	9c 0e 04	stz $040e			stz 	IFStackIndex 				; reset the internal stack.
+.8a75	9c 2e 04	stz $042e			stz 	IFStackIndex 				; reset the internal stack.
 .8a78	60		rts				rts
 .8a79					IFloatSubtract:
 .8a79	da		phx				phx
@@ -11029,23 +11043,23 @@
 .8b0c	fa		plx				plx
 .8b0d	4c 88 8a	jmp $8a88			jmp 	_IFAddSubMantissa 			; do the adding bit.
 .8b10					_IFShiftXToA:
-.8b10	8d 06 04	sta $0406			sta 	IFTarget
+.8b10	8d 26 04	sta $0426			sta 	IFTarget
 .8b13	20 81 90	jsr $9081			jsr 	IFloatCheckZero 			; check adding zero ?
 .8b16	f0 11		beq $8b29			beq 	_IFSXExit
 .8b18					_IFSXLoop:
 .8b18	b5 03		lda $03,x			lda 	IExp,x 	 					; shifted to the right level yet ?
 .8b1a	29 3f		and #$3f			and 	#IFXMask
-.8b1c	cd 06 04	cmp $0406			cmp 	IFTarget
+.8b1c	cd 26 04	cmp $0426			cmp 	IFTarget
 .8b1f	f0 08		beq $8b29			beq 	_IFSXExit
 .8b21	20 b7 90	jsr $90b7			jsr 	IFloatShiftRight
 .8b24	20 e1 90	jsr $90e1			jsr 	IFloatIncExponent
 .8b27	80 ef		bra $8b18			bra 	_IFSXLoop
 .8b29					_IFSXExit:
 .8b29	60		rts				rts
-.0406					IFTarget:
->0406							.fill 	1
+.0426					IFTarget:
+>0426							.fill 	1
 .8b2a					IFloatMultiply:
-.8b2a	8e 06 04	stx $0406			stx 	IFTarget 					; save the multiplier (RX) which is "adder"
+.8b2a	8e 26 04	stx $0426			stx 	IFTarget 					; save the multiplier (RX) which is "adder"
 .8b2d	20 e2 8b	jsr $8be2			jsr 	IFCalculateNewSign
 .8b30	b5 03		lda $03,x			lda 	IExp,x 						; check two positive 8 bit integers
 .8b32	05 0b		ora $0b				ora 	IFR0+IExp
@@ -11056,19 +11070,19 @@
 .8b3c	05 0a		ora $0a				ora 	IFR0+IM2
 .8b3e	d0 0a		bne $8b4a			bne 	_IFMStandard
 .8b40	20 64 90	jsr $9064			jsr 	IFloatMultiply8BitRx 		; we have a special routine for this.
-.8b43	ad 08 04	lda $0408			lda 	IFNewSign
+.8b43	ad 28 04	lda $0428			lda 	IFNewSign
 .8b46	85 0b		sta $0b				sta 	IFR0+IExp
 .8b48	18		clc				clc
 .8b49	60		rts				rts
 .8b4a					_IFMStandard:
 .8b4a	b5 03		lda $03,x			lda 	IExp,x 						; add the two exponents sign extended
 .8b4c	20 d9 8b	jsr $8bd9			jsr 	IFMSignExtend
-.8b4f	8d 07 04	sta $0407			sta 	IFNewExponent
+.8b4f	8d 27 04	sta $0427			sta 	IFNewExponent
 .8b52	a5 0b		lda $0b				lda 	IFR0+IExp
 .8b54	20 d9 8b	jsr $8bd9			jsr 	IFMSignExtend
 .8b57	18		clc				clc
-.8b58	6d 07 04	adc $0407			adc 	IFNewExponent
-.8b5b	8d 07 04	sta $0407			sta 	IFNewExponent
+.8b58	6d 27 04	adc $0427			adc 	IFNewExponent
+.8b5b	8d 27 04	sta $0427			sta 	IFNewExponent
 .8b5e	a2 14		ldx #$14			ldx 	#IFRTemp 					; copy R0 to RTemp which is "shifter"
 .8b60	20 2a 90	jsr $902a			jsr 	IFloatCopyToRegister
 .8b63	a2 08		ldx #$08			ldx 	#IFR0 						; zero R0 (the result)
@@ -11077,7 +11091,7 @@
 .8b68	a2 14		ldx #$14			ldx 	#IFRTemp
 .8b6a	20 81 90	jsr $9081			jsr 	IFloatCheckZero
 .8b6d	f0 3a		beq $8ba9			beq 	_IFMExit
-.8b6f	ae 06 04	ldx $0406			ldx 	IFTarget 					; look at adder MSB
+.8b6f	ae 26 04	ldx $0426			ldx 	IFTarget 					; look at adder MSB
 .8b72	b5 02		lda $02,x			lda 	IM2,x 						; if it is set we need to shift everything
 .8b74	10 03		bpl $8b79			bpl	 	_IFMTargetOkay
 .8b76	20 ca 8b	jsr $8bca			jsr 	_IFMShiftAll
@@ -11085,7 +11099,7 @@
 .8b79	a5 14		lda $14				lda 	IFRTemp+0 					; is bit 0 of the shifter (RTemp) set
 .8b7b	29 01		and #$01			and 	#1
 .8b7d	f0 16		beq $8b95			beq 	_IFMNoAdd
-.8b7f	ae 06 04	ldx $0406			ldx 	IFTarget 					; add adder
+.8b7f	ae 26 04	ldx $0426			ldx 	IFTarget 					; add adder
 .8b82	18		clc				clc
 .8b83	a5 08		lda $08				lda 	IFR0+IM0
 .8b85	75 00		adc $00,x			adc 		IM0,x
@@ -11103,11 +11117,11 @@
 .8b9c					_IFMResultOkay:
 .8b9c	a2 14		ldx #$14			ldx 	#IFRTemp
 .8b9e	20 b7 90	jsr $90b7			jsr 	IFloatShiftRight
-.8ba1	ae 06 04	ldx $0406			ldx 	IFTarget
+.8ba1	ae 26 04	ldx $0426			ldx 	IFTarget
 .8ba4	20 af 90	jsr $90af			jsr 	IFloatShiftLeft
 .8ba7	80 bf		bra $8b68			bra 	_IFMLoop
 .8ba9					_IFMExit:
-.8ba9	ad 07 04	lda $0407			lda 	IFNewExponent 				; validate new exponent.
+.8ba9	ad 27 04	lda $0427			lda 	IFNewExponent 				; validate new exponent.
 .8bac	c9 20		cmp #$20			cmp 	#$20 						; valid exponent 00-1F E0-FF
 .8bae	90 0f		bcc $8bbf			bcc 	_IFMOkay
 .8bb0	c9 e0		cmp #$e0			cmp 	#$E0
@@ -11120,7 +11134,7 @@
 .8bbe	60		rts				rts
 .8bbf					_IFMOkay:
 .8bbf	29 3f		and #$3f			and 	#IFXMask 					; work out exponent + sign and exit
-.8bc1	0d 08 04	ora $0408			ora 	IFNewSign
+.8bc1	0d 28 04	ora $0428			ora 	IFNewSign
 .8bc4	85 0b		sta $0b				sta 	IFR0+IExp
 .8bc6	18		clc				clc
 .8bc7	60		rts				rts
@@ -11130,9 +11144,9 @@
 .8bca					_IFMShiftAll:
 .8bca	a2 08		ldx #$08			ldx 	#IFR0
 .8bcc	20 b7 90	jsr $90b7			jsr 	IFloatShiftRight
-.8bcf	ae 06 04	ldx $0406			ldx 	IFTarget
+.8bcf	ae 26 04	ldx $0426			ldx 	IFTarget
 .8bd2	20 b7 90	jsr $90b7			jsr 	IFloatShiftRight
-.8bd5	ee 07 04	inc $0407			inc 	IFNewExponent
+.8bd5	ee 27 04	inc $0427			inc 	IFNewExponent
 .8bd8	60		rts				rts
 .8bd9					IFMSignExtend:
 .8bd9	29 3f		and #$3f			and 	#IFXMask
@@ -11145,12 +11159,12 @@
 .8be2	b5 03		lda $03,x			lda 	IExp,x
 .8be4	45 0b		eor $0b				eor 	IFR0+IExp
 .8be6	29 40		and #$40			and 	#IFSign
-.8be8	8d 08 04	sta $0408			sta 	IFNewSign
+.8be8	8d 28 04	sta $0428			sta 	IFNewSign
 .8beb	60		rts				rts
-.0407					IFNewExponent:
->0407							.fill 	1
-.0408					IFNewSign:
->0408							.fill 	1
+.0427					IFNewExponent:
+>0427							.fill 	1
+.0428					IFNewSign:
+>0428							.fill 	1
 .8bec					IFloatDivideInteger:
 .8bec	20 05 8c	jsr $8c05			jsr 	IFloatDivideIntegerCommon 	; do the common code.
 .8bef	b0 06		bcs $8bf7			bcs 	_IFDIExit
@@ -11162,19 +11176,19 @@
 .8bf8					IFloatModulusInteger:
 .8bf8	20 05 8c	jsr $8c05			jsr 	IFloatDivideIntegerCommon
 .8bfb	b0 07		bcs $8c04			bcs 	_IFMIExit
-.8bfd	ae 06 04	ldx $0406			ldx 	IFTarget
+.8bfd	ae 26 04	ldx $0426			ldx 	IFTarget
 .8c00	20 19 90	jsr $9019			jsr 	IFloatCopyFromRegister
 .8c03	18		clc				clc
 .8c04					_IFMIExit:
 .8c04	60		rts				rts
 .8c05					IFloatDivideIntegerCommon:
-.8c05	8e 06 04	stx $0406			stx 	IFTarget  					; this is s1, s0 = R0
+.8c05	8e 26 04	stx $0426			stx 	IFTarget  					; this is s1, s0 = R0
 .8c08	20 e2 8b	jsr $8be2			jsr 	IFCalculateNewSign 			; calculate sign of result
 .8c0b	20 33 8c	jsr $8c33			jsr 	IFDCopyRXToRTemp 			; copy S1 to RTemp
 .8c0e	a2 08		ldx #$08			ldx 	#IFR0 						; check divide by zero
 .8c10	20 81 90	jsr $9081			jsr 	IFloatCheckZero
 .8c13	f0 1c		beq $8c31			beq 	_IFDIDivZero
-.8c15	ae 06 04	ldx $0406			ldx 	IFTarget 					; zero Rx (S1)
+.8c15	ae 26 04	ldx $0426			ldx 	IFTarget 					; zero Rx (S1)
 .8c18	20 88 90	jsr $9088			jsr 	IFloatSetZero
 .8c1b	5a		phy				phy
 .8c1c	a0 18		ldy #$18			ldy 	#24
@@ -11184,7 +11198,7 @@
 .8c24	88		dey				dey
 .8c25	d0 f7		bne $8c1e			bne 	_IFDILoop 					; do it 24 times
 .8c27	7a		ply				ply
-.8c28	ad 08 04	lda $0408			lda 	IFNewSign 					; set sign of result.
+.8c28	ad 28 04	lda $0428			lda 	IFNewSign 					; set sign of result.
 .8c2b	29 40		and #$40			and 	#IFSign
 .8c2d	85 17		sta $17				sta 	IFRTemp+IExp
 .8c2f	18		clc				clc 								; is okay.
@@ -11205,11 +11219,11 @@
 .8c44					IFDShiftSTempS1Left:
 .8c44	a2 14		ldx #$14			ldx 	#IFRTemp
 .8c46	20 af 90	jsr $90af			jsr 	IFloatShiftLeft
-.8c49	ae 06 04	ldx $0406			ldx 	IFTarget
+.8c49	ae 26 04	ldx $0426			ldx 	IFTarget
 .8c4c	20 b0 90	jsr $90b0			jsr 	IFloatRotateLeft
 .8c4f	60		rts				rts
 .8c50					IFDTrySubtract:
-.8c50	ae 06 04	ldx $0406			ldx 	IFTarget 					; s1 = Rx
+.8c50	ae 26 04	ldx $0426			ldx 	IFTarget 					; s1 = Rx
 .8c53	38		sec				sec 								; subtract, saving the results on the stack.
 .8c54	b5 00		lda $00,x			lda 	IM0,x
 .8c56	e5 08		sbc $08				sbc 	IFR0+IM0
@@ -11417,7 +11431,7 @@
 .8daa	18		clc				clc
 .8dab	60		rts				rts
 .8dac					IFloatDivideFloat:
-.8dac	8e 06 04	stx $0406			stx 	IFTarget  					; this is s1, s0 = R0
+.8dac	8e 26 04	stx $0426			stx 	IFTarget  					; this is s1, s0 = R0
 .8daf	20 e2 8b	jsr $8be2			jsr 	IFCalculateNewSign 			; calculate sign of result
 .8db2	20 bf 90	jsr $90bf			jsr 	IFloatNormalise 			; normalise RX
 .8db5	a2 08		ldx #$08			ldx 	#IFR0 						; normalise R0
@@ -11426,39 +11440,39 @@
 .8dbd	f0 56		beq $8e15			beq 	_IFDFDivZero 				; exit if this normalised to zero.
 .8dbf	a5 0b		lda $0b				lda 	IFR0+IExp 					; calculate s0.exponent
 .8dc1	20 d9 8b	jsr $8bd9			jsr 	IFMSignExtend
-.8dc4	8d 07 04	sta $0407			sta 	IFNewExponent
-.8dc7	ae 06 04	ldx $0406			ldx 	IFTarget 					; calculate s1.exponent
+.8dc4	8d 27 04	sta $0427			sta 	IFNewExponent
+.8dc7	ae 26 04	ldx $0426			ldx 	IFTarget 					; calculate s1.exponent
 .8dca	b5 03		lda $03,x			lda 	IExp,x
 .8dcc	20 d9 8b	jsr $8bd9			jsr 	IFMSignExtend
 .8dcf	38		sec				sec
-.8dd0	ed 07 04	sbc $0407			sbc 	IFNewExponent 				; s1.exponent - s0.exponent - 23
+.8dd0	ed 27 04	sbc $0427			sbc 	IFNewExponent 				; s1.exponent - s0.exponent - 23
 .8dd3	38		sec				sec
 .8dd4	e9 17		sbc #$17			sbc 	#23
-.8dd6	8d 07 04	sta $0407			sta 	IFNewExponent
+.8dd6	8d 27 04	sta $0427			sta 	IFNewExponent
 .8dd9	20 17 8e	jsr $8e17			jsr 	IFloatDivideSupport 		; call the support routine (see maths.py)
 .8ddc	a5 16		lda $16				lda 	IFRTemp+IM2 				; result has overflowed ?
 .8dde	10 08		bpl $8de8			bpl 	_IFDFNoShiftResult
 .8de0	a2 14		ldx #$14			ldx 	#IFRTemp 					; if so, fix it up.
 .8de2	20 b7 90	jsr $90b7			jsr 	IFloatShiftRight
-.8de5	ee 07 04	inc $0407			inc 	IFNewExponent
+.8de5	ee 27 04	inc $0427			inc 	IFNewExponent
 .8de8					_IFDFNoShiftResult:
-.8de8	ad 07 04	lda $0407			lda 	IFNewExponent 				; underflow/overflow check.
+.8de8	ad 27 04	lda $0427			lda 	IFNewExponent 				; underflow/overflow check.
 .8deb	30 06		bmi $8df3			bmi 	_IFDFCheckUnderflow
 .8ded	c9 20		cmp #$20			cmp 	#$20 						; overflow in division
 .8def	b0 24		bcs $8e15			bcs 	_IFDFDivZero
 .8df1	80 11		bra $8e04			bra		_IFDFExit
 .8df3					_IFDFCheckUnderflow:
-.8df3	ad 07 04	lda $0407			lda 	IFNewExponent 				; shift into a legal exponent.
+.8df3	ad 27 04	lda $0427			lda 	IFNewExponent 				; shift into a legal exponent.
 .8df6	c9 e0		cmp #$e0			cmp 	#$E0 						; if exponent < -32.
 .8df8	b0 0a		bcs $8e04			bcs 	_IFDFExit
-.8dfa	ee 07 04	inc $0407			inc 	IFNewExponent
+.8dfa	ee 27 04	inc $0427			inc 	IFNewExponent
 .8dfd	a2 14		ldx #$14			ldx 	#IFRTemp
 .8dff	20 b7 90	jsr $90b7			jsr 	IFloatShiftRight
 .8e02	80 ef		bra $8df3			bra 	_IFDFCheckUnderflow
 .8e04					_IFDFExit:
-.8e04	ad 07 04	lda $0407			lda 	IFNewExponent 				; combine exponent and sign.
+.8e04	ad 27 04	lda $0427			lda 	IFNewExponent 				; combine exponent and sign.
 .8e07	29 3f		and #$3f			and 	#IFXMask
-.8e09	0d 08 04	ora $0408			ora 	IFNewSign
+.8e09	0d 28 04	ora $0428			ora 	IFNewSign
 .8e0c	85 17		sta $17				sta 	IFRTemp+IExp
 .8e0e	a2 14		ldx #$14			ldx 	#IFRTemp 					; copy RTemp to R0.
 .8e10	20 19 90	jsr $9019			jsr 	IFloatCopyFromRegister
@@ -11480,7 +11494,7 @@
 .8e28	7a		ply				ply
 .8e29	60		rts				rts
 .8e2a					IFloatIntegerToStringR0:
-.8e2a	8d 09 04	sta $0409			sta 	IFBase 						; save base to use.
+.8e2a	8d 29 04	sta $0429			sta 	IFBase 						; save base to use.
 .8e2d	20 09 91	jsr $9109			jsr 	IFloatBufferReset			; empty buffer
 .8e30	a5 0b		lda $0b				lda 	IFR0+IExp					; check integer, cant't convert float
 .8e32	29 3f		and #$3f			and 	#IFXMask
@@ -11506,7 +11520,7 @@
 .8e55	a2 0c		ldx #$0c			ldx 	#IFR1
 .8e57	20 2a 90	jsr $902a			jsr 	IFloatCopyToRegister 		; R0->R1
 .8e5a	a2 08		ldx #$08			ldx 	#IFR0
-.8e5c	ad 09 04	lda $0409			lda 	IFBase 						; Base -> R0
+.8e5c	ad 29 04	lda $0429			lda 	IFBase 						; Base -> R0
 .8e5f	20 8a 90	jsr $908a			jsr 	IFloatSetByte
 .8e62	a2 0c		ldx #$0c			ldx 	#IFR1 						; R0 = R1 / R0
 .8e64	20 ec 8b	jsr $8bec			jsr 	IFloatDivideInteger
@@ -11527,8 +11541,8 @@
 .8e7f	69 30		adc #$30			adc 	#48
 .8e81	20 18 91	jsr $9118			jsr 	IFloatBufferWrite 			; write character to buffer.
 .8e84	60		rts				rts
-.0409					IFBase:
->0409							.fill 	1
+.0429					IFBase:
+>0429							.fill 	1
 .8e85					IFloatFloatToStringR0:
 .8e85	a2 10		ldx #$10			ldx 	#IFR2 						; copy R2 to stack,value to R2
 .8e87	20 d7 8f	jsr $8fd7			jsr 	IFloatPushRx
@@ -11536,7 +11550,7 @@
 .8e8d	20 89 8d	jsr $8d89			jsr 	IFloatIntegerR0				; make R0 integer
 .8e90	a9 0a		lda #$0a			lda 	#10 						; base 10.
 .8e92	20 2a 8e	jsr $8e2a			jsr 	IFloatIntegerToStringR0 	; do the integer part.
-.8e95	9c 0a 04	stz $040a			stz 	IFloatDecimalCount 			; zero the decimal count.
+.8e95	9c 2a 04	stz $042a			stz 	IFloatDecimalCount 			; zero the decimal count.
 .8e98	a5 13		lda $13				lda 	IFR2+IExp 					; if it is integer then exit
 .8e9a	29 3f		and #$3f			and 	#IFXMask
 .8e9c	f0 44		beq $8ee2			beq 	_IFFSExit
@@ -11555,15 +11569,15 @@
 .8eba	a2 10		ldx #$10			ldx 	#IFR2 						; copy back, float part next time.
 .8ebc	20 2a 90	jsr $902a			jsr 	IFloatCopyToRegister
 .8ebf	20 89 8d	jsr $8d89			jsr 	IFloatIntegerR0 			; get integer part of R0 that's just been x 10.
-.8ec2	ad 0a 04	lda $040a			lda 	IFloatDecimalCount 			; done 3 dp, no more
+.8ec2	ad 2a 04	lda $042a			lda 	IFloatDecimalCount 			; done 3 dp, no more
 .8ec5	c9 03		cmp #$03			cmp 	#3
 .8ec7	f0 16		beq $8edf			beq 	_IFFSExitStripZero
-.8ec9	ad 0a 04	lda $040a			lda 	IFloatDecimalCount 			; written the DP yet , e.g. count of digits is not zero.
+.8ec9	ad 2a 04	lda $042a			lda 	IFloatDecimalCount 			; written the DP yet , e.g. count of digits is not zero.
 .8ecc	d0 05		bne $8ed3			bne 	_IFloatNotFirst
 .8ece	a9 2e		lda #$2e			lda 	#"." 						; write decimal point
 .8ed0	20 18 91	jsr $9118			jsr 	IFloatBufferWrite
 .8ed3					_IFloatNotFirst:
-.8ed3	ee 0a 04	inc $040a			inc 	IFloatDecimalCount
+.8ed3	ee 2a 04	inc $042a			inc 	IFloatDecimalCount
 .8ed6	a5 08		lda $08				lda 	IFR0+IM0 					; get digit
 .8ed8	09 30		ora #$30			ora 	#"0"						; ASCII
 .8eda	20 18 91	jsr $9118			jsr 	IFloatBufferWrite 			; write to the buffer.
@@ -11576,22 +11590,22 @@
 .8ee7	20 10 91	jsr $9110			jsr 	IFloatGetBufferAddress
 .8eea	18		clc				clc
 .8eeb	60		rts				rts
-.040a					IFloatDecimalCount:
->040a							.fill 	1
+.042a					IFloatDecimalCount:
+>042a							.fill 	1
 .8eec					IFloatStringToFloatR0:
-.8eec	8d 0b 04	sta $040b			sta 	IFCount 					; save length and positions out.
+.8eec	8d 2b 04	sta $042b			sta 	IFCount 					; save length and positions out.
 .8eef	86 20		stx $20				stx 	iTemp0
 .8ef1	84 21		sty $21				sty 	iTemp0+1
 .8ef3	a2 08		ldx #$08			ldx 	#IFR0 						; reset the current value.
 .8ef5	20 88 90	jsr $9088			jsr 	IFloatSetZero
-.8ef8	9c 0c 04	stz $040c			stz 	IFSignFlag 					; clear the sign flag
+.8ef8	9c 2c 04	stz $042c			stz 	IFSignFlag 					; clear the sign flag
 .8efb	20 88 8f	jsr $8f88			jsr 	IFSTFGetNext 				; get first
 .8efe	f0 1b		beq $8f1b			beq 	_IFSTFFail 					; no character, fail.
 .8f00	90 10		bcc $8f12			bcc 	_IFSTFHaveChar 				; legitimate character, go do it.
 .8f02	c9 2d		cmp #$2d			cmp 	#"-" 						; if not -, fail
 .8f04	d0 15		bne $8f1b			bne 	_IFSTFFail
 .8f06	a9 40		lda #$40			lda 	#IFSign 					; set sign flag
-.8f08	8d 0c 04	sta $040c			sta 	IFSignFlag
+.8f08	8d 2c 04	sta $042c			sta 	IFSignFlag
 .8f0b					_IFSTFLoop:
 .8f0b	20 88 8f	jsr $8f88			jsr 	IFSTFGetNext 				; get next character
 .8f0e	b0 0b		bcs $8f1b			bcs 	_IFSTFFail 					; bad character.
@@ -11609,13 +11623,13 @@
 .8f21	b0 08		bcs $8f2b			bcs 	_IFSTFReturn 				; error
 .8f23					_IFSTFExit:
 .8f23	a5 0b		lda $0b				lda 	IFR0+IExp 					; copy sign flag in.
-.8f25	0d 0c 04	ora $040c			ora 	IFSignFlag
+.8f25	0d 2c 04	ora $042c			ora 	IFSignFlag
 .8f28	85 0b		sta $0b				sta 	IFR0+IExp
 .8f2a	18		clc				clc
 .8f2b					_IFSTFReturn:
 .8f2b	60		rts				rts
 .8f2c					IFloatAddDecimalToR0:
-.8f2c	8d 0b 04	sta $040b			sta 	IFCount 					; save it out.
+.8f2c	8d 2b 04	sta $042b			sta 	IFCount 					; save it out.
 .8f2f	86 20		stx $20				stx 	iTemp0
 .8f31	84 21		sty $21				sty 	iTemp0+1
 .8f33					IFSTFDecimal:
@@ -11623,7 +11637,7 @@
 .8f35	20 d7 8f	jsr $8fd7			jsr 	IFloatPushRx
 .8f38	a2 08		ldx #$08			ldx 	#IFR0 						; R0 is the decimal digits so far, zero initially
 .8f3a	20 88 90	jsr $9088			jsr 	IFloatSetZero
-.8f3d	9c 0d 04	stz $040d			stz 	IFDecimalPlaces 			; zero DP.
+.8f3d	9c 2d 04	stz $042d			stz 	IFDecimalPlaces 			; zero DP.
 .8f40					_IFSTDLoop:
 .8f40	20 88 8f	jsr $8f88			jsr 	IFSTFGetNext 				; get next
 .8f43	b0 41		bcs $8f86			bcs 	_IFSTFFail2 				; bad character.
@@ -11631,12 +11645,12 @@
 .8f47	c9 2e		cmp #$2e			cmp 	#"."						; only one decimal
 .8f49	f0 39		beq $8f84			beq 	_IFSTFExit2
 .8f4b	20 ac 8f	jsr $8fac			jsr 	IFSTFAddR0 					; add number in (e.g. R0=R0*10+A)
-.8f4e	ee 0d 04	inc $040d			inc 	IFDecimalPlaces 			; count decimals
-.8f51	ad 0d 04	lda $040d			lda 	IFDecimalPlaces 			; no more than 3 DP used.
+.8f4e	ee 2d 04	inc $042d			inc 	IFDecimalPlaces 			; count decimals
+.8f51	ad 2d 04	lda $042d			lda 	IFDecimalPlaces 			; no more than 3 DP used.
 .8f54	c9 03		cmp #$03			cmp 	#3
 .8f56	90 e8		bcc $8f40			bcc 	_IFSTDLoop
 .8f58					_IFSTFComplete:
-.8f58	ad 0d 04	lda $040d			lda 	IFDecimalPlaces 			; decimals x 4 as accessing multiplier from a LUT.
+.8f58	ad 2d 04	lda $042d			lda 	IFDecimalPlaces 			; decimals x 4 as accessing multiplier from a LUT.
 .8f5b	f0 27		beq $8f84			beq 	_IFSTFExit2					; if none, this is syntactically fine, just ignore
 .8f5d	3a		dec a				dec 	a 							; table indexed from 1.
 .8f5e	0a		asl a				asl 	a
@@ -11663,14 +11677,14 @@
 .8f86	38		sec				sec
 .8f87	60		rts				rts
 .8f88					IFSTFGetNext:
-.8f88	ad 0b 04	lda $040b			lda 	IFCount  					; if count is zero, return with Z set.
+.8f88	ad 2b 04	lda $042b			lda 	IFCount  					; if count is zero, return with Z set.
 .8f8b	f0 19		beq $8fa6			beq 	_IFSTFReturnOk
 .8f8d	b2 20		lda ($20)			lda 	(iTemp0) 					; get next character
 .8f8f	e6 20		inc $20				inc 	iTemp0 						; point at next.
 .8f91	d0 02		bne $8f95			bne 	_IFSTFGNNoCarry
 .8f93	e6 21		inc $21				inc 	iTemp0+1
 .8f95					_IFSTFGNNoCarry:
-.8f95	ce 0b 04	dec $040b			dec 	IFCount 					; dec count.
+.8f95	ce 2b 04	dec $042b			dec 	IFCount 					; dec count.
 .8f98	c9 2e		cmp #$2e			cmp 	#"."	 					; check, dp is allowed.
 .8f9a	f0 08		beq $8fa4			beq 	_IFSTFGOkay
 .8f9c	c9 30		cmp #$30			cmp 	#"0"						; < 0 fail.
@@ -11698,12 +11712,12 @@
 .8fbc	20 8a 90	jsr $908a			jsr 	IFloatSetByte
 .8fbf	20 80 8a	jsr $8a80			jsr 	IFloatAdd
 .8fc2	60		rts				rts
-.040b					IFCount:
->040b							.fill 	1
-.040c					IFSignFlag:
->040c							.fill 	1
-.040d					IFDecimalPlaces:
->040d							.fill 	1
+.042b					IFCount:
+>042b							.fill 	1
+.042c					IFSignFlag:
+>042c							.fill 	1
+.042d					IFDecimalPlaces:
+>042d							.fill 	1
 .8fc3					TableTen:
 >8fc3	9a 19 00 30				.byte	$9a,$19,$00,$30 ; 0.10001
 >8fc7	8f 02 00 30				.byte	$8f,$02,$00,$30 ; 0.00999
@@ -11712,44 +11726,44 @@
 >8fd3	01 00 00 30				.byte	$01,$00,$00,$30 ; 2e-05
 .8fd7					IFloatPushRx:
 .8fd7	5a		phy				phy
-.8fd8	ac 0e 04	ldy $040e			ldy 	IFStackIndex 				; push IM0,1,2,Exp on the stack
+.8fd8	ac 2e 04	ldy $042e			ldy 	IFStackIndex 				; push IM0,1,2,Exp on the stack
 .8fdb	b5 00		lda $00,x			lda 	IM0,x
-.8fdd	99 0f 04	sta $040f,y			sta 	IFStack,y
+.8fdd	99 2f 04	sta $042f,y			sta 	IFStack,y
 .8fe0	b5 01		lda $01,x			lda 	IM1,x
-.8fe2	99 10 04	sta $0410,y			sta 	IFStack+1,y
+.8fe2	99 30 04	sta $0430,y			sta 	IFStack+1,y
 .8fe5	b5 02		lda $02,x			lda 	IM2,x
-.8fe7	99 11 04	sta $0411,y			sta 	IFStack+2,y
+.8fe7	99 31 04	sta $0431,y			sta 	IFStack+2,y
 .8fea	b5 03		lda $03,x			lda 	IExp,x
-.8fec	99 12 04	sta $0412,y			sta 	IFStack+3,y
+.8fec	99 32 04	sta $0432,y			sta 	IFStack+3,y
 .8fef	c8		iny				iny
 .8ff0	c8		iny				iny
 .8ff1	c8		iny				iny
 .8ff2	c8		iny				iny
-.8ff3	8c 0e 04	sty $040e			sty 	IFStackIndex 				; update SP
+.8ff3	8c 2e 04	sty $042e			sty 	IFStackIndex 				; update SP
 .8ff6	7a		ply				ply
 .8ff7	60		rts				rts
 .8ff8					IFloatPullRx:
 .8ff8	5a		phy				phy
-.8ff9	ac 0e 04	ldy $040e			ldy 	IFStackIndex	 			; decrement SP
+.8ff9	ac 2e 04	ldy $042e			ldy 	IFStackIndex	 			; decrement SP
 .8ffc	88		dey				dey
 .8ffd	88		dey				dey
 .8ffe	88		dey				dey
 .8fff	88		dey				dey
-.9000	b9 0f 04	lda $040f,y			lda 	IFStack,y 					; pop IM0,1,2,Exp off stack
+.9000	b9 2f 04	lda $042f,y			lda 	IFStack,y 					; pop IM0,1,2,Exp off stack
 .9003	95 00		sta $00,x			sta 	IM0,x
-.9005	b9 10 04	lda $0410,y			lda 	IFStack+1,y
+.9005	b9 30 04	lda $0430,y			lda 	IFStack+1,y
 .9008	95 01		sta $01,x			sta 	IM1,x
-.900a	b9 11 04	lda $0411,y			lda 	IFStack+2,y
+.900a	b9 31 04	lda $0431,y			lda 	IFStack+2,y
 .900d	95 02		sta $02,x			sta 	IM2,x
-.900f	b9 12 04	lda $0412,y			lda 	IFStack+3,y
+.900f	b9 32 04	lda $0432,y			lda 	IFStack+3,y
 .9012	95 03		sta $03,x			sta 	IExp,x
-.9014	8c 0e 04	sty $040e			sty 	IFStackIndex 				; update SP
+.9014	8c 2e 04	sty $042e			sty 	IFStackIndex 				; update SP
 .9017	7a		ply				ply
 .9018	60		rts				rts
-.040e					IFStackIndex:
->040e							.fill 	1
-.040f					IFStack:
->040f							.fill 	16*4
+.042e					IFStackIndex:
+>042e							.fill 	1
+.042f					IFStack:
+>042f							.fill 	16*4
 .9019					IFloatCopyFromRegister:
 .9019	b5 00		lda $00,x			lda 	0,x
 .901b	85 08		sta $08				sta 	IFR0
@@ -11885,12 +11899,12 @@
 .90e1	b5 03		lda $03,x			lda 	IExp,x
 .90e3	48		pha				pha
 .90e4	29 c0		and #$c0			and 	#$C0
-.90e6	8d 4f 04	sta $044f			sta 	IFXTemp
+.90e6	8d 6f 04	sta $046f			sta 	IFXTemp
 .90e9	68		pla				pla
 .90ea	1a		inc a				inc 	a
 .90eb	29 3f		and #$3f			and 	#$3F
 .90ed	48		pha				pha
-.90ee	0d 4f 04	ora $044f			ora 	IFXTemp
+.90ee	0d 6f 04	ora $046f			ora 	IFXTemp
 .90f1	95 03		sta $03,x			sta 	IExp,x
 .90f3	68		pla				pla
 .90f4	60		rts				rts
@@ -11898,51 +11912,51 @@
 .90f5	b5 03		lda $03,x			lda 	IExp,x
 .90f7	48		pha				pha
 .90f8	29 c0		and #$c0			and 	#$C0
-.90fa	8d 4f 04	sta $044f			sta 	IFXTemp
+.90fa	8d 6f 04	sta $046f			sta 	IFXTemp
 .90fd	68		pla				pla
 .90fe	3a		dec a				dec 	a
 .90ff	29 3f		and #$3f			and 	#$3F
 .9101	48		pha				pha
-.9102	0d 4f 04	ora $044f			ora 	IFXTemp
+.9102	0d 6f 04	ora $046f			ora 	IFXTemp
 .9105	95 03		sta $03,x			sta 	IExp,x
 .9107	68		pla				pla
 .9108	60		rts				rts
-.044f					IFXTemp:
->044f							.fill 	1
+.046f					IFXTemp:
+>046f							.fill 	1
 .9109					IFloatBufferReset:
-.9109	9c 50 04	stz $0450			stz 	IFBufferCount
-.910c	9c 51 04	stz $0451			stz 	IFBuffer
+.9109	9c 70 04	stz $0470			stz 	IFBufferCount
+.910c	9c 71 04	stz $0471			stz 	IFBuffer
 .910f	60		rts				rts
 .9110					IFloatGetBufferAddress:
 .9110	a0 04		ldy #$04			ldy 	#(IFBufferCount >> 8)
-.9112	a2 50		ldx #$50			ldx 	#(IFBufferCount & $FF)
-.9114	ad 50 04	lda $0450			lda 	IFBufferCount
+.9112	a2 70		ldx #$70			ldx 	#(IFBufferCount & $FF)
+.9114	ad 70 04	lda $0470			lda 	IFBufferCount
 .9117	60		rts				rts
 .9118					IFloatBufferWrite:
 .9118	da		phx				phx
-.9119	ae 50 04	ldx $0450			ldx 	IFBufferCount
-.911c	9d 51 04	sta $0451,x			sta 	IFBuffer,x
-.911f	9e 52 04	stz $0452,x			stz 	IFBuffer+1,x
-.9122	ee 50 04	inc $0450			inc 	IFBufferCount
+.9119	ae 70 04	ldx $0470			ldx 	IFBufferCount
+.911c	9d 71 04	sta $0471,x			sta 	IFBuffer,x
+.911f	9e 72 04	stz $0472,x			stz 	IFBuffer+1,x
+.9122	ee 70 04	inc $0470			inc 	IFBufferCount
 .9125	fa		plx				plx
 .9126	60		rts				rts
 .9127					IFloatStripTrailingZeros:
-.9127	ae 50 04	ldx $0450			ldx 	IFBufferCount
-.912a	bd 50 04	lda $0450,x			lda 	IFBuffer-1,x
+.9127	ae 70 04	ldx $0470			ldx 	IFBufferCount
+.912a	bd 70 04	lda $0470,x			lda 	IFBuffer-1,x
 .912d	c9 30		cmp #$30			cmp		#"0"
 .912f	d0 0f		bne $9140			bne 	_IFSTExit
-.9131	bd 4f 04	lda $044f,x			lda 	IFBuffer-2,x
+.9131	bd 6f 04	lda $046f,x			lda 	IFBuffer-2,x
 .9134	c9 2e		cmp #$2e			cmp 	#"."
 .9136	f0 08		beq $9140			beq 	_IFSTExit
-.9138	ce 50 04	dec $0450			dec 	IFBufferCount
-.913b	9e 50 04	stz $0450,x			stz 	IFBuffer-1,x
+.9138	ce 70 04	dec $0470			dec 	IFBufferCount
+.913b	9e 70 04	stz $0470,x			stz 	IFBuffer-1,x
 .913e	80 e7		bra $9127			bra 	IFloatStripTrailingZeros
 .9140					_IFSTExit:
 .9140	60		rts				rts
-.0450					IFBufferCount:
->0450							.fill 	1
-.0451					IFBuffer:
->0451							.fill 	25
+.0470					IFBufferCount:
+>0470							.fill 	1
+.0471					IFBuffer:
+>0471							.fill 	25
 .9141					IFloatCheckRange:
 .9141	a5 0b		lda $0b				lda 	IFR0+IExp					; force it negative e.g. -|R0|
 .9143	09 40		ora #$40			ora 	#IFSign

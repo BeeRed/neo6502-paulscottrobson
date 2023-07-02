@@ -4,6 +4,66 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
+;		Name:		readheader.asm
+;		Purpose:	Read a sector header
+;		Created:	2nd July 2023
+;		Reviewed: 	No
+;		Author:		Paul Robson (paul@robsons.org.uk)
+;
+; ************************************************************************************************
+; ************************************************************************************************
+
+; ************************************************************************************************
+;
+;									    Read a header
+;
+; ************************************************************************************************
+
+		.section code
+
+FSReadNextHeader:
+		inc 	currentSector 				; bump last sector and read next one.
+		lda 	currentSector
+FSReadHeaderA:
+		cmp 	#0 							; sector 0 always okay.
+		beq 	_FSIsOk
+		cmp 	sectorCount 				; check legitimate sector
+		bcs 	_FSReadHFail
+_FSIsOk:
+		phx
+		sta 	currentSector 				; save as current
+		jsr 	FSHOpenRead 				; open for read
+		ldx 	#0 							; read in.
+_FSReadHLoop:
+		jsr 	FSHRead
+		sta 	sectorHeader,x
+		inx
+		cpx 	#32
+		bne 	_FSReadHLoop
+		jsr 	FSHEndCommand				; end read.
+		plx
+		clc
+		rts
+_FSReadHFail:
+		sec
+		rts
+
+		.send code
+
+; ************************************************************************************************
+;
+;									Changes and Updates
+;
+; ************************************************************************************************
+;
+;		Date			Notes
+;		==== 			=====
+;
+; ************************************************************************************************
+
+; ************************************************************************************************
+; ************************************************************************************************
+;
 ;		Name:		initialise.asm
 ;		Purpose:	Initialise the Filesystem library
 ;		Created:	1st July 2023
@@ -32,26 +92,22 @@ FSInitialise:
 		;
 		;		Note in this version, a maximum of 256 sectors only allowed.
 		;
-		lda 	#0 							; open sector 0 to read.
-		jsr 	FSHOpenRead
-		;
-		jsr 	FSHRead 					; read header.
-		jsr 	FSHRead
-		;
-		jsr 	FSHRead 					; read # of sectors.
+		lda 	#0 							; read header sector 0
+		jsr 	FSReadHeaderA
+
+		lda 	sectorHeader+2 				; copy sector count
 		sta 	sectorCount
-		jsr 	FSHRead
+		lda 	sectorHeader+3
 		sta 	sectorCount+1
 
-		jsr 	FSHRead 					; power of sectors
-		inc 	sectorSize
+		lda 	sectorHeader+4 				; sector size power
+
+		inc 	sectorSize 					; convert to sector size.
 _FSICalcSS:
 		asl 	sectorSize
 		rol 	sectorSize+1
 		dec 	a
 		bne 	_FSICalcSS
-
-		jsr 	FSHEndCommand
 
 		rts
 

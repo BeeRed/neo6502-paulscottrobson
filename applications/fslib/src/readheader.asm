@@ -1,9 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		initialise.asm
-;		Purpose:	Initialise the Filesystem library
-;		Created:	1st July 2023
+;		Name:		readheader.asm
+;		Purpose:	Read a sector header
+;		Created:	2nd July 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
@@ -12,42 +12,39 @@
 
 ; ************************************************************************************************
 ;
-;									Initialise the Filesystem
+;									    Read a header
 ;
 ; ************************************************************************************************
 
 		.section code
 
-FSInitialise:
-		stz 	sectorCount 				; initial values to read $00
-		stz 	sectorCount+1
-		stz 	sectorSize
-		stz 	sectorSize+1
-		;
-		;		Read in from the first sector (unaffected by size or count !)
-		;		the sector size and count values. 
-		;
-		;		Note in this version, a maximum of 256 sectors only allowed.
-		;
-		lda 	#0 							; read header sector 0
-		jsr 	FSReadHeaderA
-
-		lda 	sectorHeader+2 				; copy sector count
-		sta 	sectorCount
-		lda 	sectorHeader+3
-		sta 	sectorCount+1
-
-		lda 	sectorHeader+4 				; sector size power
-
-		inc 	sectorSize 					; convert to sector size.
-_FSICalcSS:
-		asl 	sectorSize
-		rol 	sectorSize+1
-		dec 	a
-		bne 	_FSICalcSS
-
+FSReadNextHeader:
+		inc 	currentSector 				; bump last sector and read next one.
+		lda 	currentSector
+FSReadHeaderA:
+		cmp 	#0 							; sector 0 always okay.
+		beq 	_FSIsOk
+		cmp 	sectorCount 				; check legitimate sector
+		bcs 	_FSReadHFail
+_FSIsOk:		
+		phx
+		sta 	currentSector 				; save as current
+		jsr 	FSHOpenRead 				; open for read
+		ldx 	#0 							; read in.
+_FSReadHLoop:
+		jsr 	FSHRead
+		sta 	sectorHeader,x
+		inx
+		cpx 	#32
+		bne 	_FSReadHLoop		
+		jsr 	FSHEndCommand				; end read.
+		plx
+		clc
 		rts
-		
+_FSReadHFail:
+		sec
+		rts
+
 		.send code
 		
 ; ************************************************************************************************
