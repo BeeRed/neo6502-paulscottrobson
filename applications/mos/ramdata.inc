@@ -108,6 +108,7 @@ OSEditBuffer: 								; text buffer.
 ; ************************************************************************************************
 
 		.section storage
+
 sectorSize:									; sector size bytes, read at initialise.
 		.fill 	2
 sectorCount:								; sector count bytes, read at initialise.
@@ -130,6 +131,7 @@ shNameLength:								; # characters in name.
 shNameText:									; file name (lower case)	
 		.fill 	15
 
+		.align 	256
 		.send storage				
 
 
