@@ -104,3 +104,5 @@ PR_GOTO = $8d8a
 PR_RETURN = $8d8b
 PR_RESTORE = $8d8c
 PR_DIM = $8d8d
+PR_DIR = $8d8e
+PR_ERASE = $8d8f

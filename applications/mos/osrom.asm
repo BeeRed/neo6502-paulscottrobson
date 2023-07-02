@@ -28,7 +28,6 @@ Boot:	jsr 	OSInitialise 				; set everything up.
 		ldy 	#MainPrompt >> 8
 		jsr 	OSWriteString
 
-
 ;_h1:
 ;		jsr		OSReadKeystroke
 ;		jsr 	OSWriteScreen

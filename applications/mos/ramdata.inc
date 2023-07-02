@@ -130,7 +130,9 @@ shNameLength:								; # characters in name.
 		.fill 	1
 shNameText:									; file name (lower case)	
 		.fill 	15
-
+shFileSizeCopy: 							; file size (duplicate for directory)
+		.fill 	2
+		
 		.align 	256
 		.send storage				
 

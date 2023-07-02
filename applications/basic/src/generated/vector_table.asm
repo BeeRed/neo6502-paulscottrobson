@@ -145,3 +145,5 @@ AlternateVectorTable:
 	.word	Command_RETURN           ; $8d8b RETURN
 	.word	Command_RESTORE          ; $8d8c RESTORE
 	.word	CommandDIM               ; $8d8d DIM
+	.word	Command_DIR              ; $8d8e DIR
+	.word	NotImplemented           ; $8d8f ERASE

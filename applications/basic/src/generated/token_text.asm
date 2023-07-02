@@ -146,4 +146,6 @@ AlternateTokens:
 	.byte	$06,$52,$45,$54,$55,$52,$4e             	; $8d8b return
 	.byte	$07,$52,$45,$53,$54,$4f,$52,$45         	; $8d8c restore
 	.byte	$03,$44,$49,$4d                         	; $8d8d dim
+	.byte	$03,$44,$49,$52                         	; $8d8e dir
+	.byte	$05,$45,$52,$41,$53,$45                 	; $8d8f erase
 	.byte	$FF

@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		readheader.asm
-;		Purpose:	Read a sector header
+;		Name:		directory.asm
+;		Purpose:	Read a directory
 ;		Created:	2nd July 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -12,43 +12,34 @@
 
 ; ************************************************************************************************
 ;
-;									    Read a header
+;									Directory Read.
+;
+;	Enter with CS to initialise.
+;
+;	Each subsequent call returns either CS (end of directory)
+;										CC (record available), YX points to name (len prefix)
 ;
 ; ************************************************************************************************
 
 		.section code
 
-FSReadNextHeader:
-		inc 	currentSector 				; bump last sector and read next one.
-		lda 	currentSector
-FSReadHeaderA:
-		cmp 	#0 							; sector 0 always okay.
-		beq 	_FSIsOk
-		cmp 	sectorCount 				; check legitimate sector
-		bcs 	_FSReadHFail
-_FSIsOk:		
-		phx
-		sta 	currentSector 				; save as current
-		jsr 	FSHOpenRead 				; open for read
-		ldx 	#0 							; read in.
-_FSReadHLoop:
-		jsr 	FSHRead
-		sta 	sectorHeader,x
-		inx
-		cpx 	#32
-		bne 	_FSReadHLoop		
-		jsr 	FSHEndCommand				; end read.
-		plx
-
-		lda 	shFileSize 					; copy file size - makes easily accessible
-		sta 	shFileSizeCopy 				; for directory function.
-		lda 	shFileSize+1
-		sta 	shFileSizeCopy+1
-
-		clc
+OSReadDirectory:
+		bcs 	_OSRDReset
+		;
+_OSRDLoop:		
+		jsr 	FSReadNextHeader 			; read next sector header.
+		bcs 	_OSRDExit 					; exit, end of file space, CS
+		lda 	shFirstNext 				; is it an 'F' record
+		cmp 	#'F'
+		bne 	_OSRDLoop
+		ldx 	#shNameLength & $FF 		; return the buffer address
+		ldy 	#shNameLength >> 8
+		clc 								; return with carry clear.
 		rts
-_FSReadHFail:
-		sec
+
+_OSRDReset:
+		stz 	currentSector 				; back to the start.
+_OSRDExit:		
 		rts
 
 		.send code

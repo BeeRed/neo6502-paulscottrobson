@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Sun Jul  2 10:06:00 2023
+; Sun Jul  2 10:57:02 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -90,12 +90,15 @@
 >0416							.fill 	1
 .0417					shNameText:
 >0417							.fill 	15
+.0426					shFileSizeCopy:
+>0426							.fill 	2
+>0428							.align 	256
 
 ;******  Return to file: osrom.asm
 
 .f800	20 5f fd	jsr $fd5f	Boot:	jsr 	OSInitialise 				; set everything up.
-.f803	20 ad fd	jsr $fdad			jsr 	FSInitialise 				; initialise the WWFS
-.f806	a2 13		ldx #$13			ldx 	#MainPrompt & $FF 			; display the boot prompt
+.f803	20 d1 fd	jsr $fdd1			jsr 	FSInitialise 				; initialise the WWFS
+.f806	a2 37		ldx #$37			ldx 	#MainPrompt & $FF 			; display the boot prompt
 .f808	a0 fe		ldy #$fe			ldy 	#MainPrompt >> 8
 .f80a	20 48 f9	jsr $f948			jsr 	OSWriteString
 .f80d	4c 00 10	jmp $1000			jmp 	$1000 						; and run from $1000 onwards
@@ -1105,101 +1108,122 @@
 .fd88	c9 00		cmp #$00			cmp 	#0 							; sector 0 always okay.
 .fd8a	f0 05		beq $fd91			beq 	_FSIsOk
 .fd8c	cd 02 04	cmp $0402			cmp 	sectorCount 				; check legitimate sector
-.fd8f	b0 1a		bcs $fdab			bcs 	_FSReadHFail
+.fd8f	b0 26		bcs $fdb7			bcs 	_FSReadHFail
 .fd91					_FSIsOk:
 .fd91	da		phx				phx
 .fd92	8d 04 04	sta $0404			sta 	currentSector 				; save as current
-.fd95	20 e3 fd	jsr $fde3			jsr 	FSHOpenRead 				; open for read
+.fd95	20 07 fe	jsr $fe07			jsr 	FSHOpenRead 				; open for read
 .fd98	a2 00		ldx #$00			ldx 	#0 							; read in.
 .fd9a					_FSReadHLoop:
-.fd9a	20 f5 fd	jsr $fdf5			jsr 	FSHRead
+.fd9a	20 19 fe	jsr $fe19			jsr 	FSHRead
 .fd9d	9d 06 04	sta $0406,x			sta 	sectorHeader,x
 .fda0	e8		inx				inx
 .fda1	e0 20		cpx #$20			cpx 	#32
 .fda3	d0 f5		bne $fd9a			bne 	_FSReadHLoop
-.fda5	20 0a fe	jsr $fe0a			jsr 	FSHEndCommand				; end read.
+.fda5	20 2e fe	jsr $fe2e			jsr 	FSHEndCommand				; end read.
 .fda8	fa		plx				plx
-.fda9	18		clc				clc
-.fdaa	60		rts				rts
-.fdab					_FSReadHFail:
-.fdab	38		sec				sec
-.fdac	60		rts				rts
-.fdad					FSInitialise:
-.fdad	9c 02 04	stz $0402			stz 	sectorCount 				; initial values to read $00
-.fdb0	9c 03 04	stz $0403			stz 	sectorCount+1
-.fdb3	9c 00 04	stz $0400			stz 	sectorSize
-.fdb6	9c 01 04	stz $0401			stz 	sectorSize+1
-.fdb9	a9 00		lda #$00			lda 	#0 							; read header sector 0
-.fdbb	20 88 fd	jsr $fd88			jsr 	FSReadHeaderA
-.fdbe	ad 08 04	lda $0408			lda 	sectorHeader+2 				; copy sector count
-.fdc1	8d 02 04	sta $0402			sta 	sectorCount
-.fdc4	ad 09 04	lda $0409			lda 	sectorHeader+3
-.fdc7	8d 03 04	sta $0403			sta 	sectorCount+1
-.fdca	ad 0a 04	lda $040a			lda 	sectorHeader+4 				; sector size power
-.fdcd	ee 00 04	inc $0400			inc 	sectorSize 					; convert to sector size.
-.fdd0					_FSICalcSS:
-.fdd0	0e 00 04	asl $0400			asl 	sectorSize
-.fdd3	2e 01 04	rol $0401			rol 	sectorSize+1
-.fdd6	3a		dec a				dec 	a
-.fdd7	d0 f7		bne $fdd0			bne 	_FSICalcSS
-.fdd9	60		rts				rts
-.fdda					FSHErase:
-.fdda	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fddd	a9 00		lda #$00			lda 	#0 						; activate on command write
-.fddf	8d 10 cf	sta $cf10			sta 	$CF10
-.fde2	60		rts				rts
-.fde3					FSHOpenRead:
-.fde3	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fde6	a9 01		lda #$01			lda 	#1 						; activate on command write
-.fde8	8d 10 cf	sta $cf10			sta 	$CF10
-.fdeb	60		rts				rts
-.fdec					FSHOpenWrite:
-.fdec	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fdef	a9 02		lda #$02			lda 	#2 						; activate on command write
-.fdf1	8d 10 cf	sta $cf10			sta 	$CF10
-.fdf4	60		rts				rts
-.fdf5					FSHRead:
-.fdf5	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fdf8	a9 03		lda #$03			lda 	#3 						; activate on command write
-.fdfa	8d 10 cf	sta $cf10			sta 	$CF10
-.fdfd	ad 12 cf	lda $cf12			lda 	$CF12
-.fe00	60		rts				rts
-.fe01					FSHWrite:
-.fe01	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fe04	a9 04		lda #$04			lda 	#4 						; activate on command write
-.fe06	8d 10 cf	sta $cf10			sta 	$CF10
-.fe09	60		rts				rts
-.fe0a					FSHEndCommand:
-.fe0a	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.fe0d	a9 05		lda #$05			lda 	#5 						; activate on command write
-.fe0f	8d 10 cf	sta $cf10			sta 	$CF10
-.fe12	60		rts				rts
+.fda9	ad 0a 04	lda $040a			lda 	shFileSize 					; copy file size - makes easily accessible
+.fdac	8d 26 04	sta $0426			sta 	shFileSizeCopy 				; for directory function.
+.fdaf	ad 0b 04	lda $040b			lda 	shFileSize+1
+.fdb2	8d 27 04	sta $0427			sta 	shFileSizeCopy+1
+.fdb5	18		clc				clc
+.fdb6	60		rts				rts
+.fdb7					_FSReadHFail:
+.fdb7	38		sec				sec
+.fdb8	60		rts				rts
+.fdb9					OSReadDirectory:
+.fdb9	b0 12		bcs $fdcd			bcs 	_OSRDReset
+.fdbb					_OSRDLoop:
+.fdbb	20 82 fd	jsr $fd82			jsr 	FSReadNextHeader 			; read next sector header.
+.fdbe	b0 10		bcs $fdd0			bcs 	_OSRDExit 					; exit, end of file space, CS
+.fdc0	ad 06 04	lda $0406			lda 	shFirstNext 				; is it an 'F' record
+.fdc3	c9 46		cmp #$46			cmp 	#'F'
+.fdc5	d0 f4		bne $fdbb			bne 	_OSRDLoop
+.fdc7	a2 16		ldx #$16			ldx 	#shNameLength & $FF 		; return the buffer address
+.fdc9	a0 04		ldy #$04			ldy 	#shNameLength >> 8
+.fdcb	18		clc				clc 								; return with carry clear.
+.fdcc	60		rts				rts
+.fdcd					_OSRDReset:
+.fdcd	9c 04 04	stz $0404			stz 	currentSector 				; back to the start.
+.fdd0					_OSRDExit:
+.fdd0	60		rts				rts
+.fdd1					FSInitialise:
+.fdd1	9c 02 04	stz $0402			stz 	sectorCount 				; initial values to read $00
+.fdd4	9c 03 04	stz $0403			stz 	sectorCount+1
+.fdd7	9c 00 04	stz $0400			stz 	sectorSize
+.fdda	9c 01 04	stz $0401			stz 	sectorSize+1
+.fddd	a9 00		lda #$00			lda 	#0 							; read header sector 0
+.fddf	20 88 fd	jsr $fd88			jsr 	FSReadHeaderA
+.fde2	ad 08 04	lda $0408			lda 	sectorHeader+2 				; copy sector count
+.fde5	8d 02 04	sta $0402			sta 	sectorCount
+.fde8	ad 09 04	lda $0409			lda 	sectorHeader+3
+.fdeb	8d 03 04	sta $0403			sta 	sectorCount+1
+.fdee	ad 0a 04	lda $040a			lda 	sectorHeader+4 				; sector size power
+.fdf1	ee 00 04	inc $0400			inc 	sectorSize 					; convert to sector size.
+.fdf4					_FSICalcSS:
+.fdf4	0e 00 04	asl $0400			asl 	sectorSize
+.fdf7	2e 01 04	rol $0401			rol 	sectorSize+1
+.fdfa	3a		dec a				dec 	a
+.fdfb	d0 f7		bne $fdf4			bne 	_FSICalcSS
+.fdfd	60		rts				rts
+.fdfe					FSHErase:
+.fdfe	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.fe01	a9 00		lda #$00			lda 	#0 						; activate on command write
+.fe03	8d 10 cf	sta $cf10			sta 	$CF10
+.fe06	60		rts				rts
+.fe07					FSHOpenRead:
+.fe07	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.fe0a	a9 01		lda #$01			lda 	#1 						; activate on command write
+.fe0c	8d 10 cf	sta $cf10			sta 	$CF10
+.fe0f	60		rts				rts
+.fe10					FSHOpenWrite:
+.fe10	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.fe13	a9 02		lda #$02			lda 	#2 						; activate on command write
+.fe15	8d 10 cf	sta $cf10			sta 	$CF10
+.fe18	60		rts				rts
+.fe19					FSHRead:
+.fe19	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.fe1c	a9 03		lda #$03			lda 	#3 						; activate on command write
+.fe1e	8d 10 cf	sta $cf10			sta 	$CF10
+.fe21	ad 12 cf	lda $cf12			lda 	$CF12
+.fe24	60		rts				rts
+.fe25					FSHWrite:
+.fe25	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.fe28	a9 04		lda #$04			lda 	#4 						; activate on command write
+.fe2a	8d 10 cf	sta $cf10			sta 	$CF10
+.fe2d	60		rts				rts
+.fe2e					FSHEndCommand:
+.fe2e	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
+.fe31	a9 05		lda #$05			lda 	#5 						; activate on command write
+.fe33	8d 10 cf	sta $cf10			sta 	$CF10
+.fe36	60		rts				rts
 
 ;******  Return to file: osrom.asm
 
-.fe13					MainPrompt:
->fe13	68						.byte 	_MPEnd-MainPrompt-1
->fe14	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
->fe1c	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
->fe2c	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
->fe3b	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
->fe43	42 75 69 6c 74 20
+.fe37					MainPrompt:
+>fe37	68						.byte 	_MPEnd-MainPrompt-1
+>fe38	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
+>fe40	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
+>fe50	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
+>fe5f	41 6c 70 68 61 20 3a 20				.text 	"Alpha : Built "
+>fe67	42 75 69 6c 74 20
 
 ;******  Processing file: src/generated/time.incx
 
->fe49	32 33 2f 30 37 2f 30 32			.text	"23/07/02"
+>fe6d	32 33 2f 30 37 2f 30 32			.text	"23/07/02"
 
 ;******  Return to file: osrom.asm
 
->fe51	0d 0d						.byte 	13,13
->fe53	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
->fe5b	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
->fe6b	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->fe7b	0d
-.fe7c					_MPEnd:
+>fe75	0d 0d						.byte 	13,13
+>fe77	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
+>fe7f	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
+>fe8f	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>fe9f	0d
+.fea0					_MPEnd:
 
 ;******  Processing file: src/generated/vectors.asmx
 
+.ffd6	4c b9 fd	jmp $fdb9		jmp		OSReadDirectory          ; Read file directory.
 .ffd9	4c 77 fd	jmp $fd77		jmp		OSGetScreenPosition      ; Screen position to XY
 .ffdc	4c 70 fd	jmp $fd70		jmp		OSGetScreenSize          ; Get size of screen to XY
 .ffdf	4c e6 fb	jmp $fbe6		jmp		OSEnterLine              ; Edit line, return line in YX length prefixed, backspace only editing.

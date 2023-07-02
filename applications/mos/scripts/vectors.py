@@ -12,6 +12,7 @@
 import sys	
 
 vectors = """
+	OSReadDirectory 				: Read file directory.
 
 	OSGetScreenPosition 			: Screen position to XY
 	OSGetScreenSize 				: Get size of screen to XY

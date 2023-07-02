@@ -53,6 +53,8 @@ Read
 
 Write 
 =====
+	Erase it first.
+	
 	Writes are done block style - memory is written from a 64k segment.
 
 	Set FirstFlag := True 
