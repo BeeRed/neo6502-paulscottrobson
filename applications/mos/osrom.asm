@@ -33,9 +33,9 @@ Boot:	jsr 	OSInitialise 				; set everything up.
 ;		jsr 	OSWriteScreen
 ;		bra 	_h1
 		
-		ldx 	#setup & $FF
-		ldy 	#setup >> 8
-		jsr 	OSReadFile
+;		ldx 	#setup & $FF
+;		ldy 	#setup >> 8
+;		jsr 	OSReadFile
 
 		jmp 	$1000 						; and run from $1000 onwards
 
