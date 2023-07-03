@@ -60,7 +60,7 @@ FileCheckSecondParam:
 		lda 	(codePtr),y 				; , follows
 		cmp 	#PR_COMMA
 		bne 	_FCSPExit
-		.debug
+		;
 		iny 								; consume
 		jsr 	EXPEvalInteger16 			; get address
 		lda 	IFR0+IM0	 				; copy it

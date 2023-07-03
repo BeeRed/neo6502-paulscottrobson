@@ -145,6 +145,8 @@ sectorCapacity: 							; data bytes available per sector.
 		.fill 	2				
 fileRemainingSize: 							; remaining size of file.
 		.fill 	2		
+bytesToWrite: 								; bytes to write on this sector.
+		.fill 	2		
 
 		.align 	256
 		.send storage				
