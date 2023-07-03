@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/main.bin _main.asm
-; Sun Jul  2 20:52:07 2023
+; Mon Jul  3 15:37:28 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -95,7 +95,13 @@
 >0358							.fill 	15
 .0367					shFileSizeCopy:
 >0367							.fill 	2
->0369							.align 	256
+.0369					notFirstSector:
+>0369							.fill 	1
+.036a					sectorCapacity:
+>036a							.fill 	2
+.036c					fileRemainingSize:
+>036c							.fill 	2
+>036e							.align 	256
 
 ;******  Return to file: _main.asm
 

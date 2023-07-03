@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -D "BASICLOAD=\$1000" -D "BASICCODE=\$3800" -D "ENDMEMORY=\$C000" -D STACKPAGES=2 -o build/basic.bin basic.asm
-; Sun Jul  2 20:52:07 2023
+; Mon Jul  3 15:37:29 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -102,16 +102,23 @@
 >0358							.fill 	15
 .0367					shFileSizeCopy:
 >0367							.fill 	2
->0369							.align 	256
+.0369					notFirstSector:
+>0369							.fill 	1
+.036a					sectorCapacity:
+>036a							.fill 	2
+.036c					fileRemainingSize:
+>036c							.fill 	2
+>036e							.align 	256
 
 ;******  Return to file: basic.asm
 
 
 ;******  Processing file: build/osvectors.inc
 
-=$ffd0					OSReadDirectory          = $ffd0 ; Read file directory.
-=$ffd3					OSDeleteFile             = $ffd3 ; Delete file
-=$ffd6					OSReadFile               = $ffd6 ; Read file into memory
+=$ffcd					OSReadDirectory          = $ffcd ; Read file directory.
+=$ffd0					OSDeleteFile             = $ffd0 ; Delete file
+=$ffd3					OSReadFile               = $ffd3 ; Read file into memory
+=$ffd6					OSWriteFile              = $ffd6 ; Write file from memory
 =$ffd9					OSGetScreenPosition      = $ffd9 ; Screen position to XY
 =$ffdc					OSGetScreenSize          = $ffdc ; Get size of screen to XY
 =$ffdf					OSWriteString            = $ffdf ; Write length prefixed string YX to screen
@@ -4340,9 +4347,9 @@
 .29ee					Command_DIR:
 .29ee	5a		phy				phy
 .29ef	38		sec				sec 								; reset read
-.29f0	20 d0 ff	jsr $ffd0			jsr 	OSReadDirectory
+.29f0	20 cd ff	jsr $ffcd			jsr 	OSReadDirectory
 .29f3	18		clc		_CDLoop:clc
-.29f4	20 d0 ff	jsr $ffd0			jsr 	OSReadDirectory 			; read next
+.29f4	20 cd ff	jsr $ffcd			jsr 	OSReadDirectory 			; read next
 .29f7	b0 1e		bcs $2a17			bcs 	_CDExit 					; no more
 .29f9	86 24		stx $24				stx 	zTemp0
 .29fb	84 25		sty $25				sty 	zTemp0+1
@@ -4371,7 +4378,7 @@
 .2a1c	5a		phy				phy
 .2a1d	a2 26		ldx #$26			ldx 	#FSBBlock & $FF
 .2a1f	a0 06		ldy #$06			ldy 	#FSBBlock >> 8
-.2a21	20 d3 ff	jsr $ffd3			jsr 	OSDeleteFile
+.2a21	20 d0 ff	jsr $ffd0			jsr 	OSDeleteFile
 .2a24	7a		ply				ply
 .2a25	b0 01		bcs $2a28			bcs 	_CEFail
 .2a27	60		rts				rts
@@ -4407,7 +4414,7 @@
 .2a57	5a		phy				phy
 .2a58	a2 26		ldx #$26			ldx 	#FSBBlock & $FF
 .2a5a	a0 06		ldy #$06			ldy 	#FSBBlock >> 8
-.2a5c	20 d6 ff	jsr $ffd6			jsr 	OSReadFile
+.2a5c	20 d3 ff	jsr $ffd3			jsr 	OSReadFile
 .2a5f	7a		ply				ply
 .2a60	b0 0c		bcs $2a6e			bcs 	_CLFail
 .2a62	68		pla				pla 								; load program

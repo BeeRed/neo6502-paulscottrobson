@@ -44,7 +44,7 @@ NoInt:
 
 setup:	.word 	name
 		.word 	$1BB2
-		.word 	199
+		.word 	69
 name:	.text 	9,"text3.dat"		
 
 		.include "include.files"

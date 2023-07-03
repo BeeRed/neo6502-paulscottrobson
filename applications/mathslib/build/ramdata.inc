@@ -139,6 +139,13 @@ shNameText:									; file name (lower case)
 shFileSizeCopy: 							; file size (duplicate for directory)
 		.fill 	2
 		
+notFirstSector: 							; first sector flag
+		.fill 	1		
+sectorCapacity: 							; data bytes available per sector.
+		.fill 	2				
+fileRemainingSize: 							; remaining size of file.
+		.fill 	2		
+
 		.align 	256
 		.send storage				
 
