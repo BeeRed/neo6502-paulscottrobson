@@ -1,17 +1,17 @@
 TODO:
-	Expand MOS ($F000) and fix load address
-		- emulator
-		- makefiles
-		- javascript
 
-	Complete Code Reading (down to 58 files).
+	Complete Code Reading (currently 69 files).
 
 	Assembler file system.
-		Write
+		Write code
 		Basic save.
+		Any save
+		Test program for loading/savin
 
 	Python script to rip code out of memory.dump in case it doesn't work :)
 
+	Beta ; change log on.
+		
 	Star Trek
 	
 	Inline assembler

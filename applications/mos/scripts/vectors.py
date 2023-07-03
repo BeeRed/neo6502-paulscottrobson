@@ -15,6 +15,7 @@ vectors = """
 	OSReadDirectory 				: Read file directory.
 	OSDeleteFile 					: Delete file
 	OSReadFile 						: Read file into memory
+	OSWriteFile 					: Write file from memory
 	
 	OSGetScreenPosition 			: Screen position to XY
 	OSGetScreenSize 				: Get size of screen to XY

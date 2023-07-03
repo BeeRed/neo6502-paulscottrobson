@@ -33,9 +33,9 @@ Boot:	jsr 	OSInitialise 				; set everything up.
 ;		jsr 	OSWriteScreen
 ;		bra 	_h1
 		
-;		ldx 	#setup & $FF
-;		ldy 	#setup >> 8
-;		jsr 	OSReadFile
+		ldx 	#setup & $FF
+		ldy 	#setup >> 8
+		jsr 	OSWriteFile
 
 		jmp 	$1000 						; and run from $1000 onwards
 
@@ -43,9 +43,9 @@ NoInt:
 		rti
 
 setup:	.word 	name
-		.word 	$5000
-		.word 	0
-name:	.text 	9,"text3.bas"		
+		.word 	$1BB2
+		.word 	199
+name:	.text 	9,"text3.dat"		
 
 		.include "include.files"
 		.include "build/libwwfslib.asmlib"

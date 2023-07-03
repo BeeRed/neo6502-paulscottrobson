@@ -28,6 +28,7 @@ class RealFile(object):
 
 fs = FileSystem()  																	# new file system formatted
 fs.format()
+random.seed(43)
 
 for root,dirs,files in os.walk("files"):
 	for f in [x for x in files if x.endswith(".bas")]:
