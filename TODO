@@ -3,9 +3,8 @@ TODO:
 	Complete Code Reading (currently 69 files).
 
 	Assembler file system.
-		Basic save.
 		Any save
-		Test program for loading/savin
+		Test program for loading/saving
 
 	Python script to rip code out of memory.dump in case it doesn't work :)
 

@@ -91,6 +91,7 @@
 	.include "src/system/files/dir.asm"
 	.include "src/system/files/erase.asm"
 	.include "src/system/files/load.asm"
+	.include "src/system/files/save.asm"
 	.include "src/ui/errorhandler.asm"
 	.include "src/ui/warmstart.asm"
 	.include "src/variables/array.asm"

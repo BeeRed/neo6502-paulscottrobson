@@ -55,7 +55,7 @@ int HWFlashCommand(int command,int data) {
 			break;
 		case HWF_OPENREAD: 		 						// Open sector to read
 		case HWF_OPENWRITE:  		 					// Open sector to write
-			printf("Flash cmd:%d data:%d $%x %c\n",command,data,data,data);
+			//printf("Flash cmd:%d data:%d $%x %c\n",command,data,data,data);
 			flashHandler = fopen("storage/flash.image",(command == HWF_OPENREAD) ? "rb":"rb+");
 			fseek(flashHandler,data * sectorSize,SEEK_SET);
 			flashAddr = 0;
@@ -65,7 +65,7 @@ int HWFlashCommand(int command,int data) {
 			retVal = fgetc(flashHandler);
 			break;
 		case HWF_WRITE:  			 					// Write one byte
-			if (data != 0xFF) printf("Flash cmd:%d data:%d $%x %c addr:%d\n",command,data,data,data,flashAddr);
+			//if (data != 0xFF) printf("Flash cmd:%d data:%d $%x %c addr:%d\n",command,data,data,data,flashAddr);
 			flashAddr++;
 			fputc(data,flashHandler);
 			break;

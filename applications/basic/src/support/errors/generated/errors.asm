@@ -71,4 +71,7 @@ ErrorV_line:
 ErrorV_fnf:
 	jsr	ErrorHandler
 	.text	14,"File Not Found",0
+ErrorV_full:
+	jsr	ErrorHandler
+	.text	12,"Storage Full",0
 	.send code

@@ -70,3 +70,6 @@ error_line .macro
 error_fnf .macro
 	jmp	ErrorV_fnf
 	.endm
+error_full .macro
+	jmp	ErrorV_full
+	.endm

@@ -74,6 +74,8 @@ _OSFindUnused:
 		lda 	fileRemainingSize 			; check there is more to save, if not then exit.
 		ora 	fileRemainingSize+1		
 		bne		_OSWriteLoop
+		clc
+		rts
 		;
 		;		Come here on failure (probably out of space)
 		;

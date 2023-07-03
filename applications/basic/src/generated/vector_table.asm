@@ -138,7 +138,7 @@ AlternateVectorTable:
 	.word	Command_END              ; $8d84 END
 	.word	Command_ASSERT           ; $8d85 ASSERT
 	.word	Command_LIST             ; $8d86 LIST
-	.word	NotImplemented           ; $8d87 SAVE
+	.word	Command_SAVE             ; $8d87 SAVE
 	.word	Command_LOAD             ; $8d88 LOAD
 	.word	Command_GOSUB            ; $8d89 GOSUB
 	.word	Command_GOTO             ; $8d8a GOTO

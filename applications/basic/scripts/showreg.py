@@ -21,9 +21,11 @@ class Labels(object):
 	def __init__(self):
 		self.labels = {}
 		for s in open("build/code.lbl").readlines():
-			m = re.match("^(.*?)\\s*\\=\\s*(\\$?)(.*?)\\s*$",s)
+			#print(s)
+			m = re.match("^(.*?)\\s*\\=\\s*([\\$\\\"]?)(.*?)\\s*$",s)
 			assert m is not None,"Bad line in labels "+s
-			self.labels[m.group(1).strip().lower()] = int(m.group(3),16 if m.group(2) == "$" else 10)
+			if m.group(2) != '"':
+				self.labels[m.group(1).strip().lower()] = int(m.group(3),16 if m.group(2) == "$" else 10)
 
 	def get(self,l):
 		l = l.strip().lower()
