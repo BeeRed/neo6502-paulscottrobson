@@ -43,8 +43,8 @@ NoInt:
 		rti
 
 setup:	.word 	name
-		.word 	$1BB2
-		.word 	69
+		.word 	$1000
+		.word 	$1500
 name:	.text 	9,"text3.dat"		
 
 		.include "include.files"
