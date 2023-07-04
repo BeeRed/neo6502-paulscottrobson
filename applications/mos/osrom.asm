@@ -59,7 +59,7 @@ name:	.text 	9,"text3.dat"
 MainPrompt:
 		.byte 	_MPEnd-MainPrompt-1
 		.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
-		.text 	"Alpha : Built "
+		.text 	"Beta : Built "
 		.include "src/generated/time.incx"
 		.byte 	13,13
 		.text 	"Please report bugs: paul@robsons.org.uk",13,13
