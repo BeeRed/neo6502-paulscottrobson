@@ -70,7 +70,7 @@ int HWFlashCommand(int command,int data) {
 			fputc(data,flashHandler);
 			break;
 		case HWF_ENDCOMMAND:
-			printf("Flash cmd:%d data:%d $%x %c\n",command,data,data,data);
+			//printf("Flash cmd:%d data:%d $%x %c\n",command,data,data,data);
 			fclose(flashHandler);
 			flashHandler = NULL;
 			break;			

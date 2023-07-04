@@ -28,21 +28,29 @@ _CDLoop:clc
 		stx 	zTemp0
 		sty 	zTemp0+1
 		jsr	 	OSWriteString				; write name
+_CDPad:		
 		lda 	#32
 		jsr 	OSWriteScreen
+		jsr 	OSGetScreenPosition
+		cpx 	#16
+		bcc 	_CDPad
 		ldy 	#17
 		lda 	(zTemp0),y
 		tax
 		dey
 		lda 	(zTemp0),y
 		jsr 	WriteIntXA
-
-		lda 	#13
-		jsr 	OSWriteScreen
+		ldx 	#_CDTail & $FF
+		ldy 	#_CDTail >> 8
+		jsr 	OSWriteString
 		bra 	_CDLoop
 _CDExit:ply
 		rts		
 		
+_CDTail:
+		.byte 	_CDTail2-*-1
+		.text 	" bytes.",13
+_CDTail2:				
 		.send code
 
 ;:[DIR]\

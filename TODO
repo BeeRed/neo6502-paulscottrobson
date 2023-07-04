@@ -1,18 +1,22 @@
 TODO:
 
-	Complete Code Reading (currently 69 files).
-
 	Assembler file system.
-		Any save
-		Test program for loading/saving
-
-	Python script to rip code out of memory.dump in case it doesn't work :)
+		Force string to lower case.
 
 	Beta ; change log on.
+
+		Test program for loading/saving
+
+
+	Python script to rip code out of memory.dump in case it doesn't work :)
+	Shift locking ??
 		
 	Star Trek
 	
 	Inline assembler
+
+Ongoing:
+	Complete Code Reading (currently 69 files).
 	
 Fixes:
 	Identifier Definitions in command line bug ?
