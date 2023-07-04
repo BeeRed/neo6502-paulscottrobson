@@ -51,7 +51,6 @@ _CLSaveBlock:
 		sta 	FSBBlock+4
 		lda 	IFR0+IM1
 		sta 	FSBBlock+5
-		.debug
 
 _CSSave:		
 		phy

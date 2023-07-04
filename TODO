@@ -1,12 +1,6 @@
 TODO:
 
-	Assembler file system.
-		Force string to lower case.
-
 	Beta ; change log on.
-
-		Test program for loading/saving
-
 
 	Python script to rip code out of memory.dump in case it doesn't work :)
 	Shift locking ??
