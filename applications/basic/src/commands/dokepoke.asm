@@ -4,7 +4,7 @@
 ;		Name:		dokepoke.asm
 ;		Purpose:	Doke/Poke word/bytes
 ;		Created:	3rd June 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -12,7 +12,7 @@
 
 ; ************************************************************************************************
 ;
-;										ASSERT Command
+;										DOKE Command
 ;
 ; ************************************************************************************************
 
@@ -26,6 +26,12 @@ Command_Doke:	;; [doke]
 ; Writes the word a at address n
 ; { doke $0FF0,32766 }
 
+; ************************************************************************************************
+;
+;										POKE Command
+;
+; ************************************************************************************************
+
 Command_Poke: 	;; [poke]		
 		clc 
 
@@ -33,6 +39,9 @@ Command_Poke: 	;; [poke]
 ; Writes the byte a at address n
 ; { poke $0FF4,42 }
 
+;
+;		DOKE/POKE common code.
+;
 DPCommon:
 		php 								; CS if DOKE		
 		jsr 	EXPEvalInteger16 			; address
@@ -49,13 +58,13 @@ DPCommon:
 		pla
 		sta 	zTemp0
 
-		lda 	IFR0+IM0
+		lda 	IFR0+IM0 					; write out LSB (e.g. POKE)
 		sta 	(zTemp0)
 
-		plp
+		plp 								; done if CC
 		bcc 	_DPExit
 
-		phy
+		phy 								; else write out MSB (e.g. DOKE)
 		lda 	IFR0+IM1
 		ldy 	#1
 		sta 	(zTemp0),y

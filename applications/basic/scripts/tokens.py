@@ -75,7 +75,7 @@ class RawTokenClass(object):
 	def getAltKeywordTokens(self):
 		return """
 			CLEAR 	NEW 		RUN 	STOP 	END 	ASSERT 	LIST 	SAVE 	LOAD	GOSUB 	GOTO
-			RETURN 	RESTORE		DIM		DIR 	ERASE
+			RETURN 	RESTORE		DIM		DIR 	ERASE 	RENUMBER
 		"""
 
 	def append(self,tokenData,topDown,descr):

@@ -36,7 +36,6 @@ _OSCSNoCarry:
 		bne 	_OSCSLoop2
 		dey
 		bne 	_OSCSLoop1 	
-		jsr 	OSHomeCursor 				; cursor to (0,0)
 		rts
 
 		.send code
@@ -49,6 +48,7 @@ _OSCSNoCarry:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		05/07/23 		Home cursor out of the physical clear code.
 ;
 ; ************************************************************************************************
 

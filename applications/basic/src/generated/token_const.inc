@@ -106,3 +106,4 @@ PR_RESTORE = $8d8c
 PR_DIM = $8d8d
 PR_DIR = $8d8e
 PR_ERASE = $8d8f
+PR_RENUMBER = $8d90

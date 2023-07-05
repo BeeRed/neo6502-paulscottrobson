@@ -4,7 +4,7 @@
 ;		Name:		charout.asm
 ;		Purpose:	Write character / control to device
 ;		Created:	25th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -142,19 +142,20 @@ _OSCursorUp:
 _OSCUExit:		
 		rts
 ;
-;		Cursor forward on screen.
+;		Cursor forward on screen, goes down at EOL and possibly scrolls.
 ;		
 _OSCursorAdvance:
 		inc 	OSXPos 						; try moving right
 		lda 	OSXPos						; reached the write.
 		cmp 	OSXSize
 		bne 	_OSLCExit 	 				; exit if not at the RHS.
-		ldx 	#0 							; we want to zero any consequent CRs.
+		ldx 	#0 							; character flag, reached here not via CR.
 ;
 ;		Carriage return, start of next line.
 ;		
 _OSNewLine:		
 		phx 								; save CR/char flag.
+
 		stz 	OSXPos 						; left side
 		inc 	OSYPos 						; down one.
 		lda 	OSYPos 						; reached the bottom
@@ -172,7 +173,7 @@ _OSNLScrollFlag:
 		cpx 	OSYSize
 		bne	 	_OSNLScrollFlag
 _OSLCUpdateCR:		
-		ldx 	OSYPos 						; set appropriate flag.
+		ldx 	OSYPos 						; set appropriate flag in CR/multi line table.
 		pla
 		sta 	OSNewLineFlag,x
 _OSLCExit:		
@@ -188,6 +189,7 @@ _OSCSSetLoop:
 		sta 	OSNewLineFlag-1,x
 		dex
 		bne		_OSCSSetLoop
+		jsr 	OSHomeCursor 				; cursor to (0,0)
 		rts		
 ;
 ;		Home position.
@@ -207,5 +209,6 @@ OSHomeCursor: 								; home cursor.
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		05/07/23 		Home cursor out of the physical clear code, into CLS code.
 ;
 ; ************************************************************************************************

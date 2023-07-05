@@ -4,7 +4,7 @@
 ;		Name:		strhex.asm
 ;		Purpose:	Convert number to string
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -35,6 +35,9 @@ EXPUnaryStr: ;; [str$(]
 		jsr 	ERRCheckRParen 					; )
 		phy
 		jsr 	IFloatFloatToStringR0 			; convert to string
+		;
+		;		Duplicate converted string in temporary memory.
+		;
 EUSMain:		
 		bcs 	_EUSError
 

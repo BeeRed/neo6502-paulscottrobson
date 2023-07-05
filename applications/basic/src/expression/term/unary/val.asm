@@ -4,7 +4,7 @@
 ;		Name:		val.asm
 ;		Purpose:	Convert string to number
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -23,7 +23,9 @@ EXPUnaryVal: ;; [val(]
 		jsr 	ERRCheckRParen 					; )
 		jsr 	VALConversionZTemp0
 		rts
-		
+;
+;		Convert string at zTemp0 to integer.
+;		
 VALConversionZTemp0:		
 		phy
 		clc

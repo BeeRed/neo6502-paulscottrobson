@@ -3,8 +3,11 @@ Changes
 
 4th July 2023
 =============
-	In beta, tracking changes here.
+	In beta 1, tracking changes here.
 
 5th July 2023
 =============
-	Reintroduced the scrolling input line editor for input_line
+	Reintroduced the scrolling input line editor for input_line.
+	Added RENUMBER.
+	Home call moved out of Physical Clear Screen Code.
+

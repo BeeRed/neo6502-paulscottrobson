@@ -147,3 +147,4 @@ AlternateVectorTable:
 	.word	CommandDIM               ; $8d8d DIM
 	.word	Command_DIR              ; $8d8e DIR
 	.word	Command_ERASE            ; $8d8f ERASE
+	.word	Command_RENUMBER         ; $8d90 RENUMBER
