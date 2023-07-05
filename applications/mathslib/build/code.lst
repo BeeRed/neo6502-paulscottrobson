@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/main.bin _main.asm
-; Tue Jul  4 09:50:51 2023
+; Wed Jul  5 03:35:39 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -61,49 +61,57 @@
 >025b							.fill 	1
 .025c					OSRKOriginal:
 >025c							.fill 	1
-=192					OSTextBufferSize = 192
-.025d					OSEditWidth:
+.025d					OSXEdit:
 >025d							.fill 	1
-.025e					OSEditLength:
+.025e					OSYEdit:
 >025e							.fill 	1
-.025f					OSEditBuffer:
->025f							.fill 	OSTextBufferSize+1
->0320							.fill 	32
+.025f					OSEditPos:
+>025f							.fill 	1
+.0260					OSEditScroll:
+>0260							.fill 	1
+=192					OSTextBufferSize = 192
+.0261					OSEditWidth:
+>0261							.fill 	1
+.0262					OSEditLength:
+>0262							.fill 	1
+.0263					OSEditBuffer:
+>0263							.fill 	OSTextBufferSize+1
+>0324							.fill 	32
 .0022					fsBlock:
 >0022							.fill 	2
-.0340					sectorSize:
->0340							.fill 	2
-.0342					sectorCount:
->0342							.fill 	2
-.0344					currentSector:
+.0344					sectorSize:
 >0344							.fill 	2
-.0346					successFlag:
->0346							.fill 	1
-.0347					sectorHeader:
-.0347					shFirstNext:
->0347							.fill 	1
-.0348					shContinue:
->0348							.fill 	1
-.0349					shDataSize:
->0349							.fill 	2
-.034b					shFileSize:
->034b							.fill 	2
->034d							.fill 	10
-.0357					shNameLength:
->0357							.fill 	1
-.0358					shNameText:
->0358							.fill 	15
-.0367					shFileSizeCopy:
->0367							.fill 	2
-.0369					notFirstSector:
->0369							.fill 	1
-.036a					sectorCapacity:
->036a							.fill 	2
-.036c					fileRemainingSize:
->036c							.fill 	2
-.036e					bytesToWrite:
+.0346					sectorCount:
+>0346							.fill 	2
+.0348					currentSector:
+>0348							.fill 	2
+.034a					successFlag:
+>034a							.fill 	1
+.034b					sectorHeader:
+.034b					shFirstNext:
+>034b							.fill 	1
+.034c					shContinue:
+>034c							.fill 	1
+.034d					shDataSize:
+>034d							.fill 	2
+.034f					shFileSize:
+>034f							.fill 	2
+>0351							.fill 	10
+.035b					shNameLength:
+>035b							.fill 	1
+.035c					shNameText:
+>035c							.fill 	15
+.036b					shFileSizeCopy:
+>036b							.fill 	2
+.036d					notFirstSector:
+>036d							.fill 	1
+.036e					sectorCapacity:
 >036e							.fill 	2
->0370							.align 	256
+.0370					fileRemainingSize:
+>0370							.fill 	2
+.0372					bytesToWrite:
+>0372							.fill 	2
+>0374							.align 	256
 
 ;******  Return to file: _main.asm
 

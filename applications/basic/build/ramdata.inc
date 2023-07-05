@@ -88,6 +88,15 @@ OSEscapePressed: 							; non zero if escape pressed.
 OSRKOriginal: 								; character under cursor (for keystroke)
 		.fill 	1
 
+OSXEdit: 									; position of start of edit area
+		.fill 	1			
+OSYEdit:
+		.fill 	1		
+OSEditPos: 									; current cursor position in string.
+		.fill 	1			
+OSEditScroll: 								; offset in characters of the left most character.
+		.fill 	1	
+
 OSTextBufferSize = 192
 
 OSEditWidth: 								; max width in characters of edit area.
