@@ -36,7 +36,7 @@ VectorTable:
 	.word	Command_Doke             ; $9f DOKE
 	.word	Command_READ             ; $a0 READ
 	.word	Command_DATA             ; $a1 DATA
-	.word	NotImplemented           ; $a2 [
+	.word	Command_AssemblerStart   ; $a2 [
 	.word	NotImplemented           ; $a3 ]
 	.word	NotImplemented           ; $a4 #
 	.word	NotImplemented           ; $a5 .
