@@ -4,7 +4,7 @@
 ;		Name:		run.asm
 ;		Purpose:	Run Program
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -71,8 +71,9 @@ RUNNewLine:
 		; ----------------------------------------------------------------------------------------
 
 RUNNewCommand:		
-		stz 	stringInitialised 			; reset string system.
-		dec 	checkCounter
+		stz 	stringInitialised 			; reset string system flag.
+
+		dec 	checkCounter				; don't do these checks ever command
 		bne 	_RNCNoCheck
 		phy 								; keyboard check.
 		jsr 	OSKeyboardDataProcess
@@ -80,6 +81,7 @@ RUNNewCommand:
 		jsr 	OSCheckBreak 				; check escape.
 		bne 	_RUNBreak
 _RNCNoCheck:		
+
 		lda 	(codePtr),y 				; get next token
 		bpl		_RUNNotToken 				; probably an identifier
 		iny 								; consume token
@@ -111,7 +113,7 @@ _RUNBreak:
 		; ----------------------------------------------------------------------------------------
 
 _RUNNotToken:		
-		cmp 	#$40 						; 00-3F is a syntax error
+		cmp 	#$40 						; 00-3F is a syntax error (numbers)
 		bcc 	_RUNSyntax
 		jsr 	CommandLET 					; assignment
 		bra 	RUNNewCommand 				; loop round.

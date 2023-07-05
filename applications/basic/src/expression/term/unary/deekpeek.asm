@@ -4,7 +4,7 @@
 ;		Name:		deekpeek.asm
 ;		Purpose:	Deek and Peek
 ;		Created:	3rd June 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -21,7 +21,7 @@
 EXPUnaryPeek: ;; [peek(]
 		jsr 	EXPEvalInteger16 				; number to R0
 		jsr 	ERRCheckRParen 					; )
-		lda 	(IFR0)
+		lda 	(IFR0) 							; read byte and set it
 		ldx 	#IFR0
 		jsr 	IFloatSetByte
 		rts
@@ -34,16 +34,16 @@ EXPUnaryDeek: ;; [deek(]
 		jsr 	EXPEvalInteger16 				; number to R0
 		jsr 	ERRCheckRParen 					; )
 
-		phy
+		phy 									; read MSB and push on stack
 		ldy 	#1
 		lda 	(IFR0),y
 		ply
 		pha
 
-		lda 	(IFR0)
+		lda 	(IFR0) 							; set LSB
 		ldx 	#IFR0
 		jsr 	IFloatSetByte
-		pla
+		pla 									; set MSB
 		sta 	IFR0+IM1
 		rts
 

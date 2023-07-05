@@ -4,7 +4,7 @@
 ;		Name:		expression.asm
 ;		Purpose:	Evaluate expression to R0
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -53,9 +53,9 @@ _EELoop:
 
 		plx 								; operator
 
-		lda 	IFR0+IExp 					; if check types match.
+		lda 	IFR0+IExp 					; check if types match.
 		eor 	IFR1+IExp
-		bmi 	_EEType		
+		bmi 	_EEType		 				; MSBs differ, error.
 
 _EETypeOkay:		
 		txa

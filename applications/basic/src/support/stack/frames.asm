@@ -4,7 +4,7 @@
 ;		Name:		frames.asm
 ;		Purpose:	Open/Close Frames on the BASIC stack
 ;		Created:	31st May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -21,7 +21,7 @@
 
 StackOpen:
 		pha 								; save frame byte
-		and 	#$0F 						; the bytes to subtract.
+		and 	#$0F 						; shows the bytes to subtract.
 		asl 	a 							; claim twice this for storage
 		;
 		eor 	#$FF 						; 2's complement addition

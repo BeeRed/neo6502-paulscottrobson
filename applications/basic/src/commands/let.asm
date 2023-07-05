@@ -4,7 +4,7 @@
 ;		Name:		let.asm
 ;		Purpose:	Assignment statement
 ;		Created:	30th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5rh July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -32,8 +32,9 @@ CommandLET:	;; [let]
 		lda 	#PR_EQUAL 					; equals for syntax
 		jsr 	ERRCheckA
 
-		jsr 	EXPEvaluateExpression 		; right hand side.
-		pla 								; type of l-expr
+		jsr 	EXPEvaluateExpresion 		; right hand side.
+
+		pla 								; restore type of l-expr
 		eor 	IFR0+IExp 					; check types match
 		bmi 	CLType
 		;
@@ -41,6 +42,7 @@ CommandLET:	;; [let]
 		stx 	zTemp0+1 
 		plx
 		stx 	zTemp0
+
 		; ---------------------------------------------------------------------------------------
 		;
 		;		Assign the value in IFR0 (string or number) to the data address in zTemp0
@@ -100,11 +102,11 @@ AssignString:
 		sec 								; we want 3 for slot size, status, string size.
 		sbc 	#3
 		cmp 	(IFR0) 						; compare against string size.
-		bcc 	_CLConcreteString 			; if so, concrete the string again.
+		bcc 	_CLConcreteString 			; if it won't fit concrete the string again.
 		;
 		;		Copy the new string into the old string concreted space.
 		;
-		lda 	(IFR0) 						; copy size + 1 bytes (for the length byte.)
+		lda 	(IFR0) 						; copy size + 1 bytes (for the length byte)
 		inc 	a
 		tax
 		ldy 	#0 							; offset in replacement string.

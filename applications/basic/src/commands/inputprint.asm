@@ -4,7 +4,7 @@
 ;		Name:		inputprint.asm 
 ;		Purpose:	Input (from keyboard) Print (to Screen)
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,7 +19,7 @@
 ; ************************************************************************************************
 
 Command_Input: ;; [input]
-		lda 	#$FF
+		lda 	#$FF 						; this flag determines input ($FF) output $(00)
 		sta 	InputFlag
 		bra 	Command_IP_Main
 
@@ -35,24 +35,26 @@ Command_Print:	;; [print]
 Command_IP_Main:		
 		clc 								; carry being clear means last print wasn't comma/semicolon
 		;
-		;		Input/Print Loop
+		;		Main Input/Print Loop
 		;
 _CPLoop:
-		php 								; save last action flag
+		php 								; save "last action" flag
+
 		lda 	(codePtr),y 				; get next character
 		cmp  	#PR_LSQLSQENDRSQRSQ 		; end of line or colon, exit now.
 		beq 	_CPExit 					; without consuming
 		cmp 	#PR_COLON
 		beq 	_CPExit
-		pla 								; throw last action flag
+
+		pla 								; throw last action flag		
 		;
 		;		Decide what's next
 		;
-		lda 	(codePtr),y 				; next character and bump
+		lda 	(codePtr),y 				; next character and consume
 		iny
-		cmp 	#PR_SEMICOLON				; is it a semicolon
+		cmp 	#PR_SEMICOLON				; is it a semicolon (syntax seperator)
 		beq 	_CPContinueWithSameLine
-		cmp 	#PR_COMMA 					; comma
+		cmp 	#PR_COMMA 					; comma (tab)
 		beq 	_CPTab
 		dey 								; undo the get.
 		;
@@ -65,11 +67,15 @@ _CPLoop:
 		bne 	_CPNotInput 				
 		jsr 	_CPInputCode 				; input code
 		bra 	Command_IP_Main 			; and go round again.
-
+		;
+		;		Not input so it's print.
+		;
 _CPNotInput:		
 		jsr 	EXPEvaluateExpression 		; evaluate expression.
 		bit 	IFR0+IExp 					; is it a number ?
 		bpl 	_CPNumber
+		;
+		;		Print string
 		;
 		phy 
 		clc 								; string address to YX
@@ -90,7 +96,7 @@ _CPNumber:
 		ply		
 		bra 	Command_IP_Main				; loop round clearing carry so NL if end		
 		;
-		;		Comma, Semicolon.
+		;		Comma, Semicolon, Tab come here.
 		;
 _CPTab:	
 		lda 	#9 							; print TAB
@@ -112,7 +118,8 @@ _CPExit2:
 		;		Input code
 		;
 _CPInputCode:
-		jsr 	EXPTermR0 					; get the term.
+		jsr 	EXPTermR0 					; get the term, the thing being input to
+											; (type being identifier is checked above)
 		phy 								; save position
 		jsr 	CPInputA					; input a line to YX
 
@@ -138,9 +145,11 @@ _CPInputCode:
 
 		ply
 		rts
+
 		;
-		;		String Input Code
+		;										String Input Code
 		;
+
 _CPInputString:
 		lda 	IFR0+IM0 					; copy target address to zTemp0
 		sta 	zTemp0

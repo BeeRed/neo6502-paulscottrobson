@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -D "BASICLOAD=\$1000" -D "BASICCODE=\$3800" -D "ENDMEMORY=\$C000" -D STACKPAGES=2 -o build/basic.bin basic.asm
-; Wed Jul  5 20:26:22 2023
+; Wed Jul  5 20:42:24 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -787,7 +787,7 @@
 ;******  Processing file: src/commands/inputprint.asm
 
 .1278					Command_Input:
-.1278	a9 ff		lda #$ff			lda 	#$FF
+.1278	a9 ff		lda #$ff			lda 	#$FF 						; this flag determines input ($FF) output $(00)
 .127a	8d 08 05	sta $0508			sta 	InputFlag
 .127d	80 03		bra $1282			bra 	Command_IP_Main
 .127f					Command_Print:
@@ -795,18 +795,18 @@
 .1282					Command_IP_Main:
 .1282	18		clc				clc 								; carry being clear means last print wasn't comma/semicolon
 .1283					_CPLoop:
-.1283	08		php				php 								; save last action flag
+.1283	08		php				php 								; save "last action" flag
 .1284	b1 18		lda ($18),y			lda 	(codePtr),y 				; get next character
 .1286	c9 8c		cmp #$8c			cmp  	#PR_LSQLSQENDRSQRSQ 		; end of line or colon, exit now.
 .1288	f0 48		beq $12d2			beq 	_CPExit 					; without consuming
 .128a	c9 9b		cmp #$9b			cmp 	#PR_COLON
 .128c	f0 44		beq $12d2			beq 	_CPExit
 .128e	68		pla				pla 								; throw last action flag
-.128f	b1 18		lda ($18),y			lda 	(codePtr),y 				; next character and bump
+.128f	b1 18		lda ($18),y			lda 	(codePtr),y 				; next character and consume
 .1291	c8		iny				iny
-.1292	c9 9a		cmp #$9a			cmp 	#PR_SEMICOLON				; is it a semicolon
+.1292	c9 9a		cmp #$9a			cmp 	#PR_SEMICOLON				; is it a semicolon (syntax seperator)
 .1294	f0 39		beq $12cf			beq 	_CPContinueWithSameLine
-.1296	c9 99		cmp #$99			cmp 	#PR_COMMA 					; comma
+.1296	c9 99		cmp #$99			cmp 	#PR_COMMA 					; comma (tab)
 .1298	f0 30		beq $12ca			beq 	_CPTab
 .129a	88		dey				dey 								; undo the get.
 .129b	2c 08 05	bit $0508			bit 	InputFlag 					; check for Input
@@ -849,7 +849,7 @@
 .12da					_CPExit2:
 .12da	60		rts				rts
 .12db					_CPInputCode:
-.12db	20 4a 18	jsr $184a			jsr 	EXPTermR0 					; get the term.
+.12db	20 4a 18	jsr $184a			jsr 	EXPTermR0 					; get the term, the thing being input to
 .12de	5a		phy				phy 								; save position
 .12df	20 24 13	jsr $1324			jsr 	CPInputA					; input a line to YX
 .12e2	a5 0b		lda $0b				lda 	IFR0+IExp 					; string ?
@@ -1321,8 +1321,8 @@
 .159f	8d 2f 06	sta $062f			sta 	ERRLine+1
 .15a2	c8		iny				iny 								; offset into codePtr for start of line.
 .15a3					RUNNewCommand:
-.15a3	9c 23 06	stz $0623			stz 	stringInitialised 			; reset string system.
-.15a6	ce 12 05	dec $0512			dec 	checkCounter
+.15a3	9c 23 06	stz $0623			stz 	stringInitialised 			; reset string system flag.
+.15a6	ce 12 05	dec $0512			dec 	checkCounter				; don't do these checks ever command
 .15a9	d0 0a		bne $15b5			bne 	_RNCNoCheck
 .15ab	5a		phy				phy 								; keyboard check.
 .15ac	20 e8 ff	jsr $ffe8			jsr 	OSKeyboardDataProcess
@@ -1350,7 +1350,7 @@
 .15d3					_RUNBreak:
 .15d3	4c 3c 29	jmp $293c		jmp	ErrorV_break
 .15d6					_RUNNotToken:
-.15d6	c9 40		cmp #$40			cmp 	#$40 						; 00-3F is a syntax error
+.15d6	c9 40		cmp #$40			cmp 	#$40 						; 00-3F is a syntax error (numbers)
 .15d8	90 f6		bcc $15d0			bcc 	_RUNSyntax
 .15da	20 2a 13	jsr $132a			jsr 	CommandLET 					; assignment
 .15dd	80 c4		bra $15a3			bra 	RUNNewCommand 				; loop round.
@@ -1688,9 +1688,9 @@
 .17a5	a2 0c		ldx #$0c			ldx 	#IFR1 						; pop LHS to R1.
 .17a7	20 97 33	jsr $3397			jsr 	IFloatPullRx
 .17aa	fa		plx				plx 								; operator
-.17ab	a5 0b		lda $0b				lda 	IFR0+IExp 					; if check types match.
+.17ab	a5 0b		lda $0b				lda 	IFR0+IExp 					; check if types match.
 .17ad	45 0f		eor $0f				eor 	IFR1+IExp
-.17af	30 08		bmi $17b9			bmi 	_EEType
+.17af	30 08		bmi $17b9			bmi 	_EEType		 				; MSBs differ, error.
 .17b1					_EETypeOkay:
 .17b1	8a		txa				txa
 .17b2	0a		asl a				asl 	a 							; double -> X

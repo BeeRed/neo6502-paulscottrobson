@@ -4,7 +4,7 @@
 ;		Name:		stringalloc.asm
 ;		Purpose:	String allocation handler
 ;		Created:	26th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	5th July 2023
 ;		Author : 	Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -58,10 +58,10 @@ StringSpaceInitialise:
 
 StringTempAllocate:
 		cmp 	#252+1 						; max length of strings
-		bcs 	_STALength
+		bcs 	_STALength 			
 		;
 		bit 	stringInitialised 			; already initialised
-		bmi 	_STAAllocate
+		bmi 	_STAAllocate 				; then don't call the temp initialise routine
 		;
 		pha 								; save value to subtract.
 		jsr 	StringSpaceInitialise 		; initialise string memory allocation
