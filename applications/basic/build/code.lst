@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -D "BASICLOAD=\$1000" -D "BASICCODE=\$3800" -D "ENDMEMORY=\$C000" -D STACKPAGES=2 -D autoRun=1 -o build/basic.bin basic.asm
-; Wed Jul  5 04:00:32 2023
+; Wed Jul  5 09:19:43 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -126,10 +126,11 @@
 
 ;******  Processing file: build/osvectors.inc
 
-=$ffcd					OSReadDirectory          = $ffcd ; Read file directory.
-=$ffd0					OSDeleteFile             = $ffd0 ; Delete file
-=$ffd3					OSReadFile               = $ffd3 ; Read file into memory
-=$ffd6					OSWriteFile              = $ffd6 ; Write file from memory
+=$ffca					OSReadDirectory          = $ffca ; Read file directory.
+=$ffcd					OSDeleteFile             = $ffcd ; Delete file
+=$ffd0					OSReadFile               = $ffd0 ; Read file into memory
+=$ffd3					OSWriteFile              = $ffd3 ; Write file from memory
+=$ffd6					OSFormatFlash            = $ffd6 ; Format drive
 =$ffd9					OSGetScreenPosition      = $ffd9 ; Screen position to XY
 =$ffdc					OSGetScreenSize          = $ffdc ; Get size of screen to XY
 =$ffdf					OSWriteString            = $ffdf ; Write length prefixed string YX to screen
@@ -628,11 +629,11 @@
 .11c8	85 25		sta $25				sta 	zTemp0+1
 .11ca	68		pla				pla
 .11cb	85 24		sta $24				sta 	zTemp0
-.11cd	a5 08		lda $08				lda 	IFR0+IM0
+.11cd	a5 08		lda $08				lda 	IFR0+IM0 					; write out LSB (e.g. POKE)
 .11cf	92 24		sta ($24)			sta 	(zTemp0)
-.11d1	28		plp				plp
+.11d1	28		plp				plp 								; done if CC
 .11d2	90 08		bcc $11dc			bcc 	_DPExit
-.11d4	5a		phy				phy
+.11d4	5a		phy				phy 								; else write out MSB (e.g. DOKE)
 .11d5	a5 09		lda $09				lda 	IFR0+IM1
 .11d7	a0 01		ldy #$01			ldy 	#1
 .11d9	91 24		sta ($24),y			sta 	(zTemp0),y
@@ -4415,9 +4416,9 @@
 .2a56					Command_DIR:
 .2a56	5a		phy				phy
 .2a57	38		sec				sec 								; reset read
-.2a58	20 cd ff	jsr $ffcd			jsr 	OSReadDirectory
+.2a58	20 ca ff	jsr $ffca			jsr 	OSReadDirectory
 .2a5b	18		clc		_CDLoop:clc
-.2a5c	20 cd ff	jsr $ffcd			jsr 	OSReadDirectory 			; read next
+.2a5c	20 ca ff	jsr $ffca			jsr 	OSReadDirectory 			; read next
 .2a5f	b0 27		bcs $2a88			bcs 	_CDExit 					; no more
 .2a61	86 24		stx $24				stx 	zTemp0
 .2a63	84 25		sty $25				sty 	zTemp0+1
@@ -4455,7 +4456,7 @@
 .2a96	5a		phy				phy
 .2a97	a2 26		ldx #$26			ldx 	#FSBBlock & $FF
 .2a99	a0 06		ldy #$06			ldy 	#FSBBlock >> 8
-.2a9b	20 d0 ff	jsr $ffd0			jsr 	OSDeleteFile
+.2a9b	20 cd ff	jsr $ffcd			jsr 	OSDeleteFile
 .2a9e	7a		ply				ply
 .2a9f	b0 01		bcs $2aa2			bcs 	_CEFail
 .2aa1	60		rts				rts
@@ -4491,7 +4492,7 @@
 .2ad1	5a		phy				phy
 .2ad2	a2 26		ldx #$26			ldx 	#FSBBlock & $FF
 .2ad4	a0 06		ldy #$06			ldy 	#FSBBlock >> 8
-.2ad6	20 d3 ff	jsr $ffd3			jsr 	OSReadFile
+.2ad6	20 d0 ff	jsr $ffd0			jsr 	OSReadFile
 .2ad9	7a		ply				ply
 .2ada	b0 0c		bcs $2ae8			bcs 	_CLFail
 .2adc	68		pla				pla 								; load program
@@ -4553,7 +4554,7 @@
 .2b3e	5a		phy				phy
 .2b3f	a2 26		ldx #$26			ldx 	#FSBBlock & $FF
 .2b41	a0 06		ldy #$06			ldy 	#FSBBlock >> 8
-.2b43	20 d6 ff	jsr $ffd6			jsr 	OSWriteFile
+.2b43	20 d3 ff	jsr $ffd3			jsr 	OSWriteFile
 .2b46	7a		ply				ply
 .2b47	b0 01		bcs $2b4a			bcs 	_CSFail
 .2b49	60		rts				rts

@@ -10,4 +10,4 @@ Changes
 	Reintroduced the scrolling input line editor for input_line.
 	Added RENUMBER.
 	Home call moved out of Physical Clear Screen Code.
-
+	Added option to "Format" Flash. (No command, deliberately difficult [A = 12:X = 32:Y = 0:SYS &FFD6])

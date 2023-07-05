@@ -16,7 +16,8 @@ vectors = """
 	OSDeleteFile 					: Delete file
 	OSReadFile 						: Read file into memory
 	OSWriteFile 					: Write file from memory
-	
+	OSFormatFlash 					: Format drive
+
 	OSGetScreenPosition 			: Screen position to XY
 	OSGetScreenSize 				: Get size of screen to XY
 	OSWriteString 					: Write length prefixed string YX to screen
