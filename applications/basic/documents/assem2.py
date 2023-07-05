@@ -1,18 +1,6 @@
-
-def rol(n):
-	return (n << 1) + (0 if (n & 0x80) == 0 else 1)
-
-def hash(op):
-	values = [ord(c)-ord('A') for c in op.upper()]
-	calc = values[0]
-	calc = (calc * multiplier + additive ) & 0xFF
-	calc = (calc + values[1]) & 0xFF
-	calc = rol(calc)
-	calc = calc ^ xor
-	calc = (calc * multiplier + additive ) & 0xFF
-	calc = (calc + values[2]) & 0xFF
-	return calc
-
+#
+#	Another idea for packing ; doesn't work.
+#
 opcodes = """
 	ADC AND ASL BCC BCS BEQ BIT BMI BNE BPL BRA BRK BVC BVS CLC CLD CLI CLV CMP CPX CPY DEC DEX DEY EOR INC INX INY JMP	
 	JSR LDA LDX LDY LSR NOP ORA PHA PHP PHX PHY PLA PLP PLX PLY ROL ROR RTI RTS SBC SEC SED SEI STA STX STY STZ TAX TAY
@@ -20,17 +8,16 @@ opcodes = """
 
 opcodes = opcodes.strip().split()
 
-mapping = [ None ] * 256
-mapping[0] = '???'
-
-multiplier = 5
-additive = 68
-xor = 165
+chars = [ {},{},{} ]
 
 for op in opcodes:
-	calc = hash(op)
-	assert mapping[calc] is None,op
-	mapping[calc] = op
+	for i in range(0,3):
+		chars[i][op[i]] = True 
 
-print(len([x for x in mapping if x is not None]))
-print(len(opcodes))
+chars = [ "".join([c for c in x.keys()]) for x in chars]
+
+for i in range(0,3):
+	print("{0} {1:2} {2}".format(i,len(chars[i]),chars[i]))
+
+c1 = [len(n) for n in chars]
+print(c1[0] * c1[1] * c1[2])	

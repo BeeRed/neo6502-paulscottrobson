@@ -14,13 +14,33 @@
 ;
 ;							Work out address mode & operand (in R0)
 ;
+;	Everything initial works out as zero page. If an absolute is found when scanning, this is 
+;	always later in the 65C02 instruction set, so it will be used if a ZP is found.
+;
 ; ************************************************************************************************
 
 		.section code
 
 ASIdentifyAddressMode:
 		rts
-		
+
+
+
+; ************************************************************************************************
+;
+;		Possible address modes
+;			EOL : first =>
+;					Implied, also used for A.
+; 			( first =>
+;					(nn) (nn,x) or (nn),y
+;			# first =>
+;					#nn
+;			Otherwise =>
+;					expression followed by ,x or ,y can be zero or absolute depending on the
+;					operand.
+;		
+; ************************************************************************************************
+
 		.send code
 
 ; ************************************************************************************************

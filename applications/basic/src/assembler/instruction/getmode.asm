@@ -1,8 +1,8 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		instruction.asm
-;		Purpose:	Handle a 65C02 instruction
+;		Name:		getmode.asm
+;		Purpose:	Get address mode for given opcode.
 ;		Created:	5th July 2023
 ;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -12,31 +12,17 @@
 
 ; ************************************************************************************************
 ;
-;									Handle 65C02 instruction
+;								Get opcode address mode
 ;
 ; ************************************************************************************************
 
 		.section code
 
-ASOpcode:
-		jsr 	ASCalculateOpcodeHash 		; calculate the opcode hash.
-		sta 	ASCurrOpcode
-
-		jsr 	ASIdentifyAddressMode 		; identify the address mode type.
-		sta 	ASCurrMode
-
-		jsr 	ASGenerateCode 				; search and generate appropriate code.
+ASGetModeForOpcode:
 		rts
-		
+
 		.send code
 
-		.section storage
-ASCurrOpcode:
-		.fill 	1
-ASCurrMode:
-		.fill 	1
-		.send 	storage				
-		
 ; ************************************************************************************************
 ;
 ;									Changes and Updates

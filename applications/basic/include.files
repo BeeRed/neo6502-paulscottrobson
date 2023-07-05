@@ -11,6 +11,7 @@
 	.include "src/assembler/instruction/calcopcode.asm"
 	.include "src/assembler/instruction/findmode.asm"
 	.include "src/assembler/instruction/generate.asm"
+	.include "src/assembler/instruction/getmode.asm"
 	.include "src/assembler/instruction/instruction.asm"
 	.include "src/assembler/label.asm"
 	.include "src/commands/assert.asm"

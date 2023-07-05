@@ -48,8 +48,6 @@ for attempts in range(0,1000000):
 		calc = calc ^ xor
 		calc = (calc * multiplier + additive ) & 0xFF
 		calc = (calc + values[2]) & 0xFF
-		#calc = rol(calc)
-		#calc = calc ^ xor
 		calc = calc & mask 
 
 		if calc not in used:

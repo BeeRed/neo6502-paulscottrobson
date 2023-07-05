@@ -32,7 +32,7 @@ CommandLET:	;; [let]
 		lda 	#PR_EQUAL 					; equals for syntax
 		jsr 	ERRCheckA
 
-		jsr 	EXPEvaluateExpresion 		; right hand side.
+		jsr 	EXPEvaluateExpression 		; right hand side.
 
 		pla 								; restore type of l-expr
 		eor 	IFR0+IExp 					; check types match
