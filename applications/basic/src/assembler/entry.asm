@@ -23,7 +23,6 @@ Command_AssemblerStart: 	;; [[]
 		;		Main assembly loop
 		;
 _CALoop:
-		.debug
 		lda 	(codePtr),y 				; what's next.
 		iny 								; consume it.
 
@@ -33,6 +32,8 @@ _CALoop:
 		beq 	_CAExit
 		cmp 	#PR_COLON 					; : loop back round again.
 		beq 	_CALoop
+		cmp 	#PR_LSQLSQENDRSQRSQ 		; end of line.
+		beq 	_CAEnd
 		;
 		and 	#$C0 						; is it an identifier (which we will make an opcode)
 		cmp 	#$40
@@ -47,7 +48,19 @@ _CAOpcode:
 		dey 								; get it back
 		jsr 	ASOpcode 					; assemble that opcode.
 		bra 	_CALoop
-				
+
+_CAEnd:	clc 								; next line
+		ldy 	#3 							; tokenised code position.
+		lda 	(codePtr)
+		adc 	codePtr
+		sta 	codePtr
+		bcc 	_CANoCarry
+		inc 	codePtr+1
+_CANoCarry:
+		lda 	(codePtr) 					; code present
+		bne 	_CALoop 					; go round again
+		jmp 	Command_END 				; do END.
+
 _CAExit:
 		rts		
 		

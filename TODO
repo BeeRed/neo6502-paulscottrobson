@@ -1,7 +1,11 @@
 TODO:
-	Shift locking ??
-	Star Trek	
 	Inline assembler
+		- opcode
+		- address detection
+		- scan for matches, perhaps ABS/ZP matches.
+	Code Complete
+
+	Star Trek dogfood.
 
 Ongoing:
 	Complete Code Reading (currently 70 files).
@@ -13,5 +17,4 @@ Outstanding (Implementation specific):
 	EVENT/TIME (when timer available)
 	LOAD/SAVE (when flash r/w available)
 	Graphics stuff ?
-	Assembler stuff ?
 	Colour switching commands.

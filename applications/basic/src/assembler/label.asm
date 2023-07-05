@@ -19,8 +19,28 @@
 		.section code
 
 ASLabel:
-		.debug
-		
+		jsr 	EXPTermR0 					; get term
+		bcc 	_ALError 					; must be a reference term.
+		bit 	IFR0+IExp	 				; string reference ?
+		bmi 	_ALError
+		;
+		phy
+		lda 	('P'-'A')*4 + FastVariables	; copy P to variable
+		sta 	(IFR0+IM0)
+		ldy 	#1
+		lda 	('P'-'A')*4 + FastVariables+1
+		sta 	(IFR0+IM0),y
+		lda 	#0 							; clear upper bytes
+		iny
+		sta 	(IFR0+IM0),y
+		iny
+		sta 	(IFR0+IM0),y
+		ply
+		rts
+
+_ALError:	
+		.error_syntax
+
 		.send code
 
 

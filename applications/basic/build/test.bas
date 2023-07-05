@@ -1,1 +1,4 @@
-A = 12:X = 32:Y = 0:SYS &FFD6
+P = &A123:O = 1
+[ .test nop
+] 
+print O,P,HEX$(p),test
