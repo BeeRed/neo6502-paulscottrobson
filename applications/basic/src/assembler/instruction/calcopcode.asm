@@ -46,6 +46,7 @@ ASCalculateOpcodeHash:
 		bne 	_ASCSyntax
 		iny 
 
+		pla 								; restore and exit
 		rts
 ;
 ;		Get next character, check it is A-Z

@@ -28,15 +28,16 @@ AM_ABSOLUTE 	= 'A' 			 			; lda nnnn
 AM_ABSOLUTEX 	= 'X' 						; lda nnnn,x
 AM_ABSOLUTEY 	= 'Y' 						; lda nnnn.y
 
-AM_ABSOLUTEIX	= 'I' 						; jmp (nnnn,x) [only instance !]
+AM_ABSOLUTEI  	= 'P' 						; jmp (nnnn)   [only instance]
+AM_ABSOLUTEIX	= 'Q' 						; jmp (nnnn,x) [only instance !]
 
 AM_ZERO 	= ('A'|AM_ZPAGE) 				; lda nn
 AM_ZEROX 	= ('X'|AM_ZPAGE)				; lda nn,x
 AM_ZEROY 	= ('Y'|AM_ZPAGE)				; lda nn,y
 
-AM_IND 		= ('P'|AM_ZPAGE) 				; lda (nn)
-AM_INDX		= ('Q'|AM_ZPAGE) 				; lda (nn,x)
-AM_INDY		= ('R'|AM_ZPAGE) 				; lda (nn,y)
+AM_ZIND 	= ('P'|AM_ZPAGE) 				; lda (nn)
+AM_ZINDX	= ('Q'|AM_ZPAGE) 				; lda (nn,x)
+AM_ZINDY	= ('R'|AM_ZPAGE) 				; lda (nn,y)
 		
 		.send code
 
