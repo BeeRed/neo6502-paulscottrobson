@@ -24,20 +24,22 @@ AM_IMPLIED 		= 'I'						; none
 
 AM_IMMEDIATE 	= ('#'|AM_ZPAGE)			; immediate
 
+AM_RELATIVE 	= 'R' 						; bra nnnn
+
 AM_ABSOLUTE 	= 'A' 			 			; lda nnnn
 AM_ABSOLUTEX 	= 'X' 						; lda nnnn,x
 AM_ABSOLUTEY 	= 'Y' 						; lda nnnn.y
 
-AM_ABSOLUTEI  	= 'P' 						; jmp (nnnn)   [only instance]
-AM_ABSOLUTEIX	= 'Q' 						; jmp (nnnn,x) [only instance !]
+AM_ABSOLUTEI  	= 'T' 						; jmp (nnnn)   [only instance]
+AM_ABSOLUTEIX	= 'U' 						; jmp (nnnn,x) [only instance !]
 
 AM_ZERO 	= ('A'|AM_ZPAGE) 				; lda nn
 AM_ZEROX 	= ('X'|AM_ZPAGE)				; lda nn,x
 AM_ZEROY 	= ('Y'|AM_ZPAGE)				; lda nn,y
 
-AM_ZIND 	= ('P'|AM_ZPAGE) 				; lda (nn)
-AM_ZINDX	= ('Q'|AM_ZPAGE) 				; lda (nn,x)
-AM_ZINDY	= ('R'|AM_ZPAGE) 				; lda (nn,y)
+AM_ZIND 	= ('T'|AM_ZPAGE) 				; lda (nn)
+AM_ZINDX	= ('U'|AM_ZPAGE) 				; lda (nn,x)
+AM_ZINDY	= ('V'|AM_ZPAGE) 				; lda (nn,y)
 		
 		.send code
 
