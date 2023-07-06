@@ -3,7 +3,7 @@ Changes
 
 4th July 2023
 =============
-	In beta 1, tracking changes here.
+	Moved to beta 1, tracking changes here.
 
 5th July 2023
 =============
@@ -11,4 +11,8 @@ Changes
 	Added RENUMBER.
 	Home call moved out of Physical Clear Screen Code.
 	Added option to "Format" Flash. (No command, deliberately difficult [A = 12:X = 32:Y = 0:SYS &FFD6])
+	Assembler code
 
+6th July
+========	
+	More assembler code. Now mostly complete.

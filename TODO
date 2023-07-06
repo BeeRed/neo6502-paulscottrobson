@@ -1,8 +1,9 @@
 TODO:
-	Inline assembler
-		- opcode
-		- address detection
-		- scan for matches, perhaps ABS/ZP matches.
+	Inline assembler:
+		- relative calculation.
+		- disable creation in pass 2
+		- OPT not O% bit 0, listing, bit 1 errors enabled.
+
 	Code Complete
 
 	Star Trek dogfood.

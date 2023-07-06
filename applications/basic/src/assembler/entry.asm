@@ -50,13 +50,21 @@ _CAOpcode:
 		bra 	_CALoop
 
 _CAEnd:	clc 								; next line
-		ldy 	#3 							; tokenised code position.
 		lda 	(codePtr)
 		adc 	codePtr
 		sta 	codePtr
 		bcc 	_CANoCarry
 		inc 	codePtr+1
 _CANoCarry:
+
+		ldy 	#1 							; copy error line#
+		lda 	(codePtr),y 
+		sta 	ERRLine
+		iny
+		lda 	(codePtr),y 
+		sta 	ERRLine+1
+		ldy 	#3 							; tokenised code position.
+
 		lda 	(codePtr) 					; code present
 		bne 	_CALoop 					; go round again
 		jmp 	Command_END 				; do END.

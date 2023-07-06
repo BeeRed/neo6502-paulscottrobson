@@ -1,7 +1,7 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		findmode.asm
+;		Name:		parsemode.asm
 ;		Purpose:	Work out the address mode
 ;		Created:	5th July 2023
 ;		Reviewed: 	No
@@ -21,7 +21,6 @@
 		.section code
 
 ASIdentifyAddressMode:
-		.debug
 		lda 	(codePtr),y 				; what's next ?
 		cmp 	#PR_LSQLSQENDRSQRSQ  		; EOL or : => implied
 		beq 	_ASImplied

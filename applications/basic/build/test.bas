@@ -1,5 +1,13 @@
 P = &A123:O = 1
 [ .test 
-lda (&1234,x)
+ 	lda #42
+ 	lda 42
+ 	lda 32766
+ 	lda test
+ 	nop
+ 	jsr 32766
+ 	jmp (32766)
+ 	lda (22)
+ 	lda (22,x)
+ 	lda (22),y
 ] 
-print O,P,HEX$(p),test
