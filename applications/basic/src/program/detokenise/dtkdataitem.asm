@@ -4,7 +4,7 @@
 ;		Name:		dtkdataitem.asm
 ;		Purpose:	Detokenise data item
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -20,16 +20,18 @@
 
 TOKDDataItem:
 		tay 								; type in Y
-		lda 	#'"'						; start with " or .
+		lda 	#'"'						; start with " or . depending on type.
 		cpy 	#PR_LSQLSQSTRINGRSQRSQ
 		beq 	_TOKDDIsString
 		lda 	#'.'
 _TOKDDIsString:
+		;
 		jsr 	TOKDOutput 					; dump it
 		jsr 	TOKDGet 					; get length into X
 		tax 
+		;
 _TOKDDOutput:
-		dex 								; are we complete
+		dex 								; output all the data.
 		cpx 	#255
 		beq 	_TOKDDEnd
 		jsr 	TOKDGet 					; get character and output it

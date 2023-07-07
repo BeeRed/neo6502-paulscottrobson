@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -D "BASICLOAD=\$1000" -D "BASICCODE=\$3800" -D "ENDMEMORY=\$C000" -D STACKPAGES=2 -D autoRun=1 -o build/basic.bin basic.asm
-; Fri Jul  7 07:37:10 2023
+; Fri Jul  7 14:41:20 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -3119,9 +3119,9 @@
 .21a8	9c 1c 05	stz $051c			stz		TOKLastCharacter 			; clear last character
 .21ab					_TOKDLoop:
 .21ab	20 f0 21	jsr $21f0			jsr 	TOKDGet 					; get next
-.21ae	c9 8c		cmp #$8c			cmp 	#PR_LSQLSQENDRSQRSQ			; end of line
+.21ae	c9 8c		cmp #$8c			cmp 	#PR_LSQLSQENDRSQRSQ			; end of line, exit.
 .21b0	f0 3c		beq $21ee			beq 	_TOKDExit
-.21b2	c9 ee		cmp #$ee			cmp 	#PR_LSQLSQSTRINGRSQRSQ		; is it a string/integer with additional data.
+.21b2	c9 ee		cmp #$ee			cmp 	#PR_LSQLSQSTRINGRSQRSQ		; is it a string or decimal places modifier
 .21b4	f0 33		beq $21e9			beq 	_TOKDDataItem
 .21b6	c9 ed		cmp #$ed			cmp 	#PR_LSQLSQDECIMALRSQRSQ
 .21b8	f0 2f		beq $21e9			beq 	_TOKDDataItem
@@ -3161,8 +3161,8 @@
 .21f8					_TKDGExit:
 .21f8	60		rts				rts
 .21f9					TOKDOutput:
-.21f9	8d 1c 05	sta $051c			sta 	TOKLastCharacter
-.21fc	6c 1a 05	jmp ($051a)			jmp 	(TOKOutputMethod)
+.21f9	8d 1c 05	sta $051c			sta 	TOKLastCharacter 			; save last character
+.21fc	6c 1a 05	jmp ($051a)			jmp 	(TOKOutputMethod) 			; call output handler
 .21ff					TOKSetDetokeniseOutput:
 .21ff	8e 1a 05	stx $051a			stx 	TOKOutputMethod
 .2202	8c 1b 05	sty $051b			sty 	TOKOutputMethod+1
@@ -3179,7 +3179,7 @@
 
 .2206					TOKDDataItem:
 .2206	a8		tay				tay 								; type in Y
-.2207	a9 22		lda #$22			lda 	#'"'						; start with " or .
+.2207	a9 22		lda #$22			lda 	#'"'						; start with " or . depending on type.
 .2209	c0 ee		cpy #$ee			cpy 	#PR_LSQLSQSTRINGRSQRSQ
 .220b	f0 02		beq $220f			beq 	_TOKDDIsString
 .220d	a9 2e		lda #$2e			lda 	#'.'
@@ -3188,7 +3188,7 @@
 .2212	20 f0 21	jsr $21f0			jsr 	TOKDGet 					; get length into X
 .2215	aa		tax				tax
 .2216					_TOKDDOutput:
-.2216	ca		dex				dex 								; are we complete
+.2216	ca		dex				dex 								; output all the data.
 .2217	e0 ff		cpx #$ff			cpx 	#255
 .2219	f0 08		beq $2223			beq 	_TOKDDEnd
 .221b	20 f0 21	jsr $21f0			jsr 	TOKDGet 					; get character and output it
@@ -3208,10 +3208,10 @@
 ;******  Processing file: src/program/detokenise/dtkidentifier.asm
 
 .222d					TOKDIdentifier:
-.222d	a0 ff		ldy #$ff			ldy 	#$FF
+.222d	a0 ff		ldy #$ff			ldy 	#$FF 						; flag set on first character only.
 .222f	8c 1d 05	sty $051d			sty 	TOKDIFirstChar
 .2232					_TOKDLoop:
-.2232	a8		tay				tay 								; token in Y
+.2232	a8		tay				tay 								; token in Y, now coner it to ASCII
 .2233	a9 5f		lda #$5f			lda 	#'_' 						; handle _
 .2235	c0 64		cpy #$64			cpy 	#$64
 .2237	f0 0b		beq $2244			beq 	_TOKDIOutput
@@ -3223,7 +3223,7 @@
 .2241	38		sec				sec 								; handle 0-9
 .2242	e9 4b		sbc #$4b			sbc 	#$4B
 .2244					_TOKDIOutput:
-.2244	2c 1d 05	bit $051d			bit 	TOKDIFirstChar
+.2244	2c 1d 05	bit $051d			bit 	TOKDIFirstChar 				; check spacing if first character
 .2247	10 08		bpl $2251			bpl 	_TOKDINoSpacing
 .2249	48		pha				pha
 .224a	20 f3 22	jsr $22f3			jsr 	TOKDSpacing
@@ -3232,7 +3232,7 @@
 .2251					_TOKDINoSpacing:
 .2251	20 f9 21	jsr $21f9			jsr 	TOKDOutput
 .2254	20 f0 21	jsr $21f0			jsr 	TOKDGet 					; get next token
-.2257	c9 7c		cmp #$7c			cmp 	#$7C
+.2257	c9 7c		cmp #$7c			cmp 	#$7C 						; 7C..7F are end markers
 .2259	90 d7		bcc $2232			bcc 	_TOKDLoop
 .225b	f0 12		beq $226f			beq 	_TOKDIExit 					; it's a number, no tail.
 .225d	4a		lsr a				lsr 	a 							; string ?
@@ -3257,11 +3257,11 @@
 ;******  Processing file: src/program/detokenise/dtkinteger.asm
 
 .2270					TOKDInteger:
-.2270	5a		phy				phy 								; save base
-.2271	a2 08		ldx #$08			ldx 	#IFR0 						; set into R0
+.2270	5a		phy				phy 								; save base on stack
+.2271	a2 08		ldx #$08			ldx 	#IFR0 						; set first byte of integer into into R0
 .2273	20 74 36	jsr $3674			jsr 	IFloatSetByte
 .2276					_TOKDILoop:
-.2276	b2 28		lda ($28)			lda 	(zTemp2) 					; followed by a 00-3F
+.2276	b2 28		lda ($28)			lda 	(zTemp2) 					; followed by a 00-3F, extract the whole integer out.
 .2278	c9 40		cmp #$40			cmp 	#$40
 .227a	b0 1d		bcs $2299			bcs 	_TOKDIHaveInteger
 .227c	a2 08		ldx #$08			ldx 	#IFR0 						; R0 << 6
@@ -3278,8 +3278,8 @@
 .2299					_TOKDIHaveInteger:
 .2299	7a		ply				ply 								; restore base
 .229a	98		tya				tya 								; base in A
-.229b	20 14 34	jsr $3414			jsr 	IFloatIntegerToStringR0
-.229e	86 24		stx $24				stx 	zTemp0
+.229b	20 14 34	jsr $3414			jsr 	IFloatIntegerToStringR0 	; make it a string
+.229e	86 24		stx $24				stx 	zTemp0 						; output that string.
 .22a0	84 25		sty $25				sty 	zTemp0+1
 .22a2	b2 24		lda ($24)			lda 	(zTemp0)
 .22a4	a0 01		ldy #$01			ldy 	#1 							; output buffer.
@@ -3304,16 +3304,16 @@
 .22ba	c9 8d		cmp #$8d			cmp 	#PR_LSQLSQSHIFTRSQRSQ 		; is it the shift token ?
 .22bc	d0 07		bne $22c5			bne 	_TOKDSearch
 .22be	20 f0 21	jsr $21f0			jsr 	TOKDGet 					; get next
-.22c1	a2 1d		ldx #$1d			ldx 	#AlternateTokens & $FF 		; alt table
+.22c1	a2 1d		ldx #$1d			ldx 	#AlternateTokens & $FF 		; alt table address
 .22c3	a0 20		ldy #$20			ldy 	#AlternateTokens >> 8
 .22c5					_TOKDSearch:
-.22c5	86 24		stx $24				stx 	zTemp0 						; put table in zTemp0
+.22c5	86 24		stx $24				stx 	zTemp0 						; save table in zTemp0
 .22c7	84 25		sty $25				sty 	zTemp0+1
 .22c9	aa		tax				tax 								; token ID in X.
 .22ca					_TOKDFind:
-.22ca	ca		dex				dex 								; reached the start
+.22ca	ca		dex				dex 								; reached the token position
 .22cb	10 0d		bpl $22da			bpl 	_TOKDFound
-.22cd	38		sec				sec 								; go to next entry
+.22cd	38		sec				sec 								; go to next entry in token table
 .22ce	b2 24		lda ($24)			lda 	(zTemp0)
 .22d0	65 24		adc $24				adc 	zTemp0
 .22d2	85 24		sta $24				sta 	zTemp0
@@ -3321,14 +3321,14 @@
 .22d6	e6 25		inc $25				inc 	zTemp0+1
 .22d8	80 f0		bra $22ca			bra 	_TOKDFind
 .22da					_TOKDFound:
-.22da	b2 24		lda ($24)			lda 	(zTemp0) 					; length to X
-.22dc	f0 14		beq $22f2			beq 	_TOKDExit
+.22da	b2 24		lda ($24)			lda 	(zTemp0) 					; length to X.
+.22dc	f0 14		beq $22f2			beq 	_TOKDExit 					; not a token with text.
 .22de	aa		tax				tax
 .22df	a0 01		ldy #$01			ldy 	#1 							; output the token.
 .22e1	b1 24		lda ($24),y			lda 	(zTemp0),y 					; check spacing first character,
-.22e3	20 f3 22	jsr $22f3			jsr 	TOKDSpacing
+.22e3	20 f3 22	jsr $22f3			jsr 	TOKDSpacing 				; do we need space before this.
 .22e6					_TOKDOutput:
-.22e6	b1 24		lda ($24),y			lda 	(zTemp0),y
+.22e6	b1 24		lda ($24),y			lda 	(zTemp0),y 					; output them in lower case
 .22e8	20 a9 26	jsr $26a9			jsr 	TOKToLower
 .22eb	20 f9 21	jsr $21f9			jsr 	TOKDOutput
 .22ee	c8		iny				iny
@@ -3363,10 +3363,10 @@
 .2312	38		sec				sec
 .2313	f0 3a		beq $234f			beq 	_PGMDExit
 .2315	a0 01		ldy #$01			ldy 	#1 							; found line number ?
-.2317	b1 26		lda ($26),y			lda 	(zTemp1),y
+.2317	b1 26		lda ($26),y			lda 	(zTemp1),y 					; compare LSB
 .2319	cd 01 04	cmp $0401			cmp 	TOKLineNumber
 .231c	d0 08		bne $2326			bne 	_PGMDNext
-.231e	c8		iny				iny
+.231e	c8		iny				iny 								; compare MSB
 .231f	b1 26		lda ($26),y			lda 	(zTemp1),y
 .2321	cd 02 04	cmp $0402			cmp 	TOKLineNumber+1
 .2324	f0 0d		beq $2333			beq 	_PGMDDelete
@@ -3384,13 +3384,13 @@
 .2336					_PGMDCopy:
 .2336	b1 26		lda ($26),y			lda 	(zTemp1),y 					; copy down.
 .2338	92 26		sta ($26)			sta 	(zTemp1)
-.233a	a5 26		lda $26				lda 	zTemp1 						; reached the end ?
+.233a	a5 26		lda $26				lda 	zTemp1 						; reached the end in zTemp0
 .233c	c5 24		cmp $24				cmp 	zTemp0
 .233e	d0 07		bne $2347			bne 	_PGMDNext2
 .2340	a5 27		lda $27				lda 	zTemp1+1
 .2342	c5 25		cmp $25				cmp 	zTemp0+1
 .2344	18		clc				clc
-.2345	f0 08		beq $234f			beq 	_PGMDExit
+.2345	f0 08		beq $234f			beq 	_PGMDExit 					; then exit.
 .2347					_PGMDNext2:
 .2347	e6 26		inc $26				inc 	zTemp1 						; advance pointer.
 .2349	d0 eb		bne $2336			bne 	_PGMDCopy
@@ -3427,9 +3427,9 @@
 .2376	e6 27		inc $27				inc 	zTemp1+1
 .2378	80 e0		bra $235a			bra 	_PGMILoop
 .237a					_PGMIInsert:
-.237a	ac 00 04	ldy $0400			ldy 	TOKLineSize 				; space required
+.237a	ac 00 04	ldy $0400			ldy 	TOKLineSize 				; space required is length in token buffer.
 .237d					_PGMIInsertLoop:
-.237d	b2 24		lda ($24)			lda 	(zTemp0)
+.237d	b2 24		lda ($24)			lda 	(zTemp0) 					; shift byte up.
 .237f	91 24		sta ($24),y			sta 	(zTemp0),y
 .2381	a5 26		lda $26				lda 	zTemp1 						; reached insert point
 .2383	c5 24		cmp $24				cmp 	zTemp0
@@ -3443,7 +3443,7 @@
 .2391	c6 25		dec $25				dec 	zTemp0+1
 .2393					_PGMINoBorrow:
 .2393	c6 24		dec $24				dec 	zTemp0
-.2395	80 e6		bra $237d			bra 	_PGMIInsertLoop
+.2395	80 e6		bra $237d			bra 	_PGMIInsertLoop 			; do previous byte.
 .2397					_PGMIInserted:
 .2397	a0 00		ldy #$00			ldy 	#0 							; copy tokenbuffer to insert point
 .2399					_PGMICopyLoop:

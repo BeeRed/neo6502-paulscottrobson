@@ -4,7 +4,7 @@
 ;		Name:		toktypes.asm
 ;		Purpose:	Check various types
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************

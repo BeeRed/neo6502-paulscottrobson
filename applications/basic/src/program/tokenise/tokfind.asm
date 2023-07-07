@@ -4,7 +4,7 @@
 ;		Name:		tokfind.asm
 ;		Purpose:	Find a token in the element buffer in upper case.
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -29,16 +29,16 @@ TOKFindToken:
 		jsr 	TOKFindTokenXY 				; find it, or not
 		bcc 	_TOKFTFail 					; not ....
 
-		ldx 	#PR_LSQLSQSHIFTRSQRSQ 		; shifted token
+		ldx 	#PR_LSQLSQSHIFTRSQRSQ 		; shift token
 		sec
 		rts
 
 _TOKFound1:		
-		ldx 	#0
+		ldx 	#0 							; come here for unshifted (e.g. X = 0)
 		sec
 		rts
 
-_TOKFTFail		
+_TOKFTFail:									; couldn't find it.		
 		clc
 		rts
 

@@ -4,7 +4,7 @@
 ;		Name:		tokstring.asm
 ;		Purpose:	Tokenise a string
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -32,9 +32,9 @@ _TOKTSLoop:
 		bra 	_TOKTSLoop
 
 _TOKTSExit:
-		lda 	#PR_LSQLSQSTRINGRSQRSQ
+		lda 	#PR_LSQLSQSTRINGRSQRSQ		; token for [[string]]
 		jsr 	TOKWriteA
-		jsr 	TOKOutputElementBuffer
+		jsr 	TOKOutputElementBuffer 		; output collected data.
 		clc
 		rts
 

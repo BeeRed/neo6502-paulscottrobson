@@ -4,7 +4,7 @@
 ;		Name:		insert.asm
 ;		Purpose:	Insert line in token space into program.
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -55,9 +55,9 @@ _PGMILoop:
 		;		Insert space for current line.
 		;
 _PGMIInsert:
-		ldy 	TOKLineSize 				; space required
+		ldy 	TOKLineSize 				; space required is length in token buffer.
 _PGMIInsertLoop:
-		lda 	(zTemp0)
+		lda 	(zTemp0) 					; shift byte up.
 		sta 	(zTemp0),y 			
 		;
 		lda 	zTemp1 						; reached insert point
@@ -72,7 +72,7 @@ _PGMINext: 									; back one.
 		dec 	zTemp0+1
 _PGMINoBorrow:
 		dec 	zTemp0
-		bra 	_PGMIInsertLoop
+		bra 	_PGMIInsertLoop 			; do previous byte.
 		;
 		;		Copy new line into the created space.
 		;

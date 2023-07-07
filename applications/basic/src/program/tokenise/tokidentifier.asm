@@ -4,7 +4,7 @@
 ;		Name:		tokidentifier.asm
 ;		Purpose:	Tokenise an identifier
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -21,13 +21,15 @@
 TOKTokeniseIdentifier:
 		jsr 	TOKResetElement 			; extract an identifier
 _TOKGetIdentifier:
-		jsr 	TOKGet
+		jsr 	TOKGet 						; get identifier character as capital
 		jsr 	TOKToUpper
-		jsr 	TOKIsIdentifierElement
+		jsr 	TOKIsIdentifierElement 		; exit if complete
 		bcc 	_TOKEndIdent
-		jsr		TOKWriteElement
+		jsr		TOKWriteElement 			; add to element buffer
 		jsr 	TOKGetNext
 		bra 	_TOKGetIdentifier
+		;
+		;		End of identifier, work out type.
 		;
 _TOKEndIdent:		
 		cmp 	#"$" 						; last one $
@@ -40,9 +42,15 @@ _TOKNotString:
 		bne 	_TOKNoArray
 		jsr 	TOKWriteElement 			; add it
 		jsr 	TOKGetNext 					; consume it
+		;
+		;		Is it a keyword ?
+		;
 _TOKNoArray:
 		jsr 	TOKFindToken 				; find it
 		bcc		_TOKIsVariable 				; it must be a variable or proc name if not found
+		;
+		;		It's a keyword
+		;
 		cmp 	#PR_REM 					; is it REM ?
 		beq 	_TOKComment 				; yes, do comment code.
 		;
@@ -58,10 +66,12 @@ _TOKNoShift:
 		rts
 
 _TOKComment:
-		jsr 	TOKDoComment
+		jsr 	TOKDoComment 				; comments are special case.
 		clc
 		rts		
-
+		;
+		;		It's a variable.
+		;
 _TOKIsVariable:
 		ldx 	#0 							; output element buffer
 _TOKOutputBuffer:
@@ -72,7 +82,9 @@ _TOKOutputBuffer:
 		lda 	TOKElementText,x
 		jsr 	TOKIsIdentifierElement
 		bcs 	_TOKOutputBuffer
-
+		;
+		;		Work out the 7C..7F tail.
+		;
 		tay 								; last char in Y
 		lda 	#$7C 						; token is $7C
 		cpy 	#0 							; if no modifier use this
@@ -115,6 +127,8 @@ _TTI64:	lda 	#$64
 ;
 ;									Do a comment. A has token
 ;
+;			The purpose of this is to insert "" round comments if they aren't there.
+;
 ; ************************************************************************************************
 
 TOKDoComment:
@@ -130,7 +144,7 @@ _TOKEndSpaces:
 		pha 								; save it
 		pla
 		beq 	_TOKDCExit 					; end of line.
-		cmp 	#'"'						; does it have a speech mark ?
+		cmp 	#'"'						; does it have a speech mark , we should be okay.
 		bne 	_TOKDCDoLine 				; otherwise the comment is the whole line.
 _TOKDCExit:
 		rts
@@ -146,7 +160,7 @@ _TOKDCLoop:
 		bra 	_TOKDCLoop
 
 _TOKDCEndComment:
-		lda 	#PR_LSQLSQSTRINGRSQRSQ
+		lda 	#PR_LSQLSQSTRINGRSQRSQ 		; output as string.
 		jsr 	TOKWriteA
 		jsr 	TOKOutputElementBuffer
 		rts

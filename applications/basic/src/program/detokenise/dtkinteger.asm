@@ -4,7 +4,7 @@
 ;		Name:		dtkinteger.asm
 ;		Purpose:	Detokenise integer
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,11 +19,11 @@
 ; ************************************************************************************************
 
 TOKDInteger:
-		phy 								; save base
-		ldx 	#IFR0 						; set into R0
+		phy 								; save base on stack
+		ldx 	#IFR0 						; set first byte of integer into into R0
 		jsr 	IFloatSetByte
 _TOKDILoop:
-		lda 	(zTemp2) 					; followed by a 00-3F
+		lda 	(zTemp2) 					; followed by a 00-3F, extract the whole integer out.
 		cmp 	#$40
 		bcs 	_TOKDIHaveInteger
 		ldx 	#IFR0 						; R0 << 6
@@ -38,11 +38,11 @@ _TOKDILoop:
 		sta 	IFR0+IM0
 		bra 	_TOKDILoop
 		
-_TOKDIHaveInteger:							; integer in R0, base in Y
+_TOKDIHaveInteger:							; integer in R0, base on TOS.
 		ply 								; restore base
 		tya 								; base in A
-		jsr 	IFloatIntegerToStringR0 		
-		stx 	zTemp0
+		jsr 	IFloatIntegerToStringR0 	; make it a string		
+		stx 	zTemp0 						; output that string.
 		sty 	zTemp0+1
 		lda 	(zTemp0)
 		ldy 	#1 							; output buffer.

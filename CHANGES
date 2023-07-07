@@ -3,7 +3,7 @@ Changes
 
 4th July 2023
 =============
-	Moved to beta 1, tracking changes here.
+	Moved to beta 1, tracking changes here. Beta 2 will be code complete.
 
 5th July 2023
 =============
@@ -16,3 +16,7 @@ Changes
 6th July
 ========	
 	More assembler code. Now mostly complete.
+
+7th July
+========
+	Added OPT	

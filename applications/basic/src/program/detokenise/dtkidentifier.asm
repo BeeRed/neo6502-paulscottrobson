@@ -4,7 +4,7 @@
 ;		Name:		dtkidentifier.asm
 ;		Purpose:	Detokenise identifier
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 22023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,10 +19,10 @@
 ; ************************************************************************************************
 
 TOKDIdentifier:
-		ldy 	#$FF
+		ldy 	#$FF 						; flag set on first character only.
 		sty 	TOKDIFirstChar
 _TOKDLoop:
-		tay 								; token in Y
+		tay 								; token in Y, now coner it to ASCII
 		lda 	#'_' 						; handle _
 		cpy 	#$64
 		beq 	_TOKDIOutput
@@ -33,18 +33,27 @@ _TOKDLoop:
 		bcc 	_TOKDIOutput
 		sec 								; handle 0-9
 		sbc 	#$4B
+		;
+		;		ASCII equivalent in A
+		;	
 _TOKDIOutput:		
-		bit 	TOKDIFirstChar
+		bit 	TOKDIFirstChar 				; check spacing if first character
 		bpl 	_TOKDINoSpacing
 		pha
 		jsr 	TOKDSpacing
 		stz 	TOKDIFirstChar
 		pla
 _TOKDINoSpacing:		
+		;
+		;		Output
+		;
 		jsr 	TOKDOutput		
 		jsr 	TOKDGet 					; get next token
-		cmp 	#$7C
+		cmp 	#$7C 						; 7C..7F are end markers
 		bcc 	_TOKDLoop
+		;
+		;		Output the end $ ( or $(
+		;
 		beq 	_TOKDIExit 					; it's a number, no tail.
 		lsr 	a 							; string ?
 		bcc 	_TOKDICheckArray
@@ -59,7 +68,6 @@ _TOKDICheckArray:
 		jsr 	TOKDOutput
 _TOKDIExit:
 		rts		
-
 
 		.send code
 		

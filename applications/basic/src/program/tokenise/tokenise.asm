@@ -4,7 +4,7 @@
 ;		Name:		tokenise.asm
 ;		Purpose:	Tokenise the line from the data source.
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -37,7 +37,7 @@ TOKTokenise:
 		; ----------------------------------------------------------------------------------
 
 _TOKMainLoop:
-		jsr 	TOKGet 						; what follows.
+		jsr 	TOKGet 						; what follows ?
 		cmp 	#0 							; if zero, we are complete
 		beq 	_TOKExit 
 		cmp 	#' '						; space, consume and loop back.

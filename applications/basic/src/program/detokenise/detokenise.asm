@@ -4,7 +4,7 @@
 ;		Name:		detokenise.asm
 ;		Purpose:	Detokenise line
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -27,20 +27,23 @@ TOKDetokenise:
 		;
 _TOKDLoop:
 		jsr 	TOKDGet 					; get next
-		cmp 	#PR_LSQLSQENDRSQRSQ			; end of line
+		cmp 	#PR_LSQLSQENDRSQRSQ			; end of line, exit.
 		beq 	_TOKDExit
 		;
-		cmp 	#PR_LSQLSQSTRINGRSQRSQ		; is it a string/integer with additional data.
+		cmp 	#PR_LSQLSQSTRINGRSQRSQ		; is it a string or decimal places modifier
 		beq 	_TOKDDataItem
 		cmp 	#PR_LSQLSQDECIMALRSQRSQ
 		beq 	_TOKDDataItem
 		;
 		cmp 	#PR_AMPERSAND 				; & is a special case.
 		beq 	_TOKAmpersand
+		;
 		cmp 	#0 							; is it a token 80-FF
 		bpl 	_TOKDNotToken
 		jsr 	TOKDToken 					; token to text.		
 		bra 	_TOKDLoop
+		;
+		;		00-7F which are integers and identifiers.
 		;
 _TOKDNotToken:
 		cmp 	#$40  						; 40-7F Identifier
@@ -53,6 +56,8 @@ _TOKDNotIdentifier: 						; 00-3F Base 10 Integer
 		jsr 	TOKDInteger
 		bra 	_TOKDLoop
 		;
+		;		&<hex> code, outputs following integer in hex format.
+		;
 _TOKAmpersand:
 		jsr 	TOKDSpaceLastAlpha  		; space if last alpha
 		lda 	#"&" 						; output hex marker
@@ -61,7 +66,9 @@ _TOKAmpersand:
 		ldy 	#16 						; expand in base 16
 		jsr 	TOKDInteger
 		bra 	_TOKDLoop
-
+		;
+		;		Handle data
+		;
 _TOKDDataItem:								; [[STRING]] [[DECIMAL]]
 		jsr 	TOKDDataItem
 		bra 	_TOKDLoop
@@ -90,8 +97,8 @@ _TKDGExit:
 ; ************************************************************************************************
 
 TOKDOutput:
-		sta 	TOKLastCharacter
-		jmp 	(TOKOutputMethod)
+		sta 	TOKLastCharacter 			; save last character
+		jmp 	(TOKOutputMethod) 			; call output handler
 
 ; ************************************************************************************************
 ;
@@ -107,9 +114,9 @@ TOKSetDetokeniseOutput:
 		.send code
 		
 		.section storage
-TOKOutputMethod:		
+TOKOutputMethod:							; routine to handle output characters
 		.fill 	2
-TOKLastCharacter:
+TOKLastCharacter: 							; last character output.
 		.fill 	1		
 		.send storage
 

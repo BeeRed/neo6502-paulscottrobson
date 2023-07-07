@@ -4,7 +4,7 @@
 ;		Name:		dtktoken.asm
 ;		Purpose:	Detokenise token
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -25,34 +25,37 @@ TOKDToken:
 		bne 	_TOKDSearch
 		;
 		jsr 	TOKDGet 					; get next
-		ldx 	#AlternateTokens & $FF 		; alt table
+		ldx 	#AlternateTokens & $FF 		; alt table address
 		ldy 	#AlternateTokens >> 8
 		;
 		;		Seach for token A in table YX.
 		;
 _TOKDSearch:		
-		stx 	zTemp0 						; put table in zTemp0
+		stx 	zTemp0 						; save table in zTemp0
 		sty 	zTemp0+1
 		tax 								; token ID in X.				
 _TOKDFind:
-		dex 								; reached the start
+		dex 								; reached the token position
 		bpl 	_TOKDFound		
-		sec 								; go to next entry
+		sec 								; go to next entry in token table
 		lda 	(zTemp0)
 		adc 	zTemp0
 		sta 	zTemp0
 		bcc 	_TOKDFind
 		inc 	zTemp0+1
 		bra 	_TOKDFind
+		;
+		;		zTemp0 now points to the token.
+		;
 _TOKDFound:		
-		lda 	(zTemp0) 					; length to X
-		beq 	_TOKDExit
-		tax 	
+		lda 	(zTemp0) 					; length to X.
+		beq 	_TOKDExit 					; not a token with text.
+		tax 	 				
 		ldy 	#1 							; output the token.
 		lda 	(zTemp0),y 					; check spacing first character,
-		jsr 	TOKDSpacing
+		jsr 	TOKDSpacing 				; do we need space before this.
 _TOKDOutput:
-		lda 	(zTemp0),y
+		lda 	(zTemp0),y 					; output them in lower case
 		jsr 	TOKToLower
 		jsr 	TOKDOutput
 		iny

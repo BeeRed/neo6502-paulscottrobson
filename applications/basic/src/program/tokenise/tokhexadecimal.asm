@@ -4,7 +4,7 @@
 ;		Name:		tokhexadecimal.asm
 ;		Purpose:	Tokenise hex integer
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -26,11 +26,13 @@ _TTHLoop:
 		jsr 	TOKGet 						; keep getting and copying while numeric.
 		jsr 	TOKIsHexadecimal
 		bcc 	_TTHDone
+
 		ldx 	#IFR0 						; shift R0 right 4
 		jsr 	IFloatShiftLeft		
 		jsr 	IFloatShiftLeft		
 		jsr 	IFloatShiftLeft		
 		jsr 	IFloatShiftLeft		
+
 		jsr 	TOKGetNext
 		jsr 	TOKToUpper 					; make U/C
 		sec 								; convert to decimal.
@@ -39,7 +41,7 @@ _TTHLoop:
 		bcc 	_TTHNotAlpha
 		sbc 	#7
 _TTHNotAlpha:
-		ora 	IFR0+IM0 					; OR in
+		ora 	IFR0+IM0 					; OR into R0
 		sta 	IFR0+IM0		
 		bra 	_TTHLoop
 _TTHDone:

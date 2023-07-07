@@ -4,7 +4,7 @@
 ;		Name:		delete.asm
 ;		Purpose:	Delete line in token space, if it exists
 ;		Created:	28th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	7th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -27,7 +27,7 @@ PGMDeleteLine:
 		lda 	PGMBaseHigh		
 		sta 	zTemp1+1
 		;
-		;		Try to find the line.
+		;		Try to find the line, scanning forward
 		;
 _PGMDLoop:
 		lda 	(zTemp1) 					; finished, not found ?
@@ -35,10 +35,10 @@ _PGMDLoop:
 		beq 	_PGMDExit
 		;
 		ldy 	#1 							; found line number ?
-		lda 	(zTemp1),y
+		lda 	(zTemp1),y 					; compare LSB
 		cmp 	TOKLineNumber
 		bne 	_PGMDNext
-		iny
+		iny 								; compare MSB
 		lda 	(zTemp1),y
 		cmp 	TOKLineNumber+1
 		beq 	_PGMDDelete
@@ -63,13 +63,13 @@ _PGMDCopy:
 		lda 	(zTemp1),y 					; copy down.
 		sta 	(zTemp1)
 
-		lda 	zTemp1 						; reached the end ?
+		lda 	zTemp1 						; reached the end in zTemp0
 		cmp 	zTemp0
 		bne 	_PGMDNext2
 		lda 	zTemp1+1
 		cmp 	zTemp0+1
 		clc
-		beq 	_PGMDExit
+		beq 	_PGMDExit 					; then exit.
 _PGMDNext2:
 		inc 	zTemp1 						; advance pointer.
 		bne 	_PGMDCopy
