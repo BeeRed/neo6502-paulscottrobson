@@ -315,6 +315,8 @@
 <div> will display 3</div>
 <h1 style="background-color:cyan;"><center>new</center></h1>
 <div>Erase current program and variables and then return to command line.</div>
+<h1 style="background-color:cyan;"><center>opt expr</center></h1>
+<div>Sets assembly options. Bit 0 indicates whether the listing should be displayed or not. Bit 1 indicates the pass (0 or 1). When pass is set (e.g. OPT 2 or OPT 3) then errors on the "second pass" of assembler code are enabled - branch ranges, valid addresses labels defined and so on.</div>
 <h1 style="background-color:cyan;"><center>or</center></h1>
 <div>Bitwise or of two numbers, which must be integers.</div>
 <h1 style="background-color:cyan;"><center>peek(n)</center></h1>
@@ -377,6 +379,8 @@
 <center><i><b>REM "Calculate the players initial positions"</b></i></center
 <br />
 <div></div>
+<h1 style="background-color:cyan;"><center>renumber <start></center></h1>
+<div>Simple renumberer. Does *not* handle GOTO or GOSUB, so don't use it if you use these commands, which should only be for already existing type ins. The start is optional, and defaults to 1000.</div>
 <h1 style="background-color:cyan;"><center>repeat .. until</center></h1>
 <div>Repeats a block of code until a condition is true. </div>
 <br />
@@ -403,6 +407,8 @@
 <div> prints , say 0.6307</div>
 <h1 style="background-color:cyan;"><center>run</center></h1>
 <div>Runs the current program, clearing all variables and arrays first.</div>
+<h1 style="background-color:cyan;"><center>save <file>,<address>,<size></center></h1>
+<div>Saves a block of memory, the default is the BASIC program</div>
 <h1 style="background-color:cyan;"><center>sgn(n)</center></h1>
 <div>Returns the sign of the number n ; 0 if zero, -1 if negative, 1 if positive and not zero</div>
 <br />

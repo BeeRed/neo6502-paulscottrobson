@@ -20,6 +20,8 @@ static FILE *fFlashImage = NULL;
 
 static int sectorSize = 0;
 static int sectorCount = 0;
+static int flashAddr = 0;
+
 static FILE *flashHandler = NULL;
 
 // *******************************************************************************************************************************
@@ -43,7 +45,6 @@ void HWFlashInitialise(void) {
 
 int HWFlashCommand(int command,int data) {
 	int retVal = 0;
-	//printf("Flash cmd:%d data:%d $%x ",command,data,data);
 
 	switch(command) {
 		case HWF_ERASE:  					 			// Erase sector.
@@ -54,22 +55,26 @@ int HWFlashCommand(int command,int data) {
 			break;
 		case HWF_OPENREAD: 		 						// Open sector to read
 		case HWF_OPENWRITE:  		 					// Open sector to write
+			//printf("Flash cmd:%d data:%d $%x %c\n",command,data,data,data);
 			flashHandler = fopen("storage/flash.image",(command == HWF_OPENREAD) ? "rb":"rb+");
 			fseek(flashHandler,data * sectorSize,SEEK_SET);
+			flashAddr = 0;
 			break;
 		case HWF_READ: 				 					// Read one byte
+			flashAddr++;
 			retVal = fgetc(flashHandler);
-			//printf("\t=> %d $%x",retVal,retVal);
 			break;
 		case HWF_WRITE:  			 					// Write one byte
+			//if (data != 0xFF) printf("Flash cmd:%d data:%d $%x %c addr:%d\n",command,data,data,data,flashAddr);
+			flashAddr++;
 			fputc(data,flashHandler);
 			break;
 		case HWF_ENDCOMMAND:
+			//printf("Flash cmd:%d data:%d $%x %c\n",command,data,data,data);
 			fclose(flashHandler);
 			flashHandler = NULL;
 			break;			
 	}
-	//printf("\n");
 	return retVal;
 }
 
