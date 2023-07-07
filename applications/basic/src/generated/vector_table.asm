@@ -10,14 +10,14 @@ VectorTable:
 	.word	EndIf                    ; $85 ENDIF
 	.word	Command_DO               ; $86 DO
 	.word	Command_LOOP             ; $87 LOOP
-	.word	NoExec08                 ; $88 PROC
-	.word	Command_ENDPROC          ; $89 ENDPROC
-	.word	Command_FOR              ; $8a FOR
-	.word	Command_NEXT             ; $8b NEXT
-	.word	RUNEndOfLine             ; $8c [[END]]
-	.word	Command_Shift_Handler    ; $8d [[SHIFT]]
-	.word	ElseCode                 ; $8e ELSE
-	.word	NoExec01                 ; $8f THEN
+	.word	NoExec01                 ; $88 THEN
+	.word	NoExec08                 ; $89 PROC
+	.word	Command_ENDPROC          ; $8a ENDPROC
+	.word	Command_FOR              ; $8b FOR
+	.word	Command_NEXT             ; $8c NEXT
+	.word	RUNEndOfLine             ; $8d [[END]]
+	.word	Command_Shift_Handler    ; $8e [[SHIFT]]
+	.word	ElseCode                 ; $8f ELSE
 	.word	NoExec02                 ; $90 TO
 	.word	NoExec03                 ; $91 STEP
 	.word	CommandLET               ; $92 LET
@@ -131,21 +131,21 @@ VectorTable:
 	.word	EXPBinSub                ; $fe -
 	.word	EXPBinAdd                ; $ff +
 AlternateVectorTable:
-	.word	Command_CLEAR            ; $8d80 CLEAR
-	.word	Command_NEW              ; $8d81 NEW
-	.word	Command_RUN              ; $8d82 RUN
-	.word	Command_STOP             ; $8d83 STOP
-	.word	Command_END              ; $8d84 END
-	.word	Command_ASSERT           ; $8d85 ASSERT
-	.word	Command_LIST             ; $8d86 LIST
-	.word	Command_SAVE             ; $8d87 SAVE
-	.word	Command_LOAD             ; $8d88 LOAD
-	.word	Command_GOSUB            ; $8d89 GOSUB
-	.word	Command_GOTO             ; $8d8a GOTO
-	.word	Command_RETURN           ; $8d8b RETURN
-	.word	Command_RESTORE          ; $8d8c RESTORE
-	.word	CommandDIM               ; $8d8d DIM
-	.word	Command_DIR              ; $8d8e DIR
-	.word	Command_ERASE            ; $8d8f ERASE
-	.word	Command_RENUMBER         ; $8d90 RENUMBER
-	.word	Command_OPT              ; $8d91 OPT
+	.word	Command_CLEAR            ; $8e80 CLEAR
+	.word	Command_NEW              ; $8e81 NEW
+	.word	Command_RUN              ; $8e82 RUN
+	.word	Command_STOP             ; $8e83 STOP
+	.word	Command_END              ; $8e84 END
+	.word	Command_ASSERT           ; $8e85 ASSERT
+	.word	Command_LIST             ; $8e86 LIST
+	.word	Command_SAVE             ; $8e87 SAVE
+	.word	Command_LOAD             ; $8e88 LOAD
+	.word	Command_GOSUB            ; $8e89 GOSUB
+	.word	Command_GOTO             ; $8e8a GOTO
+	.word	Command_RETURN           ; $8e8b RETURN
+	.word	Command_RESTORE          ; $8e8c RESTORE
+	.word	CommandDIM               ; $8e8d DIM
+	.word	Command_DIR              ; $8e8e DIR
+	.word	Command_ERASE            ; $8e8f ERASE
+	.word	Command_RENUMBER         ; $8e90 RENUMBER
+	.word	Command_OPT              ; $8e91 OPT

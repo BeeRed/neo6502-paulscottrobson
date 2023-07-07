@@ -22,4 +22,6 @@ Changes
 	Added OPT	
 	Completed assembler code.	
 	Non-specific code complete, Beta 2.
-	
+	Added list indenting
+	** THEN has become a - structure keyword **
+		

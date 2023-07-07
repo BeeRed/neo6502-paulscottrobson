@@ -60,14 +60,14 @@ class RawTokenClass(object):
 
 	def getStructureTokens(self):
 		return """
-			REPEAT+	UNTIL-	WHILE+ 	WEND-	IF+		ENDIF-	DO+ 	LOOP-
+			REPEAT+	UNTIL-	WHILE+ 	WEND-	IF+		ENDIF-	DO+ 	LOOP- 	THEN-
 			PROC+ 	ENDPROC-
 			FOR+ 	NEXT-
 	"""
 
 	def getKeywordTokens(self):
 		return  """
-			[[END]] [[SHIFT]] 	ELSE	THEN	TO 		STEP	LET 	PRINT	INPUT	CALL 	SYS 	
+			[[END]] [[SHIFT]] 	ELSE	TO 		STEP	LET 	PRINT	INPUT	CALL 	SYS 	
 			REM 	EXIT		, 		; 		: 		' 		)		POKE 	DOKE	READ 	DATA 	
 			[		]			# 		. 		
 		"""

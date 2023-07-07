@@ -10,7 +10,8 @@ StructureOffsets:
 	.byte	255	; $85 ENDIF
 	.byte	1  	; $86 DO
 	.byte	255	; $87 LOOP
-	.byte	1  	; $88 PROC
-	.byte	255	; $89 ENDPROC
-	.byte	1  	; $8a FOR
-	.byte	255	; $8b NEXT
+	.byte	255	; $88 THEN
+	.byte	1  	; $89 PROC
+	.byte	255	; $8a ENDPROC
+	.byte	1  	; $8b FOR
+	.byte	255	; $8c NEXT

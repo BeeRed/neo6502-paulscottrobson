@@ -18,15 +18,17 @@
 ;
 ; ************************************************************************************************
 
+
 ScanForward:
+		stz 	zTemp1 						; clear structure count.
+ScanForwardMain:		
 		sta 	zTemp0 						; save scan options in zTemp0
 		stx 	zTemp0+1
 		;
-		stz 	zTemp1 						; clear structure count.
 		;
 		;		Scan forward loop.
 		;
-_ScanForwardLoop:		
+_ScanLoop:		
 		lda 	zTemp1 						; if structure count non zero, don't check for end.
 		bne 	_ScanNoCheck
 		;
@@ -36,7 +38,21 @@ _ScanForwardLoop:
 		cmp 	zTemp0+1
 		beq 	_ScanExit
 _ScanNoCheck:
+		jsr 	SkipOneInstruction
+		bcc 	_ScanLoop
+		.error_structure
 
+_ScanExit:
+		iny 								; consume final token.		
+		rts
+
+; ************************************************************************************************
+;
+;					Skip one instruction, return CS on underflow error
+;
+; ************************************************************************************************
+
+SkipOneInstruction:
 		lda 	(codePtr),y 				; get the token and consume it.
 		iny
 		;
@@ -56,17 +72,19 @@ _ScanNoShift:
 ;		Handle structures open/close
 ;
 		cmp 	#PR_STRUCTURE_LAST+1 		; nested structures
-		bcs 	_ScanForwardLoop
+		bcs 	_SOIExit
 		cmp 	#PR_STRUCTURE_FIRST
-		bcc 	_ScanForwardLoop
+		bcc 	_SOIExit
 		;
 		tax 								; access the table to get the adjustment.
 		clc
 		lda 	zTemp1 						; add it to structure count.
 		adc 	StructureOffsets-PR_STRUCTURE_FIRST,x
 		sta 	zTemp1
-		bpl		_ScanForwardLoop 			; error if -ve ?
-		.error_structure
+		bpl		_SOIExit 		 			; error if -ve ?
+		sec
+		rts
+
 ;
 ;		Scan over end of line.
 ;
@@ -80,8 +98,9 @@ _ScanNextLine:
 _ScanNoCarry:
 		ldy 	#3		
 		lda 	(codePtr) 					; off end of program ?
-		bne 	_ScanForwardLoop
-		.error_structure
+		bne 	_SOIExit
+		sec 								; failed.
+		rts
 ;
 ;		Scan over [decimal] or [string]
 ;
@@ -90,11 +109,11 @@ _ScanDataItem:
 		sec
 		adc 	(codePtr),y
 		tay
-		bra 	_ScanForwardLoop
+		bra 	_SOIExit
 
-_ScanExit:
-		iny 								; consume final token.		
-		rts
+_SOIExit:
+		clc
+		rts		
 
 		.send code
 
@@ -102,5 +121,7 @@ _ScanExit:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		07/07/2013 		Factored out the 'advance forward' code, which now returns CS on underflow.
+;						(for getting the LIST)
 ;
 ; ************************************************************************************************

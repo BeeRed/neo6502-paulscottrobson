@@ -10,14 +10,14 @@ StandardTokens:
 	.byte	$05,$45,$4e,$44,$49,$46                 	; $85 endif
 	.byte	$02,$44,$4f                             	; $86 do
 	.byte	$04,$4c,$4f,$4f,$50                     	; $87 loop
-	.byte	$04,$50,$52,$4f,$43                     	; $88 proc
-	.byte	$07,$45,$4e,$44,$50,$52,$4f,$43         	; $89 endproc
-	.byte	$03,$46,$4f,$52                         	; $8a for
-	.byte	$04,$4e,$45,$58,$54                     	; $8b next
-	.byte	$00                                     	; $8c [[end]]
-	.byte	$00                                     	; $8d [[shift]]
-	.byte	$04,$45,$4c,$53,$45                     	; $8e else
-	.byte	$04,$54,$48,$45,$4e                     	; $8f then
+	.byte	$04,$54,$48,$45,$4e                     	; $88 then
+	.byte	$04,$50,$52,$4f,$43                     	; $89 proc
+	.byte	$07,$45,$4e,$44,$50,$52,$4f,$43         	; $8a endproc
+	.byte	$03,$46,$4f,$52                         	; $8b for
+	.byte	$04,$4e,$45,$58,$54                     	; $8c next
+	.byte	$00                                     	; $8d [[end]]
+	.byte	$00                                     	; $8e [[shift]]
+	.byte	$04,$45,$4c,$53,$45                     	; $8f else
 	.byte	$02,$54,$4f                             	; $90 to
 	.byte	$04,$53,$54,$45,$50                     	; $91 step
 	.byte	$03,$4c,$45,$54                         	; $92 let
@@ -132,22 +132,22 @@ StandardTokens:
 	.byte	$01,$2b                                 	; $ff +
 	.byte	$FF
 AlternateTokens:
-	.byte	$05,$43,$4c,$45,$41,$52                 	; $8d80 clear
-	.byte	$03,$4e,$45,$57                         	; $8d81 new
-	.byte	$03,$52,$55,$4e                         	; $8d82 run
-	.byte	$04,$53,$54,$4f,$50                     	; $8d83 stop
-	.byte	$03,$45,$4e,$44                         	; $8d84 end
-	.byte	$06,$41,$53,$53,$45,$52,$54             	; $8d85 assert
-	.byte	$04,$4c,$49,$53,$54                     	; $8d86 list
-	.byte	$04,$53,$41,$56,$45                     	; $8d87 save
-	.byte	$04,$4c,$4f,$41,$44                     	; $8d88 load
-	.byte	$05,$47,$4f,$53,$55,$42                 	; $8d89 gosub
-	.byte	$04,$47,$4f,$54,$4f                     	; $8d8a goto
-	.byte	$06,$52,$45,$54,$55,$52,$4e             	; $8d8b return
-	.byte	$07,$52,$45,$53,$54,$4f,$52,$45         	; $8d8c restore
-	.byte	$03,$44,$49,$4d                         	; $8d8d dim
-	.byte	$03,$44,$49,$52                         	; $8d8e dir
-	.byte	$05,$45,$52,$41,$53,$45                 	; $8d8f erase
-	.byte	$08,$52,$45,$4e,$55,$4d,$42,$45,$52     	; $8d90 renumber
-	.byte	$03,$4f,$50,$54                         	; $8d91 opt
+	.byte	$05,$43,$4c,$45,$41,$52                 	; $8e80 clear
+	.byte	$03,$4e,$45,$57                         	; $8e81 new
+	.byte	$03,$52,$55,$4e                         	; $8e82 run
+	.byte	$04,$53,$54,$4f,$50                     	; $8e83 stop
+	.byte	$03,$45,$4e,$44                         	; $8e84 end
+	.byte	$06,$41,$53,$53,$45,$52,$54             	; $8e85 assert
+	.byte	$04,$4c,$49,$53,$54                     	; $8e86 list
+	.byte	$04,$53,$41,$56,$45                     	; $8e87 save
+	.byte	$04,$4c,$4f,$41,$44                     	; $8e88 load
+	.byte	$05,$47,$4f,$53,$55,$42                 	; $8e89 gosub
+	.byte	$04,$47,$4f,$54,$4f                     	; $8e8a goto
+	.byte	$06,$52,$45,$54,$55,$52,$4e             	; $8e8b return
+	.byte	$07,$52,$45,$53,$54,$4f,$52,$45         	; $8e8c restore
+	.byte	$03,$44,$49,$4d                         	; $8e8d dim
+	.byte	$03,$44,$49,$52                         	; $8e8e dir
+	.byte	$05,$45,$52,$41,$53,$45                 	; $8e8f erase
+	.byte	$08,$52,$45,$4e,$55,$4d,$42,$45,$52     	; $8e90 renumber
+	.byte	$03,$4f,$50,$54                         	; $8e91 opt
 	.byte	$FF

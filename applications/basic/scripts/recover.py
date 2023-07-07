@@ -18,7 +18,7 @@ dump = [x for x in open("memory.dump","rb").read(-1)]
 
 start = 0x3800
 
-if dump[start] == 0x05 and dump[start+1] == 0xe8 and dump[start+2] == 0x03 and dump[start+3] == 0x97:
+if dump[start] == 0x05 and dump[start+3] == 0x97:
 	dump = dump[0x3800:]
 	p = 0
 	while dump[p] != 0:
@@ -33,3 +33,5 @@ if dump[start] == 0x05 and dump[start+1] == 0xe8 and dump[start+2] == 0x03 and d
 	h = open(filename(bID),"wb")
 	h.write(bytes(dump))
 	h.close()
+
+	print("Written to "+filename(bID))

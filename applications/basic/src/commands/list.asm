@@ -19,6 +19,8 @@
 		.section code
 
 Command_LIST:	;; [list]
+		lda 	#6 							; set default spacing.
+		sta 	CLIndent
 		stz 	CLFrom 						; default from 
 		stz 	CLFrom+1
 		lda 	(codePtr),y 				; is there a to line (e.g. LIST ,xxx)
@@ -79,18 +81,33 @@ _CLLoop:
 		jsr 	_CLCompareLine
 		cmp 	#1 							; > to then skip
 		beq 	_CLNext
-
+		;
+		;		Actually list the line.
+		;
 		ldy 	#2 							; print line #
 		lda 	(codePtr),y
 		tax
 		dey
 		lda 	(codePtr),y
 		jsr 	WriteIntXA
+		;
+		;		Get the indent, save it and add now if negative.
+		;
+		jsr 	GetIndent
+		pha		
+		bpl 	_CLSpacing 					; skip if +ve
+		clc 								; move backwards
+		adc 	CLIndent
+		cmp 	#6 							; no further than this
+		bcs 	_CLSaveIndent
+		lda 	#6
+_CLSaveIndent:		
+		sta 	CLIndent 					; update the indent.
 _CLSpacing:		
 		lda 	#32
 		jsr 	OSWriteScreen
 		jsr 	OSGetScreenPosition
-		cpx 	#6
+		cpx 	CLIndent
 		bne 	_CLSpacing
 
 		ldy 	codePtr+1 					; point YX to tokenised code/
@@ -104,6 +121,12 @@ _CLNoCarry2:
 		jsr 	TOKDetokenise		
 		lda 	#13	 						; next line
 		jsr 	OSWriteScreen
+
+		pla 								; get indent up
+		bmi 	_CLNext 				 	; if +ve add to indent
+		clc
+		adc 	CLIndent
+		sta 	CLIndent
 _CLNext:
 		clc 								; advance to next line.
 		lda 	(codePtr)
@@ -146,6 +169,8 @@ CLFrom:
 		.fill 	2
 CLTo:		
 		.fill 	2
+CLIndent:
+		.fill 	1		
 		.send storage
 
 ;:[list start,end]
