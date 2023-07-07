@@ -74,4 +74,7 @@ ErrorV_fnf:
 ErrorV_full:
 	jsr	ErrorHandler
 	.text	12,"Storage Full",0
+ErrorV_align:
+	jsr	ErrorHandler
+	.text	13,"Label Changed",0
 	.send code

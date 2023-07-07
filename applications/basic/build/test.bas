@@ -1,4 +1,5 @@
-P = &A123:O = 1
+P = &A123
+OPT 2
 [ .test 
  	lda #42
  	lda 42

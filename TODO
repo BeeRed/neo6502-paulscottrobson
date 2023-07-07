@@ -1,8 +1,6 @@
 TODO:
 	Inline assembler:
 		- relative calculation.
-		- disable creation in pass 2
-		- OPT not O% bit 0, listing, bit 1 errors enabled.
 
 	Code Complete
 

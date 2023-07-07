@@ -33,3 +33,4 @@
 	line		  : unknown line number
 	fnf 		  : file not found
 	full 		  : storage full
+	align 		  : label changed

@@ -149,4 +149,5 @@ AlternateTokens:
 	.byte	$03,$44,$49,$52                         	; $8d8e dir
 	.byte	$05,$45,$52,$41,$53,$45                 	; $8d8f erase
 	.byte	$08,$52,$45,$4e,$55,$4d,$42,$45,$52     	; $8d90 renumber
+	.byte	$03,$4f,$50,$54                         	; $8d91 opt
 	.byte	$FF

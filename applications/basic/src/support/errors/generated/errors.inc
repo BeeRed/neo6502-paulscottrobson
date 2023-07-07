@@ -73,3 +73,6 @@ error_fnf .macro
 error_full .macro
 	jmp	ErrorV_full
 	.endm
+error_align .macro
+	jmp	ErrorV_align
+	.endm

@@ -15,6 +15,7 @@
 	.include "src/assembler/instruction/parsemode.asm"
 	.include "src/assembler/instruction/write.asm"
 	.include "src/assembler/label.asm"
+	.include "src/assembler/opt.asm"
 	.include "src/commands/assert.asm"
 	.include "src/commands/clear.asm"
 	.include "src/commands/dim.asm"

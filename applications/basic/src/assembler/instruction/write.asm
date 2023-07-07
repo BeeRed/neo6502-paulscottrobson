@@ -25,11 +25,15 @@ ASWriteByte:
 		stx 	zTemp0+1
 		sta 	(zTemp0)
 
-		pha
+		tax
+		lda 	ASMOption
+		lsr 	a
+		bcc 	_ASWBNoEcho
 		lda 	#32
 		jsr 	OSWriteScreen
-		pla
+		txa
 		jsr 	ASPrintHex
+_ASWBNoEcho:
 
 		inc 	('P'-'A')*4 + FastVariables + 0
 		bne 	_ASWBNoCarry
@@ -44,6 +48,9 @@ _ASWBNoCarry:
 ; ************************************************************************************************
 
 ASAddress:
+		lda 	ASMOption
+		lsr 	a
+		bcc 	_ASAExit
 		lda 	('P'-'A')*4 + FastVariables + 1
 		jsr 	ASPrintHex
 		lda 	('P'-'A')*4 + FastVariables + 0
@@ -52,6 +59,7 @@ ASAddress:
 		jsr 	OSWriteScreen
 		lda 	#':'
 		jsr 	OSWriteScreen
+_ASAExit:		
 		rts
 
 ; ************************************************************************************************
@@ -61,8 +69,12 @@ ASAddress:
 ; ************************************************************************************************
 
 ASEndLine:
+		lda 	ASMOption
+		lsr 	a
+		bcc 	_ASEExit
 		lda 	#13
 		jsr 	OSWriteScreen
+_ASEExit:		
 		rts
 
 ; ************************************************************************************************
