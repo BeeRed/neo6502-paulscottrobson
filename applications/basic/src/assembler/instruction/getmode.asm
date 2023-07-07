@@ -88,7 +88,7 @@ ASGTable:
 ;
 ASGSpecialCases:
 		.byte	$80	,	AM_RELATIVE						;	BRA	rel
-		.byte	$14	,	AM_IMMEDIATE					;	TRB	imm
+		.byte	$14	,	AM_ZERO							;	TRB	nn
 		.byte	$96	,	AM_ZEROY						;	STX	nn,y
 		.byte	$B6	,	AM_ZEROY						;	LDX	nn,y
 		.byte	$3C	,	AM_ABSOLUTEX					;	BIT	nnnn,x

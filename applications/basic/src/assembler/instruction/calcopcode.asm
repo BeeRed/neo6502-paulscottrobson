@@ -20,6 +20,10 @@
 		.section code
 
 ASCalculateOpcodeHash:
+		lda 	(codePtr),y 				; check for AND token.
+		cmp 	#PR_AND
+		beq 	_ASCOAnd
+
 		jsr 	_ASCGetCharacter 			; get first alphanumeric character 0-25 rep A-Z
 		jsr 	_ASCProcess 				; go through the shift/multiply process
 		sta 	zTemp0
@@ -48,6 +52,11 @@ ASCalculateOpcodeHash:
 
 		pla 								; restore and exit
 		rts
+
+_ASCOAnd:
+		iny 								; consume the token.
+		lda 	#106 						; the hash value for "AND"
+		rts 		
 ;
 ;		Get next character, check it is A-Z
 ;		

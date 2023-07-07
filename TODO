@@ -1,15 +1,11 @@
 TODO:
-	Inline assembler:
-		- relative calculation.
-
-	Code Complete
-
 	Star Trek dogfood.
 
 Ongoing:
 	Complete Code Reading (currently 70 files).
 	
 Fixes:
+	TRB zp/abs
 	Identifier Definitions in command line bug ?
 	
 Outstanding (Implementation specific):

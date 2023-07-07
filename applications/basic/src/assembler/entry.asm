@@ -34,6 +34,8 @@ _CALoop:
 		beq 	_CALoop
 		cmp 	#PR_LSQLSQENDRSQRSQ 		; end of line.
 		beq 	_CAEnd
+		cmp 	#PR_AND	 					; AND is an opcode *and* a keyword
+		beq 	_CAOpcode
 		;
 		and 	#$C0 						; is it an identifier (which we will make an opcode)
 		cmp 	#$40

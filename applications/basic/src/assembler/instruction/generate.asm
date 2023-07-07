@@ -53,6 +53,9 @@ _ASGDone:
 ; ************************************************************************************************
 
 ASGTryGenerate:
+		cmp 	#AM_RELATIVE 				; is it relative (will identify as absolute)
+		beq 	_ASGRelative
+
 		cmp 	ASCurrMode 					; do the modes match ?
 		beq 	_ASGMatches 				; yes, we have a result. 
 		;
@@ -95,16 +98,14 @@ _ASGMatches:
 
 		cmp 	#AM_IMPLIED 				; dispatch
 		beq 	_ASGExit
-		cmp 	#AM_RELATIVE
-		beq 	_ASGRelative
 		cmp 	#0 
 		bmi 	_ASGZeroPage
 		;
 _ASGAbsolute:								; absolute
-		lda 	IFR0+IM1
-		jsr 	ASWriteByte
-_ASGWriteLSB:		
 		lda 	IFR0+IM0
+		jsr 	ASWriteByte
+		lda 	IFR0+IM1
+_ASGWExit:		
 		jsr 	ASWriteByte
 _ASGExit:	
 		jsr 	ASEndLine
@@ -115,9 +116,56 @@ _ASGZeroPage: 								; zero page
 		lda 	IFR0+IM1 					; check operand
 		beq 	_ASGWriteLSB
 		.error_value
-
+_ASGWriteLSB:		
+		lda 	IFR0+IM0
+		bra 	_ASGWExit
+		;
+		;		Relative is entirely seperated.
+		;
 _ASGRelative: 								; relative
-		.debug
+		pha
+		jsr 	ASAddress 					; address out.
+		lda 	ASGOpcode 					; write opcode
+		jsr 	ASWriteByte 				; write a byte
+		pla
+
+		lda 	ASCurrMode 					; check absolute.
+		cmp 	#AM_ABSOLUTE 				
+		beq 	_ASGCalcCheck
+		.error_syntax
+_ASGCalcCheck:		
+		lda 	ASMOption 					; if pass bit set, just write junk
+		and 	#2
+		tax
+		beq 	_ASGRout
+		clc 								; calculate offset, borrowing one.
+		lda 	IFR0+IM0
+		sbc 	('P'-'A')*4 + FastVariables + 0
+		tax 	
+		lda 	IFR0+IM1
+		sbc 	('P'-'A')*4 + FastVariables + 1
+		sta 	zTemp0 						; save MSB temporarily
+
+		cpx 	#0 							; if X is -ve A needs to be $FF so inc so it needs to be $00
+		bpl 	_ASGForward
+		inc 	a
+_ASGForward:
+		cmp 	#0
+		bne 	_ASGRange
+		;
+		txa 								; MSB and LSB need to be the same sign.
+		eor 	zTemp0 
+		bmi 	_ASGRange
+		;
+_ASGRout:		
+		txa
+		jsr 	ASWriteByte 				; write the relative branch
+		jsr 	ASEndLine
+		sec	
+		rts
+
+_ASGRange:
+		.error_range
 
 		.send code
 		.section storage

@@ -1,23 +1,58 @@
+# *******************************************************************************************
+# *******************************************************************************************
 #
-#	Another idea for packing ; doesn't work.
+#		Name : 		assem2.py
+#		Purpose :	Create the assembler LUT
+#		Date :		30th June 2023
+#		Author : 	Paul Robson (paul@robsons.org.uk)
 #
-opcodes = """
-	ADC AND ASL BCC BCS BEQ BIT BMI BNE BPL BRA BRK BVC BVS CLC CLD CLI CLV CMP CPX CPY DEC DEX DEY EOR INC INX INY JMP	
-	JSR LDA LDX LDY LSR NOP ORA PHA PHP PHX PHY PLA PLP PLX PLY ROL ROR RTI RTS SBC SEC SED SEI STA STX STY STZ TAX TAY
-	TSX TXA TXS TYA BBS BBR SMB SMR WAI STP"""
+# *******************************************************************************************
+# *******************************************************************************************
 
-opcodes = opcodes.strip().split()
+import sys
 
-chars = [ {},{},{} ]
+# *******************************************************************************************
+#
+#							This is an 8 bit rotate left
+#
+# *******************************************************************************************
+def rol(n):
+	return (n << 1) + (0 if (n & 0x80) == 0 else 1)
 
-for op in opcodes:
-	for i in range(0,3):
-		chars[i][op[i]] = True 
+# *******************************************************************************************
+#
+#								Convert opcode to hash
+#
+# *******************************************************************************************
 
-chars = [ "".join([c for c in x.keys()]) for x in chars]
+def hash(op,trace = False):
+	multiplier = 5
+	additive = 68
+	xor = 165
 
-for i in range(0,3):
-	print("{0} {1:2} {2}".format(i,len(chars[i]),chars[i]))
+	values = [ord(c)-ord('A') for c in op.upper()]
+	calc = values[0]
+	calc = (calc * multiplier + additive ) & 0xFF
+	if trace:
+		print(";{0:02x}".format(calc))
+	calc = (calc + values[1]) & 0xFF
+	if trace:
+		print(";{0:02x}".format(calc))
+	calc = rol(calc)
+	if trace:
+		print(";{0:02x}".format(calc))
+	calc = calc ^ xor
+	if trace:
+		print(";{0:02x}".format(calc))
+	calc = (calc * multiplier + additive ) & 0xFF
+	if trace:
+		print(";{0:02x}".format(calc))
+	calc = (calc + values[2]) & 0xFF
+	if trace:
+		print(";{0:02x}".format(calc))
+	calc = calc & 0xFF
+	return calc
 
-c1 = [len(n) for n in chars]
-print(c1[0] * c1[1] * c1[2])	
+
+
+print(hash("AND"))
