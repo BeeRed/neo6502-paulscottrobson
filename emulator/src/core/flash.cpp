@@ -52,7 +52,7 @@ int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount)
 		case HWF_ERASE:  					 			// Erase sector.
 			printf("Erasing sector %d\n",sector);
 			flashHandler = fopen("storage/flash.image","rb+"); 			
-			fseek(flashHandler,0,sector * 4096);
+			fseek(flashHandler,sector * 4096,SEEK_SET);
 			for (int i = 0;i < 4096;i++) fputc(0xFF,flashHandler);
 			fclose(flashHandler);
 			break;

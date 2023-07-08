@@ -121,6 +121,7 @@ class FlashFileSystem(object):
 				self.fs[i+a+256] = fileData[i]
 
 			fileData = fileData[dataOut:]								# remove data.
+			isFirst = False 											# not first.
 		return True
 	#
 	#		Find a free sector

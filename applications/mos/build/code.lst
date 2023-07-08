@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Sat Jul  8 11:59:52 2023
+; Sat Jul  8 17:06:09 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -114,8 +114,8 @@
 ;******  Return to file: osrom.asm
 
 .f000	20 ba f6	jsr $f6ba	Boot:	jsr 	OSInitialise 				; set everything up.
-.f003	20 e4 f8	jsr $f8e4			jsr 	FSInitialise 				; initialise the WWFS
-.f006	a2 2b		ldx #$2b			ldx 	#MainPrompt & $FF 			; display the boot prompt
+.f003	20 03 f9	jsr $f903			jsr 	FSInitialise 				; initialise the WWFS
+.f006	a2 4a		ldx #$4a			ldx 	#MainPrompt & $FF 			; display the boot prompt
 .f008	a0 f9		ldy #$f9			ldy 	#MainPrompt >> 8
 .f00a	20 5b f1	jsr $f15b			jsr 	OSWriteString
 .f00d	4c 00 10	jmp $1000			jmp 	$1000 						; and run from $1000 onwards
@@ -1321,7 +1321,7 @@
 .f6f6	86 21		stx $21				stx 	iTemp0+1
 .f6f8	a2 00		ldx #$00			ldx 	#0 							; subpage 0
 .f6fa	a0 20		ldy #$20			ldy 	#32 						; first 32 bytes only.
-.f6fc	20 05 f9	jsr $f905			jsr 	FSHRead 					; read the sector into memory
+.f6fc	20 24 f9	jsr $f924			jsr 	FSHRead 					; read the sector into memory
 .f6ff	fa		plx				plx
 .f700	ad 4d 03	lda $034d			lda 	shFileSize 					; copy file size - makes easily accessible
 .f703	8d 69 03	sta $0369			sta 	shFileSizeCopy 				; for directory function.
@@ -1421,7 +1421,7 @@
 .f7b3	c9 46		cmp #$46			cmp 	#"F"
 .f7b5	f0 ea		beq $f7a1			beq 	_OSFindUnused
 .f7b7	ad 46 03	lda $0346			lda 	currentSector 				; erase sector
-.f7ba	20 fc f8	jsr $f8fc			jsr 	FSHErase
+.f7ba	20 1b f9	jsr $f91b			jsr 	FSHErase
 .f7bd	ad 46 03	lda $0346			lda 	currentSector 				; open for write.
 .f7c0	20 d8 f7	jsr $f7d8			jsr 	FSWriteCreateHeader 		; create header
 .f7c3	20 43 f8	jsr $f843			jsr 	FSWriteSendData 			; send the data
@@ -1463,7 +1463,7 @@
 .f80b	98		tya				tya
 .f80c	a0 04		ldy #$04			ldy 	#4
 .f80e	b1 22		lda ($22),y			lda 	(fsBlock),y
-.f810	20 11 f9	jsr $f911			jsr 	FSHWrite
+.f810	20 30 f9	jsr $f930			jsr 	FSHWrite
 .f813	c8		iny				iny
 .f814	b1 22		lda ($22),y			lda 	(fsBlock),y
 .f816	a2 0a		ldx #$0a			ldx		#10 						; output 10 blanks
@@ -1478,17 +1478,17 @@
 .f825	85 20		sta $20				sta 	iTemp0
 .f827	b2 20		lda ($20)			lda 	(iTemp0) 					; output length, also => X
 .f829	aa		tax				tax
-.f82a	20 11 f9	jsr $f911			jsr 	FSHWrite
+.f82a	20 30 f9	jsr $f930			jsr 	FSHWrite
 .f82d					_FSOutName:
 .f82d	ca		dex				dex
 .f82e	30 08		bmi $f838			bmi 	_FSNameDone
 .f830	b1 20		lda ($20),y			lda 	(iTemp0),y
 .f832	c8		iny				iny
-.f833	20 11 f9	jsr $f911			jsr 	FSHWrite
+.f833	20 30 f9	jsr $f930			jsr 	FSHWrite
 .f836	80 f5		bra $f82d			bra 	_FSOutName
 .f838					_FSNameDone:
 .f838	a9 ff		lda #$ff			lda 	#$FF
-.f83a	20 11 f9	jsr $f911			jsr 	FSHWrite
+.f83a	20 30 f9	jsr $f930			jsr 	FSHWrite
 .f83d	c8		iny				iny
 .f83e	c0 10		cpy #$10			cpy 	#16
 .f840	d0 f6		bne $f838			bne 	_FSNameDone
@@ -1540,7 +1540,7 @@
 .f892	20 a6 f8	jsr $f8a6			jsr 	FSCompareFileNames 			; is it F/N and matching.
 .f895	90 f6		bcc $f88d			bcc 	_OSDeleteLoop 				; no, try next sector
 .f897	ad 46 03	lda $0346			lda 	currentSector 				; yes, then erase this sector
-.f89a	20 fc f8	jsr $f8fc			jsr 	FSHErase
+.f89a	20 1b f9	jsr $f91b			jsr 	FSHErase
 .f89d	9c 48 03	stz $0348			stz 	successFlag 				; zero if successful
 .f8a0	80 eb		bra $f88d			bra 	_OSDeleteLoop
 .f8a2					_OSDeleteExit:
@@ -1573,70 +1573,84 @@
 .f8cb	60		rts				rts
 .f8cc					OSFormatFlash:
 .f8cc	da		phx				phx 								; save sector count
-.f8cd	48		pha				pha									; save parameters.
-.f8ce	5a		phy				phy
-.f8cf	da		phx				phx
-.f8d0	a9 00		lda #$00			lda 	#0 							; erase sector zero
-.f8d2	20 fc f8	jsr $f8fc			jsr 	FSHErase
-.f8d5	20 e4 f8	jsr $f8e4			jsr 	FSInitialise 				; re-initialise the file system.
-.f8d8	68		pla				pla 								; count of sectors.
-.f8d9					_OSFFErase:
-.f8d9	3a		dec a				dec 	a 							; last sector and backwards
-.f8da	48		pha				pha 								; erase it saving A
-.f8db	20 fc f8	jsr $f8fc			jsr 	FSHErase
-.f8de	68		pla				pla
-.f8df	c9 01		cmp #$01			cmp 	#1 							; don't erase sector 0
-.f8e1	d0 f6		bne $f8d9			bne 	_OSFFErase
-.f8e3	60		rts				rts
-.f8e4					FSInitialise:
-.f8e4	9c 44 03	stz $0344			stz 	sectorCount 				; initial values to read $00
-.f8e7	9c 45 03	stz $0345			stz 	sectorCount+1
-.f8ea	a9 00		lda #$00			lda 	#0 							; read header sector 0
-.f8ec	20 e3 f6	jsr $f6e3			jsr 	FSReadHeaderA
-.f8ef	ad 4b 03	lda $034b			lda 	sectorHeader+2 				; copy sector count
-.f8f2	8d 44 03	sta $0344			sta 	sectorCount
-.f8f5	ad 4c 03	lda $034c			lda 	sectorHeader+3
-.f8f8	8d 45 03	sta $0345			sta 	sectorCount+1
-.f8fb	60		rts				rts
-.f8fc					FSHErase:
-.f8fc	8d 11 cf	sta $cf11			sta 	$CF11 						; sector number.
-.f8ff	a9 00		lda #$00			lda 	#0 							; erase command
-.f901	8d 10 cf	sta $cf10			sta 	$CF10
-.f904	60		rts				rts
-.f905					FSHRead:
-.f905	8c 15 cf	sty $cf15			sty 	$CF15 						; byte count
-.f908	20 1a f9	jsr $f91a			jsr 	FSHSetup 					; setup sector and address
-.f90b	a9 01		lda #$01			lda 	#1
-.f90d	8d 10 cf	sta $cf10			sta 	$CF10 						; read command.
-.f910	60		rts				rts
-.f911					FSHWrite:
-.f911	20 1a f9	jsr $f91a			jsr 	FSHSetup 					; setup sector and address
-.f914	a9 02		lda #$02			lda 	#2
-.f916	8d 10 cf	sta $cf10			sta 	$CF10 						; write command.
-.f919	60		rts				rts
-.f91a					FSHSetup:
-.f91a	8d 11 cf	sta $cf11			sta 	$CF11 						; sector/subpage
-.f91d	8e 12 cf	stx $cf12			stx 	$CF12
-.f920	a5 20		lda $20				lda 	iTemp0
-.f922	8d 13 cf	sta $cf13			sta 	$CF13 						; copy data
-.f925	a5 21		lda $21				lda 	iTemp0+1
-.f927	8d 14 cf	sta $cf14			sta 	$CF14
-.f92a	60		rts				rts
+.f8cd	5a		phy				phy	 								; savce sector count as well.
+.f8ce	da		phx				phx
+.f8cf	a9 00		lda #$00			lda 	#0 							; erase sector zero
+.f8d1	20 1b f9	jsr $f91b			jsr 	FSHErase
+.f8d4	a9 49		lda #$49			lda 	#'I' 						; sector type (information)
+.f8d6	8d 49 03	sta $0349			sta 	sectorHeader+0
+.f8d9	a9 31		lda #$31			lda 	#'1'						; format 1
+.f8db	8d 4a 03	sta $034a			sta 	sectorHeader+1
+.f8de	68		pla				pla 								; write the sector count.
+.f8df	8d 4b 03	sta $034b			sta 	sectorHeader+2
+.f8e2	68		pla				pla
+.f8e3	8d 4c 03	sta $034c			sta 	sectorHeader+3
+.f8e6	a2 49		ldx #$49			ldx 	#sectorHeader & $FF 		; source address.
+.f8e8	86 20		stx $20				stx 	iTemp0
+.f8ea	a2 03		ldx #$03			ldx 	#sectorHeader >> 8
+.f8ec	86 21		stx $21				stx 	iTemp0+1
+.f8ee	a9 00		lda #$00			lda 	#0 							; sector and sub page zero
+.f8f0	aa		tax				tax
+.f8f1	20 30 f9	jsr $f930			jsr 	FSHWrite 					; write out
+.f8f4	20 03 f9	jsr $f903			jsr 	FSInitialise 				; re-initialise the file system.
+.f8f7	68		pla				pla 								; count of sectors.
+.f8f8					_OSFFErase:
+.f8f8	3a		dec a				dec 	a 							; last sector and backwards
+.f8f9	48		pha				pha 								; erase it saving A
+.f8fa	20 1b f9	jsr $f91b			jsr 	FSHErase
+.f8fd	68		pla				pla
+.f8fe	c9 01		cmp #$01			cmp 	#1 							; don't erase sector 0
+.f900	d0 f6		bne $f8f8			bne 	_OSFFErase
+.f902	60		rts				rts
+.f903					FSInitialise:
+.f903	9c 44 03	stz $0344			stz 	sectorCount 				; initial values to read $00
+.f906	9c 45 03	stz $0345			stz 	sectorCount+1
+.f909	a9 00		lda #$00			lda 	#0 							; read header sector 0
+.f90b	20 e3 f6	jsr $f6e3			jsr 	FSReadHeaderA
+.f90e	ad 4b 03	lda $034b			lda 	sectorHeader+2 				; copy sector count
+.f911	8d 44 03	sta $0344			sta 	sectorCount
+.f914	ad 4c 03	lda $034c			lda 	sectorHeader+3
+.f917	8d 45 03	sta $0345			sta 	sectorCount+1
+.f91a	60		rts				rts
+.f91b					FSHErase:
+.f91b	8d 11 cf	sta $cf11			sta 	$CF11 						; sector number.
+.f91e	a9 00		lda #$00			lda 	#0 							; erase command
+.f920	8d 10 cf	sta $cf10			sta 	$CF10
+.f923	60		rts				rts
+.f924					FSHRead:
+.f924	8c 15 cf	sty $cf15			sty 	$CF15 						; byte count
+.f927	20 39 f9	jsr $f939			jsr 	FSHSetup 					; setup sector and address
+.f92a	a9 01		lda #$01			lda 	#1
+.f92c	8d 10 cf	sta $cf10			sta 	$CF10 						; read command.
+.f92f	60		rts				rts
+.f930					FSHWrite:
+.f930	20 39 f9	jsr $f939			jsr 	FSHSetup 					; setup sector and address
+.f933	a9 02		lda #$02			lda 	#2
+.f935	8d 10 cf	sta $cf10			sta 	$CF10 						; write command.
+.f938	60		rts				rts
+.f939					FSHSetup:
+.f939	8d 11 cf	sta $cf11			sta 	$CF11 						; sector/subpage
+.f93c	8e 12 cf	stx $cf12			stx 	$CF12
+.f93f	a5 20		lda $20				lda 	iTemp0
+.f941	8d 13 cf	sta $cf13			sta 	$CF13 						; copy data
+.f944	a5 21		lda $21				lda 	iTemp0+1
+.f946	8d 14 cf	sta $cf14			sta 	$CF14
+.f949	60		rts				rts
 
 ;******  Return to file: osrom.asm
 
-.f92b					MainPrompt:
->f92b	66						.byte 	_MPEnd-MainPrompt-1
->f92c	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
->f934	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
->f944	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
->f953	42 65 74 61 20 32 20 43				.text 	"Beta 2 Code Complete",13,13
->f95b	6f 64 65 20 43 6f 6d 70 6c 65 74 65 0d 0d
->f969	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
->f971	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
->f981	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->f991	0d
-.f992					_MPEnd:
+.f94a					MainPrompt:
+>f94a	66						.byte 	_MPEnd-MainPrompt-1
+>f94b	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
+>f953	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
+>f963	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
+>f972	42 65 74 61 20 32 20 43				.text 	"Beta 2 Code Complete",13,13
+>f97a	6f 64 65 20 43 6f 6d 70 6c 65 74 65 0d 0d
+>f988	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
+>f990	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
+>f9a0	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>f9b0	0d
+.f9b1					_MPEnd:
 
 ;******  Processing file: src/generated/vectors.asmx
 

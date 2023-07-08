@@ -10,7 +10,7 @@ Changes
 	Reintroduced the scrolling input line editor for input_line.
 	Added RENUMBER.
 	Home call moved out of Physical Clear Screen Code.
-	Added option to "Format" Flash. (No command, deliberately difficult [A = 12:X = 32:Y = 0:SYS &FFD6])
+	Added option to "Format" Flash. (No command, deliberately difficult [X = 32::Y = 0:SYS &FFD6])
 	Assembler code
 
 6th July
@@ -27,4 +27,5 @@ Changes
 		
 8th July
 ========
-	Rework of wwfs
+	Rework of wwfs for closer compatibility with PICO SDK
+	
