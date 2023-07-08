@@ -22,22 +22,16 @@
 		.section code
 
 OSWriteFile:
+		.debug
 		stx 	fsBlock 					; file block.
 		sty 	fsBlock+1
-		jsr 	OSDeleteFile 				; delete file if it already exists.
+		jsr 	OSDeleteFile 				; delete file if it already exists
+		.
 		stz 	currentSector
 		stz 	notFirstSector 				; clear "not first sector" (e.g. is first sector)
 		;
-		sec 								; work out bytes per sector available.
-;		lda 	sectorSize 					; (sector size - 32)
-		sbc 	#32
-		sta 	sectorCapacity
-;		lda 	sectorSize+1
-		sbc 	#0
-		sta 	sectorCapacity+1
-		;
 		ldy 	#4 							; copy the size of the data to write to 
-		lda 	(fsBlock),y 				; the remaining size variable.
+		lda 	(fsBlock),y 				; the "remaining size" variable.
 		sta 	fileRemainingSize
 		iny
 		lda 	(fsBlock),y
@@ -61,15 +55,36 @@ _OSFindUnused:
 		cmp 	#"F"
 		beq 	_OSFindUnused
 		;
+		;		Found on empty slot.
+		;
 		lda 	currentSector 				; erase sector
 		jsr 	FSHErase
 		lda 	currentSector 				; open for write.
-;		jsr 	FSHOpenWrite
-		jsr 	FSWriteCreateHeader 		; create header
-		jsr 	FSWriteSendData 			; send the data
-;		jsr 	FSHEndCommand 				; and we're done this block.		
 		;
-		dec 	notFirstSector 				; set not first sector state.
+		;		Write the header to the first page.
+		;
+		jsr 	FSCreateHeader 				; create header
+
+		ldx 	#sectorHeader & $FF 		; source address.
+		stx 	iTemp0
+		ldx 	#sectorHeader >> 8
+		stx 	iTemp0+1
+		;
+		lda 	currentSector 				; write the sector out.
+		ldx 	#0
+		jsr 	FSHWrite
+		;
+		dec 	notFirstSector 				; set "not first sector" state.
+		;
+		;jsr 	FSWriteSendData 			; write the body out.
+		;
+		sec
+		lda 	fileRemainingSize 			; subtract data sent from file remaining.
+		sbc 	shDataSize
+		sta 	fileRemainingSize
+		lda 	fileRemainingSize+1
+		sbc 	shDataSize+1
+		sta 	fileRemainingSize+1
 		;
 		lda 	fileRemainingSize 			; check there is more to save, if not then exit.
 		ora 	fileRemainingSize+1		
@@ -86,11 +101,11 @@ _OSWriteFail:
 
 ; ************************************************************************************************
 ;
-;										Create the 32 byte header
+;										Create the 32 byte header 
 ;
 ; ************************************************************************************************
 
-FSWriteCreateHeader:
+FSCreateHeader:
 		;
 		;		First or Next flag
 		;
@@ -99,58 +114,37 @@ FSWriteCreateHeader:
 		bne 	_FSWCNotNext
 		lda 	#"F"
 _FSWCNotNext:		
-;		jsr 	FSHWrite 					; +0 (first or next)
+		sta 	shFirstNext		
 		;
 		;		Work out the number of bytes going out into YX
 		;
 		ldx 	fileRemainingSize 			; XY is the number of bytes.
 		ldy 	fileRemainingSize+1
+		lda 	#"N" 						
 		;
-		cpx 	sectorCapacity 				; compare fileRemaining vs sectorCapacity
-		tya
-		sbc 	sectorCapacity+1
+		cpy 	#(4096-256) >> 8 			; if less than a full sector
 		bcc 	_FSNotFull
-		ldx 	sectorCapacity 				; if remaining >= capacity ... use capacity
-		ldy 	sectorCapacity+1		
+
+		ldy 	#(4096-256) >> 8 			; number of bytes to write
+		ldx 	#0
+		lda 	#"Y" 						; and there are more bytes.
 _FSNotFull:		
-		stx 	bytesToWrite
-		sty 	bytesToWrite+1
 		;
-		;		More records ? (YX = file Remaining size)
+		;		Set continue, data size, and file size.
+		;	
+		sta 	shContinue 					; write out the continue
 		;
-		lda 	#"Y"
-		cpx 	fileRemainingSize
-		bne 	_FSNotAll
-		cpy 	fileRemainingSize+1
-		bne 	_FSNotAll
-		lda 	#"N"
-_FSNotAll:		
-;		jsr 	FSHWrite 					; +1 (has more data)
-		;
-		;		Output data size and file size.
-		;
-		txa 								; +2,+3 (data to send out) 	
-;		jsr 	FSHWrite
-		tya 	
-;		jsr 	FSHWrite
+		stx 	shDataSize 					; write out the size of data in this file.
+		sty 	shDataSize+1
 		;
 		ldy 	#4
 		lda 	(fsBlock),y
-		jsr 	FSHWrite
+		sta 	shFileSize
 		iny
 		lda 	(fsBlock),y
-;		jsr 	FSHWrite
+		sta 	shFileSize+1
 		;
-		;		Output 10 char gap which is reserved.
-		;
-		ldx		#10 						; output 10 blanks
-_FSWCBlanks:
-		lda 	#$FF
-;		jsr 	FSHWrite
-		dex
-		bne 	_FSWCBlanks
-		;
-		;		Output name
+		;		Copy name - iTemp0 points to string then copy it out.
 		;
 		ldy 	#1
 		lda 	(fsBlock),y
@@ -158,22 +152,17 @@ _FSWCBlanks:
 		lda 	(fsBlock)
 		sta 	iTemp0
 		;
-		lda 	(iTemp0) 					; output length, also => X
-		tax
-		jsr 	FSHWrite
-_FSOutName: 								; output name
-		dex
-		bmi 	_FSNameDone
+		lda 	(iTemp0) 					; copy length.
+		tax 								; length in X
+		ldy 	#0
+_FSOutName: 								; copy name.
 		lda 	(iTemp0),y
-		iny
-		jsr 	FSHWrite
-		bra 	_FSOutName
-_FSNameDone:				 				; pad out to 32 byte header.
-		lda 	#$FF
-		jsr 	FSHWrite
-		iny
-		cpy 	#16
-		bne 	_FSNameDone
+		sta 	shNameLength,y
+		iny		
+		dex
+		bmi 	_FSOutName
+
+_FSNameDone:				 				
 		rts
 
 ; ************************************************************************************************
@@ -183,26 +172,26 @@ _FSNameDone:				 				; pad out to 32 byte header.
 ; ************************************************************************************************
 
 FSWriteSendData:
-		lda 	bytesToWrite 				; complete
-		ora 	bytesToWrite+1
-		beq 	_FSWSDExit
-		jsr 	FSIncrementSetLoad 			; bump address, copy original to iTemp0
+;		lda 	bytesToWrite 				; complete
+;		ora 	bytesToWrite+1
+;		beq 	_FSWSDExit
+;		jsr 	FSIncrementSetLoad 			; bump address, copy original to iTemp0
 		lda 	(iTemp0)
-;		jsr 	FSHWrite
+;;		jsr 	FSHWrite
 		;
-		lda 	bytesToWrite 				; decrement bytes to write counter
-		bne 	_FSWSDNoBorrow
-		dec 	bytesToWrite+1
-_FSWSDNoBorrow:		
-		dec 	bytesToWrite
-
-		lda 	fileRemainingSize 			; decrement remaining size.
-		bne 	_FSWSDNoBorrow2
-		dec 	fileRemainingSize+1
-_FSWSDNoBorrow2:
-		dec 	fileRemainingSize		
-		bra 	FSWriteSendData
-
+;		lda 	bytesToWrite 				; decrement bytes to write counter
+;		bne 	_FSWSDNoBorrow
+;		dec 	bytesToWrite+1
+;_FSWSDNoBorrow:		
+;		dec 	bytesToWrite
+;
+;		lda 	fileRemainingSize 			; decrement remaining size.
+;		bne 	_FSWSDNoBorrow2
+;		dec 	fileRemainingSize+1
+;_FSWSDNoBorrow2:
+;		dec 	fileRemainingSize		
+;		bra 	FSWriteSendData
+;
 _FSWSDExit:		
 		rts
 
