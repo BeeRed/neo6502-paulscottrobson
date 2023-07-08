@@ -123,14 +123,13 @@ fsBlock:	 								; pointer to fs block
 
 		.section storage
 
-sectorSize:									; sector size bytes, read at initialise.
-		.fill 	2
 sectorCount:								; sector count bytes, read at initialise.
 		.fill 	2
 currentSector: 								; current sector.
 		.fill 	2		
 successFlag: 								; general success flag.
 		.fill 	1
+
 sectorHeader: 								; header
 shFirstNext: 								; (F)irst (N)ext (I)nformation or free
 		.fill 	1

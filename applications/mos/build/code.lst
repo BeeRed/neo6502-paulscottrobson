@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Sat Jul  8 10:52:21 2023
+; Sat Jul  8 11:59:52 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -79,45 +79,43 @@
 >0324							.fill 	32
 .0022					fsBlock:
 >0022							.fill 	2
-.0344					sectorSize:
+.0344					sectorCount:
 >0344							.fill 	2
-.0346					sectorCount:
+.0346					currentSector:
 >0346							.fill 	2
-.0348					currentSector:
->0348							.fill 	2
-.034a					successFlag:
+.0348					successFlag:
+>0348							.fill 	1
+.0349					sectorHeader:
+.0349					shFirstNext:
+>0349							.fill 	1
+.034a					shContinue:
 >034a							.fill 	1
-.034b					sectorHeader:
-.034b					shFirstNext:
->034b							.fill 	1
-.034c					shContinue:
->034c							.fill 	1
-.034d					shDataSize:
+.034b					shDataSize:
+>034b							.fill 	2
+.034d					shFileSize:
 >034d							.fill 	2
-.034f					shFileSize:
->034f							.fill 	2
->0351							.fill 	10
-.035b					shNameLength:
->035b							.fill 	1
-.035c					shNameText:
->035c							.fill 	15
-.036b					shFileSizeCopy:
->036b							.fill 	2
-.036d					notFirstSector:
->036d							.fill 	1
-.036e					sectorCapacity:
+>034f							.fill 	10
+.0359					shNameLength:
+>0359							.fill 	1
+.035a					shNameText:
+>035a							.fill 	15
+.0369					shFileSizeCopy:
+>0369							.fill 	2
+.036b					notFirstSector:
+>036b							.fill 	1
+.036c					sectorCapacity:
+>036c							.fill 	2
+.036e					fileRemainingSize:
 >036e							.fill 	2
-.0370					fileRemainingSize:
+.0370					bytesToWrite:
 >0370							.fill 	2
-.0372					bytesToWrite:
->0372							.fill 	2
->0374							.align 	256
+>0372							.align 	256
 
 ;******  Return to file: osrom.asm
 
 .f000	20 ba f6	jsr $f6ba	Boot:	jsr 	OSInitialise 				; set everything up.
-.f003	20 4c f9	jsr $f94c			jsr 	FSInitialise 				; initialise the WWFS
-.f006	a2 b2		ldx #$b2			ldx 	#MainPrompt & $FF 			; display the boot prompt
+.f003	20 e4 f8	jsr $f8e4			jsr 	FSInitialise 				; initialise the WWFS
+.f006	a2 2b		ldx #$2b			ldx 	#MainPrompt & $FF 			; display the boot prompt
 .f008	a0 f9		ldy #$f9			ldy 	#MainPrompt >> 8
 .f00a	20 5b f1	jsr $f15b			jsr 	OSWriteString
 .f00d	4c 00 10	jmp $1000			jmp 	$1000 						; and run from $1000 onwards
@@ -1307,403 +1305,346 @@
 ;******  Processing file: build/libwwfslib.asmlib
 
 .f6dd					FSReadNextHeader:
-.f6dd	ee 48 03	inc $0348			inc 	currentSector 				; bump last sector and read next one.
-.f6e0	ad 48 03	lda $0348			lda 	currentSector
+.f6dd	ee 46 03	inc $0346			inc 	currentSector 				; bump last sector and read next one.
+.f6e0	ad 46 03	lda $0346			lda 	currentSector
 .f6e3					FSReadHeaderA:
 .f6e3	c9 00		cmp #$00			cmp 	#0 							; sector 0 always okay.
 .f6e5	f0 05		beq $f6ec			beq 	_FSIsOk
-.f6e7	cd 46 03	cmp $0346			cmp 	sectorCount 				; check legitimate sector
-.f6ea	b0 26		bcs $f712			bcs 	_FSReadHFail
+.f6e7	cd 44 03	cmp $0344			cmp 	sectorCount 				; check legitimate sector
+.f6ea	b0 22		bcs $f70e			bcs 	_FSReadHFail
 .f6ec					_FSIsOk:
 .f6ec	da		phx				phx
-.f6ed	8d 48 03	sta $0348			sta 	currentSector 				; save as current
-.f6f0	20 82 f9	jsr $f982			jsr 	FSHOpenRead 				; open for read
-.f6f3	a2 00		ldx #$00			ldx 	#0 							; read in.
-.f6f5					_FSReadHLoop:
-.f6f5	20 94 f9	jsr $f994			jsr 	FSHRead
-.f6f8	9d 4b 03	sta $034b,x			sta 	sectorHeader,x
-.f6fb	e8		inx				inx
-.f6fc	e0 20		cpx #$20			cpx 	#32
-.f6fe	d0 f5		bne $f6f5			bne 	_FSReadHLoop
-.f700	20 a9 f9	jsr $f9a9			jsr 	FSHEndCommand				; end read.
-.f703	fa		plx				plx
-.f704	ad 4f 03	lda $034f			lda 	shFileSize 					; copy file size - makes easily accessible
-.f707	8d 6b 03	sta $036b			sta 	shFileSizeCopy 				; for directory function.
-.f70a	ad 50 03	lda $0350			lda 	shFileSize+1
-.f70d	8d 6c 03	sta $036c			sta 	shFileSizeCopy+1
-.f710	18		clc				clc
-.f711	60		rts				rts
-.f712					_FSReadHFail:
-.f712	38		sec				sec
-.f713	60		rts				rts
-.f714					OSReadFile:
-.f714	86 22		stx $22				stx 	fsBlock 					; file block.
-.f716	84 23		sty $23				sty 	fsBlock+1
-.f718	9c 48 03	stz $0348			stz 	currentSector
-.f71b	a9 ff		lda #$ff			lda 	#$FF 						; set flag to $FF
-.f71d	8d 4a 03	sta $034a			sta 	successFlag
-.f720					_OSReadLoop1:
-.f720	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read header ?
-.f723	b0 32		bcs $f757			bcs 	_OSReadExit 				; end of search.
-.f725	ad 4b 03	lda $034b			lda 	shFirstNext 				; is it the (F)irst record
-.f728	c9 46		cmp #$46			cmp 	#"F"
-.f72a	d0 f4		bne $f720			bne 	_OSReadLoop1
-.f72c	20 ef f8	jsr $f8ef			jsr 	FSCompareFileNames 			; is it F/N and matching.
-.f72f	90 ef		bcc $f720			bcc 	_OSReadLoop1 				; no, try next sector
-.f731	9c 4a 03	stz $034a			stz 	successFlag 				; zero when found file.
-.f734					_OSReadBlock:
-.f734	ad 48 03	lda $0348			lda 	currentSector
-.f737	20 5b f7	jsr $f75b			jsr 	FSReadData 					; read the data file in.
-.f73a	ad 4c 03	lda $034c			lda 	shContinue 					; continuation ?
-.f73d	c9 4e		cmp #$4e			cmp 	#"N" 						; exit if no.
-.f73f	f0 16		beq $f757			beq 	_OSReadExit
-.f741					_OSReadLoop2:
-.f741	ad 48 03	lda $0348			lda 	currentSector
-.f744	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read header ?
-.f747	b0 0e		bcs $f757			bcs 	_OSReadExit 				; end of search.
-.f749	ad 4b 03	lda $034b			lda 	shFirstNext 				; is it the (F)irst record
-.f74c	c9 4e		cmp #$4e			cmp 	#"N"
-.f74e	d0 f1		bne $f741			bne 	_OSReadLoop2
-.f750	20 ef f8	jsr $f8ef			jsr 	FSCompareFileNames 			; is it F/N and matching.
-.f753	90 ec		bcc $f741			bcc 	_OSReadLoop2 				; no, try next sector
-.f755	80 dd		bra $f734			bra 	_OSReadBlock 				; read block in.
-.f757					_OSReadExit:
-.f757	0e 4a 03	asl $034a			asl 	successFlag					; shift success flag (0 if done) into carry
-.f75a	60		rts				rts
-.f75b					FSReadData:
-.f75b	ad 48 03	lda $0348			lda 	currentSector
-.f75e	20 82 f9	jsr $f982			jsr 	FSHOpenRead 				; open for read
-.f761	a2 20		ldx #$20			ldx 	#32 						; read past the header
-.f763					_FSReadHLoop:
-.f763	20 94 f9	jsr $f994			jsr 	FSHRead
-.f766	ca		dex				dex
-.f767	d0 fa		bne $f763			bne 	_FSReadHLoop
-.f769					_FSRDCopy:
-.f769	ad 4d 03	lda $034d			lda 	shDataSize 					; datasize count zero ?
-.f76c	0d 4e 03	ora $034e			ora 	shDataSize+1
-.f76f	f0 15		beq $f786			beq 	_OSRDExit
-.f771	ad 4d 03	lda $034d			lda 	shDataSize 					; decrement the data count.
-.f774	d0 03		bne $f779			bne 	_OSRDNoBorrow
-.f776	ce 4e 03	dec $034e			dec 	shDataSize+1
-.f779					_OSRDNoBorrow:
-.f779	ce 4d 03	dec $034d			dec 	shDataSize
-.f77c	20 8a f7	jsr $f78a			jsr 	FSIncrementSetLoad 			; load address to zTemp0 and increment it.
-.f77f	20 94 f9	jsr $f994			jsr 	FSHRead 					; copy byte there
-.f782	92 20		sta ($20)			sta 	(iTemp0)
-.f784	80 e3		bra $f769			bra 	_FSRDCopy 					; go round again.
-.f786					_OSRDExit:
-.f786	20 a9 f9	jsr $f9a9			jsr 	FSHEndCommand
-.f789	60		rts				rts
-.f78a					FSIncrementSetLoad:
-.f78a	18		clc				clc
-.f78b	a0 02		ldy #$02			ldy 	#2 							; increment load address
-.f78d	b1 22		lda ($22),y			lda 	(fsBlock),y  				; copying previous to zTemp0
-.f78f	85 20		sta $20				sta 	iTemp0
-.f791	69 01		adc #$01			adc 	#1
-.f793	91 22		sta ($22),y			sta 	(fsBlock),y
-.f795	c8		iny				iny
-.f796	b1 22		lda ($22),y			lda 	(fsBlock),y
-.f798	85 21		sta $21				sta 	iTemp0+1
-.f79a	69 00		adc #$00			adc 	#0
-.f79c	91 22		sta ($22),y			sta 	(fsBlock),y
-.f79e	60		rts				rts
-.f79f					OSWriteFile:
-.f79f	86 22		stx $22				stx 	fsBlock 					; file block.
-.f7a1	84 23		sty $23				sty 	fsBlock+1
-.f7a3	20 ca f8	jsr $f8ca			jsr 	OSDeleteFile 				; delete file if it already exists.
-.f7a6	9c 48 03	stz $0348			stz 	currentSector
-.f7a9	9c 6d 03	stz $036d			stz 	notFirstSector 				; clear "not first sector" (e.g. is first sector)
-.f7ac	38		sec				sec 								; work out bytes per sector available.
-.f7ad	ad 44 03	lda $0344			lda 	sectorSize 					; (sector size - 32)
-.f7b0	e9 20		sbc #$20			sbc 	#32
-.f7b2	8d 6e 03	sta $036e			sta 	sectorCapacity
-.f7b5	ad 45 03	lda $0345			lda 	sectorSize+1
-.f7b8	e9 00		sbc #$00			sbc 	#0
-.f7ba	8d 6f 03	sta $036f			sta 	sectorCapacity+1
-.f7bd	a0 04		ldy #$04			ldy 	#4 							; copy the size of the data to write to
-.f7bf	b1 22		lda ($22),y			lda 	(fsBlock),y 				; the remaining size variable.
-.f7c1	8d 70 03	sta $0370			sta 	fileRemainingSize
-.f7c4	c8		iny				iny
-.f7c5	b1 22		lda ($22),y			lda 	(fsBlock),y
-.f7c7	8d 71 03	sta $0371			sta 	fileRemainingSize+1
-.f7ca					_OSWriteLoop:
-.f7ca	ad 46 03	lda $0346			lda 	sectorCount  				; so we count incase we are full.
-.f7cd	85 20		sta $20				sta 	iTemp0
-.f7cf					_OSFindUnused:
-.f7cf	c6 20		dec $20				dec 	iTemp0 						; done a full lap, no empty slots
-.f7d1	f0 34		beq $f807			beq 	_OSWriteFail
-.f7d3	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read next header
-.f7d6	ad 4b 03	lda $034b			lda 	shFirstNext 				; check F, N , I
-.f7d9	c9 49		cmp #$49			cmp 	#"I"
-.f7db	f0 f2		beq $f7cf			beq 	_OSFindUnused
-.f7dd	c9 4e		cmp #$4e			cmp 	#"N"
-.f7df	f0 ee		beq $f7cf			beq 	_OSFindUnused
-.f7e1	c9 46		cmp #$46			cmp 	#"F"
-.f7e3	f0 ea		beq $f7cf			beq 	_OSFindUnused
-.f7e5	ad 48 03	lda $0348			lda 	currentSector 				; erase sector
-.f7e8	20 79 f9	jsr $f979			jsr 	FSHErase
-.f7eb	ad 48 03	lda $0348			lda 	currentSector 				; open for write.
-.f7ee	20 8b f9	jsr $f98b			jsr 	FSHOpenWrite
-.f7f1	20 0c f8	jsr $f80c			jsr 	FSWriteCreateHeader 		; create header
-.f7f4	20 89 f8	jsr $f889			jsr 	FSWriteSendData 			; send the data
-.f7f7	20 a9 f9	jsr $f9a9			jsr 	FSHEndCommand 				; and we're done this block.
-.f7fa	ce 6d 03	dec $036d			dec 	notFirstSector 				; set not first sector state.
-.f7fd	ad 70 03	lda $0370			lda 	fileRemainingSize 			; check there is more to save, if not then exit.
-.f800	0d 71 03	ora $0371			ora 	fileRemainingSize+1
-.f803	d0 c5		bne $f7ca			bne		_OSWriteLoop
-.f805	18		clc				clc
-.f806	60		rts				rts
-.f807					_OSWriteFail:
-.f807	20 ca f8	jsr $f8ca			jsr 	OSDeleteFile 				; delete any parts of the file.
-.f80a	38		sec				sec 								; return error
-.f80b	60		rts				rts
-.f80c					FSWriteCreateHeader:
-.f80c	a9 4e		lda #$4e			lda 	#"N"						; first or next ?
-.f80e	ae 6d 03	ldx $036d			ldx 	notFirstSector
-.f811	d0 02		bne $f815			bne 	_FSWCNotNext
-.f813	a9 46		lda #$46			lda 	#"F"
-.f815					_FSWCNotNext:
-.f815	20 a0 f9	jsr $f9a0			jsr 	FSHWrite 					; +0 (first or next)
-.f818	ae 70 03	ldx $0370			ldx 	fileRemainingSize 			; XY is the number of bytes.
-.f81b	ac 71 03	ldy $0371			ldy 	fileRemainingSize+1
-.f81e	ec 6e 03	cpx $036e			cpx 	sectorCapacity 				; compare fileRemaining vs sectorCapacity
-.f821	98		tya				tya
-.f822	ed 6f 03	sbc $036f			sbc 	sectorCapacity+1
-.f825	90 06		bcc $f82d			bcc 	_FSNotFull
-.f827	ae 6e 03	ldx $036e			ldx 	sectorCapacity 				; if remaining >= capacity ... use capacity
-.f82a	ac 6f 03	ldy $036f			ldy 	sectorCapacity+1
-.f82d					_FSNotFull:
-.f82d	8e 72 03	stx $0372			stx 	bytesToWrite
-.f830	8c 73 03	sty $0373			sty 	bytesToWrite+1
-.f833	a9 59		lda #$59			lda 	#"Y"
-.f835	ec 70 03	cpx $0370			cpx 	fileRemainingSize
-.f838	d0 07		bne $f841			bne 	_FSNotAll
-.f83a	cc 71 03	cpy $0371			cpy 	fileRemainingSize+1
-.f83d	d0 02		bne $f841			bne 	_FSNotAll
-.f83f	a9 4e		lda #$4e			lda 	#"N"
-.f841					_FSNotAll:
-.f841	20 a0 f9	jsr $f9a0			jsr 	FSHWrite 					; +1 (has more data)
-.f844	8a		txa				txa 								; +2,+3 (data to send out)
-.f845	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f848	98		tya				tya
-.f849	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f84c	a0 04		ldy #$04			ldy 	#4
-.f84e	b1 22		lda ($22),y			lda 	(fsBlock),y
-.f850	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f853	c8		iny				iny
-.f854	b1 22		lda ($22),y			lda 	(fsBlock),y
-.f856	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f859	a2 0a		ldx #$0a			ldx		#10 						; output 10 blanks
-.f85b					_FSWCBlanks:
-.f85b	a9 ff		lda #$ff			lda 	#$FF
-.f85d	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f860	ca		dex				dex
-.f861	d0 f8		bne $f85b			bne 	_FSWCBlanks
-.f863	a0 01		ldy #$01			ldy 	#1
-.f865	b1 22		lda ($22),y			lda 	(fsBlock),y
-.f867	85 21		sta $21				sta 	iTemp0+1
-.f869	b2 22		lda ($22)			lda 	(fsBlock)
-.f86b	85 20		sta $20				sta 	iTemp0
-.f86d	b2 20		lda ($20)			lda 	(iTemp0) 					; output length, also => X
-.f86f	aa		tax				tax
-.f870	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f873					_FSOutName:
-.f873	ca		dex				dex
-.f874	30 08		bmi $f87e			bmi 	_FSNameDone
-.f876	b1 20		lda ($20),y			lda 	(iTemp0),y
-.f878	c8		iny				iny
-.f879	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f87c	80 f5		bra $f873			bra 	_FSOutName
-.f87e					_FSNameDone:
-.f87e	a9 ff		lda #$ff			lda 	#$FF
-.f880	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f883	c8		iny				iny
-.f884	c0 10		cpy #$10			cpy 	#16
-.f886	d0 f6		bne $f87e			bne 	_FSNameDone
-.f888	60		rts				rts
-.f889					FSWriteSendData:
-.f889	ad 72 03	lda $0372			lda 	bytesToWrite 				; complete
-.f88c	0d 73 03	ora $0373			ora 	bytesToWrite+1
-.f88f	f0 20		beq $f8b1			beq 	_FSWSDExit
-.f891	20 8a f7	jsr $f78a			jsr 	FSIncrementSetLoad 			; bump address, copy original to iTemp0
-.f894	b2 20		lda ($20)			lda 	(iTemp0)
-.f896	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f899	ad 72 03	lda $0372			lda 	bytesToWrite 				; decrement bytes to write counter
-.f89c	d0 03		bne $f8a1			bne 	_FSWSDNoBorrow
-.f89e	ce 73 03	dec $0373			dec 	bytesToWrite+1
-.f8a1					_FSWSDNoBorrow:
-.f8a1	ce 72 03	dec $0372			dec 	bytesToWrite
-.f8a4	ad 70 03	lda $0370			lda 	fileRemainingSize 			; decrement remaining size.
-.f8a7	d0 03		bne $f8ac			bne 	_FSWSDNoBorrow2
-.f8a9	ce 71 03	dec $0371			dec 	fileRemainingSize+1
-.f8ac					_FSWSDNoBorrow2:
-.f8ac	ce 70 03	dec $0370			dec 	fileRemainingSize
-.f8af	80 d8		bra $f889			bra 	FSWriteSendData
-.f8b1					_FSWSDExit:
-.f8b1	60		rts				rts
-.f8b2					OSReadDirectory:
-.f8b2	b0 12		bcs $f8c6			bcs 	_OSRDReset
-.f8b4					_OSRDLoop:
-.f8b4	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read next sector header.
-.f8b7	b0 10		bcs $f8c9			bcs 	_OSRDExit 					; exit, end of file space, CS
-.f8b9	ad 4b 03	lda $034b			lda 	shFirstNext 				; is it an 'F' record
-.f8bc	c9 46		cmp #$46			cmp 	#'F'
-.f8be	d0 f4		bne $f8b4			bne 	_OSRDLoop
-.f8c0	a2 5b		ldx #$5b			ldx 	#shNameLength & $FF 		; return the buffer address
-.f8c2	a0 03		ldy #$03			ldy 	#shNameLength >> 8
-.f8c4	18		clc				clc 								; return with carry clear.
-.f8c5	60		rts				rts
-.f8c6					_OSRDReset:
-.f8c6	9c 48 03	stz $0348			stz 	currentSector 				; back to the start.
-.f8c9					_OSRDExit:
+.f6ed	8d 46 03	sta $0346			sta 	currentSector 				; save as current
+.f6f0	a2 49		ldx #$49			ldx 	#sectorHeader & $FF 		; target address.
+.f6f2	86 20		stx $20				stx 	iTemp0
+.f6f4	a2 03		ldx #$03			ldx 	#sectorHeader >> 8
+.f6f6	86 21		stx $21				stx 	iTemp0+1
+.f6f8	a2 00		ldx #$00			ldx 	#0 							; subpage 0
+.f6fa	a0 20		ldy #$20			ldy 	#32 						; first 32 bytes only.
+.f6fc	20 05 f9	jsr $f905			jsr 	FSHRead 					; read the sector into memory
+.f6ff	fa		plx				plx
+.f700	ad 4d 03	lda $034d			lda 	shFileSize 					; copy file size - makes easily accessible
+.f703	8d 69 03	sta $0369			sta 	shFileSizeCopy 				; for directory function.
+.f706	ad 4e 03	lda $034e			lda 	shFileSize+1
+.f709	8d 6a 03	sta $036a			sta 	shFileSizeCopy+1
+.f70c	18		clc				clc
+.f70d	60		rts				rts
+.f70e					_FSReadHFail:
+.f70e	38		sec				sec
+.f70f	60		rts				rts
+.f710					OSReadFile:
+.f710	86 22		stx $22				stx 	fsBlock 					; file block.
+.f712	84 23		sty $23				sty 	fsBlock+1
+.f714	9c 46 03	stz $0346			stz 	currentSector
+.f717	a9 ff		lda #$ff			lda 	#$FF 						; set flag to $FF
+.f719	8d 48 03	sta $0348			sta 	successFlag
+.f71c					_OSReadLoop1:
+.f71c	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read header ?
+.f71f	b0 32		bcs $f753			bcs 	_OSReadExit 				; end of search.
+.f721	ad 49 03	lda $0349			lda 	shFirstNext 				; is it the (F)irst record
+.f724	c9 46		cmp #$46			cmp 	#"F"
+.f726	d0 f4		bne $f71c			bne 	_OSReadLoop1
+.f728	20 a6 f8	jsr $f8a6			jsr 	FSCompareFileNames 			; is it F/N and matching.
+.f72b	90 ef		bcc $f71c			bcc 	_OSReadLoop1 				; no, try next sector
+.f72d	9c 48 03	stz $0348			stz 	successFlag 				; zero when found file.
+.f730					_OSReadBlock:
+.f730	ad 46 03	lda $0346			lda 	currentSector
+.f733	20 57 f7	jsr $f757			jsr 	FSReadData 					; read the data file in.
+.f736	ad 4a 03	lda $034a			lda 	shContinue 					; continuation ?
+.f739	c9 4e		cmp #$4e			cmp 	#"N" 						; exit if no.
+.f73b	f0 16		beq $f753			beq 	_OSReadExit
+.f73d					_OSReadLoop2:
+.f73d	ad 46 03	lda $0346			lda 	currentSector
+.f740	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read header ?
+.f743	b0 0e		bcs $f753			bcs 	_OSReadExit 				; end of search.
+.f745	ad 49 03	lda $0349			lda 	shFirstNext 				; is it the (F)irst record
+.f748	c9 4e		cmp #$4e			cmp 	#"N"
+.f74a	d0 f1		bne $f73d			bne 	_OSReadLoop2
+.f74c	20 a6 f8	jsr $f8a6			jsr 	FSCompareFileNames 			; is it F/N and matching.
+.f74f	90 ec		bcc $f73d			bcc 	_OSReadLoop2 				; no, try next sector
+.f751	80 dd		bra $f730			bra 	_OSReadBlock 				; read block in.
+.f753					_OSReadExit:
+.f753	0e 48 03	asl $0348			asl 	successFlag					; shift success flag (0 if done) into carry
+.f756	60		rts				rts
+.f757					FSReadData:
+.f757	ad 46 03	lda $0346			lda 	currentSector
+.f75a					_FSReadHLoop:
+.f75a					_FSRDCopy:
+.f75a					_OSRDNoBorrow:
+.f75a	20 62 f7	jsr $f762			jsr 	FSIncrementSetLoad 			; load address to iTemp0 and increment it.
+.f75d	92 20		sta ($20)			sta 	(iTemp0)
+.f75f	80 f9		bra $f75a			bra 	_FSRDCopy 					; go round again.
+.f761					_OSRDExit:
+.f761	60		rts				rts
+.f762					FSIncrementSetLoad:
+.f762	18		clc				clc
+.f763	a0 02		ldy #$02			ldy 	#2 							; increment load address
+.f765	b1 22		lda ($22),y			lda 	(fsBlock),y  				; copying previous to iTemp0
+.f767	85 20		sta $20				sta 	iTemp0
+.f769	69 01		adc #$01			adc 	#1
+.f76b	91 22		sta ($22),y			sta 	(fsBlock),y
+.f76d	c8		iny				iny
+.f76e	b1 22		lda ($22),y			lda 	(fsBlock),y
+.f770	85 21		sta $21				sta 	iTemp0+1
+.f772	69 00		adc #$00			adc 	#0
+.f774	91 22		sta ($22),y			sta 	(fsBlock),y
+.f776	60		rts				rts
+.f777					OSWriteFile:
+.f777	86 22		stx $22				stx 	fsBlock 					; file block.
+.f779	84 23		sty $23				sty 	fsBlock+1
+.f77b	20 81 f8	jsr $f881			jsr 	OSDeleteFile 				; delete file if it already exists.
+.f77e	9c 46 03	stz $0346			stz 	currentSector
+.f781	9c 6b 03	stz $036b			stz 	notFirstSector 				; clear "not first sector" (e.g. is first sector)
+.f784	38		sec				sec 								; work out bytes per sector available.
+.f785	e9 20		sbc #$20			sbc 	#32
+.f787	8d 6c 03	sta $036c			sta 	sectorCapacity
+.f78a	e9 00		sbc #$00			sbc 	#0
+.f78c	8d 6d 03	sta $036d			sta 	sectorCapacity+1
+.f78f	a0 04		ldy #$04			ldy 	#4 							; copy the size of the data to write to
+.f791	b1 22		lda ($22),y			lda 	(fsBlock),y 				; the remaining size variable.
+.f793	8d 6e 03	sta $036e			sta 	fileRemainingSize
+.f796	c8		iny				iny
+.f797	b1 22		lda ($22),y			lda 	(fsBlock),y
+.f799	8d 6f 03	sta $036f			sta 	fileRemainingSize+1
+.f79c					_OSWriteLoop:
+.f79c	ad 44 03	lda $0344			lda 	sectorCount  				; so we count incase we are full.
+.f79f	85 20		sta $20				sta 	iTemp0
+.f7a1					_OSFindUnused:
+.f7a1	c6 20		dec $20				dec 	iTemp0 						; done a full lap, no empty slots
+.f7a3	f0 2e		beq $f7d3			beq 	_OSWriteFail
+.f7a5	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read next header
+.f7a8	ad 49 03	lda $0349			lda 	shFirstNext 				; check F, N , I
+.f7ab	c9 49		cmp #$49			cmp 	#"I"
+.f7ad	f0 f2		beq $f7a1			beq 	_OSFindUnused
+.f7af	c9 4e		cmp #$4e			cmp 	#"N"
+.f7b1	f0 ee		beq $f7a1			beq 	_OSFindUnused
+.f7b3	c9 46		cmp #$46			cmp 	#"F"
+.f7b5	f0 ea		beq $f7a1			beq 	_OSFindUnused
+.f7b7	ad 46 03	lda $0346			lda 	currentSector 				; erase sector
+.f7ba	20 fc f8	jsr $f8fc			jsr 	FSHErase
+.f7bd	ad 46 03	lda $0346			lda 	currentSector 				; open for write.
+.f7c0	20 d8 f7	jsr $f7d8			jsr 	FSWriteCreateHeader 		; create header
+.f7c3	20 43 f8	jsr $f843			jsr 	FSWriteSendData 			; send the data
+.f7c6	ce 6b 03	dec $036b			dec 	notFirstSector 				; set not first sector state.
+.f7c9	ad 6e 03	lda $036e			lda 	fileRemainingSize 			; check there is more to save, if not then exit.
+.f7cc	0d 6f 03	ora $036f			ora 	fileRemainingSize+1
+.f7cf	d0 cb		bne $f79c			bne		_OSWriteLoop
+.f7d1	18		clc				clc
+.f7d2	60		rts				rts
+.f7d3					_OSWriteFail:
+.f7d3	20 81 f8	jsr $f881			jsr 	OSDeleteFile 				; delete any parts of the file.
+.f7d6	38		sec				sec 								; return error
+.f7d7	60		rts				rts
+.f7d8					FSWriteCreateHeader:
+.f7d8	a9 4e		lda #$4e			lda 	#"N"						; first or next ?
+.f7da	ae 6b 03	ldx $036b			ldx 	notFirstSector
+.f7dd	d0 02		bne $f7e1			bne 	_FSWCNotNext
+.f7df	a9 46		lda #$46			lda 	#"F"
+.f7e1					_FSWCNotNext:
+.f7e1	ae 6e 03	ldx $036e			ldx 	fileRemainingSize 			; XY is the number of bytes.
+.f7e4	ac 6f 03	ldy $036f			ldy 	fileRemainingSize+1
+.f7e7	ec 6c 03	cpx $036c			cpx 	sectorCapacity 				; compare fileRemaining vs sectorCapacity
+.f7ea	98		tya				tya
+.f7eb	ed 6d 03	sbc $036d			sbc 	sectorCapacity+1
+.f7ee	90 06		bcc $f7f6			bcc 	_FSNotFull
+.f7f0	ae 6c 03	ldx $036c			ldx 	sectorCapacity 				; if remaining >= capacity ... use capacity
+.f7f3	ac 6d 03	ldy $036d			ldy 	sectorCapacity+1
+.f7f6					_FSNotFull:
+.f7f6	8e 70 03	stx $0370			stx 	bytesToWrite
+.f7f9	8c 71 03	sty $0371			sty 	bytesToWrite+1
+.f7fc	a9 59		lda #$59			lda 	#"Y"
+.f7fe	ec 6e 03	cpx $036e			cpx 	fileRemainingSize
+.f801	d0 07		bne $f80a			bne 	_FSNotAll
+.f803	cc 6f 03	cpy $036f			cpy 	fileRemainingSize+1
+.f806	d0 02		bne $f80a			bne 	_FSNotAll
+.f808	a9 4e		lda #$4e			lda 	#"N"
+.f80a					_FSNotAll:
+.f80a	8a		txa				txa 								; +2,+3 (data to send out)
+.f80b	98		tya				tya
+.f80c	a0 04		ldy #$04			ldy 	#4
+.f80e	b1 22		lda ($22),y			lda 	(fsBlock),y
+.f810	20 11 f9	jsr $f911			jsr 	FSHWrite
+.f813	c8		iny				iny
+.f814	b1 22		lda ($22),y			lda 	(fsBlock),y
+.f816	a2 0a		ldx #$0a			ldx		#10 						; output 10 blanks
+.f818					_FSWCBlanks:
+.f818	a9 ff		lda #$ff			lda 	#$FF
+.f81a	ca		dex				dex
+.f81b	d0 fb		bne $f818			bne 	_FSWCBlanks
+.f81d	a0 01		ldy #$01			ldy 	#1
+.f81f	b1 22		lda ($22),y			lda 	(fsBlock),y
+.f821	85 21		sta $21				sta 	iTemp0+1
+.f823	b2 22		lda ($22)			lda 	(fsBlock)
+.f825	85 20		sta $20				sta 	iTemp0
+.f827	b2 20		lda ($20)			lda 	(iTemp0) 					; output length, also => X
+.f829	aa		tax				tax
+.f82a	20 11 f9	jsr $f911			jsr 	FSHWrite
+.f82d					_FSOutName:
+.f82d	ca		dex				dex
+.f82e	30 08		bmi $f838			bmi 	_FSNameDone
+.f830	b1 20		lda ($20),y			lda 	(iTemp0),y
+.f832	c8		iny				iny
+.f833	20 11 f9	jsr $f911			jsr 	FSHWrite
+.f836	80 f5		bra $f82d			bra 	_FSOutName
+.f838					_FSNameDone:
+.f838	a9 ff		lda #$ff			lda 	#$FF
+.f83a	20 11 f9	jsr $f911			jsr 	FSHWrite
+.f83d	c8		iny				iny
+.f83e	c0 10		cpy #$10			cpy 	#16
+.f840	d0 f6		bne $f838			bne 	_FSNameDone
+.f842	60		rts				rts
+.f843					FSWriteSendData:
+.f843	ad 70 03	lda $0370			lda 	bytesToWrite 				; complete
+.f846	0d 71 03	ora $0371			ora 	bytesToWrite+1
+.f849	f0 1d		beq $f868			beq 	_FSWSDExit
+.f84b	20 62 f7	jsr $f762			jsr 	FSIncrementSetLoad 			; bump address, copy original to iTemp0
+.f84e	b2 20		lda ($20)			lda 	(iTemp0)
+.f850	ad 70 03	lda $0370			lda 	bytesToWrite 				; decrement bytes to write counter
+.f853	d0 03		bne $f858			bne 	_FSWSDNoBorrow
+.f855	ce 71 03	dec $0371			dec 	bytesToWrite+1
+.f858					_FSWSDNoBorrow:
+.f858	ce 70 03	dec $0370			dec 	bytesToWrite
+.f85b	ad 6e 03	lda $036e			lda 	fileRemainingSize 			; decrement remaining size.
+.f85e	d0 03		bne $f863			bne 	_FSWSDNoBorrow2
+.f860	ce 6f 03	dec $036f			dec 	fileRemainingSize+1
+.f863					_FSWSDNoBorrow2:
+.f863	ce 6e 03	dec $036e			dec 	fileRemainingSize
+.f866	80 db		bra $f843			bra 	FSWriteSendData
+.f868					_FSWSDExit:
+.f868	60		rts				rts
+.f869					OSReadDirectory:
+.f869	b0 12		bcs $f87d			bcs 	_OSRDReset
+.f86b					_OSRDLoop:
+.f86b	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read next sector header.
+.f86e	b0 10		bcs $f880			bcs 	_OSRDExit 					; exit, end of file space, CS
+.f870	ad 49 03	lda $0349			lda 	shFirstNext 				; is it an 'F' record
+.f873	c9 46		cmp #$46			cmp 	#'F'
+.f875	d0 f4		bne $f86b			bne 	_OSRDLoop
+.f877	a2 59		ldx #$59			ldx 	#shNameLength & $FF 		; return the buffer address
+.f879	a0 03		ldy #$03			ldy 	#shNameLength >> 8
+.f87b	18		clc				clc 								; return with carry clear.
+.f87c	60		rts				rts
+.f87d					_OSRDReset:
+.f87d	9c 46 03	stz $0346			stz 	currentSector 				; back to the start.
+.f880					_OSRDExit:
+.f880	60		rts				rts
+.f881					OSDeleteFile:
+.f881	86 22		stx $22				stx 	fsBlock 					; file block.
+.f883	84 23		sty $23				sty 	fsBlock+1
+.f885	9c 46 03	stz $0346			stz 	currentSector
+.f888	a9 ff		lda #$ff			lda 	#$FF 						; set flag to $FF
+.f88a	8d 48 03	sta $0348			sta 	successFlag
+.f88d					_OSDeleteLoop:
+.f88d	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read header ?
+.f890	b0 10		bcs $f8a2			bcs 	_OSDeleteExit 				; end of search.
+.f892	20 a6 f8	jsr $f8a6			jsr 	FSCompareFileNames 			; is it F/N and matching.
+.f895	90 f6		bcc $f88d			bcc 	_OSDeleteLoop 				; no, try next sector
+.f897	ad 46 03	lda $0346			lda 	currentSector 				; yes, then erase this sector
+.f89a	20 fc f8	jsr $f8fc			jsr 	FSHErase
+.f89d	9c 48 03	stz $0348			stz 	successFlag 				; zero if successful
+.f8a0	80 eb		bra $f88d			bra 	_OSDeleteLoop
+.f8a2					_OSDeleteExit:
+.f8a2	0e 48 03	asl $0348			asl 	successFlag					; shift success flag (0 if done) into carry
+.f8a5	60		rts				rts
+.f8a6					FSCompareFileNames:
+.f8a6	ad 49 03	lda $0349			lda 	shFirstNext 				; is it F/N type ?
+.f8a9	c9 46		cmp #$46			cmp 	#"F"
+.f8ab	f0 04		beq $f8b1			beq 	_FSDeleteCheckName
+.f8ad	c9 4e		cmp #$4e			cmp 	#"N"
+.f8af	d0 19		bne $f8ca			bne 	_FSCompareFail 				; no, then compare fails.
+.f8b1					_FSDeleteCheckName:
+.f8b1	a0 01		ldy #$01			ldy 	#1 							; copy filename to iTemp0
+.f8b3	b2 22		lda ($22)			lda 	(fsBlock)
+.f8b5	85 20		sta $20				sta 	iTemp0
+.f8b7	b1 22		lda ($22),y			lda 	(fsBlock),y
+.f8b9	85 21		sta $21				sta 	iTemp0+1
+.f8bb	b2 20		lda ($20)			lda 	(iTemp0) 					; compare n+1
+.f8bd	a8		tay				tay
+.f8be					_FSCompareName:
+.f8be	b9 59 03	lda $0359,y			lda 	shNameLength,y
+.f8c1	d1 20		cmp ($20),y			cmp 	(iTemp0),y
+.f8c3	d0 05		bne $f8ca			bne 	_FSCompareFail
+.f8c5	88		dey				dey
+.f8c6	10 f6		bpl $f8be			bpl 	_FSCompareName
+.f8c8	38		sec				sec
 .f8c9	60		rts				rts
-.f8ca					OSDeleteFile:
-.f8ca	86 22		stx $22				stx 	fsBlock 					; file block.
-.f8cc	84 23		sty $23				sty 	fsBlock+1
-.f8ce	9c 48 03	stz $0348			stz 	currentSector
-.f8d1	a9 ff		lda #$ff			lda 	#$FF 						; set flag to $FF
-.f8d3	8d 4a 03	sta $034a			sta 	successFlag
-.f8d6					_OSDeleteLoop:
-.f8d6	20 dd f6	jsr $f6dd			jsr 	FSReadNextHeader 			; read header ?
-.f8d9	b0 10		bcs $f8eb			bcs 	_OSDeleteExit 				; end of search.
-.f8db	20 ef f8	jsr $f8ef			jsr 	FSCompareFileNames 			; is it F/N and matching.
-.f8de	90 f6		bcc $f8d6			bcc 	_OSDeleteLoop 				; no, try next sector
-.f8e0	ad 48 03	lda $0348			lda 	currentSector 				; yes, then erase this sector
-.f8e3	20 79 f9	jsr $f979			jsr 	FSHErase
-.f8e6	9c 4a 03	stz $034a			stz 	successFlag 				; zero if successful
-.f8e9	80 eb		bra $f8d6			bra 	_OSDeleteLoop
-.f8eb					_OSDeleteExit:
-.f8eb	0e 4a 03	asl $034a			asl 	successFlag					; shift success flag (0 if done) into carry
-.f8ee	60		rts				rts
-.f8ef					FSCompareFileNames:
-.f8ef	ad 4b 03	lda $034b			lda 	shFirstNext 				; is it F/N type ?
-.f8f2	c9 46		cmp #$46			cmp 	#"F"
-.f8f4	f0 04		beq $f8fa			beq 	_FSDeleteCheckName
-.f8f6	c9 4e		cmp #$4e			cmp 	#"N"
-.f8f8	d0 19		bne $f913			bne 	_FSCompareFail 				; no, then compare fails.
-.f8fa					_FSDeleteCheckName:
-.f8fa	a0 01		ldy #$01			ldy 	#1 							; copy filename to iTemp0
-.f8fc	b2 22		lda ($22)			lda 	(fsBlock)
-.f8fe	85 20		sta $20				sta 	iTemp0
-.f900	b1 22		lda ($22),y			lda 	(fsBlock),y
-.f902	85 21		sta $21				sta 	iTemp0+1
-.f904	b2 20		lda ($20)			lda 	(iTemp0) 					; compare n+1
-.f906	a8		tay				tay
-.f907					_FSCompareName:
-.f907	b9 5b 03	lda $035b,y			lda 	shNameLength,y
-.f90a	d1 20		cmp ($20),y			cmp 	(iTemp0),y
-.f90c	d0 05		bne $f913			bne 	_FSCompareFail
-.f90e	88		dey				dey
-.f90f	10 f6		bpl $f907			bpl 	_FSCompareName
-.f911	38		sec				sec
-.f912	60		rts				rts
-.f913					_FSCompareFail:
-.f913	18		clc				clc
-.f914	60		rts				rts
-.f915					OSFormatFlash:
-.f915	da		phx				phx 								; save sector count
-.f916	48		pha				pha									; save parameters.
-.f917	5a		phy				phy
-.f918	da		phx				phx
-.f919	a9 00		lda #$00			lda 	#0 							; erase sector zero
-.f91b	20 79 f9	jsr $f979			jsr 	FSHErase
-.f91e	a9 00		lda #$00			lda 	#0 							; open sector zero for writing.
-.f920	20 8b f9	jsr $f98b			jsr 	FSHOpenWrite
-.f923	a9 49		lda #$49			lda 	#'I' 						; sector type (information)
-.f925	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f928	a9 01		lda #$01			lda 	#1 							; format 1
-.f92a	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f92d	68		pla				pla 								; write the sector count.
-.f92e	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f931	68		pla				pla
-.f932	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f935	68		pla				pla 								; write the sector size power.
-.f936	20 a0 f9	jsr $f9a0			jsr 	FSHWrite
-.f939	20 a9 f9	jsr $f9a9			jsr 	FSHEndCommand 				; end command
->f93c	db						.byte 	$DB
-.f93d	20 4c f9	jsr $f94c			jsr 	FSInitialise 				; re-initialise the file system.
-.f940	68		pla				pla 								; count of sectors.
-.f941					_OSFFErase:
-.f941	3a		dec a				dec 	a 							; last sector and backwards
-.f942	48		pha				pha 								; erase it saving A
-.f943	20 79 f9	jsr $f979			jsr 	FSHErase
-.f946	68		pla				pla
-.f947	c9 01		cmp #$01			cmp 	#1 							; don't erase sector 0
-.f949	d0 f6		bne $f941			bne 	_OSFFErase
-.f94b	60		rts				rts
-.f94c					FSInitialise:
-.f94c	9c 46 03	stz $0346			stz 	sectorCount 				; initial values to read $00
-.f94f	9c 47 03	stz $0347			stz 	sectorCount+1
-.f952	9c 44 03	stz $0344			stz 	sectorSize
-.f955	9c 45 03	stz $0345			stz 	sectorSize+1
-.f958	a9 00		lda #$00			lda 	#0 							; read header sector 0
-.f95a	20 e3 f6	jsr $f6e3			jsr 	FSReadHeaderA
-.f95d	ad 4d 03	lda $034d			lda 	sectorHeader+2 				; copy sector count
-.f960	8d 46 03	sta $0346			sta 	sectorCount
-.f963	ad 4e 03	lda $034e			lda 	sectorHeader+3
-.f966	8d 47 03	sta $0347			sta 	sectorCount+1
-.f969	ad 4f 03	lda $034f			lda 	sectorHeader+4 				; sector size power
-.f96c	ee 44 03	inc $0344			inc 	sectorSize 					; convert to sector size.
-.f96f					_FSICalcSS:
-.f96f	0e 44 03	asl $0344			asl 	sectorSize
-.f972	2e 45 03	rol $0345			rol 	sectorSize+1
-.f975	3a		dec a				dec 	a
-.f976	d0 f7		bne $f96f			bne 	_FSICalcSS
-.f978	60		rts				rts
-.f979					FSHErase:
-.f979	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.f97c	a9 00		lda #$00			lda 	#0 						; activate on command write
-.f97e	8d 10 cf	sta $cf10			sta 	$CF10
-.f981	60		rts				rts
-.f982					FSHOpenRead:
-.f982	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.f985	a9 01		lda #$01			lda 	#1 						; activate on command write
-.f987	8d 10 cf	sta $cf10			sta 	$CF10
-.f98a	60		rts				rts
-.f98b					FSHOpenWrite:
-.f98b	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.f98e	a9 02		lda #$02			lda 	#2 						; activate on command write
-.f990	8d 10 cf	sta $cf10			sta 	$CF10
-.f993	60		rts				rts
-.f994					FSHRead:
-.f994	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.f997	a9 03		lda #$03			lda 	#3 						; activate on command write
-.f999	8d 10 cf	sta $cf10			sta 	$CF10
-.f99c	ad 12 cf	lda $cf12			lda 	$CF12
-.f99f	60		rts				rts
-.f9a0					FSHWrite:
-.f9a0	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.f9a3	a9 04		lda #$04			lda 	#4 						; activate on command write
-.f9a5	8d 10 cf	sta $cf10			sta 	$CF10
-.f9a8	60		rts				rts
-.f9a9					FSHEndCommand:
-.f9a9	8d 11 cf	sta $cf11			sta 	$CF11 						; save data
-.f9ac	a9 05		lda #$05			lda 	#5 						; activate on command write
-.f9ae	8d 10 cf	sta $cf10			sta 	$CF10
-.f9b1	60		rts				rts
+.f8ca					_FSCompareFail:
+.f8ca	18		clc				clc
+.f8cb	60		rts				rts
+.f8cc					OSFormatFlash:
+.f8cc	da		phx				phx 								; save sector count
+.f8cd	48		pha				pha									; save parameters.
+.f8ce	5a		phy				phy
+.f8cf	da		phx				phx
+.f8d0	a9 00		lda #$00			lda 	#0 							; erase sector zero
+.f8d2	20 fc f8	jsr $f8fc			jsr 	FSHErase
+.f8d5	20 e4 f8	jsr $f8e4			jsr 	FSInitialise 				; re-initialise the file system.
+.f8d8	68		pla				pla 								; count of sectors.
+.f8d9					_OSFFErase:
+.f8d9	3a		dec a				dec 	a 							; last sector and backwards
+.f8da	48		pha				pha 								; erase it saving A
+.f8db	20 fc f8	jsr $f8fc			jsr 	FSHErase
+.f8de	68		pla				pla
+.f8df	c9 01		cmp #$01			cmp 	#1 							; don't erase sector 0
+.f8e1	d0 f6		bne $f8d9			bne 	_OSFFErase
+.f8e3	60		rts				rts
+.f8e4					FSInitialise:
+.f8e4	9c 44 03	stz $0344			stz 	sectorCount 				; initial values to read $00
+.f8e7	9c 45 03	stz $0345			stz 	sectorCount+1
+.f8ea	a9 00		lda #$00			lda 	#0 							; read header sector 0
+.f8ec	20 e3 f6	jsr $f6e3			jsr 	FSReadHeaderA
+.f8ef	ad 4b 03	lda $034b			lda 	sectorHeader+2 				; copy sector count
+.f8f2	8d 44 03	sta $0344			sta 	sectorCount
+.f8f5	ad 4c 03	lda $034c			lda 	sectorHeader+3
+.f8f8	8d 45 03	sta $0345			sta 	sectorCount+1
+.f8fb	60		rts				rts
+.f8fc					FSHErase:
+.f8fc	8d 11 cf	sta $cf11			sta 	$CF11 						; sector number.
+.f8ff	a9 00		lda #$00			lda 	#0 							; erase command
+.f901	8d 10 cf	sta $cf10			sta 	$CF10
+.f904	60		rts				rts
+.f905					FSHRead:
+.f905	8c 15 cf	sty $cf15			sty 	$CF15 						; byte count
+.f908	20 1a f9	jsr $f91a			jsr 	FSHSetup 					; setup sector and address
+.f90b	a9 01		lda #$01			lda 	#1
+.f90d	8d 10 cf	sta $cf10			sta 	$CF10 						; read command.
+.f910	60		rts				rts
+.f911					FSHWrite:
+.f911	20 1a f9	jsr $f91a			jsr 	FSHSetup 					; setup sector and address
+.f914	a9 02		lda #$02			lda 	#2
+.f916	8d 10 cf	sta $cf10			sta 	$CF10 						; write command.
+.f919	60		rts				rts
+.f91a					FSHSetup:
+.f91a	8d 11 cf	sta $cf11			sta 	$CF11 						; sector/subpage
+.f91d	8e 12 cf	stx $cf12			stx 	$CF12
+.f920	a5 20		lda $20				lda 	iTemp0
+.f922	8d 13 cf	sta $cf13			sta 	$CF13 						; copy data
+.f925	a5 21		lda $21				lda 	iTemp0+1
+.f927	8d 14 cf	sta $cf14			sta 	$CF14
+.f92a	60		rts				rts
 
 ;******  Return to file: osrom.asm
 
-.f9b2					MainPrompt:
->f9b2	66						.byte 	_MPEnd-MainPrompt-1
->f9b3	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
->f9bb	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
->f9cb	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
->f9da	42 65 74 61 20 32 20 43				.text 	"Beta 2 Code Complete",13,13
->f9e2	6f 64 65 20 43 6f 6d 70 6c 65 74 65 0d 0d
->f9f0	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
->f9f8	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
->fa08	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
->fa18	0d
-.fa19					_MPEnd:
+.f92b					MainPrompt:
+>f92b	66						.byte 	_MPEnd-MainPrompt-1
+>f92c	0c 2a 2a 2a 20 4f 4c 49				.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
+>f934	4d 45 58 20 4e 65 6f 36 35 30 32 20 52 65 74 72
+>f944	6f 43 6f 6d 70 75 74 65 72 20 2a 2a 2a 0d 0d
+>f953	42 65 74 61 20 32 20 43				.text 	"Beta 2 Code Complete",13,13
+>f95b	6f 64 65 20 43 6f 6d 70 6c 65 74 65 0d 0d
+>f969	50 6c 65 61 73 65 20 72				.text 	"Please report bugs: paul@robsons.org.uk",13,13
+>f971	65 70 6f 72 74 20 62 75 67 73 3a 20 70 61 75 6c
+>f981	40 72 6f 62 73 6f 6e 73 2e 6f 72 67 2e 75 6b 0d
+>f991	0d
+.f992					_MPEnd:
 
 ;******  Processing file: src/generated/vectors.asmx
 
-.ffca	4c b2 f8	jmp $f8b2		jmp		OSReadDirectory          ; Read file directory.
-.ffcd	4c ca f8	jmp $f8ca		jmp		OSDeleteFile             ; Delete file
-.ffd0	4c 14 f7	jmp $f714		jmp		OSReadFile               ; Read file into memory
-.ffd3	4c 9f f7	jmp $f79f		jmp		OSWriteFile              ; Write file from memory
-.ffd6	4c 15 f9	jmp $f915		jmp		OSFormatFlash            ; Format drive
+.ffca	4c 69 f8	jmp $f869		jmp		OSReadDirectory          ; Read file directory.
+.ffcd	4c 81 f8	jmp $f881		jmp		OSDeleteFile             ; Delete file
+.ffd0	4c 10 f7	jmp $f710		jmp		OSReadFile               ; Read file into memory
+.ffd3	4c 77 f7	jmp $f777		jmp		OSWriteFile              ; Write file from memory
+.ffd6	4c cc f8	jmp $f8cc		jmp		OSFormatFlash            ; Format drive
 .ffd9	4c d2 f6	jmp $f6d2		jmp		OSGetScreenPosition      ; Screen position to XY
 .ffdc	4c cb f6	jmp $f6cb		jmp		OSGetScreenSize          ; Get size of screen to XY
 .ffdf	4c 5b f1	jmp $f15b		jmp		OSWriteString            ; Write length prefixed string YX to screen

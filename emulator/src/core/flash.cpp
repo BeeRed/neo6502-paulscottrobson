@@ -64,7 +64,7 @@ int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount)
 		case HWF_WRITE:
 			printf("Writing to sector %d:%d Address:$%04x\n",sector,subpage,address);
 			flashHandler = fopen("storage/flash.image","rb+"); 			
-			fseek(flashHandler,0,sector * 4096 + subpage * 256);
+			fseek(flashHandler,sector * 4096 + subpage * 256,SEEK_SET);
 			for (int i = 0;i < 256;i++) {
 				fputc(CPUReadMemory(address++),flashHandler);			// In real Flash, you'd AND it with the current value.
 			}
@@ -78,7 +78,7 @@ int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount)
 		case HWF_READ:
 			printf("Reading from sector %d:%d Address:$%04x (%d bytes)\n",sector,subpage,address,dataCount);
 			flashHandler = fopen("storage/flash.image","rb"); 			
-			fseek(flashHandler,0,sector * 4096 + subpage * 256);
+			fseek(flashHandler,sector * 4096 + subpage * 256,SEEK_SET);
 			if (dataCount == 0) dataCount = 256; 	 					// 0 = read whole page
 			for (int i = 0;i < dataCount;i++) {
 				CPUWriteMemory(address++,fgetc(flashHandler)); 	

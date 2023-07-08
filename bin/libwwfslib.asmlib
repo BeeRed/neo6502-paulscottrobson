@@ -24,6 +24,7 @@
 FSReadNextHeader:
 		inc 	currentSector 				; bump last sector and read next one.
 		lda 	currentSector
+		;
 FSReadHeaderA:
 		cmp 	#0 							; sector 0 always okay.
 		beq 	_FSIsOk
@@ -32,15 +33,13 @@ FSReadHeaderA:
 _FSIsOk:
 		phx
 		sta 	currentSector 				; save as current
-		jsr 	FSHOpenRead 				; open for read
-		ldx 	#0 							; read in.
-_FSReadHLoop:
-		jsr 	FSHRead
-		sta 	sectorHeader,x
-		inx
-		cpx 	#32
-		bne 	_FSReadHLoop
-		jsr 	FSHEndCommand				; end read.
+		ldx 	#sectorHeader & $FF 		; target address.
+		stx 	iTemp0
+		ldx 	#sectorHeader >> 8
+		stx 	iTemp0+1
+		ldx 	#0 							; subpage 0
+		ldy 	#32 						; first 32 bytes only.
+		jsr 	FSHRead 					; read the sector into memory
 		plx
 
 		lda 	shFileSize 					; copy file size - makes easily accessible
@@ -140,43 +139,43 @@ _OSReadExit:
 
 FSReadData:
 		lda 	currentSector
-		jsr 	FSHOpenRead 				; open for read
-		ldx 	#32 						; read past the header
+;		jsr 	FSHOpenRead 				; open for read
+;		ldx 	#32 						; read past the header
 _FSReadHLoop:
-		jsr 	FSHRead
-		dex
-		bne 	_FSReadHLoop
+;		jsr 	FSHRead
+;		dex
+;		bne 	_FSReadHLoop
 		;
 _FSRDCopy:
-		lda 	shDataSize 					; datasize count zero ?
-		ora 	shDataSize+1
-		beq 	_OSRDExit
-		;
-		lda 	shDataSize 					; decrement the data count.
-		bne 	_OSRDNoBorrow
-		dec 	shDataSize+1
+;		lda 	shDataSize 					; datasize count zero ?
+;		ora 	shDataSize+1
+;		beq 	_OSRDExit
+;		;
+;		lda 	shDataSize 					; decrement the data count.
+;		bne 	_OSRDNoBorrow
+;		dec 	shDataSize+1
 _OSRDNoBorrow:
-		dec 	shDataSize
-		;
-		jsr 	FSIncrementSetLoad 			; load address to zTemp0 and increment it.
-		jsr 	FSHRead 					; copy byte there
+;		dec 	shDataSize
+;		;
+		jsr 	FSIncrementSetLoad 			; load address to iTemp0 and increment it.
+;		jsr 	FSHRead 					; copy byte there
 		sta 	(iTemp0)
 		bra 	_FSRDCopy 					; go round again.
 
 _OSRDExit:
-		jsr 	FSHEndCommand
+;		jsr 	FSHEndCommand
 		rts
 
 ; ************************************************************************************************
 ;
-;						Copy load/save address to zTemp0, increment it.
+;						Copy load/save address to iTemp0, increment it.
 ;
 ; ************************************************************************************************
 
 FSIncrementSetLoad:
 		clc
 		ldy 	#2 							; increment load address
-		lda 	(fsBlock),y  				; copying previous to zTemp0
+		lda 	(fsBlock),y  				; copying previous to iTemp0
 		sta 	iTemp0
 		adc 	#1
 		sta 	(fsBlock),y
@@ -232,10 +231,10 @@ OSWriteFile:
 		stz 	notFirstSector 				; clear "not first sector" (e.g. is first sector)
 		;
 		sec 								; work out bytes per sector available.
-		lda 	sectorSize 					; (sector size - 32)
+;		lda 	sectorSize 					; (sector size - 32)
 		sbc 	#32
 		sta 	sectorCapacity
-		lda 	sectorSize+1
+;		lda 	sectorSize+1
 		sbc 	#0
 		sta 	sectorCapacity+1
 		;
@@ -267,10 +266,10 @@ _OSFindUnused:
 		lda 	currentSector 				; erase sector
 		jsr 	FSHErase
 		lda 	currentSector 				; open for write.
-		jsr 	FSHOpenWrite
+;		jsr 	FSHOpenWrite
 		jsr 	FSWriteCreateHeader 		; create header
 		jsr 	FSWriteSendData 			; send the data
-		jsr 	FSHEndCommand 				; and we're done this block.
+;		jsr 	FSHEndCommand 				; and we're done this block.
 		;
 		dec 	notFirstSector 				; set not first sector state.
 		;
@@ -302,7 +301,7 @@ FSWriteCreateHeader:
 		bne 	_FSWCNotNext
 		lda 	#"F"
 _FSWCNotNext:
-		jsr 	FSHWrite 					; +0 (first or next)
+;		jsr 	FSHWrite 					; +0 (first or next)
 		;
 		;		Work out the number of bytes going out into YX
 		;
@@ -328,28 +327,28 @@ _FSNotFull:
 		bne 	_FSNotAll
 		lda 	#"N"
 _FSNotAll:
-		jsr 	FSHWrite 					; +1 (has more data)
+;		jsr 	FSHWrite 					; +1 (has more data)
 		;
 		;		Output data size and file size.
 		;
 		txa 								; +2,+3 (data to send out)
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		tya
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		;
 		ldy 	#4
 		lda 	(fsBlock),y
 		jsr 	FSHWrite
 		iny
 		lda 	(fsBlock),y
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		;
 		;		Output 10 char gap which is reserved.
 		;
 		ldx		#10 						; output 10 blanks
 _FSWCBlanks:
 		lda 	#$FF
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		dex
 		bne 	_FSWCBlanks
 		;
@@ -391,7 +390,7 @@ FSWriteSendData:
 		beq 	_FSWSDExit
 		jsr 	FSIncrementSetLoad 			; bump address, copy original to iTemp0
 		lda 	(iTemp0)
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		;
 		lda 	bytesToWrite 				; decrement bytes to write counter
 		bne 	_FSWSDNoBorrow
@@ -608,28 +607,26 @@ OSFormatFlash:
 		;
 		;		Write 'I',1,Count.Lo,Count.Hi,2^Size
 		;
-		lda 	#0 							; open sector zero for writing.
-		jsr 	FSHOpenWrite
-
-		lda 	#'I' 						; sector type (information)
-		jsr 	FSHWrite
-		lda 	#1 							; format 1
-		jsr 	FSHWrite
-
-		pla 								; write the sector count.
-		jsr 	FSHWrite
-		pla
-		jsr 	FSHWrite
-
-		pla 								; write the sector size power.
-		jsr 	FSHWrite
-		jsr 	FSHEndCommand 				; end command
-		.debug
+;		lda 	#0 							; open sector zero for writing.
+;		jsr 	FSHOpenWrite
+;
+;		lda 	#'I' 						; sector type (information)
+;		jsr 	FSHWrite
+;		lda 	#1 							; format 1
+;		jsr 	FSHWrite
+;
+;		pla 								; write the sector count.
+;		jsr 	FSHWrite
+;		pla
+;		jsr 	FSHWrite
+;
+;		pla 								; write the sector size power.
+;		jsr 	FSHWrite
+;		jsr 	FSHEndCommand 				; end command
 		;
 		;		Re-initialise and erase other sectors
 		;
 		jsr 	FSInitialise 				; re-initialise the file system.
-
 
 		pla 								; count of sectors.
 _OSFFErase:
@@ -677,8 +674,6 @@ _OSFFErase:
 FSInitialise:
 		stz 	sectorCount 				; initial values to read $00
 		stz 	sectorCount+1
-		stz 	sectorSize
-		stz 	sectorSize+1
 		;
 		;		Read in from the first sector (unaffected by size or count !)
 		;		the sector size and count values.
@@ -692,15 +687,6 @@ FSInitialise:
 		sta 	sectorCount
 		lda 	sectorHeader+3
 		sta 	sectorCount+1
-
-		lda 	sectorHeader+4 				; sector size power
-
-		inc 	sectorSize 					; convert to sector size.
-_FSICalcSS:
-		asl 	sectorSize
-		rol 	sectorSize+1
-		dec 	a
-		bne 	_FSICalcSS
 
 		rts
 
@@ -737,35 +723,57 @@ _FSICalcSS:
 
 		.section code
 
-flash 	.macro
-		sta 	$CF11 						; save data
-		lda 	#\1 						; activate on command write
-		sta 	$CF10
-		.endm
+; ************************************************************************************************
+;
+;										   Erase sector A
+;
+; ************************************************************************************************
+
 
 FSHErase:
-		.flash 	0
+		sta 	$CF11 						; sector number.
+		lda 	#0 							; erase command
+		sta 	$CF10
 		rts
 
-FSHOpenRead:
-		.flash 	1
-		rts
-
-FSHOpenWrite:
-		.flash 	2
-		rts
+; ************************************************************************************************
+;
+;						 Read Sector A, subpage X from iTemp0,y bytes (0 == 256)
+;
+; ************************************************************************************************
 
 FSHRead:
-		.flash 	3
-		lda 	$CF12
+		sty 	$CF15 						; byte count
+		jsr 	FSHSetup 					; setup sector and address
+		lda 	#1
+		sta 	$CF10 						; read command.
 		rts
+
+; ************************************************************************************************
+;
+;							Write Sector A, subpage X from iTemp0
+;
+; ************************************************************************************************
 
 FSHWrite:
-		.flash 	4
+		jsr 	FSHSetup 					; setup sector and address
+		lda 	#2
+		sta 	$CF10 						; write command.
 		rts
 
-FSHEndCommand:
-		.flash 	5
+; ************************************************************************************************
+;
+;										Common R/W setup
+;
+; ************************************************************************************************
+
+FSHSetup:
+		sta 	$CF11 						; sector/subpage
+		stx 	$CF12
+		lda 	iTemp0
+		sta 	$CF13 						; copy data
+		lda 	iTemp0+1
+		sta 	$CF14
 		rts
 
 		.send code

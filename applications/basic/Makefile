@@ -109,3 +109,6 @@ edtest: prelim
 	$(ASM) basic.asm $(CONFIG) -D runEdit=1 -o build$(S)basic.bin
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) 
 	$(PYTHON) scripts$(S)checktest.py 
+
+dir:
+	cd storage ; $(PYTHON) $(BINDIR)fsmanager.py show

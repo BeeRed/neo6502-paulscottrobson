@@ -71,43 +71,43 @@ _OSReadExit:
 
 FSReadData:
 		lda 	currentSector
-		jsr 	FSHOpenRead 				; open for read
-		ldx 	#32 						; read past the header
+;		jsr 	FSHOpenRead 				; open for read
+;		ldx 	#32 						; read past the header
 _FSReadHLoop:
-		jsr 	FSHRead
-		dex
-		bne 	_FSReadHLoop		
+;		jsr 	FSHRead
+;		dex
+;		bne 	_FSReadHLoop		
 		;
 _FSRDCopy:
-		lda 	shDataSize 					; datasize count zero ?
-		ora 	shDataSize+1
-		beq 	_OSRDExit
-		;
-		lda 	shDataSize 					; decrement the data count.
-		bne 	_OSRDNoBorrow
-		dec 	shDataSize+1
+;		lda 	shDataSize 					; datasize count zero ?
+;		ora 	shDataSize+1
+;		beq 	_OSRDExit
+;		;
+;		lda 	shDataSize 					; decrement the data count.
+;		bne 	_OSRDNoBorrow
+;		dec 	shDataSize+1
 _OSRDNoBorrow:
-		dec 	shDataSize		
-		;
-		jsr 	FSIncrementSetLoad 			; load address to zTemp0 and increment it.
-		jsr 	FSHRead 					; copy byte there
+;		dec 	shDataSize		
+;		;
+		jsr 	FSIncrementSetLoad 			; load address to iTemp0 and increment it.
+;		jsr 	FSHRead 					; copy byte there
 		sta 	(iTemp0)
 		bra 	_FSRDCopy 					; go round again.
 
 _OSRDExit:				
-		jsr 	FSHEndCommand
+;		jsr 	FSHEndCommand
 		rts
 
 ; ************************************************************************************************
 ;
-;						Copy load/save address to zTemp0, increment it.
+;						Copy load/save address to iTemp0, increment it.
 ;
 ; ************************************************************************************************
 
 FSIncrementSetLoad:		
 		clc
 		ldy 	#2 							; increment load address
-		lda 	(fsBlock),y  				; copying previous to zTemp0
+		lda 	(fsBlock),y  				; copying previous to iTemp0
 		sta 	iTemp0
 		adc 	#1
 		sta 	(fsBlock),y

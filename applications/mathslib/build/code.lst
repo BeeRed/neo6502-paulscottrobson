@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/main.bin _main.asm
-; Sat Jul  8 10:52:21 2023
+; Sat Jul  8 11:59:52 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -79,39 +79,37 @@
 >0324							.fill 	32
 .0022					fsBlock:
 >0022							.fill 	2
-.0344					sectorSize:
+.0344					sectorCount:
 >0344							.fill 	2
-.0346					sectorCount:
+.0346					currentSector:
 >0346							.fill 	2
-.0348					currentSector:
->0348							.fill 	2
-.034a					successFlag:
+.0348					successFlag:
+>0348							.fill 	1
+.0349					sectorHeader:
+.0349					shFirstNext:
+>0349							.fill 	1
+.034a					shContinue:
 >034a							.fill 	1
-.034b					sectorHeader:
-.034b					shFirstNext:
->034b							.fill 	1
-.034c					shContinue:
->034c							.fill 	1
-.034d					shDataSize:
+.034b					shDataSize:
+>034b							.fill 	2
+.034d					shFileSize:
 >034d							.fill 	2
-.034f					shFileSize:
->034f							.fill 	2
->0351							.fill 	10
-.035b					shNameLength:
->035b							.fill 	1
-.035c					shNameText:
->035c							.fill 	15
-.036b					shFileSizeCopy:
->036b							.fill 	2
-.036d					notFirstSector:
->036d							.fill 	1
-.036e					sectorCapacity:
+>034f							.fill 	10
+.0359					shNameLength:
+>0359							.fill 	1
+.035a					shNameText:
+>035a							.fill 	15
+.0369					shFileSizeCopy:
+>0369							.fill 	2
+.036b					notFirstSector:
+>036b							.fill 	1
+.036c					sectorCapacity:
+>036c							.fill 	2
+.036e					fileRemainingSize:
 >036e							.fill 	2
-.0370					fileRemainingSize:
+.0370					bytesToWrite:
 >0370							.fill 	2
-.0372					bytesToWrite:
->0372							.fill 	2
->0374							.align 	256
+>0372							.align 	256
 
 ;******  Return to file: _main.asm
 

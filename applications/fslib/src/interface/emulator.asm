@@ -18,35 +18,57 @@
 
 		.section code
 
-flash 	.macro
-		sta 	$CF11 						; save data
-		lda 	#\1 						; activate on command write
-		sta 	$CF10
-		.endm
+; ************************************************************************************************
+;
+;										   Erase sector A
+;
+; ************************************************************************************************
+
 
 FSHErase:
-		.flash 	0
+		sta 	$CF11 						; sector number.
+		lda 	#0 							; erase command
+		sta 	$CF10
 		rts
 
-FSHOpenRead:
-		.flash 	1
-		rts
-
-FSHOpenWrite:
-		.flash 	2
-		rts
+; ************************************************************************************************
+;
+;						 Read Sector A, subpage X from iTemp0,y bytes (0 == 256)
+;
+; ************************************************************************************************
 
 FSHRead:
-		.flash 	3
-		lda 	$CF12
+		sty 	$CF15 						; byte count
+		jsr 	FSHSetup 					; setup sector and address
+		lda 	#1
+		sta 	$CF10 						; read command.
 		rts
+
+; ************************************************************************************************
+;
+;							Write Sector A, subpage X from iTemp0
+;
+; ************************************************************************************************
 
 FSHWrite:
-		.flash 	4
+		jsr 	FSHSetup 					; setup sector and address
+		lda 	#2
+		sta 	$CF10 						; write command.
 		rts
 
-FSHEndCommand:
-		.flash 	5
+; ************************************************************************************************
+;
+;										Common R/W setup
+;
+; ************************************************************************************************
+
+FSHSetup:		
+		sta 	$CF11 						; sector/subpage
+		stx 	$CF12
+		lda 	iTemp0
+		sta 	$CF13 						; copy data
+		lda 	iTemp0+1
+		sta 	$CF14
 		rts
 
 		.send code

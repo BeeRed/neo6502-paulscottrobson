@@ -21,6 +21,7 @@
 FSReadNextHeader:
 		inc 	currentSector 				; bump last sector and read next one.
 		lda 	currentSector
+		;
 FSReadHeaderA:
 		cmp 	#0 							; sector 0 always okay.
 		beq 	_FSIsOk
@@ -29,15 +30,13 @@ FSReadHeaderA:
 _FSIsOk:		
 		phx
 		sta 	currentSector 				; save as current
-		jsr 	FSHOpenRead 				; open for read
-		ldx 	#0 							; read in.
-_FSReadHLoop:
-		jsr 	FSHRead
-		sta 	sectorHeader,x
-		inx
-		cpx 	#32
-		bne 	_FSReadHLoop		
-		jsr 	FSHEndCommand				; end read.
+		ldx 	#sectorHeader & $FF 		; target address.
+		stx 	iTemp0
+		ldx 	#sectorHeader >> 8
+		stx 	iTemp0+1
+		ldx 	#0 							; subpage 0
+		ldy 	#32 						; first 32 bytes only.
+		jsr 	FSHRead 					; read the sector into memory
 		plx
 
 		lda 	shFileSize 					; copy file size - makes easily accessible

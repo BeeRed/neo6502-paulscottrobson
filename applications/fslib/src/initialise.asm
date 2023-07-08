@@ -21,8 +21,6 @@
 FSInitialise:
 		stz 	sectorCount 				; initial values to read $00
 		stz 	sectorCount+1
-		stz 	sectorSize
-		stz 	sectorSize+1
 		;
 		;		Read in from the first sector (unaffected by size or count !)
 		;		the sector size and count values. 
@@ -36,15 +34,6 @@ FSInitialise:
 		sta 	sectorCount
 		lda 	sectorHeader+3
 		sta 	sectorCount+1
-
-		lda 	sectorHeader+4 				; sector size power
-
-		inc 	sectorSize 					; convert to sector size.
-_FSICalcSS:
-		asl 	sectorSize
-		rol 	sectorSize+1
-		dec 	a
-		bne 	_FSICalcSS
 
 		rts
 		

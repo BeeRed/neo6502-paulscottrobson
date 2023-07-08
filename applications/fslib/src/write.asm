@@ -29,10 +29,10 @@ OSWriteFile:
 		stz 	notFirstSector 				; clear "not first sector" (e.g. is first sector)
 		;
 		sec 								; work out bytes per sector available.
-		lda 	sectorSize 					; (sector size - 32)
+;		lda 	sectorSize 					; (sector size - 32)
 		sbc 	#32
 		sta 	sectorCapacity
-		lda 	sectorSize+1
+;		lda 	sectorSize+1
 		sbc 	#0
 		sta 	sectorCapacity+1
 		;
@@ -64,10 +64,10 @@ _OSFindUnused:
 		lda 	currentSector 				; erase sector
 		jsr 	FSHErase
 		lda 	currentSector 				; open for write.
-		jsr 	FSHOpenWrite
+;		jsr 	FSHOpenWrite
 		jsr 	FSWriteCreateHeader 		; create header
 		jsr 	FSWriteSendData 			; send the data
-		jsr 	FSHEndCommand 				; and we're done this block.		
+;		jsr 	FSHEndCommand 				; and we're done this block.		
 		;
 		dec 	notFirstSector 				; set not first sector state.
 		;
@@ -99,7 +99,7 @@ FSWriteCreateHeader:
 		bne 	_FSWCNotNext
 		lda 	#"F"
 _FSWCNotNext:		
-		jsr 	FSHWrite 					; +0 (first or next)
+;		jsr 	FSHWrite 					; +0 (first or next)
 		;
 		;		Work out the number of bytes going out into YX
 		;
@@ -125,28 +125,28 @@ _FSNotFull:
 		bne 	_FSNotAll
 		lda 	#"N"
 _FSNotAll:		
-		jsr 	FSHWrite 					; +1 (has more data)
+;		jsr 	FSHWrite 					; +1 (has more data)
 		;
 		;		Output data size and file size.
 		;
 		txa 								; +2,+3 (data to send out) 	
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		tya 	
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		;
 		ldy 	#4
 		lda 	(fsBlock),y
 		jsr 	FSHWrite
 		iny
 		lda 	(fsBlock),y
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		;
 		;		Output 10 char gap which is reserved.
 		;
 		ldx		#10 						; output 10 blanks
 _FSWCBlanks:
 		lda 	#$FF
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		dex
 		bne 	_FSWCBlanks
 		;
@@ -188,7 +188,7 @@ FSWriteSendData:
 		beq 	_FSWSDExit
 		jsr 	FSIncrementSetLoad 			; bump address, copy original to iTemp0
 		lda 	(iTemp0)
-		jsr 	FSHWrite
+;		jsr 	FSHWrite
 		;
 		lda 	bytesToWrite 				; decrement bytes to write counter
 		bne 	_FSWSDNoBorrow

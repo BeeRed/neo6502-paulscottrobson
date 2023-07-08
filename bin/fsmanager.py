@@ -88,7 +88,9 @@ class FlashFileSystem(object):
 	#		Insert a file
 	#
 	def insert(self,fileName):
-		self.erase(fileName)
+		lfileName = fileName.split(os.sep)[-1].lower()
+		print(lfileName)
+		self.erase(lfileName)
 		self.changed = True 
 		h = open(fileName,"rb")
 		fileData = [x for x in h.read(-1)]
@@ -102,7 +104,6 @@ class FlashFileSystem(object):
 			if sector is None: 											# full, erase file and fail.
 				self.erase(fileName)
 				return False
-			print(sector,len(fileData))
 			a = sector * 4096 											# set up the header.
 			dataOut = min(4096-256,len(fileData))						# how much going out this time.
 			complete = (len(fileData) - dataOut) == 0  					# complete if none left.
@@ -112,9 +113,9 @@ class FlashFileSystem(object):
 			self.fs[a+3] = dataOut >> 8
 			self.fs[a+4] = size & 0xFF 									# total size
 			self.fs[a+5] = size >> 8
-			self.fs[a+16] = len(fileName) 								# filename
-			for i in range(0,len(fileName)):
-				self.fs[a+17+i] = ord(fileName.lower()[i])
+			self.fs[a+16] = len(lfileName) 								# filename
+			for i in range(0,len(lfileName)):
+				self.fs[a+17+i] = ord(lfileName.lower()[i])
 
 			for i in range(0,dataOut): 									# write the data out.
 				self.fs[i+a+256] = fileData[i]

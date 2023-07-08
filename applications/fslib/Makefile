@@ -17,7 +17,7 @@ endif
 
 all: assemble testfs
 
-SOURCES = python$(S)files$(S)text1.bas python$(S)files$(S)text2.bas python$(S)files$(S)text3.bas
+SOURCES = python$(S)files$(S)text1.bas python$(S)files$(S)text2.bas python$(S)files$(S)text3.bas python$(S)files$(S)text1.txt
 
 
 assemble:
@@ -30,6 +30,6 @@ assemble:
 	$(CCOPY) a.out $@
 	$(CDEL) a.out
 
-testfs: $(SOURCES)
-	$(PYTHON) $(BINDIR)fsmanager.py format show $(SOURCES) show
-	$(CCOPY) python$(S)flash.image ..$(S)basic$(S)storage
+testfs: 
+	$(PYTHON) $(BINDIR)fsmanager.py $(SOURCES) show
+	$(CCOPY) flash.image ..$(S)basic$(S)storage

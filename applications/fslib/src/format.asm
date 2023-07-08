@@ -34,28 +34,26 @@ OSFormatFlash:
 		;
 		;		Write 'I',1,Count.Lo,Count.Hi,2^Size
 		;
-		lda 	#0 							; open sector zero for writing.
-		jsr 	FSHOpenWrite
-
-		lda 	#'I' 						; sector type (information)
-		jsr 	FSHWrite
-		lda 	#1 							; format 1
-		jsr 	FSHWrite
-
-		pla 								; write the sector count.
-		jsr 	FSHWrite
-		pla
-		jsr 	FSHWrite
-
-		pla 								; write the sector size power.
-		jsr 	FSHWrite
-		jsr 	FSHEndCommand 				; end command
-		.debug
+;		lda 	#0 							; open sector zero for writing.
+;		jsr 	FSHOpenWrite
+;
+;		lda 	#'I' 						; sector type (information)
+;		jsr 	FSHWrite
+;		lda 	#1 							; format 1
+;		jsr 	FSHWrite
+;
+;		pla 								; write the sector count.
+;		jsr 	FSHWrite
+;		pla
+;		jsr 	FSHWrite
+;
+;		pla 								; write the sector size power.
+;		jsr 	FSHWrite
+;		jsr 	FSHEndCommand 				; end command
 		;
 		;		Re-initialise and erase other sectors
 		;
 		jsr 	FSInitialise 				; re-initialise the file system.
-
 
 		pla 								; count of sectors.
 _OSFFErase:
