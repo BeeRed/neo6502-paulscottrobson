@@ -4,7 +4,7 @@ rem
 repeat
 file$ = "test"+str$(rand(8))
 pos = &1000+rand(&200)
-size = rand(&2100)
+size = rand(&2100)+1
 print file$,pos,size
 save file$,pos,size
 poke &8000+size,&AA

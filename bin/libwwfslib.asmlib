@@ -278,8 +278,6 @@ _OSFindUnused:
 		;
 		dec 	notFirstSector 				; set "not first sector" state.
 		;
-		;jsr 	FSWriteSendData 			; write the body out.
-		;
 		sec
 		lda 	fileRemainingSize 			; subtract data sent from file remaining.
 		sbc 	shDataSize
@@ -287,6 +285,8 @@ _OSFindUnused:
 		lda 	fileRemainingSize+1
 		sbc 	shDataSize+1
 		sta 	fileRemainingSize+1
+		;
+		jsr 	FSWriteSendData 			; write the body out.
 		;
 		lda 	fileRemainingSize 			; check there is more to save, if not then exit.
 		ora 	fileRemainingSize+1
@@ -374,26 +374,22 @@ _FSNameDone:
 ; ************************************************************************************************
 
 FSWriteSendData:
-;		lda 	bytesToWrite 				; complete
-;		ora 	bytesToWrite+1
-;		beq 	_FSWSDExit
-;		jsr 	FSIncrementSetLoad 			; bump address, copy original to iTemp0
-		lda 	(iTemp0)
-;;		jsr 	FSHWrite
-		;
-;		lda 	bytesToWrite 				; decrement bytes to write counter
-;		bne 	_FSWSDNoBorrow
-;		dec 	bytesToWrite+1
-;_FSWSDNoBorrow:
-;		dec 	bytesToWrite
-;
-;		lda 	fileRemainingSize 			; decrement remaining size.
-;		bne 	_FSWSDNoBorrow2
-;		dec 	fileRemainingSize+1
-;_FSWSDNoBorrow2:
-;		dec 	fileRemainingSize
-;		bra 	FSWriteSendData
-;
+		ldx 	#1 							; current sub-page to write to.
+_FSWSDLoop:
+		lda 	shDataSize 					; complete
+		ora 	shDataSize+1
+		beq 	_FSWSDExit
+
+		jsr 	FSIncrementSetLoad 			; bump address, copy original to iTemp0
+		lda 	currentSector 				; write to current sector and page
+		phx
+		jsr 	FSHWrite
+		plx
+		inx 								; next sub page
+		dec 	shDataSize+1 				; gone to $FF ($00 will check at top.)
+		lda  	shDataSize+1
+		cmp 	#$FF
+		bne 	_FSWSDLoop
 _FSWSDExit:
 		rts
 

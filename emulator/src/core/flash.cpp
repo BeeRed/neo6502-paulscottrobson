@@ -32,7 +32,7 @@ void HWFlashInitialise(void) {
 	fgetc(flashHandler);
 	sectorCount = fgetc(flashHandler);
 	sectorCount += fgetc(flashHandler) * 256;
-	printf("Flash:initialised sectors %d size 4096\n",sectorCount);
+	//printf("Flash:initialised sectors %d size 4096\n",sectorCount);
 }
 
 // *******************************************************************************************************************************
@@ -50,7 +50,7 @@ int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount)
 		//		Real : erase given sector using flash_page_erase
 		//
 		case HWF_ERASE:  					 			// Erase sector.
-			printf("Erasing sector %d\n",sector);
+			//printf("Erasing sector %d\n",sector);
 			flashHandler = fopen("storage/flash.image","rb+"); 			
 			fseek(flashHandler,sector * 4096,SEEK_SET);
 			for (int i = 0;i < 4096;i++) fputc(0xFF,flashHandler);
@@ -62,7 +62,7 @@ int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount)
 		// 	Real : program page using flash_page_program
 		//
 		case HWF_WRITE:
-			printf("Writing to sector %d:%d Address:$%04x\n",sector,subpage,address);
+			//printf("Writing to sector %d:%d Address:$%04x\n",sector,subpage,address);
 			flashHandler = fopen("storage/flash.image","rb+"); 			
 			fseek(flashHandler,sector * 4096 + subpage * 256,SEEK_SET);
 			for (int i = 0;i < 256;i++) {
@@ -76,7 +76,7 @@ int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount)
 		// 	Real : read as offset from XIP_BASE 
 		//
 		case HWF_READ:
-			printf("Reading from sector %d:%d Address:$%04x (%d bytes)\n",sector,subpage,address,dataCount == 0 ? 256:dataCount);
+			//printf("Reading from sector %d:%d Address:$%04x (%d bytes)\n",sector,subpage,address,dataCount == 0 ? 256:dataCount);
 			flashHandler = fopen("storage/flash.image","rb"); 			
 			fseek(flashHandler,sector * 4096 + subpage * 256,SEEK_SET);
 			if (dataCount == 0) dataCount = 256; 	 					// 0 = read whole page
