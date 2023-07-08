@@ -1,8 +1,8 @@
 TODO:
 	FSRewrite
-		- load
 		- save
-		
+		- re stress it.		
+
 	Star Trek dogfood.
 
 Ongoing:
@@ -11,7 +11,7 @@ Ongoing:
 Fixes:
 	Print tab off the right should go down.
 	Identifier Definitions in command line bug ?
-	
+
 Outstanding (Implementation specific):
 	EVENT/TIME (when timer available)
 	LOAD/SAVE (when flash r/w available)

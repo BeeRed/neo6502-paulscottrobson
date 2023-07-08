@@ -93,7 +93,8 @@ OSReadFile:
 		stx 	fsBlock 					; file block.
 		sty 	fsBlock+1
 
-		stz 	currentSector
+		stz 	currentSector 				; start from the beginning.
+
 		lda 	#$FF 						; set flag to $FF
 		sta 	successFlag
 		;
@@ -101,23 +102,25 @@ OSReadFile:
 		;
 _OSReadLoop1:
 		jsr 	FSReadNextHeader 			; read header ?
-		bcs 	_OSReadExit 				; end of search.
+		bcs 	_OSReadExit 				; end of search, not found.
 		lda 	shFirstNext 				; is it the (F)irst record
 		cmp 	#"F"
 		bne 	_OSReadLoop1
-		jsr 	FSCompareFileNames 			; is it F/N and matching.
+		jsr 	FSCompareFileNames 			; is it F and matching.
 		bcc 	_OSReadLoop1 				; no, try next sector
 		stz 	successFlag 				; zero when found file.
-
+		;
+		;		Read the block in.
+		;
 _OSReadBlock:
-		lda 	currentSector
 		jsr 	FSReadData 					; read the data file in.
 		lda 	shContinue 					; continuation ?
 		cmp 	#"N" 						; exit if no.
 		beq 	_OSReadExit
 		;
+		;		Find the next block
+		;
 _OSReadLoop2:
-		lda 	currentSector
 		jsr 	FSReadNextHeader 			; read header ?
 		bcs 	_OSReadExit 				; end of search.
 		lda 	shFirstNext 				; is it the (F)irst record
@@ -138,54 +141,52 @@ _OSReadExit:
 ; ************************************************************************************************
 
 FSReadData:
-		lda 	currentSector
-;		jsr 	FSHOpenRead 				; open for read
-;		ldx 	#32 						; read past the header
-_FSReadHLoop:
-;		jsr 	FSHRead
-;		dex
-;		bne 	_FSReadHLoop
-		;
-_FSRDCopy:
-;		lda 	shDataSize 					; datasize count zero ?
-;		ora 	shDataSize+1
-;		beq 	_OSRDExit
-;		;
-;		lda 	shDataSize 					; decrement the data count.
-;		bne 	_OSRDNoBorrow
-;		dec 	shDataSize+1
-_OSRDNoBorrow:
-;		dec 	shDataSize
-;		;
-		jsr 	FSIncrementSetLoad 			; load address to iTemp0 and increment it.
-;		jsr 	FSHRead 					; copy byte there
-		sta 	(iTemp0)
-		bra 	_FSRDCopy 					; go round again.
+		ldx  	#1 							; current subpage in sector
+_FSReadLoop:
+		lda 	shDataSize 					; datasize count zero, exit ?
+		ora 	shDataSize+1
+		beq 	_OSRDExit
 
+		jsr 	FSIncrementSetLoad 			; copy load address and bump by one page.
+
+		ldy 	shDataSize 					; number of bytes to read
+		lda 	shDataSize+1 				; if 00xx then it is xx
+		beq 	_FSPartPage
+		ldy 	#0 							; otherwise it's zero (e.g. 256)
+_FSPartPage:
+		lda 	currentSector 				; A = sector, X = subpage, Y = bytes to read
+		phx
+		jsr 	FSHRead 					; write out the sub page.
+		plx
+		inx  								; next sub page.
+
+		lda 	shDataSize+1 				; if < 1 whole page we are done
+		beq 	_OSRDExit
+
+		dec 	shDataSize+1 				; done one.
+		bra 	_FSReadLoop
 _OSRDExit:
-;		jsr 	FSHEndCommand
 		rts
 
 ; ************************************************************************************************
 ;
-;						Copy load/save address to iTemp0, increment it.
+;					Copy load/save address to iTemp0, increment it by 256
 ;
 ; ************************************************************************************************
 
 FSIncrementSetLoad:
+		phy
 		clc
-		ldy 	#2 							; increment load address
+		ldy 	#2
 		lda 	(fsBlock),y  				; copying previous to iTemp0
 		sta 	iTemp0
-		adc 	#1
-		sta 	(fsBlock),y
 		iny
 		lda 	(fsBlock),y
 		sta 	iTemp0+1
-		adc 	#0
+		inc 	a 							; move one page on.
 		sta 	(fsBlock),y
+		ply
 		rts
-
 
 		.send code
 

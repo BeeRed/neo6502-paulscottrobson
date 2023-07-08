@@ -76,7 +76,7 @@ int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount)
 		// 	Real : read as offset from XIP_BASE 
 		//
 		case HWF_READ:
-			printf("Reading from sector %d:%d Address:$%04x (%d bytes)\n",sector,subpage,address,dataCount);
+			printf("Reading from sector %d:%d Address:$%04x (%d bytes)\n",sector,subpage,address,dataCount == 0 ? 256:dataCount);
 			flashHandler = fopen("storage/flash.image","rb"); 			
 			fseek(flashHandler,sector * 4096 + subpage * 256,SEEK_SET);
 			if (dataCount == 0) dataCount = 256; 	 					// 0 = read whole page

@@ -30,6 +30,6 @@ assemble:
 	$(CCOPY) a.out $@
 	$(CDEL) a.out
 
-testfs: 
+testfs: $(SOURCES)
 	$(PYTHON) $(BINDIR)fsmanager.py $(SOURCES) show
 	$(CCOPY) flash.image ..$(S)basic$(S)storage
