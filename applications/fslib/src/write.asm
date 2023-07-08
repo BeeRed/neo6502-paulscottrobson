@@ -22,11 +22,10 @@
 		.section code
 
 OSWriteFile:
-		.debug
 		stx 	fsBlock 					; file block.
 		sty 	fsBlock+1
 		jsr 	OSDeleteFile 				; delete file if it already exists
-		.
+		;
 		stz 	currentSector
 		stz 	notFirstSector 				; clear "not first sector" (e.g. is first sector)
 		;
@@ -160,7 +159,7 @@ _FSOutName: 								; copy name.
 		sta 	shNameLength,y
 		iny		
 		dex
-		bmi 	_FSOutName
+		bpl 	_FSOutName
 
 _FSNameDone:				 				
 		rts

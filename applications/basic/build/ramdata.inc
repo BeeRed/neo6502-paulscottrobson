@@ -149,11 +149,7 @@ shFileSizeCopy: 							; file size (duplicate for directory)
 		
 notFirstSector: 							; first sector flag
 		.fill 	1		
-sectorCapacity: 							; data bytes available per sector.
-		.fill 	2				
 fileRemainingSize: 							; remaining size of file.
-		.fill 	2		
-bytesToWrite: 								; bytes to write on this sector.
 		.fill 	2		
 
 		.align 	256

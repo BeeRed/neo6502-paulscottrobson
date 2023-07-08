@@ -1,7 +1,8 @@
 TODO:
 	FSRewrite
-		- save
+		- save output data.
 		- re stress it.		
+		- random start for write ?
 
 	Star Trek dogfood.
 
