@@ -4,7 +4,7 @@
 ;		Name:		errorhandler.asm
 ;		Purpose:	Handle errors
 ;		Created:	6th June 2023
-;		Reviewed: 	No
+;		Reviewed: 	8th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -27,12 +27,12 @@ ErrorHandler:
 _EHNoInc:		
 		jsr	 	OSWriteString 				; print it.
 		lda 	ERRLine 					; direct command ?
-		ora 	ERRLine+1
+		ora 	ERRLine+1 					; (e.g. no line number)
 		beq 	_EHNoNumber
 		;
 		;		Not direct so print number.
 		;
-		ldx 	#_EHAtMsg & $FF
+		ldx 	#_EHAtMsg & $FF 			; print ' at '
 		ldy 	#_EHAtMsg >> 8
 		jsr 	OSWriteString
 
@@ -40,7 +40,7 @@ _EHNoInc:
 		ldx 	ERRLine+1
 		jsr 	WriteIntXA
 _EHNoNumber:		
-		jmp 	WarmStartNewLine
+		jmp 	WarmStartNewLine 			; no OK or anything.
 
 _EHAtMsg:
 		.text 	_EHAtMsg1-_EHAtMsg-1," at "
@@ -55,14 +55,14 @@ _EHAtMsg1:
 WriteIntXA:
 		phx	
 		pha
-		ldx 	#IFR0
+		ldx 	#IFR0 						; copy into R0
 		jsr 	IFloatPushRx
 		pla
 		jsr 	IFloatSetByte
 		pla
 		sta 	IFR0+IM1
-		lda 	#10 						; decimal
-		jsr 	IFloatIntegerToStringR0	 	; convert
+		lda 	#10 						; convert to decimal
+		jsr 	IFloatIntegerToStringR0	 	; c
 		jsr 	OSWriteString 				; print
 		ldx 	#IFR0
 		jsr 	IFloatPullRx

@@ -4,7 +4,7 @@
 ;		Name:		substring.asm
 ;		Purpose:	LEFT$ RIGHT$ and MID$ 
 ;		Created:	29th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	8th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -49,11 +49,11 @@ EXPUnaryRight: ;; [right$(]
 		pla
 		sec
 		sbc 	zTemp0
-		bcs 	_EUROffLeft
+		bcs 	_EUROffLeft 					; check not past start
 		lda 	#0
 _EUROffLeft:
 		pha 									; start pos
-		lda 	#255		
+		lda 	#255		 					; length
 		bra 	EXPSubstringCommon
 
 ;: [right$(string,count)]\
@@ -154,10 +154,6 @@ _EXPSSExit:
 		rts
 
 		.send code
-
-;: [val(string)]\
-; Converts string to a number. Errors if not possible.\
-; { print val("146") } prints 146
 
 ; ************************************************************************************************
 ;

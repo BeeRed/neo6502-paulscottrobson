@@ -4,7 +4,7 @@
 ;		Name:		warmstart.asm
 ;		Purpose:	Handle warm start
 ;		Created:	6th June 2023
-;		Reviewed: 	No
+;		Reviewed: 	8th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -23,7 +23,7 @@ WarmStart:
 		jsr 	OSWriteScreen
 		lda 	#"k"
 		jsr 	OSWriteScreen
-WarmStartNewLine:		
+WarmStartNewLine:		 					; new line only
 		lda 	#13
 		jsr 	OSWriteScreen
 WarmStartNoPrompt:
@@ -34,32 +34,36 @@ WarmStartNoPrompt:
 		bne 	_WSSkip
 		iny
 _WSSkip:		
-		stx 	zTemp2 						; save address
+		stx 	zTemp2 						; save address for tokeniser getter.
 		sty 	zTemp2+1
-		lda 	(zTemp2)
-		beq 	WarmStartNoPrompt 			; ignore empty line.
+		lda 	(zTemp2) 					; see if it's an empty line.
+		beq 	WarmStartNoPrompt 			; if so ignore empty line.
 
 		ldx 	#TOKGetCharacter & $FF 		; tokenise it.
 		ldy 	#TOKGetCharacter >> 8
-		sec
+		sec 
 		jsr 	TOKTokenise		
-		bcs 	_WSSyntax
+		bcs 	_WSSyntax 					; error in tokenising.
 		
 		lda 	TOKLineNumber 				; if line number zero
 		ora 	TOKLineNumber+1
-		bne 	_WSLineEdit
-
+		bne 	_WSLineEdit 				; it's an editing command
+		;
+		;		Run line - run from the tokenised buffer.
+		;
 		lda 	#TOKLineSize & $FF 			; execute code.
 		sta 	codePtr
 		lda 	#TOKLineSize >> 8
 		sta 	codePtr+1
 		jmp 	RUNNewLine
 		;
+		;		Editing.
+		;
 _WSLineEdit:
 		jsr 	PGMDeleteLine 				; delete line, perhaps ?
 		lda 	TOKLineSize 				; check line is empty.
 		cmp 	#4
-		beq 	_WSNoInsert
+		beq 	_WSNoInsert 				
 		jsr 	PGMInsertLine				; if not, maybe insert
 _WSNoInsert:
 		jsr 	ClearCode 					; clear variables etc.

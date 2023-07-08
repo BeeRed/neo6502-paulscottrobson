@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -D "BASICLOAD=\$1000" -D "BASICCODE=\$3800" -D "ENDMEMORY=\$C000" -D STACKPAGES=2 -D autoRun=1 -o build/basic.bin basic.asm
-; Sat Jul  8 19:20:06 2023
+; Sat Jul  8 21:22:34 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -5140,30 +5140,30 @@
 .2e9e					_EHNoInc:
 .2e9e	20 df ff	jsr $ffdf			jsr	 	OSWriteString 				; print it.
 .2ea1	ad 31 06	lda $0631			lda 	ERRLine 					; direct command ?
-.2ea4	0d 32 06	ora $0632			ora 	ERRLine+1
+.2ea4	0d 32 06	ora $0632			ora 	ERRLine+1 					; (e.g. no line number)
 .2ea7	f0 10		beq $2eb9			beq 	_EHNoNumber
-.2ea9	a2 bc		ldx #$bc			ldx 	#_EHAtMsg & $FF
+.2ea9	a2 bc		ldx #$bc			ldx 	#_EHAtMsg & $FF 			; print ' at '
 .2eab	a0 2e		ldy #$2e			ldy 	#_EHAtMsg >> 8
 .2ead	20 df ff	jsr $ffdf			jsr 	OSWriteString
 .2eb0	ad 31 06	lda $0631			lda 	ERRLine 					; line number -> XA
 .2eb3	ae 32 06	ldx $0632			ldx 	ERRLine+1
 .2eb6	20 c1 2e	jsr $2ec1			jsr 	WriteIntXA
 .2eb9					_EHNoNumber:
-.2eb9	4c ea 2e	jmp $2eea			jmp 	WarmStartNewLine
+.2eb9	4c ea 2e	jmp $2eea			jmp 	WarmStartNewLine 			; no OK or anything.
 .2ebc					_EHAtMsg:
 >2ebc	04 20 61 74 20					.text 	_EHAtMsg1-_EHAtMsg-1," at "
 .2ec1					_EHAtMsg1:
 .2ec1					WriteIntXA:
 .2ec1	da		phx				phx
 .2ec2	48		pha				pha
-.2ec3	a2 08		ldx #$08			ldx 	#IFR0
+.2ec3	a2 08		ldx #$08			ldx 	#IFR0 						; copy into R0
 .2ec5	20 56 36	jsr $3656			jsr 	IFloatPushRx
 .2ec8	68		pla				pla
 .2ec9	20 09 37	jsr $3709			jsr 	IFloatSetByte
 .2ecc	68		pla				pla
 .2ecd	85 09		sta $09				sta 	IFR0+IM1
-.2ecf	a9 0a		lda #$0a			lda 	#10 						; decimal
-.2ed1	20 a9 34	jsr $34a9			jsr 	IFloatIntegerToStringR0	 	; convert
+.2ecf	a9 0a		lda #$0a			lda 	#10 						; convert to decimal
+.2ed1	20 a9 34	jsr $34a9			jsr 	IFloatIntegerToStringR0	 	; c
 .2ed4	20 df ff	jsr $ffdf			jsr 	OSWriteString 				; print
 .2ed7	a2 08		ldx #$08			ldx 	#IFR0
 .2ed9	20 77 36	jsr $3677			jsr 	IFloatPullRx
@@ -5194,18 +5194,18 @@
 .2ef6	d0 01		bne $2ef9			bne 	_WSSkip
 .2ef8	c8		iny				iny
 .2ef9					_WSSkip:
-.2ef9	86 28		stx $28				stx 	zTemp2 						; save address
+.2ef9	86 28		stx $28				stx 	zTemp2 						; save address for tokeniser getter.
 .2efb	84 29		sty $29				sty 	zTemp2+1
-.2efd	b2 28		lda ($28)			lda 	(zTemp2)
-.2eff	f0 ee		beq $2eef			beq 	WarmStartNoPrompt 			; ignore empty line.
+.2efd	b2 28		lda ($28)			lda 	(zTemp2) 					; see if it's an empty line.
+.2eff	f0 ee		beq $2eef			beq 	WarmStartNoPrompt 			; if so ignore empty line.
 .2f01	a2 33		ldx #$33			ldx 	#TOKGetCharacter & $FF 		; tokenise it.
 .2f03	a0 2f		ldy #$2f			ldy 	#TOKGetCharacter >> 8
 .2f05	38		sec				sec
 .2f06	20 a5 24	jsr $24a5			jsr 	TOKTokenise
-.2f09	b0 25		bcs $2f30			bcs 	_WSSyntax
+.2f09	b0 25		bcs $2f30			bcs 	_WSSyntax 					; error in tokenising.
 .2f0b	ad 01 04	lda $0401			lda 	TOKLineNumber 				; if line number zero
 .2f0e	0d 02 04	ora $0402			ora 	TOKLineNumber+1
-.2f11	d0 0b		bne $2f1e			bne 	_WSLineEdit
+.2f11	d0 0b		bne $2f1e			bne 	_WSLineEdit 				; it's an editing command
 .2f13	a9 00		lda #$00			lda 	#TOKLineSize & $FF 			; execute code.
 .2f15	85 18		sta $18				sta 	codePtr
 .2f17	a9 04		lda #$04			lda 	#TOKLineSize >> 8
