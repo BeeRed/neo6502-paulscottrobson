@@ -73,10 +73,13 @@ static inline BYTE8 _Read(WORD16 address) {
 
 static inline void _Write(WORD16 address,BYTE8 data) { 
 
-	if (address == 0xCF10) { 														// Write $CF10 : Command.
-		ramMemory[0xCF12] = HWFlashCommand(data,ramMemory[0xCF11]);					// Data in $CF11 (write only)		
-	}  																				// Return value in $CF12 (read only)
-
+	if (address == 0xCF10) { 														// Write $CF10 : Command to flash subsystem.
+		HWFlashCommand(data,														// Command in write
+	 					ramMemory[0xCF11],											// Sector in $CF11
+	 					ramMemory[0xCF12],											// SubPage in $CF12
+	 					ramMemory[0xCF13]+ramMemory[0xCF14]*256, 					// Address in $CF13,4
+	 					ramMemory[0xCF15]);											// Read count in $CF15
+	}
 	ramMemory[address] = data;														// Write $C000-$C4B0 : 40x30 simple text display.
 	if (address == 0xFFFF) inFastMode = 1;
 }
