@@ -14,78 +14,21 @@ There is no serial I/O.
 Structure of a 4k sector
 ========================
 
+Each 4k sector has a 256 byte header (e.g. 1 page)
+
 +00				Type : 'F' if first block of a file, 'N' if next block in a file, any other is a blank sector.
 +01 			More : 'Y' if there is more data after this sector, 'N' if this is the last record.
 +02..+03 		Number of bytes of data in this sector. (Maximum = 4096-32 = 4064 bytes)
 +04..+05 		Total size of file.
 +06..+15 		(Reserved)
 +16..+31 		Length prefixed file name, lower case.
-+32..+4095 		Data.
++32..+255 		Unused
 
-First sector (0)
-================
+The first sector is different
+=============================
 +00 			Type : 'I' information
-+01				Format version (1)
++01				Format version ('1')
 +02..+03 		Number of sectors
-+04 			Size of sector (2 ^ n)
++04..+255 		Unused.
 
-Format
-======
-	Erase each sector - this will set all sectors to blank. This is done with the 'SE' command.
-	Write sector zero.
-
-Erase
-=====
-	Scan forward through each sector looking for a match. If found and in use (e.g. F/N) , erase the sector. 
-
-Directory
-=========
-	Scan forward looking for an 'F' record, if found, add the name (+size ?) to the list of files.
-
-Read
-====
-	Reads are done block style - memory is loaded into a 64k segment.
-	Scan forward looking for a match record.
-		when found, 
-			read the bytes of data provided into memory[address]
-			add the bytes of data provided to [address]
-
-
-Write 
-=====
-	Erase it first.
-	
-	Writes are done block style - memory is written from a 64k segment.
-
-	Set FirstFlag := True 
-	Set Complete := False
-
-	Pick a sector at random.
-
-	while not Complete:
-			Find a new unused sector. 
-			 	Scan forward from current sector while it is in use.
-				If no block is available
-					Erase the current named file and report the error
-
-			Write out F or N depending on FirstFlag
-			FirstFlag := False
-
-			if BytesRemainingToSave > 4064 	(e.g. we need another record)
-				Write 'Y' 					(another record required)
-				Write 4064  				(bytes of data to output)
-			else:
-				Write 'N'					(this is the last record)
-				Write BytesRemainingToSave 	(bytes of data to store here)
-				Set Complete := True
-
-			Write the total size of the file 
-			Write unused bytes 6..15
-			Write the ASCIIZ filename
-			Write unused bytes to 31.
-
-			Write the bytes of data (4064/BytesRemainingToSave) from Memory[Address]
-			add bytes of data to Address
-
-			Increment current sector.
 

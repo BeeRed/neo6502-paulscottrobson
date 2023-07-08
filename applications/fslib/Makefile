@@ -23,6 +23,7 @@ SOURCES = python$(S)files$(S)text1.bas python$(S)files$(S)text2.bas python$(S)fi
 assemble:
 	$(PYTHON) $(SCRIPTDIR)makelib.py >build$(S)libwwfslib.asmlib
 	$(CCOPY) build$(S)libwwfslib.asmlib $(BINDIR)
+	$(CCOPY) python$(S)fsmanager.py $(BINDIR)
 
 %.bas:%.txt
 	$(PYTHON) $(BINDIR)makepgm.zip $<
@@ -30,5 +31,5 @@ assemble:
 	$(CDEL) a.out
 
 testfs: $(SOURCES)
-	cd python ; $(PYTHON) makedemo.py			
+	$(PYTHON) $(BINDIR)fsmanager.py format show $(SOURCES) show
 	$(CCOPY) python$(S)flash.image ..$(S)basic$(S)storage
