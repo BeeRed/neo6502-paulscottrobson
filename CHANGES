@@ -4,6 +4,7 @@ Changes
 4th July 2023
 =============
 	Moved to beta 1, tracking changes here. Beta 2 will be code complete.
+	Code reading ongoing throughout.
 
 5th July 2023
 =============
@@ -28,4 +29,11 @@ Changes
 8th July
 ========
 	Rework of wwfs for closer compatibility with PICO SDK
+
+9th July
+========
+	Fixed TAB bug.
+	Changes to FS for random write start position.
+	Beta 3.
+
 	

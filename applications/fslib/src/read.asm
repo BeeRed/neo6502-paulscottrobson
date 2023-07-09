@@ -49,18 +49,24 @@ _OSReadBlock:
 		lda 	shContinue 					; continuation ?
 		cmp 	#"N" 						; exit if no.
 		beq 	_OSReadExit
+		stz 	checkLoopRound
 		;
 		;		Find the next block
 		;
-_OSReadLoop2:		
+_OSReadLoop2:	
+		dec 	checkLoopRound				; this shouldn't happen.
+		beq 	_OSFileCorrupt 				; the file system is corrupt, F without N
 		jsr 	FSReadNextHeader 			; read header ?
-		bcs 	_OSReadExit 				; end of search.	
 		lda 	shFirstNext 				; is it the (F)irst record
 		cmp 	#"N"
 		bne 	_OSReadLoop2
 		jsr 	FSCompareFileNames 			; is it F/N and matching.
 		bcc 	_OSReadLoop2 				; no, try next sector
 		bra 	_OSReadBlock 				; read block in.
+
+_OSFileCorrupt:
+		sec
+		rts
 
 _OSReadExit:		
 		asl 	successFlag					; shift success flag (0 if done) into carry

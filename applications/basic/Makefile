@@ -49,6 +49,10 @@ run: emulator assemble test
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 	$(PYTHON) scripts$(S)recover.py
 
+runonly:
+	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
+	$(PYTHON) scripts$(S)recover.py
+
 autorun:emulator autoasm test
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 	

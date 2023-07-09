@@ -81,10 +81,16 @@ _OSWDVector:
 ;		Right to next TAB
 ;
 _OSWHTab:									; move right.
-		jsr 	_OSCursorRight
 		lda 	OSXPos
-		and 	#7
-		bne 	_OSWHTab
+		clc
+		adc 	#8
+		and 	#$F8
+		sta 	OSXPos
+		cmp 	OSXSize 					; off rhs
+		bcc 	_OSWHTExit
+		stz 	OSXPos
+		bra 	_OSCursorDown
+_OSWHTExit:		
 		rts
 ;
 ;		Backspace (e.g. back one and erase)
@@ -210,5 +216,6 @@ OSHomeCursor: 								; home cursor.
 ;		Date			Notes
 ;		==== 			=====
 ;		05/07/23 		Home cursor out of the physical clear code, into CLS code.
+;		09/07/23 		TAB bug (not going down a line when TAB off right)
 ;
 ; ************************************************************************************************

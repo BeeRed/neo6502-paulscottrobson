@@ -151,7 +151,10 @@ notFirstSector: 							; first sector flag
 		.fill 	1		
 fileRemainingSize: 							; remaining size of file.
 		.fill 	2		
-
+checkLoopRound: 							; gone round too many times.
+		.fill 	1
+FSRandomSeed: 								; seed for start position.
+		.fill 	1		
 		.align 	256
 		.send storage				
 

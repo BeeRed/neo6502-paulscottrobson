@@ -59,7 +59,7 @@ name:	.text 	9,"text3.dat"
 MainPrompt:
 		.byte 	_MPEnd-MainPrompt-1
 		.text 	12,"*** OLIMEX Neo6502 RetroComputer ***",13,13
-		.text 	"Beta 2 Code Complete",13,13
+		.text 	"Beta 3 Code Complete",13,13
 		.text 	"Please report bugs: paul@robsons.org.uk",13,13
 _MPEnd:		
 

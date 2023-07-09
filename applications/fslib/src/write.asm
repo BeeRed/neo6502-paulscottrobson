@@ -26,7 +26,8 @@ OSWriteFile:
 		sty 	fsBlock+1
 		jsr 	OSDeleteFile 				; delete file if it already exists
 		;
-		stz 	currentSector
+		jsr 	FSRandomStart 				; spread the files about.
+		sta 	currentSector
 		stz 	notFirstSector 				; clear "not first sector" (e.g. is first sector)
 		;
 		ldy 	#4 							; copy the size of the data to write to 
@@ -39,11 +40,10 @@ OSWriteFile:
 		;		Main write loop. First find an empty slot.
 		;
 _OSWriteLoop:
-		lda 	sectorCount  				; so we count incase we are full.
-		sta 	iTemp0		
+		stz 	checkLoopRound  			; so we count incase we are full.
 		;
 _OSFindUnused:		
-		dec 	iTemp0 						; done a full lap, no empty slots
+		dec 	checkLoopRound 				; done a full lap, no empty slots
 		beq 	_OSWriteFail
 		jsr 	FSReadNextHeader 			; read next header
 		lda 	shFirstNext 				; check F, N , I
@@ -188,6 +188,27 @@ _FSWSDLoop:
 		cmp 	#$FF
 		bne 	_FSWSDLoop
 _FSWSDExit:		
+		rts
+
+; ************************************************************************************************
+;
+;		Random number generator for start position.
+;
+; ************************************************************************************************
+
+FSRandomStart:
+        lda 	FSRandomSeed 				; LFSR with zero trap
+        beq 	_xorSeed
+        asl		a
+        bcc 	_skipXor
+_xorSeed:        
+		eor 	#$1d
+_skipXor:
+		sta 	FSRandomSeed
+		cmp 	sectorCount
+		bcs 	FSRandomStart	 			; check in range
+		dec 	a 							; avoid last sector as start.
+		bmi 	FSRandomStart
 		rts
 
 		.send code

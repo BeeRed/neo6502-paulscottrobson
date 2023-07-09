@@ -22,6 +22,11 @@
 		.section code
 
 FSReadNextHeader:
+		lda 	currentSector 				; if at end at beginning loop back to #1
+		cmp 	sectorCount
+		bcc 	_FSRNHNotEnd
+		stz 	currentSector
+_FSRNHNotEnd:
 		inc 	currentSector 				; bump last sector and read next one.
 		lda 	currentSector
 		;
@@ -117,18 +122,24 @@ _OSReadBlock:
 		lda 	shContinue 					; continuation ?
 		cmp 	#"N" 						; exit if no.
 		beq 	_OSReadExit
+		stz 	checkLoopRound
 		;
 		;		Find the next block
 		;
 _OSReadLoop2:
+		dec 	checkLoopRound				; this shouldn't happen.
+		beq 	_OSFileCorrupt 				; the file system is corrupt, F without N
 		jsr 	FSReadNextHeader 			; read header ?
-		bcs 	_OSReadExit 				; end of search.
 		lda 	shFirstNext 				; is it the (F)irst record
 		cmp 	#"N"
 		bne 	_OSReadLoop2
 		jsr 	FSCompareFileNames 			; is it F/N and matching.
 		bcc 	_OSReadLoop2 				; no, try next sector
 		bra 	_OSReadBlock 				; read block in.
+
+_OSFileCorrupt:
+		sec
+		rts
 
 _OSReadExit:
 		asl 	successFlag					; shift success flag (0 if done) into carry
@@ -229,7 +240,8 @@ OSWriteFile:
 		sty 	fsBlock+1
 		jsr 	OSDeleteFile 				; delete file if it already exists
 		;
-		stz 	currentSector
+		jsr 	FSRandomStart 				; spread the files about.
+		sta 	currentSector
 		stz 	notFirstSector 				; clear "not first sector" (e.g. is first sector)
 		;
 		ldy 	#4 							; copy the size of the data to write to
@@ -242,11 +254,10 @@ OSWriteFile:
 		;		Main write loop. First find an empty slot.
 		;
 _OSWriteLoop:
-		lda 	sectorCount  				; so we count incase we are full.
-		sta 	iTemp0
+		stz 	checkLoopRound  			; so we count incase we are full.
 		;
 _OSFindUnused:
-		dec 	iTemp0 						; done a full lap, no empty slots
+		dec 	checkLoopRound 				; done a full lap, no empty slots
 		beq 	_OSWriteFail
 		jsr 	FSReadNextHeader 			; read next header
 		lda 	shFirstNext 				; check F, N , I
@@ -391,6 +402,27 @@ _FSWSDLoop:
 		cmp 	#$FF
 		bne 	_FSWSDLoop
 _FSWSDExit:
+		rts
+
+; ************************************************************************************************
+;
+;		Random number generator for start position.
+;
+; ************************************************************************************************
+
+FSRandomStart:
+        lda 	FSRandomSeed 				; LFSR with zero trap
+        beq 	_xorSeed
+        asl		a
+        bcc 	_skipXor
+_xorSeed:
+		eor 	#$1d
+_skipXor:
+		sta 	FSRandomSeed
+		cmp 	sectorCount
+		bcs 	FSRandomStart	 			; check in range
+		dec 	a 							; avoid last sector as start.
+		bmi 	FSRandomStart
 		rts
 
 		.send code

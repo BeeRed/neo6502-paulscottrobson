@@ -19,6 +19,11 @@
 		.section code
 
 FSReadNextHeader:
+		lda 	currentSector 				; if at end at beginning loop back to #1
+		cmp 	sectorCount
+		bcc 	_FSRNHNotEnd
+		stz 	currentSector
+_FSRNHNotEnd:		
 		inc 	currentSector 				; bump last sector and read next one.
 		lda 	currentSector
 		;
