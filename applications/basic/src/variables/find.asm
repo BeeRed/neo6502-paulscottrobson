@@ -4,7 +4,7 @@
 ;		Name:		find.asm
 ;		Purpose:	Check for existence of variable as stored
 ;		Created:	29th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	9th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -25,14 +25,18 @@ VARFind:
 		lda 	(zTemp0),y
 		sta 	zTemp1+1
 		beq 	_VFExitFail 				; first link is 00xx, so nothing in that list.
-		lda 	(zTemp0)
+		lda 	(zTemp0) 					; complete the link.
 		sta 	zTemp1
+		;
+		;		Variable find loop
 		;
 _VFLoop:
 		ldy 	#2 							; check hashes match
 		lda 	(zTemp1),y
 		cmp 	VARHash
 		beq 	_VFHashesMatch 				; if so, check the name.
+		;
+		;		Hashes don't match, go to next.
 		;
 _VFNext:	
 		lda 	(zTemp1) 					; next link to AX
@@ -43,10 +47,15 @@ _VFNext:
 		stx 	zTemp1
 		cmp 	#0 							; if msb non zero, try again
 		bne 	_VFLoop
+		;
+		;		Not found
+		;
 _VFExitFail:
 		ply
 		clc
 		rts
+		;
+		;		Hashes match so compare the actual text
 		;
 _VFHashesMatch:								; hashes match, so compare the names.
 		ldy 	#3 							; get address of name -> zTemp2
@@ -65,8 +74,10 @@ _VFNameCompLoop:
 		cmp 	#$7C
 		bcc 	_VFNameCompLoop 			; until done the whole lot.
 		;
-		clc
-		lda 	zTemp1
+		;		Found
+		;
+		clc 								; +5 is the offset of the actual data
+		lda 	zTemp1 						; word:link byte:hash word:name pointer
 		ldx 	zTemp1+1
 		adc 	#5
 		bcc 	_VFNNoCarry

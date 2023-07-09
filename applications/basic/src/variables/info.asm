@@ -4,7 +4,7 @@
 ;		Name:		info.asm
 ;		Purpose:	Get variable information
 ;		Created:	29th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	9th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -20,9 +20,9 @@
 
 VARGetInfo:
 		tya 								; calculate the address of the identifier start.
-		clc
+		clc  								; (add Y to codePtr)
 		adc 	codePtr
-		sta 	VARNameAddress
+		sta 	VARNameAddress 				; save in VARName Address
 		lda 	codePtr+1
 		adc 	#0
 		sta 	VARNameAddress+1	
@@ -48,10 +48,10 @@ _VARCopyName:
 		;		Calculate which hash table list to use.
 		;
 		and 	#3 							; type is 0-3
-		.VAREntryShift 						; 3 x entries per type
+		.VAREntryShift 						; x entries per type
 		sta 	zTemp0 
 		;
-		lda 	VARHash 					; force into range of hash entries per type.		
+		lda 	VARHash 					; force hash into range of hash entries per type.		
 		and		#(VARHashEntriesPerType-1)
 		adc 	zTemp0 						; index of hash table
 		asl 	a 							; offset as 2 bytes / word.

@@ -5,7 +5,7 @@
 ;		Name:		create.asm
 ;		Purpose:	Create variable specificied in information
 ;		Created:	29th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	9th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -24,7 +24,7 @@ VARCreate:
 		;
 		;		Allocate memory
 		;
-		lda 	#9 							; create 9 bytes of space
+		lda 	#9 							; create 9 bytes of space (size of variable record)
 		ldx 	#0
 		jsr 	AllocateMemory
 		sta 	zTemp1 						; save new address in zTemp1
@@ -45,7 +45,7 @@ VARCreate:
 		;
 		;		Set type bit of data offset 3 if string.
 		;
-		lda 	VARType
+		lda 	VARType 					
 		and 	#1
 		beq 	_CVNotString
 		ldy 	#5+3
