@@ -1,9 +1,13 @@
 TODO:
-	Random start for write ?
-	Star Trek dogfood.
+	Star Trek dogfood:
+		next on end of indented line doesn't work (indentation)
+			for .... for ....
+				array(x,y)  = 0:next:next
+
+		mid$ with a start < 0 ?? should error.
 
 Ongoing:
-	Complete Code Reading (currently 70 files).
+	Complete Code Reading (currently 46 files).
 	
 Fixes:
 	Identifier Definitions in command line bug ?

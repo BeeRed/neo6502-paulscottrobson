@@ -19,13 +19,9 @@ void HWQueueKeyboardEvent(int scanCode);
 int HWReadScancodeQueue(void);
 
 void HWFlashInitialise(void);
-int HWFlashCommand(int command,int data);
+int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount);
 
 #define HWF_ERASE  			(0x00)		 			// Erase sector.
-#define HWF_OPENREAD 		(0x01) 					// Open sector to read
-#define HWF_OPENWRITE  		(0x02) 					// Open sector to write
-#define HWF_READ  			(0x03)					// Read one byte
-#define	HWF_WRITE  			(0x04) 					// Write one byte
-#define HWF_ENDCOMMAND 		(0x05) 					// End current command.
-
+#define HWF_READ			(0x01) 					// Read sector (partially)
+#define HWF_WRITE 			(0x02) 					// Write complete sector.
 #endif
