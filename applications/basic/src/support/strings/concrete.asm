@@ -2,9 +2,9 @@
 ; ************************************************************************************************
 ;
 ;		Name:		concrete.asm
-;		Purpose:	Concrete string
+;		Purpose:	Concrete string (e.g. place it in permanent memory)
 ;		Created:	30th May 2023
-;		Reviewed: 	No
+;		Reviewed: 	10th July 2023
 ;		Author : 	Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -26,13 +26,18 @@ StringConcrete:
 		lda 	(IFR0) 						; get string length
 		cmp 	#253 						; string too long - cannot concrete.
 		bcs 	_SALengthError
-
+		;
+		;		Allow a bit extra so the string can expand.
+		;
 		clc 								; length of the new string
 		adc 	#5+3 						; add 5 characters total plus 3 (length,status,EOS)
 		bcc 	_SAHaveLength
 		lda 	#255 						; string max length is 255
 _SAHaveLength:
 		pha 								; save length to be allocated for concreting.
+		;
+		;		Allocate that memory from stringMemory, working down.
+		; 		(save address in zTemp2)
 		;
 		sec
 		eor 	#$FF 						; add to StringMemory using 2's complement
@@ -45,13 +50,16 @@ _SAHaveLength:
 		sta 	stringMemory+1
 		sta 	zTemp2+1
 		;
+		;		+0 is length available. +1 is a status byte.
+		;
 		pla 								; save length allocated in +0
 		sta 	(zTemp2)
 		lda 	#0 							; clear the status byte in +1
 		ldy 	#1
 		sta 	(zTemp2),y		
 		;
-		;		Copy string into the space
+		;		Copy string into the space, starting at +2 the actual length
+		; 		byte.
 		;
 _SACopyNewString:
 		lda 	(IFR0) 						; copy length at +2

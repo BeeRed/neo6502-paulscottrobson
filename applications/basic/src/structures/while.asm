@@ -4,7 +4,7 @@
 ;		Name:		while.asm
 ;		Purpose:	While Wend loop
 ;		Created:	2nd June 2023
-;		Reviewed: 	No
+;		Reviewed: 	10th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************

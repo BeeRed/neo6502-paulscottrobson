@@ -4,7 +4,7 @@
 ;		Name:		dim.asm
 ;		Purpose:	Array dimensions
 ;		Created:	1st June 2023
-;		Reviewed: 	No
+;		Reviewed: 	10th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -22,20 +22,23 @@ CommandDIM: ;; [dim]
 		lda 	(codePtr),y 				; check identifier follows.
 		and 	#$C0
 		cmp 	#$40
-		bne 	_CDSyntax
+		bne 	_CDSyntax 					; no syntax error
 		;
 		jsr 	VARGetInfo 					; get information
 		lda 	VARType 					; check array.
 		and 	#2
 		beq 	_CDSyntax
-		jsr 	VARFind 					; does it already exist
+		jsr 	VARFind 					; does it already exist. that's an error
 		bcs 	_CDExists		
+
 		jsr 	VARCreate 					; create it - returns data ptr in XA
+											; this is the variable record not the data.
 
 		phx 								; save target address
 		pha 
 		lda 	VARType 					; type ID.
 		and 	#1 							; 0 = Number, 1 = String.
+
 		jsr 	CreateArray 				; create array to XA
 
 		sty 	zTemp1 						; save Y
@@ -45,16 +48,16 @@ CommandDIM: ;; [dim]
 		ply
 		sty 	zTemp0+1
 
-		sta 	(zTemp0) 					; save new array
+		sta 	(zTemp0) 					; save new array pointer.
 		ldy 	#1
 		txa
 		sta 	(zTemp0),y
 
-		ldy 	zTemp1 						; restore zTemp1
+		ldy 	zTemp1 						; restore Y
 		jsr 	ERRCheckRParen 				; check )
 		;
 		lda 	(codePtr),y 				; if a comma, consume and go round again.
-		iny
+		iny 								; dim a(4),b(6)
 		cmp 	#PR_COMMA
 		beq 	CommandDIM
 		dey
@@ -85,6 +88,9 @@ CreateArray:
 		beq 	_CATwoDimensions 
 		jsr 	CreateSingleArray 			; create a lowest level array (e.g. data)
 		rts
+		;
+		;		Create a 2D array.
+		;
 _CATwoDimensions:		
 		lda 	IFR0+IM1 					; copy outer dimension to CADim1
 		sta 	CADim1+1
@@ -95,15 +101,21 @@ _CATwoDimensions:
 		jsr 	EXPEvalInteger16 			; calculate size of 2nd dimension.
 
 		phy 								; save Y position
-
+		;
+		;		Allocate the first level, an array of pointers to arrays of data
+		;
 		clc 								; allocate the outer array of pointers.
 		ldx 	CADim1+1
 		lda 	CADim1
 		jsr 	CSAAllocate 				; allocate the outer array
+
 		phx									; save this address on the stack
 		pha
 		stx 	zTemp2+1					; and in zTemp2
 		sta 	zTemp2
+		;
+		;		Now create all the second levels, these are like 1D arrays
+		;
 _CACreateSubLoop:
 		sec
 		jsr 	CreateSingleArray 			; create data array of required size.
@@ -120,6 +132,7 @@ _CACreateSubLoop:
 		bcc 	_CACNoCarry
 		inc 	zTemp2+1
 _CACNoCarry:
+
 		lda 	CADim1 						; use DIM1 as a counter
 		bne 	_CACNoBorrow
 		dec 	CADim1+1

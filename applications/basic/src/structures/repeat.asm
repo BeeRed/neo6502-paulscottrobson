@@ -4,7 +4,7 @@
 ;		Name:		repeat.asm
 ;		Purpose:	Repeat/Until loops
 ;		Created:	2nd June 2023
-;		Reviewed: 	No
+;		Reviewed: 	10th July 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -35,7 +35,7 @@ Command_REPEAT:	;; [repeat]
 ; ************************************************************************************************
 
 Command_UNTIL:	;; [until]
-		lda 	#STK_REPEAT 				
+		lda 	#STK_REPEAT 				; check REPEAT			
 		jsr 	StackCheckFrame
 		jsr 	EXPEvalNumber 				; work out the test
 		ldx 	#IFR0
