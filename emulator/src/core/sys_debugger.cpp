@@ -19,7 +19,8 @@
 #include "hardware.h"
 
 #include "6502/__6502mnemonics.h"
-#include "displayfont.h"
+
+#include "font5x7.h"
 
 #define DBGC_ADDRESS 	(0x0F0)														// Colour scheme.
 #define DBGC_DATA 		(0x0FF)														// (Background is in main.c)
@@ -100,10 +101,10 @@ void DBGXRender(int *address,int showDisplay) {
 
 	renderCount++;
 	if (showDisplay != 0) {
-		int xc = 40;int yc = 30;
+		int xc = 52;int yc = 30;
 		int xs = 4;int ys = 4;
 		SDL_Rect r;
-		r.w = xs*xc*8;r.h = ys*yc*8;
+		r.w = xs*xc*6;r.h = ys*yc*8;
 		r.x = WIN_WIDTH/2-r.w/2;r.y = WIN_HEIGHT/2-r.h/2;
 		SDL_Rect rc2;rc2 = r;
 		rc2.w += 8;rc2.h += 8;rc2.x -=4;rc2.y -= 4;
@@ -117,9 +118,12 @@ void DBGXRender(int *address,int showDisplay) {
 				if (ch != 0x20) {
 					rc2.w = xs;rc2.h = ys;					
 					for (int ypx = 0;ypx < 8;ypx++) {
-						rc2.x = r.x + x * 8 * xs;
+						rc2.x = r.x + x * 6 * xs;
 						rc2.y = r.y + (y*8+ypx) * ys;
-						int b = font8x8_basic[(ch & 0x7F)*8+ypx] ^ flip;
+						ch = ch & 0x7F;
+						int b = 0;
+						if (ch >= 32) b = font5x7[(ch-32)*8+ypx];
+						b = b ^ flip;
 						while (b != 0) {
 							if (b & 0x80) GFXRectangle(&rc2,0xF80);
 							b = (b << 1) & 0xFF;

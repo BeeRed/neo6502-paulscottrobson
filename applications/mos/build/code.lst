@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.58.2974? listing file
 ; 64tass -q -Wall -c -C -b -L build/code.lst -l build/code.lbl -o build/osrom.bin osrom.asm
-; Sun Jul  9 14:46:08 2023
+; Mon Jul 10 10:48:53 2023
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -1283,7 +1283,7 @@
 ;******  Processing file: src/utility/setup.asm
 
 .f6c5					OSInitialise:
-.f6c5	a9 28		lda #$28			lda 	#40 						; 40 x 30 display
+.f6c5	a9 34		lda #$34			lda 	#52 						; 52 x 30 display
 .f6c7	8d 22 02	sta $0222			sta 	OSXSize
 .f6ca	a9 1e		lda #$1e			lda 	#30
 .f6cc	8d 23 02	sta $0223			sta 	OSYSize

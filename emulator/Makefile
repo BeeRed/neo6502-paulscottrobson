@@ -47,3 +47,4 @@ $(APPNAME): $(SOURCES)
 prebuild:
 	make -C processor
 	make -C keyboard
+	make -C font
