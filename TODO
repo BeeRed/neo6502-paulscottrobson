@@ -1,9 +1,8 @@
 TODO:
-	Scrolling Apple ][ text.
 	Character mapping for A2 (e.g. flash inverse and making it work)
-	Add CLS/Home functionality back to char driver.
+	Add Clear/Home functionality back to char driver.
 	Get Applesoft ROM working at base level.
-	Add HOME/Insert functionality to line editor & screen editor.
+	Add Home/Insert functionality to line editor & screen editor.
 	Star Trek dogfood:
 		next on end of indented line doesn't work (indentation)
 			for .... for ....
