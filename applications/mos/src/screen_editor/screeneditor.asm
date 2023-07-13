@@ -22,11 +22,11 @@ OSScreenLine:
 		stz 	OSEditLength 				; clear buffer
 _OSScreenLoop:		
 		jsr 	OSReadKeystroke	 			; get key.
-		cmp 	#$10						; insert
-		beq 	_OSSInsert
-		cmp 	#$07 						; delete / backspace
-		beq 	_OSSDelete
-		cmp 	#$08
+;		cmp 	#$10						; insert
+;		beq 	_OSSInsert
+;		cmp 	#$07 						; delete / backspace
+;		beq 	_OSSDelete
+		cmp 	#$7F
 		beq 	_OSSBackspace
 		cmp 	#$0D 						; Return key ?
 		beq 	_OSSReturn

@@ -315,4 +315,3 @@ assert Y5Q6G4 = 65
 assert H7J9$ = "TL"
 assert H9V2J$ = "NRURRPW"
 assert H4Z6V = -167
-sys 65535

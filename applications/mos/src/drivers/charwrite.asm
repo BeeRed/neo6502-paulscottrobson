@@ -46,34 +46,37 @@ OSDGetAddress:
 		ldy     OSYPos        
 		ldx 	OSXPos
 
+;
+;		Map Y 000abcde -> 00001cd eabab000 in rTemp0
+;
 OSDGetAddressXY:        
-		lda     OSXSize                     
-		lsr     a                           ; prime the carry bit for the loop
-		sta     rTemp0
-		sty     rTemp0+1
-		lda     #0
-		ldy     #8
-_IFMLoop:
-		bcc     _IFMNoAdd
-		clc
-		adc     rTemp0+1
-_IFMNoAdd:
-		ror     a
-		ror     rTemp0                      ; pull another bit out for the next iteration
-		dey        
-		bne     _IFMLoop                   
-		ora 	#$04
-		tay
+		tya 								; do CDE first
+		and 	#7 							; A is now 00000cde
+		ora 	#8 							; 00001cde
+		stz 	rTemp0
+		lsr 	a 							; A is now 000001cd and e is in carry.
+		ror 	rTemp0
+		sta 	rTemp0+1 					; zTemp0 now 000001cd:e0000000
 
-		clc
+		tya 								; get AB
+		and 	#$18 		
+		pha 								; save on stack
+		ora 	rTemp0 						; OR into rTemp0 now 00001cd:e00ab0000
+		sta 	rTemp0
+		pla 								; get AB back and shift left twice
+		asl 	a
+		asl 	a
+		ora 	rTemp0 						; OR into rTemp0 now 00001cd:eabab000
+		sta 	rTemp0
+
+		clc 								; add X
 		txa
 		adc 	rTemp0
 		sta 	rTemp0
-		bcc 	_IFMNoCarry
-		iny
-_IFMNoCarry:        
-		sty 	rTemp0+1
-		rts
+		bcc 	_OSGAExit
+		inc 	rTemp0+1
+_OSGAExit:	
+		rts		
 
 		.send code
 		
