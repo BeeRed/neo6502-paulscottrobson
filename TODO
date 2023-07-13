@@ -1,6 +1,7 @@
 TODO:
-	Character mapping for A2 (e.g. flash inverse and making it work)
 	Scrolling Apple ][ text.
+	Character mapping for A2 (e.g. flash inverse and making it work)
+	Add CLS/Home functionality back to char driver.
 	Get Applesoft ROM working at base level.
 	Add HOME/Insert functionality to line editor & screen editor.
 	Star Trek dogfood:
@@ -11,7 +12,7 @@ TODO:
 		mid$ with a start < 0 ?? should error.
 
 Ongoing:
-	Complete Code Reading (currently 46 files).
+	Complete Code Reading 
 	
 Fixes:
 	Identifier Definitions in command line bug ?

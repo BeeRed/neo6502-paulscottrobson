@@ -1,10 +1,10 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		osrom.asm
-;		Purpose:	OSRom wrapper program.
-;		Created:	25th May 2023
-;		Reviewed: 	26th June 2023
+;		Name:		clear.asm
+;		Purpose:	Clear screen
+;		Created:	13th July 2023
+;		Reviewed: 	No
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -19,22 +19,18 @@
 ; ************************************************************************************************
 
 OSDClearScreen:		
-		lda 	#$C0 						; set screen pos.
+		lda 	#$04 						; clear memory $0400-$07FF
 		sta 	rTemp0+1
 		stz 	rTemp0
-		ldy 	OSYSize 					; clear height * width bytes.
 _OSCSLoop1:		
-		ldx 	OSXSize
-_OSCSLoop2:
 		lda 	#' '
 		sta 	(rTemp0)
 		inc 	rTemp0
 		bne 	_OSCSNoCarry
 		inc 	rTemp0+1
-_OSCSNoCarry:
-		dex
-		bne 	_OSCSLoop2
-		dey
+_OSCSNoCarry:		
+		lda 	rTemp0
+		cmp	 	#$08
 		bne 	_OSCSLoop1 	
 		rts
 
