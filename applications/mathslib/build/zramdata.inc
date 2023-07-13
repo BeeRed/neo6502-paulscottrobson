@@ -1,8 +1,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		main.asm
-;		Purpose:	Run program
+;		Name:		ramdata.inc
+;		Purpose:	Common setup program, allocate RAM for MOS.
+;					This file is copied about so other apps know where their RAM can start.
 ;		Created:	25th May 2023
 ;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -10,41 +11,41 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 
+ZeroPageBase = $08 							; zero page usage
+
 ; ************************************************************************************************
 ;
-;										   Main Program
+;									Zero Page usage
 ;
 ; ************************************************************************************************
 
-		.include "build/zramdata.inc"
+		* = ZeroPageBase
+IFR0:	 									; work registers
+		.fill 	4
+IFR1:	
+		.fill 	4
+IFR2:	
+		.fill 	4
+IFRTemp:
+		.fill 	4
+codePtr: 									; it's more readable if these don't move.
+		.fill 	4
 
-		* = $800
-		.dsection storage
-		
-		* = $1000
-		.dsection code
+rTemp0: 									; temporary register for OS, zero page
+		.fill 	2
+rTemp1:
+		.fill 	2		
+iTemp0:										; temporary register for maths library, zero page.
+		.fill 	2
 
-		.section code
-Start:		
-		ldx 	#$FF
-		txs
-		jsr 	IFInitialise
+fsBlock:	 								; pointer to fs block
+		.fill 	2		
 
-;
-;		This is for string to float conversion.
-;
-;		lda 	#text2-text
-;		ldx 	#text & $FF
-;		ldy 	#text >> 8
-;		jsr 	IFloatStringToFloatR0
+		.dsection zeropage
 
-		.include "build/_test.asm" 			; test code
-		.include "build/libmathslib.asmlib" ; assembler library
-
-text:	.text 	"9403.318"
-text2:
-
-		.send code
+debug 	.macro
+		.byte 	$DB
+		.endm
 		
 ; ************************************************************************************************
 ;

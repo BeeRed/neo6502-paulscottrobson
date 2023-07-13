@@ -368,8 +368,13 @@ int  GFXToASCII(int ch,int applyModifiers) {
 		switch (ch) {																// Control characters
 			case GFXKEY_TAB:		ch = 0x09;break;								// Handle TAB, Backspace and CR.
 			case GFXKEY_RETURN:		ch = 0x0D;break;
-			case GFXKEY_BACKSPACE:	ch = 0x08;break;
+			case GFXKEY_BACKSPACE:	ch = 0x7F;break;
+			case GFXKEY_LEFT:		ch = 0x08;break;								// Arrow keys, Apple ][ mapping
+			case GFXKEY_RIGHT:		ch = 0x15;break;
+			case GFXKEY_UP:			ch = 0x0B;break;
+			case GFXKEY_DOWN:		ch = 0x0A;break;
 			default:				ch = 0x00;break;
+
 		}
 	}
 	return ch;

@@ -1,10 +1,10 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 ;
-;		Name:		setup.asm
-;		Purpose:	Set everything up
-;		Created:	25th May 2023
-;		Reviewed: 	26th June 2023
+;		Name:		a2keyboard.asm
+;		Purpose:	Apple ][ Keyboard driver
+;		Created:	13th July 2023
+;		Reviewed: 	No.
 ;		Author:		Paul Robson (paul@robsons.org.uk)
 ;
 ; ************************************************************************************************
@@ -14,51 +14,52 @@
 
 ; ************************************************************************************************
 ;
-;										Initialise
+;								Process keyboard input queue
 ;
 ; ************************************************************************************************
 
-OSInitialise:
-		lda 	#40 						; 40x24 display
-		sta 	OSXSize
-		lda 	#24
-		sta 	OSYSize
-		jsr 	OSDClearScreen 				; clear the display
-		jsr 	OSDKeyboardInitialise 		; reset the keyboard state.
+OSKeyboardDataProcess:
+		lda 	$C000 						; keystroke available ?
+		bpl 	_OSKExit
+		and 	#$7F 						; make 7 bit ASCII.
+		jsr 	OSDInsertKeyboardQueue 		; insert into keyboard queue.
+		lda 	$C010 						; clear strobe.
+_OSKExit:		
+;		lda 	OSKeyStatus+$0E 			; and on the way out check if ESC was pressed.
+;		and 	#$40
+;		sta 	OSEscapePressed
 		rts
 
 ; ************************************************************************************************
 ;
-;									Get Screen Size -> XY
+;								  Insert in Keyboard Queue
 ;
 ; ************************************************************************************************
 
-OSGetScreenSize:
-		ldx 	OSXSize
-		ldy 	OSYSize
+OSDInsertKeyboardQueue:		
+		ldx 	OSKeyboardQueueSize 		; check to see if full
+		cpx	 	#OSKeyboardQueueMaxSize
+		bcs 	_OSIKQExit 					; if so, you will never know.
+
+		sta 	OSKeyboardQueue,x 			; add keyboard entry to queue.
+		inc 	OSKeyboardQueueSize
+_OSIKQExit:		
 		rts
 
 ; ************************************************************************************************
 ;
-;									Get Cursor Position -> XY
+;									Reset keyboard system
 ;
 ; ************************************************************************************************
-
-OSGetScreenPosition:
-		ldx 	OSXPos
-		ldy 	OSYPos
-		rts
 		
-; ************************************************************************************************
-;
-;									Get break status
-;
-; ************************************************************************************************		
-
-OSCheckBreak:
-		lda 	OSEscapePressed
+OSDKeyboardInitialise:
+		ldx 	#OSKeyboardEnd-OSKeyboardStart
+_OSKILoop:
+		stz 	OSKeyboardStart,x
+		dex
+		bpl 	_OSKILoop
 		rts
-		
+
 		.send code
 
 ; ************************************************************************************************
@@ -69,6 +70,7 @@ OSCheckBreak:
 ;
 ;		Date			Notes
 ;		==== 			=====
+;		26/06/23 		Cleared iskeyup/shift flags on OSKeyboardInitialise
 ;
 ; ************************************************************************************************
 

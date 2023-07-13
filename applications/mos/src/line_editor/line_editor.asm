@@ -24,9 +24,9 @@ OSEnterLine:
 _OSELRestart:
 		jsr 	OSReEnterLine		
 _OSELProcess:		
-		cmp	 	#3
+		cmp	 	#10
 		beq 	_OSELRestart
-		cmp 	#6
+		cmp 	#11
 		beq 	_OSELRestart
 		rts
 
@@ -73,9 +73,9 @@ _OSEditLoop:
 		jsr 	OSEPositionCursor
 		jsr 	OSReadKeystroke 			; get one key.
 		;
-		cmp 	#3 							; down, up, esc, CR all exit
+		cmp 	#10 						; down, up, esc, CR all exit
 		beq 	_OSEditExit
-		cmp 	#6
+		cmp 	#11
 		beq 	_OSEditExit
 		cmp 	#13
 		beq 	_OSEditExit
@@ -91,15 +91,15 @@ _OSEditExit:
 		;		Action keys.
 		;
 _OSEditContinue:
-		cmp 	#1 							; left (Ctrl-A)
+		cmp 	#8 							; left (Ctrl-H)
 		beq 	_OSELeft
-		cmp 	#2
-		beq 	_OSEHome
-		cmp 	#4 							; right (Ctrl-D)
+;		cmp 	#2
+;		beq 	_OSEHome
+		cmp 	#21 						; right (Ctrl-U)
 		beq 	_OSERight
-		cmp 	#7 							; delete at cursor (Delete)
-		beq 	_OSEDelete		
-		cmp 	#8 							; backspace (<-)
+;		cmp 	#7 							; delete at cursor (Delete)
+;		beq 	_OSEDelete		
+		cmp 	#$7F 						; backspace (<-)
 		beq 	_OSEBackspace
 		cmp 	#9 							; tab (9)
 		beq 	_OSETab

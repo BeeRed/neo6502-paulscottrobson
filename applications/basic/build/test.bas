@@ -1,117 +1,318 @@
-REM
-'
-'"Star Trek"
-'
-CALL initialise()
-CALL newsector()
-CALL shortrange()
-REPEAT
-CALL command()
-UNTIL 0
-'
-'"Set up everything"
-'
-PROC initialise()
-klingons=0
-stardate=RAND(200)+200
-energy=3000:shields=0
-torpedoes=15:startdate=stardate
-DIM galaxy(7,7),quadrant(7,7)
-FOR x1=0 TO 7
-FOR y1=0 TO 7
-newk=0:IF RAND(4)<>1 THEN newk=RAND(3)+1
-news=0:IF RAND(7)=1 THEN news=1
-galaxy(x1,y1)=newk*100+news*10+RAND(5)+1
-klingons=klingons+newk
-NEXT:NEXT
-gx=RAND(8):gy=RAND(8)
-qx=RAND(8):qy=RAND(8)
-ENDPROC
-'
-'"create a new sector"
-'
-PROC newsector()
-FOR x1=0 TO 7:FOR y1=0 TO 7
-quadrant(x1,y1)=0
-NEXT:NEXT
-qx=qx AND 7:qy=qy AND 7
-gx=gx AND 7:gy=gy AND 7
-quadrant(qx,qy)=4
-n=galaxy(gx,gy)MOD 10
-c=3:CALL addquadrant()
-n=galaxy(gx,gy)DIV 10 MOD 10
-c=2:CALL addquadrant()
-n=galaxy(gx,gy)DIV 100
-khere=n
-c=-200:CALL addquadrant()
-ENDPROC
-'
-'"Add n obj of type c to quad"
-'
-PROC addquadrant()
-WHILE n>0
-REPEAT
-x1=RAND(8):y1=RAND(8)
-UNTIL quadrant(x1,y1)=0
-quadrant(x1,y1)=c
-n=n-1
-WEND
-ENDPROC
-'
-'"Short range scan"
-'
-PROC shortrange()
-condition=1
-IF khere>0 THEN condition=2
-IF quadrant((qx-1)AND 7,qy)=2 THEN condition=3
-IF quadrant((qx+1)AND 7,qy)=2 THEN condition=3
-IF condition=3 THEN energy=3:shields=0:torpedoes=15
-FOR y1=0 TO 7
-FOR x1=0 TO 7
-u=quadrant(x1,y1)
-IF u=0 THEN PRINT" . ";
-IF u<0 THEN PRINT"+++";
-IF u=2 THEN PRINT"<O>";
-IF u=3 THEN PRINT" * ";
-IF u=4 THEN PRINT"-O-";
-NEXT
-PRINT" ";
-IF y1=1 THEN PRINT"s.date ";stardate;
-IF y1=2 THEN PRINT"alert  ";MID$("greenred  dock ",condition*5-4,5);
-IF y1=3 THEN PRINT"energy ";energy;
-IF y1=4 THEN PRINT"torp   ";torpedoes;
-IF y1=5 THEN PRINT"shield ";shields;
-IF y1=6 THEN PRINT"enemy  ";klingons;
-PRINT:NEXT
-ENDPROC
-'
-'"Do one command"
-'
-PROC command()
-INPUT"Command? ";b
-IF b=1 THEN CALL helm()
-IF b=2 THEN CALL longrange()
-IF b=3 THEN CALL phasers()
-IF b=4 THEN CALL torpedoes()
-IF b=5 THEN CALL shields()
-IF b=6 THEN CALL shortrange()
-IF b=7 THEN CALL resign()
-ENDPROC
-'
-PROC helm()
-ENDPROC
-'
-PROC longrange()
-ENDPROC
-'
-PROC phasers()
-ENDPROC
-'
-PROC torpedoes()
-ENDPROC
-'
-PROC shields()
-ENDPROC
-'
-PROC resign()
-ENDPROC
+K7Q9W = 817
+let F = -727.93
+let X3$ = ""
+let B4O5I9 = -6
+let O7$ = "NNHOZ"
+let O4K$ = "AFWDIWBRKI"
+let A9I0$ = "OMPHJHXO"
+let O3U0$ = ""
+H7I8I$ = "PMJT"
+let O3U0$ = "R"
+C6 = 298.68
+Q6W$ = "IUDCNPG"
+E8H6L0 = -836
+let C = -698.45
+F8R5U = -393.88
+let O0O7P$ = "U"
+F = 629.44
+Q9H5G$ = "RYIQ"
+let Z4D5L6$ = ""
+O4Z1 = 849.94
+let R7M$ = "MYM"
+let U9J4$ = "TBKKK"
+let H7J9$ = "TL"
+let P2F5$ = "P"
+let O4K$ = "TPMXVM"
+F9D3S7$ = ""
+let H4Z6V = 224
+O4Z1 = -887.92
+F3F7W0$ = "WLZLP"
+let G2W6 = -833.96
+Z7Y9T = -723
+A9I0$ = "GSGOBHTVB"
+let U9J4$ = "OPUG"
+S9F3D6 = 741.31
+R9$ = "NHHOIQSK"
+E7V4I7$ = "Q"
+C = 56
+I8P5V = 502
+N1T5O8 = 482
+let C = -459
+let U7M = 981
+F7T3T6 = 414.01
+let H2K$ = "CKWEEPTJ"
+let S9F3D6 = -884.52
+F7T3T6 = 465.82
+W2S6 = 247.72
+let O$ = "QJVJPCOMG"
+N0J = -594
+R6U3C$ = "BCYI"
+Z4D5L6$ = "DIZYJVGG"
+O0O7P$ = "OECCCNLPPT"
+let Q0F$ = "VRY"
+let G2X6J = -866.39
+let Z1W8$ = "LGFKTFXNU"
+let Q = -625.92
+let J4D0A$ = "MQX"
+let N0J = -919
+H2K$ = "XBSINGMMIM"
+let Q6W$ = "VF"
+A8 = 438
+let Z1W8$ = "QMCEHN"
+L0X0F2$ = "UWAEGQK"
+let S9F3D6 = 683
+F8R5U = -852.3
+let O4K$ = "RMADFLJ"
+let N1T5O8 = -592.13
+let R2K7H9 = 341.23
+N0J = -273.29
+let Z1R3E$ = "LBNFRWXWV"
+let J4D0A$ = "MDAAMWQRK"
+let C = -384
+let Z1W8$ = "QLMVTHH"
+K1Z = -475.67
+O3U0$ = "HLNKWTAHR"
+let X3$ = "NFTWKICQK"
+let Q6W$ = "DKBUQRT"
+H9V2J$ = "JBW"
+F3F7W0$ = "QOWH"
+let X5U5N$ = "NED"
+I8P5V = -442
+Y5Q6G4 = 575
+M3 = 586.66
+let L1 = -843
+R9$ = "L"
+let I8P5V = -681
+let E7L5 = -996.09
+H7I8I$ = ""
+let U7M = -470.13
+H0M7M = -600
+let C5 = 691
+U8F$ = "PZMWESKOV"
+let L0X0F2$ = ""
+Q8E0$ = "UOVFEW"
+Y5Q6G4 = -857
+S9F3D6 = 580
+let C = 275
+let F = -516.79
+Q6W$ = "WSQHDFIU"
+H9V2J$ = ""
+L1 = 221
+B4O5I9 = -417
+J5A8D = -801.66
+S9A2M = -936.98
+let F7T3T6 = -465
+let Z4D5L6$ = "GEBFBM"
+U9J4$ = "BO"
+let C6 = -439
+G6W6T2 = -402.0
+N0J = -240.73
+let I4 = 730
+let C5 = -559.17
+D9 = 672
+M3 = -816
+let N1T5O8 = -87.34
+F9D3S7$ = ""
+Z1R3E$ = "KPMBYGR"
+let G2W6 = 842
+O4K$ = "DDCDKN"
+let G2X6J = 768
+Y5Q6G4 = 768.7
+let H7I8I$ = ""
+R7M$ = "V"
+W2S6 = 369.92
+U9J4$ = "YRVOBKLX"
+let B4O5I9 = -775.18
+let F9D3S7$ = "HVPP"
+G0Q9K$ = "JZW"
+let G6W6T2 = 551.19
+D9 = -520.22
+let W = 288
+I8P5V = 171.87
+D5H = 188.18
+let O1Z4$ = "G"
+E7L5 = -221.24
+let O7$ = ""
+let G2X6J = -475
+let F$ = "WGA"
+let L5 = -321.68
+let F8R5U = -676.5
+let P2F5$ = "AKBZN"
+let C = 460
+let O4K$ = "VXJLMPLLM"
+Z7Y9T = 420.35
+let F9D3S7$ = "Q"
+let D5H = 195.35
+let E7L5 = 727
+let O4Z1 = -831
+let C = -816.96
+F7T3T6 = -700
+let X5U5N$ = "J"
+let W2S6 = 695.04
+F7T3T6 = -680.04
+let R2O1C = 441.27
+let Q8E0$ = "M"
+let O1Z4$ = "VAOZNINJGT"
+let U8F$ = "V"
+Q6W$ = "GUP"
+H4Z6V = 641.77
+let E8H6L0 = 634.59
+X3$ = "IWRLFDZIAH"
+let R7M$ = "JB"
+let H2K$ = "VKQINY"
+C = 149.59
+D5H = -393.43
+let O1Z4$ = "O"
+let F9D3S7$ = "CMGVTGNI"
+G2X6J = -389.18
+U7M = 4.58
+let D9 = 863.28
+let S9F3D6 = 612
+let L0X0F2$ = ""
+let C = 360.11
+let S9F3D6 = 545.3
+let Z1R3E$ = "MANNVOF"
+let U7M = -237.21
+S9A2M = 376
+Q0F$ = "U"
+let Q = 943.49
+F = -460.93
+let Q3A5$ = "G"
+let C5 = -579.53
+Q6W$ = "XVASGF"
+let N1T5O8 = 554.16
+X5V$ = "TROPKCCHFN"
+F = 655
+let O4K$ = ""
+let D9 = 494
+M3 = -907
+let U9J4$ = "CU"
+H9V2J$ = "ATKIWLC"
+R2O1C = -189.85
+X5V$ = "VMFQOO"
+let J4D0A$ = "NCEUQ"
+O0O7P$ = "IBW"
+H0M7M = 958
+H9V2J$ = "H"
+O3U0$ = "ZBZOFDAGTD"
+let W = 733.09
+F8R5U = -517
+let G0Q9K$ = "BRU"
+let B4O5I9 = -438.3
+let F7T3T6 = 495.84
+V8 = 750
+let J5A8D = 691
+O7$ = "VOCTMAYQ"
+H4Z6V = -176.24
+O1Z4$ = ""
+let M3 = -802
+C = -889
+let O4Z1 = -731.41
+C6 = 152.62
+let H0M7M = -342
+let F9D3S7$ = "BR"
+let R6U3C$ = "AYUTWW"
+H9V2J$ = "P"
+X3$ = "YGVHIEY"
+let Q2O3R = 48.48
+H0M7M = 152
+let L5 = 235.03
+Q2O3R = -408.17
+let H9V2J$ = "NRURRPW"
+E7L5 = -329.13
+L0X0F2$ = "WNFWLYGL"
+Q0F$ = "DXEGJG"
+G0Q9K$ = "DH"
+H4Z6V = -167
+X5V$ = "PGTXOUDW"
+G6W6T2 = 388
+let B4O5I9 = -913.84
+let Z7Y9T = 988
+C5 = 349
+Q = -194
+let Y5Q6G4 = 65
+let R2K7H9 = 171.27
+P2F5$ = "JGCSU"
+O4K$ = "DTFBR"
+H2K$ = "OU"
+let B8O9L$ = "PMVGLCL"
+U7M = 119.94
+F$ = "UYPOYNOGFT"
+assert B8O9L$ = "PMVGLCL"
+assert O1Z4$ = ""
+assert X3$ = "YGVHIEY"
+assert O4Z1 = -731.41
+assert L5 = 235.03
+assert W = 733.09
+assert F$ = "UYPOYNOGFT"
+assert H7I8I$ = ""
+assert U9J4$ = "CU"
+assert D9 = 494
+assert A9I0$ = "GSGOBHTVB"
+assert R9$ = "L"
+assert F3F7W0$ = "QOWH"
+assert I4 = 730
+assert L1 = 221
+assert C = -889
+assert R6U3C$ = "AYUTWW"
+assert J4D0A$ = "NCEUQ"
+assert Z7Y9T = 988
+assert F7T3T6 = 495.84
+assert F9D3S7$ = "BR"
+assert H0M7M = 152
+assert Z1W8$ = "QLMVTHH"
+assert K7Q9W = 817
+assert P2F5$ = "JGCSU"
+assert B4O5I9 = -913.84
+assert E7L5 = -329.13
+assert M3 = -802
+assert F8R5U = -517
+assert G2X6J = -389.18
+assert A8 = 438
+assert Z1R3E$ = "MANNVOF"
+assert Q2O3R = -408.17
+assert O7$ = "VOCTMAYQ"
+assert Q6W$ = "XVASGF"
+assert R2K7H9 = 171.27
+assert R7M$ = "JB"
+assert H2K$ = "OU"
+assert G0Q9K$ = "DH"
+assert O0O7P$ = "IBW"
+assert C = -889
+assert D5H = -393.43
+assert L0X0F2$ = "WNFWLYGL"
+assert E7V4I7$ = "Q"
+assert Q3A5$ = "G"
+assert N0J = -240.73
+assert C5 = 349
+assert J5A8D = 691
+assert S9F3D6 = 545.3
+assert Z4D5L6$ = "GEBFBM"
+assert C6 = 152.62
+assert X5V$ = "PGTXOUDW"
+assert I8P5V = 171.87
+assert U8F$ = "V"
+assert K1Z = -475.67
+assert O$ = "QJVJPCOMG"
+assert N1T5O8 = 554.16
+assert W2S6 = 695.04
+assert R2O1C = -189.85
+assert O3U0$ = "ZBZOFDAGTD"
+assert Q0F$ = "DXEGJG"
+assert Q9H5G$ = "RYIQ"
+assert S9A2M = 376
+assert F = 655
+assert X5U5N$ = "J"
+assert V8 = 750
+assert E8H6L0 = 634.59
+assert G2W6 = 842
+assert G6W6T2 = 388
+assert Q = -194
+assert O4K$ = "DTFBR"
+assert Q8E0$ = "M"
+assert U7M = 119.94
+assert Y5Q6G4 = 65
+assert H7J9$ = "TL"
+assert H9V2J$ = "NRURRPW"
+assert H4Z6V = -167
+sys 65535

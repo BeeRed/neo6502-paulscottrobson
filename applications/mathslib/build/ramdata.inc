@@ -2,8 +2,7 @@
 ; ************************************************************************************************
 ;
 ;		Name:		ramdata.inc
-;		Purpose:	Common setup program, allocate RAM for MOS.
-;					This file is copied about so other apps know where their RAM can start.
+;		Purpose:	Common setup program, allocate non zero page RAM for MOS/FsLib
 ;		Created:	25th May 2023
 ;		Reviewed: 	25th June 2023
 ;		Author:		Paul Robson (paul@robsons.org.uk)
@@ -11,37 +10,9 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-ZeroPageBase = $08 							; zero page usage
 StorageBase = $200 							; ROM usage
 
-; ************************************************************************************************
-;
-;									Zero Page usage
-;
-; ************************************************************************************************
-
-		* = ZeroPageBase
-IFR0:	 									; work registers
-		.fill 	4
-IFR1:	
-		.fill 	4
-IFR2:	
-		.fill 	4
-IFRTemp:
-		.fill 	4
-codePtr: 									; it's more readable if these don't move.
-		.fill 	4
-
-rTemp0: 									; temporary register for OS, zero page
-		.fill 	2
-rTemp1:
-		.fill 	2		
-iTemp0:										; temporary register for maths library, zero page.
-		.fill 	2
-
-
-
-		.dsection zeropage
+		* = StorageBase
 
 ; ************************************************************************************************
 ;
@@ -49,8 +20,6 @@ iTemp0:										; temporary register for maths library, zero page.
 ;
 ; ************************************************************************************************
 
-		* = StorageBase
-		
 OSNewLineFlag: 								; set if new line started on this line
 		.fill 	32		
 OSXPos:	 									; cursor position
@@ -116,13 +85,6 @@ OSEditBuffer: 								; text buffer.
 ;
 ; ************************************************************************************************
 
-		.section zeropage
-fsBlock:	 								; pointer to fs block
-		.fill 	2		
-		.send zeropage
-
-		.section storage
-
 sectorCount:								; sector count bytes, read at initialise.
 		.fill 	2
 currentSector: 								; current sector.
@@ -155,13 +117,6 @@ checkLoopRound: 							; gone round too many times.
 		.fill 	1
 FSRandomSeed: 								; seed for start position.
 		.fill 	1		
-		.align 	256
-		.send storage				
-
-
-debug 	.macro
-		.byte 	$DB
-		.endm
 		
 ; ************************************************************************************************
 ;

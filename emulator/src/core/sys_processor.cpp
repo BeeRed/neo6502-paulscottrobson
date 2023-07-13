@@ -64,14 +64,13 @@ BYTE8 *CPUAccessMemory(void) {
 }
 
 static inline BYTE8 _Read(WORD16 address) {
-	if (address == 0xCF00) {
-		return HWReadScancodeQueue();												// Read $CF00 : Keyboard queue.	
-	} 
-
+	if (address == 0xC010) HWClearStrobe();
 	return ramMemory[address];
 }
 
 static inline void _Write(WORD16 address,BYTE8 data) { 
+
+	if (address == 0xC010) HWClearStrobe();
 
 	if (address == 0xCF10) { 														// Write $CF10 : Command to flash subsystem.
 		HWFlashCommand(data,														// Command in write

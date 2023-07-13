@@ -18,7 +18,7 @@ endif
 all: assemble
 
 assemble:
-	$(CCOPY) $(BINDIR)ramdata.inc build
+	$(CCOPY) $(BINDIR)zramdata.inc build
 	$(PYTHON) scripts$(S)tenstable.py >src$(S)generated$(S)_tens.asm
 	$(PYTHON) scripts$(S)tsc.py <test.tsc >build$(S)_test.asm
 	$(PYTHON) $(SCRIPTDIR)makelib.py >build$(S)libmathslib.asmlib

@@ -99,12 +99,18 @@ void DBGXRender(int *address,int showDisplay) {
 
 	#endif 
 
+	static int lineAddresses[24] = {
+		0x400,0x480,0x500,0x580,0x600,0x680,0x700,0x780,
+		0x428,0x4A8,0x528,0x5A8,0x628,0x6A8,0x728,0x7A8,
+		0x450,0x4D0,0x550,0x5D0,0x650,0x6D0,0x750,0x7D0
+	};
+
 	renderCount++;
 	if (showDisplay != 0) {
-		int xc = 52;int yc = 30;
+		int xc = 40;int yc = 24;
 		int xs = 4;int ys = 4;
 		SDL_Rect r;
-		r.w = xs*xc*6;r.h = ys*yc*8;
+		r.w = xs*xc*7;r.h = ys*yc*8;
 		r.x = WIN_WIDTH/2-r.w/2;r.y = WIN_HEIGHT/2-r.h/2;
 		SDL_Rect rc2;rc2 = r;
 		rc2.w += 8;rc2.h += 8;rc2.x -=4;rc2.y -= 4;
@@ -112,13 +118,13 @@ void DBGXRender(int *address,int showDisplay) {
 		GFXRectangle(&r,0);
 		for (int y = 0;y < yc;y++) {
 			for (int x = 0;x < xc;x++) {
-				int ch = CPUReadMemory(0xC000+x + y * xc);
+				int ch = CPUReadMemory(x+lineAddresses[y]);
 				int flip = (ch & 0x80) ? 0xFF:0x00;
 				// ch = y * xc + x;
 				if (ch != 0x20) {
 					rc2.w = xs;rc2.h = ys;					
 					for (int ypx = 0;ypx < 8;ypx++) {
-						rc2.x = r.x + x * 6 * xs;
+						rc2.x = r.x + x * 7 * xs;
 						rc2.y = r.y + (y*8+ypx) * ys;
 						ch = ch & 0x7F;
 						int b = 0;

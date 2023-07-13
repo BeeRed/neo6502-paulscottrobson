@@ -62,7 +62,7 @@ _IFMNoAdd:
 		ror     rTemp0                      ; pull another bit out for the next iteration
 		dey        
 		bne     _IFMLoop                   
-		ora 	#$C0
+		ora 	#$04
 		tay
 
 		clc

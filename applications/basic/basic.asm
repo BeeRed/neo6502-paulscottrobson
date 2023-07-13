@@ -10,7 +10,7 @@
 ; ************************************************************************************************
 ; ************************************************************************************************
 
-		.include "build/ramdata.inc"		; memory used for the OS/ROM
+		.include "build/zramdata.inc"		; zero page usage
 		.include "build/osvectors.inc" 		; OS/ROM Vectors
 
 ; ************************************************************************************************
@@ -24,6 +24,9 @@ runEdit = 0 								; setting to 1 builds with the program/testing stuff in.
 autoRun = 0 								; setting to 1 autoruns program in memory space.
 STACK_PAGES = 2 							; number of stack pages.
 		.endweak
+
+		* = $800
+		.dsection storage
 
 		* = $1000 							; BASIC ROM goes here.
 		.dsection code

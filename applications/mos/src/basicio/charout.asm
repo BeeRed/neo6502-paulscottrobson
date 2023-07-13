@@ -22,11 +22,10 @@ OSWriteScreen:
 		pha 								; save AXY
 		phx
 		phy
+		cmp		#$7F 						; handle delete
+		beq 	_OSBackspace
 		cmp 	#32 						; standard character $20,$FF (we allow for cyrillic possibility here)
 		bcs 	_OSWriteDirect 
-		;
-		cmp 	#16 						; 16-32 for set colours, reserved - this copies fgr -> bgr, updates fgr.
-		bcs 	_OSWriteDeviceExit
 		;
 		asl 	a 							; make to an offset in vector table
 		tax
@@ -52,25 +51,38 @@ _OSWNoFunction: 							; dummy.
 
 _OSWDVector:
 		.word 	_OSWNoFunction 				; $00 	No operation
-		.word 	_OSCursorLeft 				; $01 	Left 		(Ctrl-A)
-		.word 	OSHomeCursor 				; $02 	Home Cursor (Ctrl-B)
-		.word 	_OSCursorDown 				; $03 	Down 		(Ctrl-C)
-		.word 	_OSCursorRight 				; $04 	Right 		(Ctrl-D)
-		.word 	_OSWNoFunction				; $05 	
-		.word 	_OSCursorUp 				; $06	Up 			(Ctrl-F)
-		.word 	_OSWNoFunction 				; $07 	Delete 		(Del)
-		.word 	_OSBackspace				; $08 	Backspace 	(Backspace)
+		.word 	_OSWNoFunction 				; $01
+		.word 	_OSWNoFunction 				; $02
+		.word 	_OSWNoFunction 				; $03
+		.word 	_OSWNoFunction 				; $04
+		.word 	_OSWNoFunction 				; $05
+		.word 	_OSWNoFunction 				; $06
+		.word 	_OSWNoFunction 				; $07
+		.word 	_OSCursorLeft 				; $08 	Left 		(Ctrl-H)
 		.word 	_OSWHTab 					; $09	Tab 		(Tab stop)
-		.word 	_OSWNoFunction 				; $0A
-		.word 	_OSWNoFunction 				; $0B
+		.word 	_OSCursorDown 				; $0A 	Down 		(Ctrl-J)
+		.word 	_OSCursorUp 				; $0B	Up 			(Ctrl-K)
 		.word 	_OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
 		.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
 		.word 	_OSWNoFunction 				; $0E   
 		.word 	_OSWNoFunction 				; $0F
+		.word 	_OSWNoFunction 				; $10
+		.word 	_OSWNoFunction 				; $11
+		.word 	_OSWNoFunction 				; $12
+		.word 	_OSWNoFunction 				; $13
+		.word 	_OSWNoFunction 				; $14
+		.word 	_OSCursorRight 				; $15 	Right 		(Ctrl-U)
+		.word 	_OSWNoFunction 				; $16
+		.word 	_OSWNoFunction 				; $17
+		.word 	_OSWNoFunction 				; $18
+		.word 	_OSWNoFunction 				; $19
+		.word 	_OSWNoFunction 				; $1A
+		.word 	_OSWNoFunction 				; $1B
+		.word 	_OSWNoFunction 				; $1C
+		.word 	_OSWNoFunction 				; $1D
+		.word 	_OSWNoFunction 				; $1E
+		.word 	_OSWNoFunction 				; $1F
 
-		; these are keys in only.			; $10 	Insert key.
-											; $11-A Function Keys 1-10
-											; $1B 	Escape key.
 
 ; ************************************************************************************************
 ;

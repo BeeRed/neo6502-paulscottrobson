@@ -11,17 +11,14 @@
 
 #include "sys_processor.h"
 #include "hardware.h"
+#include "gfx.h"
 #include <stdio.h>
-
-static int scanKeyQueue[16];														// Simple queue of scan keys.
-static int scanKeyQueueSize;
 
 // *******************************************************************************************************************************
 //												Reset Hardware
 // *******************************************************************************************************************************
 
 void HWReset(void) {
-	scanKeyQueueSize = 0;
 	HWFlashInitialise();
 }
 
@@ -37,23 +34,25 @@ void HWSync(void) {
 // *******************************************************************************************************************************
 
 void HWQueueKeyboardEvent(int scanCode) {
-	//printf("Scancode %x\n",scanCode);
-	if (scanKeyQueueSize < 16) {													// Push keycode on scanqueue if not empty.
-		scanKeyQueue[scanKeyQueueSize++] = scanCode;
-	}
 }
 
 // *******************************************************************************************************************************
-//											Access scancode queue
+//									Track keystrokes to the keyboard port
 // *******************************************************************************************************************************
 
-int HWReadScancodeQueue(void) {
-	if (scanKeyQueueSize == 0) return 0;											// empty queue returns zero
-	int sc = scanKeyQueue[0];														// remember it
-	for (int i = 0;i < scanKeyQueueSize;i++) { 										// shift them all up
-		scanKeyQueue[i] = scanKeyQueue[i+1];
+int HWKeymap(int k,int r) {
+	int ascii = GFXToASCII(k,-1);
+	if (ascii != 0) {
+		CPUWriteMemory(0xC000,0x80|ascii);
+		//printf("%c %d %d\n",GFXToASCII(k,1),GFXToASCII(k,1),k);
 	}
-	scanKeyQueueSize--; 															// decrement number available.
-	return sc;
+	return k;
+}
 
+// *******************************************************************************************************************************
+//												Clear the strobe
+// *******************************************************************************************************************************
+
+void HWClearStrobe(void) {
+	CPUWriteMemory(0xC000,0);
 }

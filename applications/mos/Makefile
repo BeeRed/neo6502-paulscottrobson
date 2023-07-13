@@ -19,13 +19,14 @@ all: assemble
 
 assemble:
 	make -C keyboard
+	$(CCOPY) zramdata.inc $(BINDIR)
+	$(CCOPY) ramdata.inc $(BINDIR)
 	$(PYTHON) $(SCRIPTDIR)makebuild.py >include.files
 	$(PYTHON) $(SCRIPTDIR)timestamp.py >src$(S)generated$(S)time.incx
 	$(PYTHON) scripts$(S)vectors.py >$(BINDIR)osvectors.inc
 	$(CCOPY) $(BINDIR)libwwfslib.asmlib build
 	$(ASM) osrom.asm -o build$(S)osrom.bin
 	$(CCOPY) build$(S)osrom.bin $(BINDIR)
-	$(CCOPY) ramdata.inc $(BINDIR)
 
 run: emulator assemble
 	$(EMULATOR) build$(S)osrom.bin@f800

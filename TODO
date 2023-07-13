@@ -1,4 +1,8 @@
 TODO:
+	Character mapping for A2 (e.g. flash inverse and making it work)
+	Line mapping for A2 text.
+	Get Applesoft ROM working at base level.
+	Add HOME/Insert functionality to line editor.
 	Star Trek dogfood:
 		next on end of indented line doesn't work (indentation)
 			for .... for ....
