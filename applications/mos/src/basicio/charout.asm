@@ -64,7 +64,7 @@ _OSWDVector:
 		.word 	_OSCursorUp 				; $0B	Up 			(Ctrl-K)
 		.word 	_OSClearScreen 				; $0C	ClearScreen	(Ctrl-L)
 		.word 	_OSNewLine 					; $0D 	CarriageRet (Enter)
-		.word 	_OSWNoFunction 				; $0E   
+		.word 	OSHomeCursor 				; $0E   Home Cursor (Ctrl-N)
 		.word 	_OSWNoFunction 				; $0F
 		.word 	_OSWNoFunction 				; $10
 		.word 	_OSWNoFunction 				; $11
@@ -76,8 +76,8 @@ _OSWDVector:
 		.word 	_OSWNoFunction 				; $17
 		.word 	_OSWNoFunction 				; $18
 		.word 	_OSWNoFunction 				; $19
-		.word 	_OSWNoFunction 				; $1A
-		.word 	_OSWNoFunction 				; $1B
+		.word 	_OSWNoFunction 				; $1A	Insert 		(Ctrl-Z)
+		.word 	_OSWNoFunction 				; $1B 	Break/Esc 	(Esc)
 		.word 	_OSWNoFunction 				; $1C
 		.word 	_OSWNoFunction 				; $1D
 		.word 	_OSWNoFunction 				; $1E

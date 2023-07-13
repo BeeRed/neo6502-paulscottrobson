@@ -1,8 +1,6 @@
 TODO:
-	Character mapping for A2 (e.g. flash inverse and making it work)
-	Add Clear/Home functionality back to char driver.
 	Get Applesoft ROM working at base level.
-	Add Home/Insert functionality to line editor & screen editor.
+	
 	Star Trek dogfood:
 		next on end of indented line doesn't work (indentation)
 			for .... for ....

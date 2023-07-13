@@ -18,18 +18,18 @@
 ;
 ; ************************************************************************************************
 
-OSDClearScreen:		
+OSDClearScreen:	
 		lda 	#$04 						; clear memory $0400-$07FF
 		sta 	rTemp0+1
 		stz 	rTemp0
 _OSCSLoop1:		
-		lda 	#' '
+		lda 	#$E0
 		sta 	(rTemp0)
 		inc 	rTemp0
 		bne 	_OSCSNoCarry
 		inc 	rTemp0+1
 _OSCSNoCarry:		
-		lda 	rTemp0
+		lda 	rTemp0+1
 		cmp	 	#$08
 		bne 	_OSCSLoop1 	
 		rts

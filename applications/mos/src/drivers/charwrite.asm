@@ -21,6 +21,10 @@
 OSDReadPhysical:
 		jsr 	OSDGetAddress
 		lda 	(rTemp0)
+		and 	#$3F
+		eor 	#$20
+		clc
+		adc 	#$20
 		rts
 
 ; ************************************************************************************************
@@ -30,10 +34,29 @@ OSDReadPhysical:
 ; ************************************************************************************************
 
 OSDWritePhysical:
+		phx
 		pha		
 		jsr 	OSDGetAddress
 		pla
+		tax
+		and 	#$7F 						; strip off inverse bit
+		cmp 	#$20 						; don't store controls.
+		bcc 	_OSWPExit
+		cmp		#$60 						; make it upper case
+		bcc 	_OSWPIsUpper
+		sec
+		sbc 	#$20
+_OSWPIsUpper:		
+		sec 								; now make 6 bit ASCII.
+		sbc 	#$20
+		eor 	#$20 						
+		cpx 	#0
+		bmi 	_OSWPSave
+		ora 	#$C0
+_OSWPSave:
 		sta 	(rTemp0)
+_OSWPExit:
+		plx		
 		rts
 
 ; ************************************************************************************************

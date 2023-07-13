@@ -119,17 +119,17 @@ void DBGXRender(int *address,int showDisplay) {
 		for (int y = 0;y < yc;y++) {
 			for (int x = 0;x < xc;x++) {
 				int ch = CPUReadMemory(x+lineAddresses[y]);
-				int flip = (ch & 0x80) ? 0xFF:0x00;
-				// ch = y * xc + x;
-				if (ch != 0x20) {
+				//ch = x + y * 40;
+				int flip = (ch & 0xC0) == 0;
+				if ((ch & 0xC0) == 0x40 && (renderCount & 0x20) != 0) flip = -1;
+				if (ch != 0xE0 && ch != 0xA0) {
 					rc2.w = xs;rc2.h = ys;					
 					for (int ypx = 0;ypx < 8;ypx++) {
 						rc2.x = r.x + x * 7 * xs;
 						rc2.y = r.y + (y*8+ypx) * ys;
-						ch = ch & 0x7F;
 						int b = 0;
-						if (ch >= 32) b = font5x7[(ch-32)*8+ypx];
-						b = b ^ flip;
+						int c = (ch & 0x3F) ^ 0x20;
+						b = font5x7[c*8+ypx] ^ (flip ? 0xFF:0x00);
 						while (b != 0) {
 							if (b & 0x80) GFXRectangle(&rc2,0xF80);
 							b = (b << 1) & 0xFF;

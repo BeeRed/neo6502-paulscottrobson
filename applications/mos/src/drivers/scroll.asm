@@ -43,7 +43,7 @@ _OSDSCopy:
 
 		ldy 	#39 						; clear bottom line
 _OSDSClear:
-		lda 	#' '
+		lda 	#$E0
 		sta 	(rTemp0),y
 		dey
 		bpl 	_OSDSClear		

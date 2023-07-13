@@ -93,12 +93,10 @@ _OSEditExit:
 _OSEditContinue:
 		cmp 	#8 							; left (Ctrl-H)
 		beq 	_OSELeft
-;		cmp 	#2
-;		beq 	_OSEHome
+		cmp 	#14 						; home (Ctrl-N)
+		beq 	_OSEHome
 		cmp 	#21 						; right (Ctrl-U)
 		beq 	_OSERight
-;		cmp 	#7 							; delete at cursor (Delete)
-;		beq 	_OSEDelete		
 		cmp 	#$7F 						; backspace (<-)
 		beq 	_OSEBackspace
 		cmp 	#9 							; tab (9)
@@ -129,7 +127,6 @@ _OSEBackspace:
 		lda 	OSEditPos 					; can't backspace from the start.
 		beq 	_OSCheckUpdate
 		dec 	OSEditPos
-_OSEDelete:	
 		lda 	OSEditLength 				; not if at far right, e.g. appending to end.
 		cmp 	OSEditPos
 		beq 	_OSCheckUpdate		
