@@ -1,0 +1,12 @@
+Begin3
+Title: APPLE_IIe_ROM_KRK.zip          
+Author: Galael        
+Version: Rev. A       
+Entered-date: 01/06/07  
+Description: This is a cracked Apple IIe ROM image that will enable you
+to break into the Monitor at any time and examine memory
+Uploader: Galael        
+Primary-site: ftp.asimov.net /pub/apple_II/emulators/rom_images
+48kB APPLE_IIe_ROM_KRK.zip  
+Platform: Apple ][e     
+End

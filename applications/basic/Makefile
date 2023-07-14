@@ -49,6 +49,9 @@ run: emulator assemble test
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 	$(PYTHON) scripts$(S)recover.py
 
+a2: emulator
+	$(EMULATOR) storage$(S)apple.rom@d000
+	
 runonly:
 	$(EMULATOR) $(BINDIR)osrom.bin@$(MOSLOAD) build$(S)basic.bin@$(BASICLOAD) build$(S)program.bin@$(BASICCODE)
 	$(PYTHON) scripts$(S)recover.py

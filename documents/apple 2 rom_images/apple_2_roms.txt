@@ -1,0 +1,11 @@
+Haven't seen these anywhere so I dumped them from the respective machines.
+
+The unenhanced iie rom was used prior to the 65c02/mousetext enhancements.
+It boots with 'Apple ][' and displays a Venetian blind pattern during the
+self test (control-CA-reset).  The text 'KERNEL OK' is displayed when done.
+Tested ok with ApplePC, AppleWin, and Apple II Oasis.
+
+The original iic rom shows a shifting hi-res pattern during the
+self test (control-OA-CA-reset) which apparently never ends.
+Tested ok with ApplePC.
+

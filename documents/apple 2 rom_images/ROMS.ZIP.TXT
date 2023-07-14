@@ -1,0 +1,51 @@
+341-011-D0	Applesoft BASIC D0
+341-012-D8	Applesoft BASIC D8
+341-013-E0	Applesoft BASIC E0
+341-014-E8	Applesoft BASIC E8
+341-015-F0	Applesoft BASIC F0
+341-020-F8	Autostart Monitor
+341-0036	][plus character ROM
+342-0033-A	//c Monitor ROM $00				     1985
+341-0065-A	Super Serial Card				           1983
+341-0080-B	ProFile 5MB RW-Z8				           1981
+342-0132	//c Keyboard ROM	
+342-0134-A      IIe EF ROM                                 1982
+342-0135-A      IIe CD ROM                                 1982
+342-0135-B	  "   (identical)			                 1982
+341-0151-A      IIe Keyboard ROM deutsch/usa               1982
+341-0161-A      IIe Video ROM deutsch/usa                  1982
+341-0175-F	Lisa 2 Boot ROM Hi (old)
+341-0175-H	Lisa 2 Boot ROM Hi
+341-0176-F	Lisa 2 Boot ROM Lo (old)
+341-0176-H	Lisa 2 Boot ROM Lo
+341-0193-A	Lisa Parallel Interface Card
+342-0272-A	//c Monitor ROM	$FF			 	     1983
+342-0275	//c Character Generator deutsch		     1983
+341-0281-D	Lisa 2/10 Disk ROM 
+341-0288-A	Widget-10 Controller (677-0108) Z8 Piggyback
+341-0289-D	Widget-10 Controller
+341-0290-B	Lisa 2/5 Disk ROM 
+342-0341-B	Mac Plus ROM lo					     1985
+342-0341-A	Mac Plus ROM hi					     1985
+341-0346	Mac XL Boot ROM Lo
+341-0347	Mac XL Boot ROM Hi
+341-8003-A	Sun Mac XL Disk ROM for 800k drives  (from 2/5)
+341-8003-B               "                       (from Sun XL)
+341-8003-C		       "                       (from Goodwill XL)
+341-8007	Sun SCSI Card
+
+
+341-0027-A	Disk II P5A				          	     1981
+342-0028-A	Disk II P6A					           1981
+(PROMs read out with SPRINT:  52 40 50 00 52 03 86 3C 
+	          instead of    A2 20 A0 00 A2 03 86 3C )	
+
+
+EPS_APL	EPSON APL Printer Interface
+Erphi		Erphi Elektronik Autopatch Controller
+FB		Frenk&Britting MegaCore MFM Hard Disk Controller
+HD64180	Fuchs Computertechnik HD64180 card
+SunFile F	Sun MFM controller for Lisa 
+Xebec		XEBEC Sider SASI Interface (1986)
+
+
