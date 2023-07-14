@@ -40,7 +40,7 @@ VectorTable:
 	.word	NotImplemented           ; $a3 ]
 	.word	NotImplemented           ; $a4 #
 	.word	NotImplemented           ; $a5 .
-	.word	NotImplemented           ; $a6 
+	.word	Command_ABoot            ; $a6 ][
 	.word	NotImplemented           ; $a7 
 	.word	NotImplemented           ; $a8 
 	.word	NotImplemented           ; $a9 

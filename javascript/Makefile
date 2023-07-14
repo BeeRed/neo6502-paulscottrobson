@@ -33,7 +33,7 @@ app:
 	cp ../applications/basic/storage/flash.image storage
 	cp ../applications/basic/build/basic.bin storage
 	cp ../bin/basic.html .
-	emcc $(SOURCES) -D EMSCRIPTEN -D LINUX -D NO_DEBUGGER $(FLAGS)  -o neo.html
+	emcc $(SOURCES) -D EMSCRIPTEN -D LINUX -D INCLUDE_DEBUGGING_SUPPORT $(FLAGS)  -o neo.html
 
 server: app
 	python -m http.server

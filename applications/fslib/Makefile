@@ -17,7 +17,8 @@ endif
 
 all: assemble testfs
 
-SOURCES = python$(S)files$(S)text1.bas python$(S)files$(S)text2.bas python$(S)files$(S)text3.bas python$(S)files$(S)text1.txt
+SOURCES = python$(S)files$(S)text1.bas python$(S)files$(S)text2.bas python$(S)files$(S)text3.bas python$(S)files$(S)text1.txt \
+		  python$(S)files$(S)apple.rom
 
 
 assemble:

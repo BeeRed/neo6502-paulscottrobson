@@ -79,7 +79,7 @@ static inline void _Write(WORD16 address,BYTE8 data) {
 	 					ramMemory[0xCF13]+ramMemory[0xCF14]*256, 					// Address in $CF13,4
 	 					ramMemory[0xCF15]);											// Read count in $CF15
 	}
-	if (address < 0xC000) ramMemory[address] = data;								// RAM write
+	if (address < 0xC000 || address >= 0xCF10) ramMemory[address] = data;			// RAM write, I/O Write, ROM Write
 	if (address == 0xFFFF) inFastMode = 1;
 }
 
