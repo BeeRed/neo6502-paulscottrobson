@@ -16,7 +16,7 @@ include ../../documents/common.make
 endif
 
 BASICLOAD = 	\$$1000
-BASICCODE = 	\$$3800
+BASICCODE = 	\$$3C00
 ENDMEMORY = 	\$$C000
 MOSLOAD =   	\$$F000
 STACKPAGES =	2

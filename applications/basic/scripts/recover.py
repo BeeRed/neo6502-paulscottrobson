@@ -16,10 +16,10 @@ def filename(n):
 
 dump = [x for x in open("memory.dump","rb").read(-1)]	
 
-start = 0x3800
+start = 0x3C00
 
 if dump[start] == 0x05 and dump[start+3] == 0x97:
-	dump = dump[0x3800:]
+	dump = dump[0x3C00:]
 	p = 0
 	while dump[p] != 0:
 		#print(dump[p+1]+dump[p+2]*256)
