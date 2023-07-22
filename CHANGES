@@ -53,4 +53,4 @@ Changes
 22nd July
 =========
 	Added modes, and support for mode 3 (48x30 text) into MOS.
-			
+	Implemented mode switching, need to check out palette functionality.

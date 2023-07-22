@@ -19,6 +19,9 @@
 		.section code
 
 Command_ABoot:	;; [][]
+		lda 	#12
+		jsr 	OSWriteScreen
+		
 		lda 	#_A2ROMName & $FF 			; set file address
 		sta 	FSBBlock+0
 		lda 	#_A2ROMName >> 8
@@ -31,6 +34,9 @@ Command_ABoot:	;; [][]
 		ldx 	#FSBBlock & $FF 			; read the file.
 		ldy 	#FSBBlock >> 8
 		jsr 	OSReadFile
+
+		lda 	#0 							; switch apple mode.
+		jsr 	OSSetDisplayMode
 
 		lda 	PGMBaseHigh 				; copy to ROM area (may not work for BASIC in ROM ?)
 		sta 	zTemp0+1
@@ -47,6 +53,7 @@ _CACopyROM:
 		inc 	zTemp0+1
 		inc 	zTemp1+1
 		bne 	_CACopyROM
+
 
 		jmp 	($FFFC)
 

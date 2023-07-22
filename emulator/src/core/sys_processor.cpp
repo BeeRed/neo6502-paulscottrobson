@@ -81,6 +81,14 @@ static inline void _Write(WORD16 address,BYTE8 data) {
 	 					ramMemory[0xCF13]+ramMemory[0xCF14]*256, 					// Address in $CF13,4
 	 					ramMemory[0xCF15]);											// Read count in $CF15
 	}
+
+	if (address == 0xCF18) { 														// Mode change
+		HWSetMode(data);
+		MODEHANDLER(1,0,0);															// Reset mode.
+		lowVideoAddress = MODEHANDLER(2,0,0);										// get video memory range.	
+		highVideoAddress = MODEHANDLER(3,0,0);
+	}
+
 	if (address < 0xC000 || address >= 0xCF10) ramMemory[address] = data;			// RAM write, I/O Write, ROM Write
 
 	if (address >= lowVideoAddress && address <= highVideoAddress) { 				// VRAM Write.
@@ -140,6 +148,7 @@ void CPUReset(void) {
 	inFastMode = 0;																	// Fast mode flag reset
 	resetProcessor();																// Reset CPU
 
+	HWSetMode(3);																	// Default mode.
 	MODEHANDLER(1,0,0);																// Reset mode.
 	lowVideoAddress = MODEHANDLER(2,0,0);											// get video memory range.	
 	highVideoAddress = MODEHANDLER(3,0,0);

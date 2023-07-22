@@ -18,6 +18,7 @@ vectors = """
 	OSWriteFile 					: Write file from memory
 	OSFormatFlash 					: Format drive
 
+	OSSetDisplayMode 				: Set display mode (returns old)
 	OSGetScreenPosition 			: Screen position to XY
 	OSGetScreenSize 				: Get size of screen to XY
 	OSWriteString 					: Write length prefixed string YX to screen

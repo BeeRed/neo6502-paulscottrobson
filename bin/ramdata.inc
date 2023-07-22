@@ -22,6 +22,8 @@ StorageBase = $200 							; ROM usage
 
 OSNewLineFlag: 								; set if new line started on this line
 		.fill 	32		
+OSCurrentMode:								; current screen mode.
+		.fill 	1
 OSXPos:	 									; cursor position
 		.fill 	1
 OSYPos:	

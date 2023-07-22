@@ -19,12 +19,29 @@
 ; ************************************************************************************************
 
 OSInitialise:
-		lda 	#48 						; 40x24 display
+		lda 	#48 						; 48x30 display
 		sta 	OSXSize
 		lda 	#30
 		sta 	OSYSize
+		stz 	OSCurrentMode 				; forces a display mode change
+		lda 	#3 							; switch to mode 3.
+		jsr 	OSSetDisplayMode
 		jsr 	OSDClearScreen 				; clear the display
 		jsr 	OSDKeyboardInitialise 		; reset the keyboard state.
+		rts
+
+; ************************************************************************************************
+;
+;									Get Screen Size -> XY
+;
+; ************************************************************************************************
+
+OSSetDisplayMode:	
+		phx 								; get current mode
+		ldx 	OSCurrentMode
+		sta 	$CF18  						; set new screen mode
+		txa 								; return old
+		plx
 		rts
 
 ; ************************************************************************************************

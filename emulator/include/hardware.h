@@ -17,7 +17,7 @@ void HWSync(void);
 void HWQueueKeyboardEvent(int scanCode);
 int HWKeymap(int k,int r);
 void HWClearStrobe(void);
-
+void HWSetMode(int mode);
 void HWFlashInitialise(void);
 int HWFlashCommand(int command,int sector,int subpage,int address,int dataCount);
 
