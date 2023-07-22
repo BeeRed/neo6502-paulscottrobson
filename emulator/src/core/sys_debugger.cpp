@@ -20,13 +20,20 @@
 
 #include "6502/__6502mnemonics.h"
 
-#include "font5x7.h"
-
 #define DBGC_ADDRESS 	(0x0F0)														// Colour scheme.
 #define DBGC_DATA 		(0x0FF)														// (Background is in main.c)
 #define DBGC_HIGHLIGHT 	(0xFF0)
 
 static int renderCount = 0;
+static BYTE8 videoRAM[320*240];														// VRAM simple pattern.
+
+// *******************************************************************************************************************************
+//												Access display VRAM
+// *******************************************************************************************************************************
+
+BYTE8 *DBGXGetVideoRAM(void) {
+	return videoRAM;
+}
 
 // *******************************************************************************************************************************
 //											This renders the debug screen
@@ -98,50 +105,25 @@ void DBGXRender(int *address,int showDisplay) {
 	}
 
 	#endif 
-
-	static int lineAddresses[24] = {
-		0x400,0x480,0x500,0x580,0x600,0x680,0x700,0x780,
-		0x428,0x4A8,0x528,0x5A8,0x628,0x6A8,0x728,0x7A8,
-		0x450,0x4D0,0x550,0x5D0,0x650,0x6D0,0x750,0x7D0
-	};
-
 	renderCount++;
 	if (showDisplay != 0) {
-		int xc = 40;int yc = 24;
+		int xc = 320;int yc = 240;
 		int xs = 4;int ys = 4;
 		SDL_Rect r;
-		r.w = xs*xc*7;r.h = ys*yc*8;
+		r.w = xs*xc;r.h = ys*yc;
 		r.x = WIN_WIDTH/2-r.w/2;r.y = WIN_HEIGHT/2-r.h/2;
 		SDL_Rect rc2;rc2 = r;
 		rc2.w += 8;rc2.h += 8;rc2.x -=4;rc2.y -= 4;
 		GFXRectangle(&rc2,0);
 		GFXRectangle(&r,0);
 		for (int y = 0;y < yc;y++) {
+			rc2.w = xs;rc2.h = ys;					
+			rc2.y = r.y+y*ys;rc2.x = r.x;
+			BYTE8 *p = videoRAM + y * 320;
 			for (int x = 0;x < xc;x++) {
-				int ch = CPUReadMemory(x+lineAddresses[y]);
-				//ch = x + y * 40;
-				int flip = (ch & 0xC0) == 0;
-				if ((ch & 0xC0) == 0x40 && (renderCount & 0x20) != 0) flip = -1;
-				if (ch != 0xE0 && ch != 0xA0) {
-					rc2.w = xs;rc2.h = ys;					
-					for (int ypx = 0;ypx < 8;ypx++) {
-						rc2.x = r.x + x * 7 * xs;
-						rc2.y = r.y + (y*8+ypx) * ys;
-						int b = 0;
-						int c = (ch & 0x3F) ^ 0x20;
-						b = font5x7[c*8+ypx] ^ (flip ? 0xFF:0x00);
-						while (b != 0) {
-							if (b & 0x80) GFXRectangle(&rc2,0xF80);
-							b = (b << 1) & 0xFF;
-							rc2.x += rc2.w;
-						}
-					}
-				}			
+				GFXRectangle(&rc2,((*p++) == 0) ? 0 : 0xFFF);
+				rc2.x += xs;
 			}			
-			rc2.w = rc2.h = 8;
-			rc2.y = r.y + y * 8 * ys + 4 * ys - rc2.h/2;
-			rc2.x = r.x - rc2.w*2;
-			GFXRectangle(&rc2,CPUReadMemory(0x200+y) ? 0x0FF : 0xF00);
 		}
 	}
 }

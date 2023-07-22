@@ -16,6 +16,7 @@
 #include "sys_processor.h"
 #include "sys_debug_system.h"
 #include "hardware.h"
+#include "modes.h"
 
 // *******************************************************************************************************************************
 //														   Timing
@@ -38,6 +39,7 @@ static int argumentCount;
 static char **argumentList;
 static LONG32 cycles;																// Cycle Count.
 static BYTE8 inFastMode; 															// Fast mode
+static WORD16 lowVideoAddress,highVideoAddress;  									// Write to video range.
 
 // *******************************************************************************************************************************
 //											 Memory and I/O read and write macros.
@@ -80,6 +82,10 @@ static inline void _Write(WORD16 address,BYTE8 data) {
 	 					ramMemory[0xCF15]);											// Read count in $CF15
 	}
 	if (address < 0xC000 || address >= 0xCF10) ramMemory[address] = data;			// RAM write, I/O Write, ROM Write
+
+	if (address >= lowVideoAddress && address <= highVideoAddress) { 				// VRAM Write.
+		MODEHANDLER(0,address,data);
+	}
 	if (address == 0xFFFF) inFastMode = 1;
 }
 
@@ -133,6 +139,10 @@ void CPUReset(void) {
 	#endif
 	inFastMode = 0;																	// Fast mode flag reset
 	resetProcessor();																// Reset CPU
+
+	MODEHANDLER(1,0,0);																// Reset mode.
+	lowVideoAddress = MODEHANDLER(2,0,0);											// get video memory range.	
+	highVideoAddress = MODEHANDLER(3,0,0);
 }
 
 // *******************************************************************************************************************************

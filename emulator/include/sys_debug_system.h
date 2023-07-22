@@ -44,5 +44,6 @@
 
 void DBGXRender(int *address,int isRunMode);										// Render the debugger screen.
 BYTE8 DRVGFXHandler(BYTE8 key,BYTE8 isRunMode);
+BYTE8 *DBGXGetVideoRAM(void);
 
 #endif
