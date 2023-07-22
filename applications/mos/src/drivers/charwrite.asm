@@ -21,10 +21,6 @@
 OSDReadPhysical:
 		jsr 	OSDGetAddress
 		lda 	(rTemp0)
-		and 	#$3F
-		eor 	#$20
-		clc
-		adc 	#$20
 		rts
 
 ; ************************************************************************************************
@@ -38,24 +34,7 @@ OSDWritePhysical:
 		pha		
 		jsr 	OSDGetAddress
 		pla
-		tax
-		and 	#$7F 						; strip off inverse bit
-		cmp 	#$20 						; don't store controls.
-		bcc 	_OSWPExit
-		cmp		#$60 						; make it upper case
-		bcc 	_OSWPIsUpper
-		sec
-		sbc 	#$20
-_OSWPIsUpper:		
-		sec 								; now make 6 bit ASCII.
-		sbc 	#$20
-		eor 	#$20 						
-		cpx 	#0
-		bmi 	_OSWPSave
-		ora 	#$C0
-_OSWPSave:
 		sta 	(rTemp0)
-_OSWPExit:
 		plx		
 		rts
 
@@ -66,39 +45,39 @@ _OSWPExit:
 ; ************************************************************************************************	
 
 OSDGetAddress:
-		ldy     OSYPos        
 		ldx 	OSXPos
-
-;
-;		Map Y 000abcde -> 00001cd eabab000 in rTemp0
-;
-OSDGetAddressXY:        
-		tya 								; do CDE first
-		and 	#7 							; A is now 00000cde
-		ora 	#8 							; 00001cde
-		stz 	rTemp0
-		lsr 	a 							; A is now 000001cd and e is in carry.
-		ror 	rTemp0
-		sta 	rTemp0+1 					; zTemp0 now 000001cd:e0000000
-
-		tya 								; get AB
-		and 	#$18 		
-		pha 								; save on stack
-		ora 	rTemp0 						; OR into rTemp0 now 00001cd:e00ab0000
+		ldy 	OSYPos
+OSDGetAddressXY:
+		tya 			 					; RTemp0+1:A x 8
+		stz 	rTemp0+1
+		;
+		asl 	a 							; max 60 x 2
+		asl 	a  							; max 120 x 4
+		asl 	a 							; max 240 x 8
+		;
+		asl 	a 							; times 16 now
+		rol 	rTemp0+1 					; YA = rTemp0 = Y * 16
 		sta 	rTemp0
-		pla 								; get AB back and shift left twice
-		asl 	a
-		asl 	a
-		ora 	rTemp0 						; OR into rTemp0 now 00001cd:eabab000
+		ldy 	rTemp0+1
+		;
+		asl 	rTemp0 						; rTemp0 = Y * 32
+		rol 	rTemp0+1
+		;
+		clc 								; rTemp0 = Y * 48 + $400
+		adc 	rTemp0
 		sta 	rTemp0
+		tya
+		adc 	rTemp0+1
+		adc 	#$04
+		sta 	rTemp0+1
 
-		clc 								; add X
+		clc 	 							; add X to rTemp0+1
 		txa
 		adc 	rTemp0
 		sta 	rTemp0
-		bcc 	_OSGAExit
+		bcc 	_OSDGAExit
 		inc 	rTemp0+1
-_OSGAExit:	
+_OSDGAExit:		
 		rts		
 
 		.send code

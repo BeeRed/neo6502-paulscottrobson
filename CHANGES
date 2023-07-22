@@ -50,4 +50,7 @@ Changes
 	MOS running on Apple 2 text mode
 	Apple II ROMs boot.
 		
-		
+22nd July
+=========
+	Added modes, and support for mode 3 (48x30 text) into MOS.
+			

@@ -20,30 +20,33 @@
 
 OSDScrollUp:
 		ldy 	#0 							; done a line at a time because it is odd :)
-_OSDSScrollLine:		
-		ldx 	#0 							; get address of line to copy to.
-		jsr 	OSDGetAddressXY
-		lda 	rTemp0 						; copy to rTemp1
-		sta 	rTemp1
-		lda 	rTemp0+1
-		sta 	rTemp1+1
-		iny 								; get address of line to copy from
-		jsr 	OSDGetAddressXY
-		phy
-		ldy 	#39 						; copy one line
-_OSDSCopy:
-		lda 	(rTemp0),y
-		sta 	(rTemp1),y
+		lda 	#$04 						; start of screen
+		sta 	rTemp0+1
+		stz 	rTemp0
+		ldx 	OSYSize 					; X = lines to scroll.
+		dex
+_OSDNextLine:		
+		ldy 	OSXSize						; Y = line count
 		dey
-		bpl 	_OSDSCopy
-		ply		
+_OSDMainLoop:	
+		phy
+		ldy 	OSXSize
+		lda 	(rTemp0),y
+		sta 	(rTemp0)
+		inc 	rTemp0
+		bne 	_OSDNoCarry
+		inc 	rTemp0+1
+_OSDNoCarry:
+		ply
+		dey 	
+		bpl		_OSDMainLoop
+		dex
+		bne 	_OSDNextLine
 
-		cpy 	#23 						; copied from bottom line ?
-		bne 	_OSDSScrollLine
-
-		ldy 	#39 						; clear bottom line
+		ldy 	OSXSize
+		dey
 _OSDSClear:
-		lda 	#$E0
+		lda 	#$20
 		sta 	(rTemp0),y
 		dey
 		bpl 	_OSDSClear		

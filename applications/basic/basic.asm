@@ -25,7 +25,7 @@ autoRun = 0 								; setting to 1 autoruns program in memory space.
 STACK_PAGES = 2 							; number of stack pages.
 		.endweak
 
-		* = $800
+		* = $A00
 		.dsection storage
 
 		* = $1000 							; BASIC ROM goes here.

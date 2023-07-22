@@ -19,9 +19,9 @@
 ; ************************************************************************************************
 
 OSInitialise:
-		lda 	#40 						; 40x24 display
+		lda 	#48 						; 40x24 display
 		sta 	OSXSize
-		lda 	#24
+		lda 	#30
 		sta 	OSYSize
 		jsr 	OSDClearScreen 				; clear the display
 		jsr 	OSDKeyboardInitialise 		; reset the keyboard state.
